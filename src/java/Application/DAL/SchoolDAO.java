@@ -24,6 +24,7 @@ public class SchoolDAO extends TemplatePatternDAO<School>{
         try {
             Connection conn = DBConnectionPool.getInstance().checkOut().getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sqlCreate, PreparedStatement.RETURN_GENERATED_KEYS);
+
             pstmt.setString(1,input.getSchoolName());
             pstmt.setInt(2,input.getZipCode());
 
@@ -37,6 +38,7 @@ public class SchoolDAO extends TemplatePatternDAO<School>{
             }
 
             pstmt.close();
+
             return new School(
                     id,
                     input.getSchoolName(),

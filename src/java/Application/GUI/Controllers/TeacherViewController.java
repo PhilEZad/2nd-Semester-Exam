@@ -1,31 +1,19 @@
 package Application.GUI.Controllers;
 
-import Application.GUI.Models.CategoryEntryModel;
-import Application.GUI.Models.CitizenTemplateModel;
 import Application.GUI.Models.ControllerModels.TeacherViewModel;
-import Application.GUI.Models.FunctionalLevels;
 import Application.GUI.Models.AccountModel;
 
-import Application.GUI.StateMachine.State;
+import Application.Utility.StateMachine.State;
 
 import javafx.application.Platform;
-import Application.GUI.StateMachine.StateMachine;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
+import Application.Utility.StateMachine.StateMachine;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 
 import java.net.URL;
-import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 public class TeacherViewController implements Initializable {

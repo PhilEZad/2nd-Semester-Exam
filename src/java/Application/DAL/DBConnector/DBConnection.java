@@ -9,12 +9,11 @@ import java.sql.Connection;
 import java.util.Properties;
 
 public class DBConnection {
-    private SQLServerDataSource dataSource;
-    private Properties property;
+    private final SQLServerDataSource dataSource;
 
     public DBConnection() throws IOException
     {
-        property = new Properties();
+        Properties property = new Properties();
         dataSource = new SQLServerDataSource();
 
         try {

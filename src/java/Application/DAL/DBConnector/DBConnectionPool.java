@@ -1,7 +1,8 @@
 package Application.DAL.DBConnector;
 
+import Application.Utility.ObjectPool;
+
 import java.io.IOException;
-import java.sql.Connection;
 import java.sql.SQLException;
 
 
@@ -12,7 +13,6 @@ public class DBConnectionPool extends ObjectPool<DBConnection> {
     public DBConnectionPool() {
         super();
     }
-
 
     @Override
     protected DBConnection create() {
@@ -47,20 +47,5 @@ public class DBConnectionPool extends ObjectPool<DBConnection> {
             instance = new DBConnectionPool();
         }
         return instance;
-    }
-
-    public static void main(String[] args) {
-        DBConnectionPool dbConnectionPool = DBConnectionPool.getInstance();
-
-        for (int i = 0; i < 10; i++) {
-            DBConnection dataSource = dbConnectionPool.checkOut();
-            Connection connection = null;
-            try {
-                connection = dataSource.getConnection();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            System.out.println(connection);
-        }
     }
 }

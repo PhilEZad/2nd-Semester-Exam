@@ -1,4 +1,4 @@
-package Application.GUI.StateMachine;
+package Application.Utility.StateMachine;
 
 import java.util.HashMap;
 

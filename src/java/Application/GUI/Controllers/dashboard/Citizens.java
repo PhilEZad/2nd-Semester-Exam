@@ -33,7 +33,8 @@ public class Citizens implements Initializable
     public Button btnJournal;
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    public void initialize(URL location, ResourceBundle resources)
+    {
 
     }
 

@@ -1,4 +1,4 @@
-package Application.GUI.StateMachine;
+package Application.Utility.StateMachine;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;

@@ -1,4 +1,4 @@
-package Application.DAL.DBConnector;
+package Application.Utility;
 
 import java.util.Enumeration;
 import java.util.Hashtable;
