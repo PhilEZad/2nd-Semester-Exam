@@ -12,6 +12,12 @@ public class HealthJournal {
      */
     HashMap<String, JournalEntry> journal;
 
+    int id;
+
     public HealthJournal() {
+    }
+
+    public void addJournal(String name, JournalEntry entry) {
+        this.journal.put(name,entry);
     }
 }

@@ -9,6 +9,10 @@ public class JournalEntry
     // user input
     String description;
 
+    String assessment;
+
+    String cause;
+
     ERelevanceState relevance;
 
     ESeverityState severity;
@@ -16,10 +20,16 @@ public class JournalEntry
     // TODO: 04-05-2022 maybe
     String toolTip;
 
-    public JournalEntry(String title, String description)
+    public JournalEntry(String title, String assessment)
     {
         this.title = title;
-        this.description = description;
+        this.assessment = assessment;
+    }
+
+    public JournalEntry(String title, ESeverityState severity)
+    {
+        this.title = title;
+        this.severity = severity;
     }
 
     public String getTitle() {
@@ -38,6 +48,12 @@ public class JournalEntry
         return severity;
     }
 
+    public String getAssessment() {
+        return assessment;
+    }
+
+    public String getCause(){return cause;}
+
     public void setTitle(String title) {
         this.title = title;
     }
@@ -53,4 +69,10 @@ public class JournalEntry
     public void setSeverity(ESeverityState severity) {
         this.severity = severity;
     }
+
+    public void setAssessment(String assessment) {
+        this.assessment = assessment;
+    }
+
+    public void setCause(String cause) {this.cause = cause;}
 }

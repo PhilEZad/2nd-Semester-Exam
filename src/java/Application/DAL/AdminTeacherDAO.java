@@ -92,7 +92,7 @@ public class AdminTeacherDAO
         } catch (Exception e)
         {
             e.printStackTrace();
-            return null;zure
+            return null;
         }
     }
 
