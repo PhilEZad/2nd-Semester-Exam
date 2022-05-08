@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<AnchorPane fx:id="anchorPaneStudents" prefHeight="400.0" prefWidth="600.0" styleClass="background" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Application.GUI.Controllers.dashboard.Students">
+    <AnchorPane layoutX="14.0" layoutY="23.0" prefHeight="362.0" prefWidth="200.0" styleClass="panel30Deg" AnchorPane.bottomAnchor="26.600000000000023" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="23.0">
+        <ListView fx:id="listViewStudents" layoutX="18.0" layoutY="70.0" prefHeight="272.0" prefWidth="163.0" AnchorPane.bottomAnchor="18.399999999999977" AnchorPane.leftAnchor="18.0" AnchorPane.rightAnchor="16.80000000000001" AnchorPane.topAnchor="70.0" />
+        <HBox layoutX="20.0" layoutY="26.0" prefHeight="26.0" prefWidth="163.0" AnchorPane.leftAnchor="16.0" AnchorPane.topAnchor="24.0">
+            <TextField fx:id="txtFieldStudentsSearch" prefHeight="26.0" prefWidth="141.0" promptText="Search" styleClass="text-fieldBase" />
+            <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="34.0" styleClass="searchBtn" text="Button" />
+        </HBox>
+    </AnchorPane>
+    <AnchorPane layoutX="230.0" layoutY="23.0" prefHeight="221.0" prefWidth="623.0" styleClass="panel30Deg" AnchorPane.bottomAnchor="755.0" AnchorPane.leftAnchor="230.0" AnchorPane.rightAnchor="22.0" AnchorPane.topAnchor="23.0">
+        <GridPane layoutX="14.0" layoutY="14.0" prefHeight="93.0" prefWidth="227.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints maxHeight="96.60001220703126" minHeight="10.0" prefHeight="37.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="173.39998397827148" minHeight="10.0" prefHeight="56.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <Label fx:id="lblStudentsStudentName" styleClass="nameLbl" text="Rasmus Scherning Sandbæk" GridPane.halignment="CENTER" />
+            <Label fx:id="lblStudentEmail" styleClass="smallPanelLblBold" text="Email" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                <GridPane.margin>
+                    <Insets left="17.0" top="5.0" />
+                </GridPane.margin>
+            </Label>
+        </GridPane>
+        <Button fx:id="btnViewStudentCases" layoutX="370.0" layoutY="28.0" mnemonicParsing="false" onAction="#onViewStudentCases" prefHeight="56.0" prefWidth="111.0" styleClass="panelBtnNoPadding" text="Tilgå Sager" AnchorPane.rightAnchor="142.0" />
+        <Button fx:id="btnStudentSettings" layoutX="498.0" layoutY="29.0" mnemonicParsing="false" onAction="#onStudentSettings" prefHeight="54.0" prefWidth="111.0" styleClass="panelBtnNoPadding" text="Elev indstillinger" AnchorPane.rightAnchor="14.0" />
+    </AnchorPane>
+    <AnchorPane layoutX="234.0" layoutY="157.0" prefHeight="699.0" prefWidth="615.0">
+        <Label styleClass="lblBackgroundBold" text="Eleven kan tilgå af følgende borgere:" />
+        <ListView fx:id="listViewCitizensForStudents" layoutX="14.0" layoutY="25.0" prefHeight="649.0" prefWidth="357.0" styleClass="bg-list-view" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="244.0" AnchorPane.topAnchor="25.0" />
+        <Button fx:id="btnViewStudentsWork" layoutX="486.0" layoutY="356.0" mnemonicParsing="false" onAction="#onViewStudentsWork" prefHeight="60.0" prefWidth="119.0" styleClass="backgroundButton" text="Tilgå elevens arbejde" AnchorPane.bottomAnchor="178.0" AnchorPane.rightAnchor="14.0" />
+        <Button fx:id="btnAddCitizenToStudent" layoutX="490.0" layoutY="517.0" mnemonicParsing="false" onAction="#onAddCitizenToStudent" prefHeight="60.0" prefWidth="119.0" styleClass="backgroundButton" text="Tilknyt borger til elev" AnchorPane.bottomAnchor="18.0" AnchorPane.rightAnchor="14.0" />
+        <Button fx:id="btnRemoveCitizenToStudent" layoutX="490.0" layoutY="441.0" mnemonicParsing="false" onAction="#onRemoveCitizenToStudent" prefHeight="60.0" prefWidth="119.0" styleClass="backgroundButton" text="Fjern borger fra elev" AnchorPane.bottomAnchor="98.0" AnchorPane.rightAnchor="14.0" />
+    </AnchorPane>
+   <stylesheets>
+      <URL value="@../../Styles/MainStylesheet.css" />
+      <URL value="@../../Styles/TableViewStylesheet.css" />
+   </stylesheets>
+</AnchorPane>

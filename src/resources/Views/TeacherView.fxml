@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.ToggleButton?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
 
-<BorderPane stylesheets="@../Styles/MainStylesheet.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Application.GUI.Controllers.TeacherViewController">
+
+<BorderPane fx:id="TeacherScene" stylesheets="@../Styles/MainStylesheet.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Application.GUI.Controllers.TeacherViewController">
    <center>
-      <StackPane>
+      <StackPane prefHeight="891.0" prefWidth="938.0">
+      <!-->
          <children>
             <AnchorPane fx:id="anchorPaneDashboard" prefHeight="412.0" prefWidth="609.0" style="-fx-background-color: cyan;">
                <children>
@@ -23,55 +21,717 @@
                   </ScrollPane>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="anchorPaneStudents" prefHeight="412.0" prefWidth="609.0" style="-fx-background-color: orange;" />
-            <AnchorPane fx:id="anchorPaneCitizenTemplates" prefHeight="412.0" prefWidth="609.0" style="-fx-background-color: black;" />
-            <AnchorPane fx:id="anchorPaneCitizens" prefHeight="412.0" prefWidth="609.0" style="-fx-background-color: white;">
-               <children>
-                  <Button mnemonicParsing="false" text="Button" />
-               </children>
-            </AnchorPane>
             <AnchorPane fx:id="anchorPaneCases" prefHeight="412.0" prefWidth="609.0" style="-fx-background-color: green;" />
             <AnchorPane fx:id="anchorPaneAssignments" prefHeight="412.0" prefWidth="609.0" style="-fx-background-color: blue;" />
             <AnchorPane fx:id="anchorPaneJournals" prefHeight="412.0" prefWidth="609.0" style="-fx-background-color: purple;" />
+            <AnchorPane fx:id="anchorPaneStudents" prefHeight="412.0" prefWidth="609.0" styleClass="background">
+               <children>
+                  <AnchorPane layoutX="14.0" layoutY="23.0" prefHeight="362.0" prefWidth="200.0" styleClass="panel30Deg" AnchorPane.bottomAnchor="26.600000000000023" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="23.0">
+                     <children>
+                        <ListView fx:id="listViewStudents" layoutX="18.0" layoutY="70.0" prefHeight="272.0" prefWidth="163.0" AnchorPane.bottomAnchor="18.399999999999977" AnchorPane.leftAnchor="18.0" AnchorPane.rightAnchor="16.80000000000001" AnchorPane.topAnchor="70.0" />
+                        <HBox layoutX="20.0" layoutY="26.0" prefHeight="26.0" prefWidth="163.0" AnchorPane.leftAnchor="16.0" AnchorPane.topAnchor="24.0">
+                           <children>
+                              <TextField fx:id="txtFieldStudentsSearch" prefHeight="26.0" prefWidth="141.0" promptText="Search" styleClass="text-fieldBase" />
+                              <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="34.0" styleClass="searchBtn" text="Button" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane layoutX="230.0" layoutY="23.0" prefHeight="221.0" prefWidth="623.0" styleClass="panel30Deg" AnchorPane.bottomAnchor="755.0" AnchorPane.leftAnchor="230.0" AnchorPane.rightAnchor="22.0" AnchorPane.topAnchor="23.0">
+                     <children>
+                        <GridPane layoutX="14.0" layoutY="14.0" prefHeight="93.0" prefWidth="227.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0">
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints maxHeight="96.60001220703126" minHeight="10.0" prefHeight="37.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="173.39998397827148" minHeight="10.0" prefHeight="56.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                           <children>
+                              <Label fx:id="lblStudentsStudentName" styleClass="nameLbl" text="Rasmus Scherning Sandbæk" GridPane.halignment="CENTER" />
+                              <Label fx:id="lblStudentEmail" styleClass="smallPanelLblBold" text="Email" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                                 <GridPane.margin>
+                                    <Insets left="17.0" top="5.0" />
+                                 </GridPane.margin>
+                              </Label>
+                           </children>
+                        </GridPane>
+                        <Button fx:id="btnViewStudentCases" layoutX="370.0" layoutY="28.0" mnemonicParsing="false" onAction="#onViewStudentCases" prefHeight="56.0" prefWidth="111.0" styleClass="panelBtnNoPadding" text="Tilgå Sager" AnchorPane.rightAnchor="142.0" />
+                        <Button fx:id="btnStudentSettings" layoutX="498.0" layoutY="29.0" mnemonicParsing="false" onAction="#onStudentSettings" prefHeight="54.0" prefWidth="111.0" styleClass="panelBtnNoPadding" text="Elev indstillinger" AnchorPane.rightAnchor="14.0" />
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane layoutX="234.0" layoutY="157.0" prefHeight="699.0" prefWidth="615.0">
+                     <children>
+                        <Label styleClass="lblBackgroundBold" text="Eleven kan tilgå af følgende borgere:" />
+                        <ListView fx:id="listViewCitizensForStudents" layoutX="14.0" layoutY="25.0" prefHeight="649.0" prefWidth="357.0" styleClass="bg-list-view" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="244.0" AnchorPane.topAnchor="25.0" />
+                        <Button fx:id="btnViewStudentsWork" layoutX="486.0" layoutY="356.0" mnemonicParsing="false" onAction="#onViewStudentsWork" prefHeight="60.0" prefWidth="119.0" styleClass="backgroundButton" text="Tilgå elevens arbejde" AnchorPane.bottomAnchor="178.0" AnchorPane.rightAnchor="14.0" />
+                        <Button fx:id="btnAddCitizenToStudent" layoutX="490.0" layoutY="517.0" mnemonicParsing="false" onAction="#onAddCitizenToStudent" prefHeight="60.0" prefWidth="119.0" styleClass="backgroundButton" text="Tilknyt borger til elev" AnchorPane.bottomAnchor="18.0" AnchorPane.rightAnchor="14.0" />
+                        <Button fx:id="btnRemoveCitizenToStudent" layoutX="490.0" layoutY="441.0" mnemonicParsing="false" onAction="#onRemoveCitizenToStudent" prefHeight="60.0" prefWidth="119.0" styleClass="backgroundButton" text="Fjern borger fra elev" AnchorPane.bottomAnchor="98.0" AnchorPane.rightAnchor="14.0" />
+                     </children>
+                  </AnchorPane>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="anchorPaneCitizens" prefHeight="412.0" prefWidth="609.0" styleClass="background">
+               <children>
+                  <AnchorPane layoutX="234.0" layoutY="284.0" prefHeight="565.0" prefWidth="660.0" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="234.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="284.0">
+                     <children>
+                        <Label styleClass="lblBackgroundBold" text="Borgeren kan tilgås af følgende elever" AnchorPane.bottomAnchor="550.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="434.0" AnchorPane.topAnchor="0.0">
+                           <padding>
+                              <Insets left="20.0" />
+                           </padding>
+                        </Label>
+                        <ListView fx:id="listViewStudentsforCitizen" layoutY="20.0" prefHeight="525.0" prefWidth="338.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="312.0" />
+                        <Button fx:id="btnRemoveStudentToCitizen" layoutX="544.0" layoutY="480.0" mnemonicParsing="false" onAction="#onRemoveStudentToCitizen" prefHeight="54.0" prefWidth="102.0" styleClass="panelBtnNoPadding" text="Fjern elev fra borger" AnchorPane.bottomAnchor="31.0" AnchorPane.rightAnchor="14.0" />
+                        <Button fx:id="btnAddStudentToCitizen" layoutX="544.0" layoutY="401.0" mnemonicParsing="false" onAction="#onAddStudentToCitizen" prefHeight="57.0" prefWidth="102.0" styleClass="panelBtnNoPadding" text="Tilknyt elev til borger" AnchorPane.bottomAnchor="107.0" AnchorPane.rightAnchor="14.0" />
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane layoutX="14.0" layoutY="23.0" prefHeight="362.0" prefWidth="200.0" styleClass="panel30Deg" AnchorPane.bottomAnchor="26.600000000000023" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="23.0">
+                     <children>
+                        <ListView layoutX="18.0" layoutY="70.0" prefHeight="272.0" prefWidth="163.0" AnchorPane.bottomAnchor="18.399999999999977" AnchorPane.leftAnchor="18.0" AnchorPane.rightAnchor="16.80000000000001" AnchorPane.topAnchor="70.0" />
+                        <HBox layoutX="20.0" layoutY="26.0" prefHeight="26.0" prefWidth="163.0" AnchorPane.leftAnchor="16.0" AnchorPane.topAnchor="24.0">
+                           <children>
+                              <TextField fx:id="txtFieldCitizensSearch" prefHeight="26.0" prefWidth="141.0" promptText="Search" styleClass="text-fieldBase" />
+                              <Button fx:id="btnCitizensSearch" mnemonicParsing="false" onAction="#onCitizensSearch" prefHeight="26.0" prefWidth="34.0" styleClass="searchBtn" text="Button" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane layoutX="230.0" layoutY="23.0" prefHeight="230.0" prefWidth="656.0" styleClass="panel30Deg" AnchorPane.leftAnchor="230.0" AnchorPane.rightAnchor="22.0" AnchorPane.topAnchor="23.0">
+                     <children>
+                        <GridPane prefHeight="202.0" prefWidth="227.0" AnchorPane.leftAnchor="3.0" AnchorPane.topAnchor="15.0">
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints maxHeight="96.60001220703126" minHeight="10.0" prefHeight="35.000009918212896" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="173.39998397827148" minHeight="10.0" prefHeight="166.9999900817871" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                           <children>
+                              <Label fx:id="lblCitizenName" styleClass="nameLbl" text="Rasmus Scherning Sandbæk" GridPane.halignment="CENTER" />
+                              <VBox GridPane.rowIndex="1">
+                                 <children>
+                                    <Label styleClass="smallPanelLblBold" text="Kontakt Oplysninger">
+                                       <VBox.margin>
+                                          <Insets left="17.0" />
+                                       </VBox.margin>
+                                    </Label>
+                                    <ListView fx:id="listViewContactInfo" prefHeight="200.0" prefWidth="200.0">
+                                       <padding>
+                                          <Insets left="10.0" right="10.0" />
+                                       </padding>
+                                    </ListView>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </GridPane>
+                        <VBox prefHeight="206.0" prefWidth="178.0" AnchorPane.leftAnchor="252.0" AnchorPane.topAnchor="20.0">
+                           <children>
+                              <VBox prefWidth="100.0">
+                                 <children>
+                                    <Label styleClass="smallPanelLblBold" text="Alder" />
+                                    <Label fx:id="lblAge" styleClass="smallPanelLblNormal" text="Label" />
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets bottom="7.0" />
+                                 </VBox.margin>
+                              </VBox>
+                              <VBox prefWidth="100.0">
+                                 <children>
+                                    <Label styleClass="smallPanelLblBold" text="Født" />
+                                    <Label fx:id="lblBirthdateYear" styleClass="smallPanelLblNormal" text="Label">
+                                       <VBox.margin>
+                                          <Insets bottom="7.0" />
+                                       </VBox.margin>
+                                    </Label>
+                                 </children>
+                              </VBox>
+                              <VBox prefWidth="100.0">
+                                 <children>
+                                    <Label styleClass="smallPanelLblBold" text="Adresse" />
+                                    <Label fx:id="lblAddress" styleClass="smallPanelLblNormal" text="Label">
+                                       <VBox.margin>
+                                          <Insets bottom="7.0" />
+                                       </VBox.margin>
+                                    </Label>
+                                 </children>
+                              </VBox>
+                              <VBox prefWidth="100.0">
+                                 <children>
+                                    <Label styleClass="smallPanelLblBold" text="Hjælpe Status" />
+                                    <Label fx:id="lblHelpStatus" styleClass="smallPanelLblNormal" text="Label" />
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets bottom="7.0" />
+                                 </VBox.margin>
+                              </VBox>
+                              <VBox prefWidth="100.0">
+                                 <children>
+                                    <Label styleClass="smallPanelLblBold" text="Civil Status" />
+                                    <Label fx:id="lblCivilianStatus" styleClass="smallPanelLblNormal" text="Label" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </VBox>
+                        <Button fx:id="btnGeneralInfo" layoutX="540.0" layoutY="80.0" mnemonicParsing="false" onAction="#onGeneralInfo" prefHeight="56.0" prefWidth="102.0" styleClass="panelBtnNoPadding" text="Generelle Oplysninger" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="80.0" />
+                        <Button fx:id="btnJournal" layoutX="540.0" layoutY="14.0" mnemonicParsing="false" onAction="#onJournal" prefHeight="49.0" prefWidth="102.0" styleClass="panelBtnNoPadding" text="Journal" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
+                     </children>
+                  </AnchorPane>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="anchorPaneCitizenTemplate" prefHeight="412.0" prefWidth="966.0" styleClass="background">
+               <children>
+                  <AnchorPane layoutX="14.0" layoutY="23.0" prefHeight="300.0" prefWidth="200.0" styleClass="panel30Deg" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="23.0">
+                     <children>
+                        <ListView fx:id="listViewCitizenTemplates" layoutX="18.0" layoutY="70.0" prefHeight="272.0" prefWidth="163.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="18.0" AnchorPane.rightAnchor="16.80000000000001" AnchorPane.topAnchor="70.0" />
+                        <HBox layoutX="20.0" layoutY="26.0" prefHeight="26.0" prefWidth="163.0" AnchorPane.leftAnchor="16.0" AnchorPane.topAnchor="24.0">
+                           <children>
+                              <TextField fx:id="txtFieldCitizenTemplateSearch" prefHeight="26.0" prefWidth="141.0" promptText="Search" styleClass="text-fieldBase" />
+                              <Button fx:id="btnCitizenTemplateSearch" mnemonicParsing="false" onAction="#onCitizenTemplateSearch" prefHeight="26.0" prefWidth="34.0" styleClass="searchBtn" />
+                           </children>
+                        </HBox>
+                        <Button layoutX="21.0" layoutY="777.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="159.0" styleClass="backgroundButton" text="Handlinger" AnchorPane.bottomAnchor="29.200000000000045" AnchorPane.topAnchor="775.0" />
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane layoutX="230.0" layoutY="23.0" prefHeight="233.0" prefWidth="621.0" styleClass="panel30Deg" AnchorPane.leftAnchor="230.0" AnchorPane.rightAnchor="22.0" AnchorPane.topAnchor="23.0">
+                     <children>
+                        <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="223.0" prefWidth="584.0" styleClass="transparentBG" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="16.0" AnchorPane.rightAnchor="19.0" AnchorPane.topAnchor="3.0">
+                           <children>
+                              <GridPane layoutX="3.0" layoutY="5.0" prefHeight="211.0" prefWidth="227.0" AnchorPane.leftAnchor="3.0" AnchorPane.topAnchor="0.0">
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints maxHeight="96.60001220703126" minHeight="10.0" prefHeight="35.000009918212896" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="173.39998397827148" minHeight="10.0" prefHeight="166.9999900817871" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <children>
+                                    <Label fx:id="lblCitizenTemplateName" styleClass="nameLbl" text="Rasmus Scherning Sandbæk" GridPane.halignment="CENTER" />
+                                    <VBox GridPane.rowIndex="1">
+                                       <children>
+                                          <Label styleClass="smallPanelLblBold" text="Kontakt Oplysninger">
+                                             <VBox.margin>
+                                                <Insets left="17.0" />
+                                             </VBox.margin>
+                                          </Label>
+                                          <ListView fx:id="listViewCitizenTemplateContactInfo" prefHeight="127.0" prefWidth="227.0">
+                                             <padding>
+                                                <Insets left="10.0" right="10.0" />
+                                             </padding>
+                                          </ListView>
+                                          <HBox>
+                                             <children>
+                                                <Button fx:id="btnAddCitizenTemplateContactInfo" mnemonicParsing="false" onAction="#onAddCitizenTemplateContactInfo" styleClass="panelBtnNoPadding" text="Tilføj">
+                                                   <HBox.margin>
+                                                      <Insets left="20.0" right="10.0" />
+                                                   </HBox.margin>
+                                                </Button>
+                                                <Button fx:id="btnRemoveCitizenTemplateContactInfo" mnemonicParsing="false" onAction="#onRemoveCitizenTemplateContactInfo" styleClass="panelBtnNoPadding" text="Fjern" />
+                                             </children>
+                                          </HBox>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </GridPane>
+                              <Button fx:id="btnCitizenTemplateEditBaseData" layoutX="361.0" layoutY="14.0" mnemonicParsing="false" onAction="#onCitizenTemplateEditBaseData" prefHeight="54.0" prefWidth="111.0" styleClass="panelBtnNoPadding" text="Rediger Stamdata" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="0.0" />
+                              <VBox layoutX="258.0" layoutY="12.0" prefHeight="206.0" prefWidth="189.0" AnchorPane.topAnchor="5.0">
+                                 <children>
+                                    <VBox prefWidth="100.0">
+                                       <children>
+                                          <Label styleClass="smallPanelLblBold" text="Alder" />
+                                          <Label fx:id="lblAgeCitizenTemplate" styleClass="smallPanelLblNormal" text="Label" />
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets bottom="7.0" />
+                                       </VBox.margin>
+                                    </VBox>
+                                    <VBox prefWidth="100.0">
+                                       <children>
+                                          <Label styleClass="smallPanelLblBold" text="Født" />
+                                          <Label fx:id="lblBirthdateCitizenTemplate" styleClass="smallPanelLblNormal" text="Label">
+                                             <VBox.margin>
+                                                <Insets bottom="7.0" />
+                                             </VBox.margin>
+                                          </Label>
+                                       </children>
+                                    </VBox>
+                                    <VBox prefWidth="100.0">
+                                       <children>
+                                          <Label styleClass="smallPanelLblBold" text="Adresse" />
+                                          <Label fx:id="lblAddressCitizenTemplate" styleClass="smallPanelLblNormal" text="Label">
+                                             <VBox.margin>
+                                                <Insets bottom="7.0" />
+                                             </VBox.margin>
+                                          </Label>
+                                       </children>
+                                    </VBox>
+                                    <VBox prefWidth="100.0">
+                                       <children>
+                                          <Label styleClass="smallPanelLblBold" text="Hjælpe Status" />
+                                          <Label fx:id="lblHelpStatusCitizenTemplate" styleClass="smallPanelLblNormal" text="Label" />
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets bottom="7.0" />
+                                       </VBox.margin>
+                                    </VBox>
+                                    <VBox prefWidth="100.0">
+                                       <children>
+                                          <Label styleClass="smallPanelLblBold" text="Civil Status" />
+                                          <Label fx:id="lblCivilianStatusCitizenTemplate" styleClass="smallPanelLblNormal" text="Label" />
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </VBox>
+                              <Button fx:id="btnCitizenTemplateChangeJournal" layoutX="585.0" layoutY="71.0" mnemonicParsing="false" onAction="#onCitizenTemplateChangeJournal" prefHeight="54.0" prefWidth="111.0" styleClass="panelBtnNoPadding" text="Skift Journal" AnchorPane.rightAnchor="1.599999999999909" AnchorPane.topAnchor="71.0" />
+                              <VBox layoutX="584.0" layoutY="150.0" prefHeight="58.0" prefWidth="114.0" AnchorPane.rightAnchor="-0.6000000000000227" AnchorPane.topAnchor="150.0">
+                                 <children>
+                                    <Label styleClass="smallPanelLblBold" text="Redigerings tilstand">
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" />
+                                       </VBox.margin>
+                                    </Label>
+                                    <HBox>
+                                       <children>
+                                          <ToggleButton fx:id="tglBtnCitizenTemplateEditOn" mnemonicParsing="false" styleClass="onOfftoggleBtn" text="Til">
+                                             <HBox.margin>
+                                                <Insets left="15.0" />
+                                             </HBox.margin>
+                                          </ToggleButton>
+                                          <ToggleButton fx:id="tglBtnCitizenTemplateEditOff" contentDisplay="CENTER" mnemonicParsing="false" styleClass="onOfftoggleBtn" text="Fra">
+                                             <HBox.margin>
+                                                <Insets left="10.0" />
+                                             </HBox.margin>
+                                          </ToggleButton>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </AnchorPane>
+                  <ScrollPane fitToHeight="true" fitToWidth="true" layoutX="230.0" layoutY="275.0" prefHeight="300.0" prefWidth="627.0" stylesheets="@../Styles/darkScrollPane.css" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="230.0" AnchorPane.rightAnchor="16.0" AnchorPane.topAnchor="275.0">
+                     <content>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                           <children>
+                              <Accordion layoutX="1.0" prefWidth="658.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="0.0">
+                                <panes>
+                                  <TitledPane text="Generelle Oplysninger">
+                                    <content>
+                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="3002.0" prefWidth="658.0">
+                                             <children>
+                                                <VBox layoutX="19.6" layoutY="18.6" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                   <children>
+                                                      <Label styleClass="lblBackgroundBold" text="Personlige Faktorer" />
+                                                      <HBox prefHeight="75.0" prefWidth="600.0" styleClass="vboxBotBorder">
+                                                         <children>
+                                                            <GridPane prefHeight="63.0" prefWidth="106.0" styleClass="redGridPaneLeft">
+                                                               <columnConstraints>
+                                                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                               </columnConstraints>
+                                                               <rowConstraints>
+                                                                  <RowConstraints prefHeight="200.0" />
+                                                               </rowConstraints>
+                                                               <children>
+                                                                  <Label alignment="CENTER" prefHeight="18.0" prefWidth="125.0" text="Mestring" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                                               </children>
+                                                            </GridPane>
+                                                            <TextArea fx:id="txtAreaGenInfoMastering" prefHeight="75.0" prefWidth="498.0" />
+                                                         </children>
+                                                      </HBox>
+                                                      <HBox prefHeight="75.0" prefWidth="600.0" styleClass="vboxBotBorder">
+                                                         <children>
+                                                            <GridPane prefHeight="100.0" prefWidth="106.0" styleClass="redGridPaneLeft">
+                                                              <columnConstraints>
+                                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                              </columnConstraints>
+                                                               <rowConstraints>
+                                                                  <RowConstraints prefHeight="200.0" />
+                                                               </rowConstraints>
+                                                               <children>
+                                                                  <Label alignment="CENTER" prefHeight="18.0" prefWidth="125.0" text="Motivation" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                                               </children>
+                                                            </GridPane>
+                                                            <TextArea fx:id="txtAreaGenInfoMotivation" prefHeight="75.0" prefWidth="498.0" />
+                                                         </children>
+                                                      </HBox>
+                                                      <HBox prefHeight="75.0" prefWidth="600.0" styleClass="vboxBotBorder">
+                                                         <children>
+                                                            <GridPane prefHeight="100.0" prefWidth="106.0" styleClass="redGridPaneLeft">
+                                                               <columnConstraints>
+                                                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                               </columnConstraints>
+                                                               <rowConstraints>
+                                                                  <RowConstraints prefHeight="200.0" />
+                                                               </rowConstraints>
+                                                               <children>
+                                                                  <Label alignment="CENTER" prefHeight="18.0" prefWidth="125.0" text="Ressourcer" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                                               </children>
+                                                            </GridPane>
+                                                            <TextArea fx:id="txtAreaGenInfoRessources" prefHeight="75.0" prefWidth="498.0" />
+                                                         </children>
+                                                      </HBox>
+                                                      <HBox prefHeight="75.0" prefWidth="600.0" styleClass="vboxBotBorder">
+                                                         <children>
+                                                            <GridPane prefHeight="100.0" prefWidth="106.0" styleClass="redGridPaneLeft">
+                                                               <columnConstraints>
+                                                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                               </columnConstraints>
+                                                               <rowConstraints>
+                                                                  <RowConstraints prefHeight="200.0" />
+                                                               </rowConstraints>
+                                                               <children>
+                                                                  <Label alignment="CENTER" prefHeight="18.0" prefWidth="125.0" text="Roller" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                                               </children>
+                                                            </GridPane>
+                                                            <TextArea fx:id="txtAreaGenInfoRoles" prefHeight="75.0" prefWidth="498.0" />
+                                                         </children>
+                                                      </HBox>
+                                                      <HBox prefHeight="75.0" prefWidth="600.0" styleClass="vboxBotBorder">
+                                                         <children>
+                                                            <GridPane prefHeight="100.0" prefWidth="106.0" styleClass="redGridPaneLeft">
+                                                               <columnConstraints>
+                                                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                               </columnConstraints>
+                                                               <rowConstraints>
+                                                                  <RowConstraints prefHeight="200.0" />
+                                                               </rowConstraints>
+                                                               <children>
+                                                                  <Label alignment="CENTER" prefHeight="42.0" prefWidth="126.0" text="Vaner" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                                               </children>
+                                                            </GridPane>
+                                                            <TextArea fx:id="txtAreaGenInfoHabits" prefHeight="75.0" prefWidth="498.0" />
+                                                         </children>
+                                                      </HBox>
+                                                      <HBox prefHeight="75.0" prefWidth="600.0" styleClass="vboxBotBorder">
+                                                         <children>
+                                                            <GridPane prefHeight="100.0" prefWidth="106.0" styleClass="redGridPaneLeft">
+                                                               <columnConstraints>
+                                                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                               </columnConstraints>
+                                                               <rowConstraints>
+                                                                  <RowConstraints prefHeight="200.0" />
+                                                               </rowConstraints>
+                                                               <children>
+                                                                  <Label alignment="CENTER" prefHeight="43.0" prefWidth="106.0" text="Uddannelse og Job" textAlignment="CENTER" wrapText="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                                               </children>
+                                                            </GridPane>
+                                                            <TextArea fx:id="txtAreaGenInfoEduAndJob" prefHeight="75.0" prefWidth="498.0" />
+                                                         </children>
+                                                      </HBox>
+                                                      <HBox prefHeight="75.0" prefWidth="600.0" styleClass="vboxBotBorder">
+                                                         <children>
+                                                            <GridPane prefHeight="100.0" prefWidth="106.0" styleClass="redGridPaneLeft">
+                                                               <columnConstraints>
+                                                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                               </columnConstraints>
+                                                               <rowConstraints>
+                                                                  <RowConstraints prefHeight="200.0" />
+                                                               </rowConstraints>
+                                                               <children>
+                                                                  <Label alignment="CENTER" prefHeight="18.0" prefWidth="125.0" text="Livshistorie" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                                               </children>
+                                                            </GridPane>
+                                                            <TextArea fx:id="txtAreaGenInfoLifeStory" prefHeight="75.0" prefWidth="498.0" />
+                                                         </children>
+                                                      </HBox>
+                                                      <HBox prefHeight="75.0" prefWidth="600.0" styleClass="vboxPadding">
+                                                         <children>
+                                                            <GridPane prefHeight="100.0" prefWidth="106.0" styleClass="redGridPaneLeft">
+                                                               <columnConstraints>
+                                                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                               </columnConstraints>
+                                                               <rowConstraints>
+                                                                  <RowConstraints prefHeight="200.0" />
+                                                               </rowConstraints>
+                                                               <children>
+                                                                  <Label alignment="CENTER" prefHeight="18.0" prefWidth="125.0" text="Helbredsoplysniger" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                                               </children>
+                                                            </GridPane>
+                                                            <TextArea fx:id="txtAreaGenInfoHealthInfo" prefHeight="75.0" prefWidth="498.0" />
+                                                         </children>
+                                                      </HBox>
+                                                      <Label styleClass="lblBackgroundBold" text="Omgivelses Faktorer">
+                                                         <VBox.margin>
+                                                            <Insets top="20.0" />
+                                                         </VBox.margin>
+                                                      </Label>
+                                                      <HBox prefHeight="75.0" prefWidth="600.0" styleClass="vboxBotBorder">
+                                                         <children>
+                                                            <GridPane prefHeight="100.0" prefWidth="106.0" styleClass="redGridPaneLeft">
+                                                               <columnConstraints>
+                                                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                               </columnConstraints>
+                                                               <rowConstraints>
+                                                                  <RowConstraints prefHeight="200.0" />
+                                                               </rowConstraints>
+                                                               <children>
+                                                                  <Label alignment="CENTER" prefHeight="18.0" prefWidth="125.0" text="Hjælpemidler" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                                               </children>
+                                                            </GridPane>
+                                                            <TextArea fx:id="txtAreaGenInfoAssistiveDevices" prefHeight="75.0" prefWidth="498.0" />
+                                                         </children>
+                                                      </HBox>
+                                                      <HBox prefHeight="75.0" prefWidth="600.0" styleClass="vboxBotBorder">
+                                                         <children>
+                                                            <GridPane prefHeight="100.0" prefWidth="106.0" styleClass="redGridPaneLeft">
+                                                               <columnConstraints>
+                                                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                               </columnConstraints>
+                                                               <rowConstraints>
+                                                                  <RowConstraints prefHeight="200.0" />
+                                                               </rowConstraints>
+                                                               <children>
+                                                                  <Label alignment="CENTER" prefHeight="18.0" prefWidth="125.0" text="Boligens Indretning" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                                               </children>
+                                                            </GridPane>
+                                                            <TextArea fx:id="txtAreaGenInfoHomeLayout" prefHeight="75.0" prefWidth="498.0" />
+                                                         </children>
+                                                      </HBox>
+                                                      <HBox prefHeight="75.0" prefWidth="600.0" styleClass="vboxPadding">
+                                                         <children>
+                                                            <GridPane prefHeight="100.0" prefWidth="106.0" styleClass="redGridPaneLeft">
+                                                               <columnConstraints>
+                                                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                               </columnConstraints>
+                                                               <rowConstraints>
+                                                                  <RowConstraints prefHeight="200.0" />
+                                                               </rowConstraints>
+                                                               <children>
+                                                                  <Label alignment="CENTER" prefHeight="18.0" prefWidth="125.0" text="Netværk" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                                               </children>
+                                                            </GridPane>
+                                                            <TextArea fx:id="txtAreaGenInfoNetwork" prefHeight="75.0" prefWidth="498.0" />
+                                                         </children>
+                                                      </HBox>
+                                                   </children>
+                                                </VBox>
+                                             </children>
+                                          </AnchorPane>
+                                    </content>
+                                  </TitledPane>
+                                  <TitledPane text="Helbredstilstande">
+                                    <content>
+                                      <AnchorPane minHeight="0.0" minWidth="0.0">
+                                             <children>
+                                                <TreeTableView fx:id="treeTblViewHealth" prefHeight="500.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                   <columns>
+                                                      <TreeTableColumn fx:id="treeTblClmnHealthCategory" minWidth="150.0" prefWidth="-1.0" text="Tilstandsklassificering" />
+                                                      <TreeTableColumn fx:id="treeTblClmnHealthLevel" minWidth="60.0" prefWidth="-1.0" text="Niveau" />
+                                                      <TreeTableColumn fx:id="treeTblClmnHealthAssessment" minWidth="70.0" prefWidth="-1.0" text="Vurdering" />
+                                                      <TreeTableColumn fx:id="treeTblClmnHealthCause" minWidth="100.0" prefWidth="-1.0" text="Årsag" />
+                                                      <TreeTableColumn fx:id="treeTblClmnHealthExpectedCondition" minWidth="140.0" prefWidth="-1.0" text="Forventet Tilstand" />
+                                                      <TreeTableColumn fx:id="treeTblClmnHealthNote" minWidth="100.0" prefWidth="-1.0" text="Faglig Notat" />
+                                                   </columns>
+                                                   <styleClass>
+                                                      <String fx:value="healthTable" />
+                                                      <String fx:value="healthTable-view" />
+                                                   </styleClass>
+                                                </TreeTableView>
+                                             </children>
+                                          </AnchorPane>
+                                    </content>
+                                  </TitledPane>
+                                  <TitledPane text="Funktionsevnetilstande">
+                                       <content>
+                                          <AnchorPane minHeight="0.0" minWidth="0.0">
+                                             <children>
+                                                <TreeTableView fx:id="treeTblViewFunc" prefHeight="500.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="6.399999999999977" AnchorPane.topAnchor="0.0">
+                                                  <columns>
+                                                    <TreeTableColumn fx:id="treeTblClmnFuncCategory" minWidth="140.0" prefWidth="-1.0" text="Tilstandsklassificering" />
+                                                    <TreeTableColumn prefWidth="151.99993896484375" text="Tilstands Præcisering">
+                                                         <columns>
+                                                            <TreeTableColumn fx:id="treeTblClmnFuncLevel" minWidth="60.0" prefWidth="-1.0" text="Niveau" />
+                                                            <TreeTableColumn fx:id="treeTblClmnFuncAssessment" minWidth="70.0" prefWidth="-1.0" text="Vurdering" />
+                                                            <TreeTableColumn fx:id="treeTblClmnFuncCause" minWidth="70.0" prefWidth="-1.0" text="Årsag" />
+                                                         </columns>
+                                                      </TreeTableColumn>
+                                                      <TreeTableColumn fx:id="treeTblClmnFuncImplications" minWidth="100.0" prefWidth="-1.0" text="Betydninger for udførelse" />
+                                                      <TreeTableColumn fx:id="treeTblClmnFuncCitizenGoals" minWidth="120.0" prefWidth="-1.0" text="Borgers ønsker/mål" />
+                                                      <TreeTableColumn fx:id="treeTblClmnFuncExpectedCondition" minWidth="65.0" prefWidth="-1.0" text="Forventet Tilstand" />
+                                                      <TreeTableColumn fx:id="treeTblClmnFuncNote" minWidth="70.0" prefWidth="-1.0" text="Faglig Notat" />
+                                                  </columns>
+                                                   <styleClass>
+                                                      <String fx:value="funcTable" />
+                                                      <String fx:value="funcTable-view" />
+                                                   </styleClass>
+                                                </TreeTableView>
+                                             </children>
+                                          </AnchorPane>
+                                       </content>
+                                  </TitledPane>
+                                </panes>
+                              </Accordion>
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </ScrollPane>
+               </children>
+            </AnchorPane>
          </children>
+               <!-->
+            <fx:include fx:id="anchorPaneDashboard" source="dashboard/Default.fxml"/>
+            <fx:include fx:id="anchorPaneCases" source="dashboard/Cases.fxml"/>
+            <fx:include fx:id="anchorPaneAssignments" source="dashboard/Assignment.fxml"/>
+            <fx:include fx:id="anchorPaneJournals" source="dashboard/Journals.fxml"/>
+            <fx:include fx:id="anchorPaneStudents" source="dashboard/Students.fxml"/>
+            <fx:include fx:id="anchorPaneCitizens" source="dashboard/Citizens.fxml"/>
+            <fx:include fx:id="anchorPaneCitizenTemplate" source="dashboard/CitizenTemplate.fxml"/>
       </StackPane>
    </center>
    <left>
-      <AnchorPane prefHeight="412.0" prefWidth="153.0" styleClass="sideMenu" BorderPane.alignment="CENTER">
+      <AnchorPane prefHeight="891.0" prefWidth="92.0" styleClass="sideMenu" BorderPane.alignment="CENTER">
          <children>
-            <VBox layoutX="30.0" layoutY="40.0" prefHeight="311.0" prefWidth="147.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="30.0">
+            <VBox layoutX="30.0" layoutY="40.0" prefHeight="642.0" prefWidth="96.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="30.0">
                <children>
-                  <ToggleButton fx:id="tglBtnDashboard" mnemonicParsing="false" onAction="#onMenuItemClicked" prefHeight="30.0" prefWidth="169.0" styleClass="sideMenuToggleBtn" text="Dashboard">
+                  <ToggleButton fx:id="tglBtnDashboard" mnemonicParsing="false" prefHeight="78.0" prefWidth="90.0" styleClass="sideMenuToggleBtn" textAlignment="CENTER">
                      <VBox.margin>
                         <Insets bottom="5.0" />
                      </VBox.margin>
+                     <graphic>
+                        <VBox prefHeight="69.0" prefWidth="65.0">
+                           <children>
+                              <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../img/dashboard.png" />
+                                 </image>
+                                 <VBox.margin>
+                                    <Insets left="15.0" />
+                                 </VBox.margin>
+                              </ImageView>
+                              <Label alignment="CENTER" prefHeight="20.0" prefWidth="79.0" styleClass="smallPanelLblNormal" text="Dashboard" />
+                           </children>
+                        </VBox>
+                     </graphic>
                   </ToggleButton>
-                  <ToggleButton fx:id="tglBtnStudents" mnemonicParsing="false" onAction="#onMenuItemClicked" prefHeight="30.0" prefWidth="162.0" styleClass="sideMenuToggleBtn" text="Elever">
+                  <ToggleButton fx:id="tglBtnStudents" mnemonicParsing="false" prefHeight="70.0" prefWidth="90.0" styleClass="sideMenuToggleBtn" textAlignment="CENTER">
                      <VBox.margin>
                         <Insets bottom="5.0" />
                      </VBox.margin>
+                     <graphic>
+                        <VBox prefHeight="66.0" prefWidth="73.0">
+                           <children>
+                              <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" translateY="2.0">
+                                 <VBox.margin>
+                                    <Insets left="15.0" />
+                                 </VBox.margin>
+                                 <image>
+                                    <Image url="@../img/students.png" />
+                                 </image>
+                              </ImageView>
+                              <Label alignment="CENTER" prefHeight="20.0" prefWidth="75.0" styleClass="smallPanelLblNormal" text="Elever" textAlignment="CENTER" />
+                           </children>
+                        </VBox>
+                     </graphic>
                   </ToggleButton>
-                  <ToggleButton fx:id="tglBtnCitizenTemplates" mnemonicParsing="false" onAction="#onMenuItemClicked" prefHeight="30.0" prefWidth="158.0" styleClass="sideMenuToggleBtn" text="Borger Skabeloner">
+                  <ToggleButton fx:id="tglBtnCitizenTemplates" mnemonicParsing="false" prefHeight="92.0" prefWidth="90.0" styleClass="sideMenuToggleBtn" textAlignment="CENTER" wrapText="true">
                      <VBox.margin>
                         <Insets bottom="5.0" />
                      </VBox.margin>
+                     <graphic>
+                        <VBox prefHeight="85.0" prefWidth="71.0">
+                           <children>
+                              <ImageView fitHeight="40.0" fitWidth="41.0" pickOnBounds="true" preserveRatio="true" translateY="2.0">
+                                 <VBox.margin>
+                                    <Insets left="15.0" />
+                                 </VBox.margin>
+                                 <image>
+                                    <Image url="@../img/citizenTemplate.png" />
+                                 </image>
+                              </ImageView>
+                              <Label alignment="CENTER" prefHeight="44.0" prefWidth="90.0" styleClass="smallPanelLblNormal" text="Borger Skabeloner" textAlignment="CENTER" wrapText="true">
+                                 <padding>
+                                    <Insets left="1.0" />
+                                 </padding>
+                              </Label>
+                           </children>
+                        </VBox>
+                     </graphic>
                   </ToggleButton>
-                  <ToggleButton fx:id="tglBtnCitizens" mnemonicParsing="false" onAction="#onMenuItemClicked" prefHeight="30.0" prefWidth="183.0" styleClass="sideMenuToggleBtn" text="Borgere">
+                  <ToggleButton fx:id="tglBtnCitizens" mnemonicParsing="false" prefHeight="23.0" prefWidth="90.0" styleClass="sideMenuToggleBtn" textAlignment="CENTER">
                      <VBox.margin>
                         <Insets bottom="5.0" />
                      </VBox.margin>
+                     <graphic>
+                        <VBox prefHeight="66.0" prefWidth="72.0">
+                           <children>
+                              <ImageView fitHeight="40.0" fitWidth="41.0" pickOnBounds="true" preserveRatio="true">
+                                 <VBox.margin>
+                                    <Insets left="16.0" />
+                                 </VBox.margin>
+                                 <image>
+                                    <Image url="@../img/citizens.png" />
+                                 </image>
+                              </ImageView>
+                              <Label alignment="CENTER" prefHeight="20.0" prefWidth="69.0" styleClass="smallPanelLblNormal" text="Borgere" textAlignment="CENTER">
+                                 <padding>
+                                    <Insets left="2.0" />
+                                 </padding>
+                              </Label>
+                           </children>
+                        </VBox>
+                     </graphic>
                   </ToggleButton>
-                  <ToggleButton fx:id="tglBtnCases" mnemonicParsing="false" onAction="#onMenuItemClicked" prefHeight="30.0" prefWidth="149.0" styleClass="sideMenuToggleBtn" text="Sager">
+                  <ToggleButton fx:id="tglBtnCases" mnemonicParsing="false" prefHeight="21.0" prefWidth="90.0" styleClass="sideMenuToggleBtn" textAlignment="CENTER">
                      <VBox.margin>
                         <Insets bottom="5.0" />
                      </VBox.margin>
+                     <graphic>
+                        <VBox prefHeight="66.0" prefWidth="67.0">
+                           <children>
+                              <ImageView fitHeight="40.0" fitWidth="41.0" pickOnBounds="true" preserveRatio="true">
+                                 <VBox.margin>
+                                    <Insets left="15.0" />
+                                 </VBox.margin>
+                                 <image>
+                                    <Image url="@../img/cases.png" />
+                                 </image>
+                              </ImageView>
+                              <Label alignment="CENTER" prefHeight="20.0" prefWidth="76.0" styleClass="smallPanelLblNormal" text="Sager" textAlignment="CENTER" />
+                           </children>
+                        </VBox>
+                     </graphic>
                   </ToggleButton>
-                  <ToggleButton fx:id="tglBtnAssignments" mnemonicParsing="false" onAction="#onMenuItemClicked" prefHeight="30.0" prefWidth="161.0" styleClass="sideMenuToggleBtn" text="Opgaver">
+                  <ToggleButton fx:id="tglBtnAssignments" mnemonicParsing="false" prefHeight="20.0" prefWidth="90.0" styleClass="sideMenuToggleBtn" textAlignment="CENTER">
                      <VBox.margin>
                         <Insets bottom="5.0" />
                      </VBox.margin>
+                     <graphic>
+                        <VBox prefHeight="60.0" prefWidth="81.0">
+                           <children>
+                              <ImageView fitHeight="40.0" fitWidth="41.0" pickOnBounds="true" preserveRatio="true">
+                                 <VBox.margin>
+                                    <Insets left="18.0" />
+                                 </VBox.margin>
+                                 <image>
+                                    <Image url="@../img/assigments.png" />
+                                 </image>
+                              </ImageView>
+                              <Label alignment="CENTER" prefHeight="20.0" prefWidth="69.0" styleClass="smallPanelLblNormal" text="Opgaver" textAlignment="CENTER" />
+                           </children>
+                        </VBox>
+                     </graphic>
                   </ToggleButton>
-                  <ToggleButton fx:id="tglBtnJournals" mnemonicParsing="false" onAction="#onMenuItemClicked" prefHeight="30.0" prefWidth="191.0" styleClass="sideMenuToggleBtn" text="Journaler" />
+                  <ToggleButton fx:id="tglBtnJournals" mnemonicParsing="false" prefHeight="23.0" prefWidth="90.0" styleClass="sideMenuToggleBtn" textAlignment="CENTER">
+                     <graphic>
+                        <VBox prefHeight="60.0" prefWidth="62.0">
+                           <children>
+                              <ImageView fitHeight="40.0" fitWidth="41.0" pickOnBounds="true" preserveRatio="true">
+                                 <VBox.margin>
+                                    <Insets left="14.0" />
+                                 </VBox.margin>
+                                 <image>
+                                    <Image url="@../img/journals.png" />
+                                 </image>
+                              </ImageView>
+                              <Label alignment="CENTER" prefHeight="20.0" prefWidth="72.0" styleClass="smallPanelLblNormal" text="Journaler" textAlignment="CENTER">
+                                 <padding>
+                                    <Insets right="2.0" />
+                                 </padding>
+                              </Label>
+                           </children>
+                        </VBox>
+                     </graphic>
+                  </ToggleButton>
                </children>
             </VBox>
          </children>

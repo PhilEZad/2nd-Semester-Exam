@@ -1,6 +1,6 @@
 package Application.GUI.Controllers.Popups;
 
-import Application.DAL.SchoolDAO;
+import Application.GUI.Models.SchoolModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -17,14 +17,13 @@ import java.util.function.UnaryOperator;
 public class CreateSchoolController implements Initializable {
 
     @FXML
-    private TextField txtsSchoolName;
+    private TextField txtSchoolName;
     @FXML
     private TextField txtSchoolZipCode;
     @FXML
     private Button btnCancel;
 
-    private SchoolDAO schoolDAO = new SchoolDAO();
-
+    SchoolModel schoolDAO = new SchoolModel();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -32,8 +31,10 @@ public class CreateSchoolController implements Initializable {
     }
 
     public void createSchool(ActionEvent actionEvent) {
-        schoolDAO.createSchool(txtsSchoolName.getText(),Integer.parseInt(txtSchoolZipCode.getText()));
+        schoolDAO.create(txtSchoolName.getText(), Integer.parseInt(txtSchoolZipCode.getText()));
 
+        Stage stage = (Stage) btnCancel.getScene().getWindow();
+        stage.close();
     }
 
     public void Cancel(ActionEvent actionEvent) {

@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="279.0" prefWidth="271.0" style="-fx-border-color: #fc8f51;" styleClass="background" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Application.GUI.Controllers.CreateTeacherController">
+<AnchorPane prefHeight="279.0" prefWidth="271.0" style="-fx-border-color: #fc8f51;" styleClass="background" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Application.GUI.Controllers.Popups.CreateTeacherController">
     <children>
         <VBox layoutX="92.0" layoutY="52.0">
             <children>
@@ -21,23 +21,25 @@
                         <Insets bottom="10.0" />
                     </VBox.margin>
                 </TextField>
-                <TextField fx:id="txtFieldName" styleClass="submit-textField">
+                <TextField fx:id="txtFieldFirstName" styleClass="submit-textField">
                     <VBox.margin>
                         <Insets bottom="10.0" />
                     </VBox.margin>
                 </TextField>
-                <TextField fx:id="txtFieldEmail" styleClass="submit-textField">
+                <TextField fx:id="txtFieldSurname" styleClass="submit-textField">
                <VBox.margin>
                   <Insets bottom="15.0" />
                </VBox.margin></TextField>
+            <TextField fx:id="txtFieldEmail" styleClass="submit-textField" />
             </children>
         </VBox>
         <Button layoutX="216.0" layoutY="325.0" mnemonicParsing="false" onAction="#onSaveCreateTeacher" styleClass="roundButton" text="Gem" AnchorPane.bottomAnchor="12.0" AnchorPane.rightAnchor="12.0" />
         <Button layoutX="17.0" layoutY="325.0" mnemonicParsing="false" onAction="#onCancelCreateTeacher" styleClass="roundButton" text="Annullere" AnchorPane.bottomAnchor="12.0" AnchorPane.leftAnchor="12.0" />
-      <Label layoutX="35.0" layoutY="166.0" styleClass="Text" text="Email" />
-      <Label layoutX="36.0" layoutY="130.0" styleClass="Text" text="Navn" />
+      <Label layoutX="36.0" layoutY="205.0" styleClass="Text" text="Email" />
+      <Label layoutX="28.0" layoutY="131.0" styleClass="Text" text="Fornavn" />
       <Label layoutX="36.0" layoutY="93.0" styleClass="Text" text="Kode" />
       <Label layoutX="35.0" layoutY="52.0" styleClass="Text" text="Login" />
       <Label layoutX="105.0" layoutY="6.0" styleClass="InternalPanelSubHeading" text="Ny Lærer" />
+      <Label layoutX="22.0" layoutY="163.0" styleClass="Text" text="Efternavn" />
     </children>
 </AnchorPane>

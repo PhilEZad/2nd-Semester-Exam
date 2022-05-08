@@ -1,37 +1,47 @@
 package Application.BLL;
 
-import Application.BE.Student;
-import Application.DAL.AdminStudentDAO;
+import Application.BE.Account;
+import Application.BE.School;
+import Application.DAL.AccountDAO;
+import Application.DAL.SchoolDAO;
+import Application.DAL.TemplatePatternDAO;
 
 import java.util.List;
 
 public class AdminDataManager {
 
-    private AdminStudentDAO adminStudentDAO;
+    private TemplatePatternDAO accountDAO;
+    private TemplatePatternDAO schoolDAO;
 
 
     public AdminDataManager() {
-        adminStudentDAO = new AdminStudentDAO();
+        accountDAO = new AccountDAO();
+        schoolDAO = new SchoolDAO();
     }
 
-    public void createStudent(String username, String password, String firstName, String lastName, String email, int salt, int schoolID) {
-        adminStudentDAO.createStudent(username, password, firstName, lastName, email, salt, schoolID);
+    public Account createAccount(String username, String password, String firstName, String lastName, String email, School school, int auth) {
+        return (Account) accountDAO.create(new Account(-1, username, password, firstName, lastName, email, school, auth));
     }
 
-    public void updateStudent(Student student){
-        adminStudentDAO.updateStudent(student);
+    public void updateAccount(Account student){
+        accountDAO.update(student);
     }
 
-    public void deleteStudent(Student student){
-        adminStudentDAO.deleteStudent(student.getId());
+    public void deleteAccount(Account student){
+        accountDAO.delete(student.getId());
     }
 
-    public Student getStudent(int id){
-        return adminStudentDAO.getStudent(id);
+    public Account getStudent(int id) {
+        return (Account) accountDAO.read(id);
     }
 
-    public List<Student> getAllStudents(){
-        return adminStudentDAO.getAllStudents();
+    public List<Account> getAllStudents(){
+        return accountDAO.readAll();
+    }
+
+    public School createSchool(String schoolName, int zipCode)
+    {
+        return (School) schoolDAO.create(new School(-1, schoolName, zipCode, ""));
     }
 
 }

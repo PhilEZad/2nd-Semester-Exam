@@ -1,8 +1,8 @@
 package Application.GUI.Controllers;
 
+import Application.BE.Account;
 import Application.GUI.Models.SchoolModel;
 import Application.GUI.Models.StudentModel;
-import Application.GUI.Models.TeacherModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -26,13 +26,13 @@ public class AdminViewController implements Initializable {
     private TableColumn<StudentModel, String> tblClmStudentClass;
 
     @FXML
-    private TableView<TeacherModel> tblViewTeacher;
+    private TableView<Account> tblViewTeacher;
     @FXML
-    private TableColumn<TeacherModel, String> tblClmTeacherFirstName;
+    private TableColumn<Account, String> tblClmTeacherFirstName;
     @FXML
-    private TableColumn<TeacherModel, String> tblClmTeacherLastName;
+    private TableColumn<Account, String> tblClmTeacherLastName;
     @FXML
-    private TableColumn<TeacherModel, String> tblClmTeacherEmail;
+    private TableColumn<Account, String> tblClmTeacherEmail;
 
     @FXML
     private TableView<SchoolModel> tblViewSchool;
@@ -52,16 +52,6 @@ public class AdminViewController implements Initializable {
         tblClmSchoolName.setCellValueFactory(param -> param.getValue().getName());
         tblClmSchoolZipCode.setCellValueFactory(param -> param.getValue().getZipCode());
         tblClmSchoolCity.setCellValueFactory(param -> param.getValue().getCity());
-        /*
-        tblClmTeacherFirstName.setCellValueFactory(param -> param.getValue().getFirstName);
-        tblClmTeacherLastName.setCellValueFactory(param -> param.getValue().getLastName);
-        tblClmTeacherEmail.setCellValueFactory(param -> param.getValue().getEmail);
-
-        tblClmStudentFirstName.setCellValueFactory(param -> param.getValue().getFirstName);
-        tblClmStudentLastName.setCellValueFactory(param -> param.getValue().getLastName);
-        tblClmStudentEmail.setCellValueFactory(param -> param.getValue().getEmail);
-        tblClmStudentClass.setCellValueFactory(param -> param.getValue().getStudentClass);
-         */
     }
 
     public void openCreateSchool(ActionEvent actionEvent) {

@@ -2,49 +2,48 @@ package Application.BE;
 
 public class School {
 
-    int id;
-    String name;
-    int zipCode;
-    String city;
+    private int schoolID;
+    private String schoolName;
+    private int zipCode;
+    private String cityName;
 
-    public School(int id, String name, int zipCode, String city){
-        this.id = id;
-        this.name = name;
+    public School(int schoolID, String schoolName, int zipCode, String cityName)
+    {
+        this.schoolID = schoolID;
+        this.schoolName = schoolName;
         this.zipCode = zipCode;
-        this.city = city;
-    }
-    public int getId() {
-        return id;
+        this.cityName = cityName;
     }
 
-    public String getName() {
-        return name;
+    public int getSchoolID() {
+        return schoolID;
+    }
+
+    public void setSchoolID(int schoolID) {
+        this.schoolID = schoolID;
+    }
+
+    public String getSchoolName() {
+        return schoolName;
+    }
+
+    public void setSchoolName(String schoolName) {
+        this.schoolName = schoolName;
     }
 
     public int getZipCode() {
         return zipCode;
     }
 
-    public String getCity() {
-        return city;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public void setZipCode(int zipCode) {
         this.zipCode = zipCode;
     }
 
-    public void setCity(String city) {
-        this.city = city;
+    public String getCityName() {
+        return cityName;
     }
 
-
-
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
+    }
 }

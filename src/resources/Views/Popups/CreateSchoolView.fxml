@@ -8,7 +8,7 @@
    <children>
       <AnchorPane layoutX="52.0" layoutY="56.0" prefHeight="285.0" prefWidth="486.0" styleClass="panel30Deg" stylesheets="@../../Styles/MainStylesheet.css">
          <children>
-            <TextField fx:id="txtsSchoolName" layoutX="167.0" layoutY="80.0" styleClass="text-fieldBase" />
+            <TextField fx:id="txtSchoolName" layoutX="167.0" layoutY="80.0" styleClass="text-fieldBase" />
             <Text layoutX="55.0" layoutY="105.0" strokeType="OUTSIDE" strokeWidth="0.0" text="navn på skolen" />
             <TextField fx:id="txtSchoolZipCode" layoutX="168.0" layoutY="132.0" styleClass="text-fieldBase" />
             <Text layoutX="68.0" layoutY="150.0" strokeType="OUTSIDE" strokeWidth="0.0" text="postnummer" />

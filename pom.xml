@@ -34,5 +34,10 @@
             <artifactId>mssql-jdbc</artifactId>
             <version>10.1.0.jre17-preview</version>
         </dependency>
+        <dependency>
+            <groupId>at.favre.lib</groupId>
+            <artifactId>bcrypt</artifactId>
+            <version>0.9.0</version>
+        </dependency>
     </dependencies>
 </project>
