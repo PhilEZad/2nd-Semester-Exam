@@ -8,4 +8,9 @@ public class WishBuilder extends AbstractBuilder{
         //TODO
         return null;
     }
+
+    @Override
+    void createJournal() {
+
+    }
 }

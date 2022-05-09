@@ -1,8 +1,9 @@
-package Application.DAL.DBConnector;
+package Application.DAL;
 
 import Application.BE.HealthJournal.ERelevanceState;
 import Application.BE.HealthJournal.FunctionalJournal;
 import Application.BE.HealthJournal.JournalEntry;
+import Application.DAL.DBConnector.DBConnectionPool;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 
 import java.sql.Connection;

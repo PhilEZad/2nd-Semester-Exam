@@ -1,7 +1,7 @@
 package Application.BE.HealthJournal.Builder;
 
 import Application.BE.HealthJournal.FunctionalJournal;
-import Application.DAL.DBConnector.FunctionalJournalDAO;
+import Application.DAL.FunctionalJournalDAO;
 
 public class FunctionalBuilder extends AbstractBuilder {
 

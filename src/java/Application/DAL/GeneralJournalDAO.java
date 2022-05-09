@@ -1,9 +1,10 @@
-package Application.DAL.DBConnector;
+package Application.DAL;
 
 import Application.BE.Citizen;
 import Application.BE.HealthJournal.GeneralJournal;
 import Application.BE.HealthJournal.Journal;
 import Application.BE.HealthJournal.JournalEntry;
+import Application.DAL.DBConnector.DBConnectionPool;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 
 import java.sql.Connection;

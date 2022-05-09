@@ -1,7 +1,8 @@
-package Application.DAL.DBConnector;
+package Application.DAL;
 
 import Application.BE.Citizen;
 import Application.BE.HealthJournal.*;
+import Application.DAL.DBConnector.DBConnectionPool;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 
 import java.sql.Connection;
@@ -13,7 +14,7 @@ public class HealthJournalDAO {
 
     public void createHealthJournal(HealthJournal journal)
     {
-        //TODO
+
     }
 
     public HealthJournal readHealthJournal(int id)

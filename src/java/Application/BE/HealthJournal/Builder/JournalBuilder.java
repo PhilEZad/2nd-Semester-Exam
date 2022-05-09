@@ -1,9 +1,9 @@
 package Application.BE.HealthJournal.Builder;
 
 import Application.BE.HealthJournal.Journal;
-import Application.DAL.DBConnector.FunctionalJournalDAO;
-import Application.DAL.DBConnector.GeneralJournalDAO;
-import Application.DAL.DBConnector.HealthJournalDAO;
+import Application.DAL.FunctionalJournalDAO;
+import Application.DAL.GeneralJournalDAO;
+import Application.DAL.HealthJournalDAO;
 
 public class JournalBuilder {
 
