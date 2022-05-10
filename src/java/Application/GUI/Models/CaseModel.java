@@ -12,7 +12,7 @@ import java.util.List;
 
 public class CaseModel {
 
-    TeacherDataManager teacherBLL;
+    TeacherDataManager teacherBLL = new TeacherDataManager();
 
     private IntegerProperty id;
     private StringProperty caseName;
