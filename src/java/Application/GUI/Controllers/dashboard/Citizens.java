@@ -65,7 +65,7 @@ public class Citizens implements Initializable
         Stage stage = new Stage();
         Parent root = FXMLLoader.load(this.getClass().getResource("/views/Popups/AddToTaskView.fxml"));
 
-        stage.setTitle("???");
+        stage.setTitle("Tilføj Studerende");
 
         stage.setScene(new Scene(root));
         stage.show();
@@ -84,7 +84,7 @@ public class Citizens implements Initializable
     {
         Citizen arne = new Citizen(1, "Arne", "Johansen", 68, 0, 5, 6710, 1);
         Citizen bodil = new Citizen(2,"Bodil", "Stender", 57, 0,53, 6715,1);
-        Citizen karsten = new Citizen(3, "Karsten", "andersen", 47, 0, 32, 6700, 1);
+        Citizen karsten = new Citizen(3, "Karsten", "Andersen", 47, 0, 32, 6700, 1);
         ObservableList citizenList = FXCollections.observableArrayList();
         citizenList.add(arne);
         citizenList.add(bodil);

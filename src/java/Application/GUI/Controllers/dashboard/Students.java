@@ -3,9 +3,13 @@ package Application.GUI.Controllers.dashboard;
 import Application.BE.Account;
 import Application.BE.Citizen;
 import Application.BE.School;
+import Application.GUI.Models.AccountModel;
+import Application.GUI.Models.CitizenTemplateModel;
 import Application.GUI.Models.StudentModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -30,6 +34,11 @@ public class Students implements Initializable {
     public Button btnAddCitizenToStudent;
     public Button btnRemoveCitizenToStudent;
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        search();
+    }
+
     public void onViewStudentCases(ActionEvent event) {
     }
 
@@ -45,26 +54,57 @@ public class Students implements Initializable {
     public void onRemoveCitizenToStudent(ActionEvent event) {
     }
 
-    public void mockUp(){
+    private void search()
+    {
+        //Wrap ObservableList of UserInfo in a FilteredList.
+        FilteredList<StudentModel> filteredData = new FilteredList<>(mockUp(), b -> true);
+
+        //Sets the filter predict when filter changes.
+
+        txtFieldStudentsSearch.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(data -> {
+
+                //If filter is empty, display all accounts.
+                if (newValue == null || newValue.isEmpty())
+                {
+                    return true;
+                }
+
+                //Compare Account name with filter text.
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                if (data.getFullName().toLowerCase().indexOf(lowerCaseFilter) != -1)
+                {
+                    return true;
+                } else return false;
+            });
+        });
+
+        SortedList<StudentModel> sortedUsers = new SortedList<>(filteredData);
+
+        listViewStudents.setItems(sortedUsers);
+    }
+
+    public ObservableList<StudentModel> mockUp(){
 
         School school = new School(1, "SOSU", 6710, "Esbjerg");
-        Account account = new Account(1, "login", "pass","stine","rasmussen" ,"stin543@SOSU.dk", school, 2);
+        Account account = new Account(1, "", "","Stine","Rasmussen" ,"stin543@SOSU.dk", school, 2);
         StudentModel stine = new StudentModel(account);
         StudentModel emilie = new StudentModel(account);
         StudentModel julie = new StudentModel(account);
-        julie.setFirstName("julie");
-        julie.setLastName("jepsen");
+        julie.setFirstName("Julie");
+        julie.setLastName("Jepsen");
         julie.setEmail("juli413@SUS.dk");
-        emilie.setFirstName("emilie");
-        emilie.setLastName("dahl");
+        emilie.setFirstName("Emilie");
+        emilie.setLastName("Dahl");
         emilie.setEmail("emil643@SOSU.dk");
         stine.setEmail("stin543@SOSU.dk");
-        lblStudentsStudentName.setText(stine.getFirstName() +" " + stine.getLastName());
+        lblStudentsStudentName.setText(stine.getFirstName() + " " + stine.getLastName());
         lblStudentEmail.setText(stine.getEmail());
 
         Citizen arne = new Citizen(1, "Arne", "Johansen", 68, 0, 5, 6710, 1);
         Citizen bodil = new Citizen(2,"Bodil", "Stender", 57, 0,53, 6715,1);
-        Citizen karsten = new Citizen(3, "Karsten", "andersen", 47, 0, 32, 6700, 1);
+        Citizen karsten = new Citizen(3, "Karsten", "Andersen", 47, 0, 32, 6700, 1);
         ObservableList citizenList = FXCollections.observableArrayList();
         ObservableList studedntList = FXCollections.observableArrayList();
         studedntList.add(stine);
@@ -74,11 +114,7 @@ public class Students implements Initializable {
         citizenList.add(bodil);
         citizenList.add(karsten);
         listViewCitizensForStudents.setItems(citizenList);
-        listViewStudents.setItems(studedntList);
+        return studedntList;
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        mockUp();
-    }
 }

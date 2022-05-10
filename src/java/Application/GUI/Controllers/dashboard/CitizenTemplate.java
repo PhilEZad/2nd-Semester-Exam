@@ -115,7 +115,8 @@ public class CitizenTemplate implements Initializable {
         ObservableList<TreeItem<CategoryEntryModel>> healthTree = FXCollections.observableArrayList();
 
         TreeItem<CategoryEntryModel> funcRoot = new TreeItem<>(new CategoryEntryModel("Functional Abilities"));
-        TreeItem<CategoryEntryModel> healthRoot = new TreeItem<>(new CategoryEntryModel("Health Conditions"));
+        TreeItem<CategoryEntryModel> healthRoot = new TreeItem<>(new CategoryEntryModel("Funktionsniveau"));
+        healthTree.add((new TreeItem<>(new CategoryEntryModel("Bevægeapparat"))));
         treeTblViewFunc.setRoot(funcRoot);
         treeTblViewHealth.setRoot(healthRoot);
 
@@ -233,8 +234,6 @@ public class CitizenTemplate implements Initializable {
             else if(newToggleValue == tglBtnCitizenTemplateEditOff && newToggleValue != null) {
 
             }
-
-
         });
     }
 

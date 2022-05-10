@@ -23,6 +23,9 @@ public class StudentModel {
         this.student = student;
     }
 
+    public String getFullName(){
+        return firstName.get() + " " + lastName.get();
+    }
 
     public String getFirstName() {
         return firstName.get();
