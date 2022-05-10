@@ -1,16 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.net.URL?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
 <AnchorPane fx:id="anchorPaneStudents" prefHeight="400.0" prefWidth="600.0" styleClass="background" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Application.GUI.Controllers.dashboard.Students">
     <AnchorPane layoutX="14.0" layoutY="23.0" prefHeight="362.0" prefWidth="200.0" styleClass="panel30Deg" AnchorPane.bottomAnchor="26.600000000000023" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="23.0">
@@ -29,8 +22,8 @@
                 <RowConstraints maxHeight="96.60001220703126" minHeight="10.0" prefHeight="37.0" vgrow="SOMETIMES" />
                 <RowConstraints maxHeight="173.39998397827148" minHeight="10.0" prefHeight="56.0" vgrow="SOMETIMES" />
             </rowConstraints>
-            <Label fx:id="lblStudentsStudentName" styleClass="nameLbl" text="Rasmus Scherning Sandbæk" GridPane.halignment="CENTER" />
-            <Label fx:id="lblStudentEmail" styleClass="smallPanelLblBold" text="Email" GridPane.rowIndex="1" GridPane.valignment="TOP">
+            <Label fx:id="lblStudentsStudentName" styleClass="nameLbl" GridPane.halignment="CENTER" />
+            <Label fx:id="lblStudentEmail" styleClass="smallPanelLblBold" GridPane.rowIndex="1" GridPane.valignment="TOP">
                 <GridPane.margin>
                     <Insets left="17.0" top="5.0" />
                 </GridPane.margin>

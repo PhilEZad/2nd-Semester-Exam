@@ -60,4 +60,10 @@ public class StudentModel {
     public void setEmail(String email) {
         this.email.set(email);
     }
+
+    @Override
+    public String toString() {
+        return firstName.get() +
+                " " + lastName.get();
+    }
 }
