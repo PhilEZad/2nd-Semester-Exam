@@ -12,7 +12,7 @@ import java.util.List;
 
 public class CaseModel {
 
-    TeacherDataManager teacherBLL;
+    TeacherDataManager teacherBLL = new TeacherDataManager();
 
     private IntegerProperty id;
     private StringProperty caseName;
@@ -21,6 +21,7 @@ public class CaseModel {
 
     public CaseModel(Case caseInfo)
     {
+
         this.id = new SimpleIntegerProperty();
         this.caseName = new SimpleStringProperty();
         this.inquiryReason = new SimpleStringProperty();
@@ -30,8 +31,6 @@ public class CaseModel {
         this.caseName.set(caseInfo.getInquiry().getInquiry());
         this.inquiryReason.set(caseInfo.getInquiryReason());
         this.medicalDiagnose.set(caseInfo.getMedicalDiagnose());
-
-        teacherBLL = new TeacherDataManager();
     }
 
     public CaseModel()

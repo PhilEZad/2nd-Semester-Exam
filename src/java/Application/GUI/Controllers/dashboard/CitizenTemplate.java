@@ -1,5 +1,6 @@
 package Application.GUI.Controllers.dashboard;
 
+import Application.BE.Citizen;
 import Application.GUI.Models.CategoryEntryModel;
 import Application.GUI.Models.CitizenTemplateModel;
 import Application.GUI.Models.ControllerModels.TeacherViewModel;
@@ -82,6 +83,7 @@ public class CitizenTemplate implements Initializable {
     initToggleGroup();
     setFuncTreeTable();
     editModeListener();
+    mockData();
     }
 
 
@@ -220,6 +222,89 @@ public class CitizenTemplate implements Initializable {
         for (TreeItem<CategoryEntryModel> cat : treeTblViewHealth.getRoot().getChildren()) {
             cat.getValue().getLevelImageComboBox().setDisable(editable);
         }
+    }
 
+
+    // FIXME: 10/05/2022 - Mock Data, replace with real data
+    private void mockData()
+    {
+        lblAgeCitizenTemplate.setText("51");
+        lblBirthdateCitizenTemplate.setText("07-05-1970");
+        lblAddressCitizenTemplate.setText("Sprangsbjerg Kirkevej 103, 2.sal TH");
+        lblHelpStatusCitizenTemplate.setText("Aktiv");
+        lblCivilianStatusCitizenTemplate.setText("Gift");
+
+        listViewCitizenTemplateContactInfo.getItems().add("Tlf: 52 74 68 88");
+        listViewCitizenTemplateContactInfo.getItems().add("");
+        listViewCitizenTemplateContactInfo.getItems().add("Kontant Personer:");
+        listViewCitizenTemplateContactInfo.getItems().add("Christian Sandbæk");
+        listViewCitizenTemplateContactInfo.getItems().add("Tlf: 50 74 67 77");
+
+        txtAreaGenInfoMastering.setText("N.N. beskriver sig selv som en person, der altid klarer udfordringer og godt kan lide at lære nyt og engagere sig.\" \"N.N. er nogle dage negativ over sin situation. Med opmuntring genfinder N.N. gejsten til at kæmpe videre.");
+        txtAreaGenInfoMotivation.setText("N.N. har det bedst, når der er rent og pænt i lejligheden: \"Hvis hjemmehjælpen tager det grove, så kan jeg sagtens selv klare resten.\"\" \"N.N. spiser mere, når han sidder foran sit tv med et par stykker smørrebrød.");
+        txtAreaGenInfoRessources.setText("N.N. kan godt lide udfordringer og er god til at lære nyt. N.N. har levet et aktivt liv og er derfor i udmærket fysisk form.");
+        txtAreaGenInfoRoles.setText("N.N. har tidligere været formand i idrætsforeningen. N.N. var indtil fornyelig frivillig leder af den lokale genbrugsbutik.");
+        txtAreaGenInfoHabits.setText("N.N. vil gerne have smykker på hver morgen. N.N vil gerne ryge efter at have spist.");
+        txtAreaGenInfoEduAndJob.setText("N.N. fortæller, at han har arbejdet i det samme firma i hele sit liv. Han ser stadig sine gamle kolleger – fx til jubilæer i firmaet og til arrangementer i seniorklubben. N.N. fortæller at han var uddannet lærer, hvilket han sætter en ære i.");
+        txtAreaGenInfoLifeStory.setText("N.N. fortæller at han blev gift i 1960 og har to børn. N.N. ønsker at være hjemme i den sidste tid. Han ønsker ikke indlæggelse og har aftalt alt det praktiske med børnene.");
+        txtAreaGenInfoHealthInfo.setText("N.N. fortæller, at han blev opereret for prostatacancer for 3 år siden. N.N. fortæller, at han ofte får blærebetændelse.");
+
+        txtAreaGenInfoAssistiveDevices.setText("N.N. har indkøbt badebænk, rollator og gribetang. N.N. har et høreapparat.");
+        txtAreaGenInfoNetwork.setText("N.N. har en barndomsven fra Fyn, som han ringer sammen med 1 gang om ugen. N.N. fortæller, at hans nærmeste venner er fra hans skakklub – der kommer han hver tirsdag, og de ringer altid efter ham, hvis han ikke dukker op. N.N. fortæller, at han får besøg af Mia fra besøgstjenesten hver onsdag.");
+        txtAreaGenInfoHomeLayout.setText("N.N. har svært ved at bevæge sig udenfor sin lejlighed, da der ikke er elevator i bygningen. N.N. har en ældrevenlig bolig med handicapvenligt badeværelse.");
+
+        ObservableList<CitizenTemplateModel> citizenList = FXCollections.observableArrayList();
+
+        CitizenTemplateModel bob = new CitizenTemplateModel();
+        bob.setName("Bob");
+        bob.setSurname("Bygger");
+        citizenList.add(bob);
+
+        CitizenTemplateModel joseph = new CitizenTemplateModel();
+        joseph.setName("Joseph");
+        joseph.setSurname("Hernández");
+        citizenList.add(joseph);
+
+        CitizenTemplateModel ula = new CitizenTemplateModel();
+        ula.setName("Ula");
+        ula.setSurname("Andersen");
+        citizenList.add(ula);
+
+        CitizenTemplateModel anders = new CitizenTemplateModel();
+        anders.setName("Anders");
+        anders.setSurname("And");
+        citizenList.add(anders);
+
+        CitizenTemplateModel stegger = new CitizenTemplateModel();
+        stegger.setName("Peter");
+        stegger.setSurname("Stegger");
+        citizenList.add(stegger);
+
+        CitizenTemplateModel jeppe = new CitizenTemplateModel();
+        jeppe.setName("Jeppe");
+        jeppe.setSurname("Jyske");
+        citizenList.add(jeppe);
+
+        CitizenTemplateModel mads = new CitizenTemplateModel();
+        mads.setName("Mads");
+        mads.setSurname("Barth");
+        citizenList.add(mads);
+
+        CitizenTemplateModel philip = new CitizenTemplateModel();
+        philip.setName("Philip");
+        philip.setSurname("Zadeh");
+        citizenList.add(philip);
+
+        CitizenTemplateModel ramus = new CitizenTemplateModel();
+        ramus.setName("Ramus");
+        ramus.setSurname("Sandbøk");
+        citizenList.add(ramus);
+
+        CitizenTemplateModel kasper = new CitizenTemplateModel();
+        kasper.setName("Kasper");
+        kasper.setSurname("Rasmussen");
+        citizenList.add(kasper);
+
+        listViewCitizenTemplates.setItems(citizenList);
     }
 }

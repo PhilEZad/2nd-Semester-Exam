@@ -5,10 +5,15 @@ import Application.DAL.TemplateMethod.CitizenDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -52,7 +57,14 @@ public class Citizens implements Initializable
     public void onRemoveStudentToCitizen(ActionEvent event) {
     }
 
-    public void onAddStudentToCitizen(ActionEvent event) {
+    public void onAddStudentToCitizen(ActionEvent event) throws IOException {
+        Stage stage = new Stage();
+        Parent root = FXMLLoader.load(this.getClass().getResource("/views/Popups/AddToTaskView.fxml"));
+
+        stage.setTitle("???");
+
+        stage.setScene(new Scene(root));
+        stage.show();
     }
 
     public void onCitizensSearch(ActionEvent event) {

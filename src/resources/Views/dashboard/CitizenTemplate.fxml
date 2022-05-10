@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.String?>
-<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Button?>
@@ -178,7 +177,7 @@
                                                                             <Label alignment="CENTER" prefHeight="18.0" prefWidth="125.0" text="Mestring" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                                                                         </children>
                                                                     </GridPane>
-                                                                    <TextArea fx:id="txtAreaGenInfoMastering" prefHeight="75.0" prefWidth="498.0" />
+                                                                    <TextArea fx:id="txtAreaGenInfoMastering" prefHeight="75.0" prefWidth="498.0" wrapText="true" />
                                                                 </children>
                                                             </HBox>
                                                             <HBox prefHeight="75.0" prefWidth="600.0" styleClass="vboxBotBorder">
@@ -194,7 +193,7 @@
                                                                             <Label alignment="CENTER" prefHeight="18.0" prefWidth="125.0" text="Motivation" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                                                                         </children>
                                                                     </GridPane>
-                                                                    <TextArea fx:id="txtAreaGenInfoMotivation" prefHeight="75.0" prefWidth="498.0" />
+                                                                    <TextArea fx:id="txtAreaGenInfoMotivation" prefHeight="75.0" prefWidth="498.0" wrapText="true" />
                                                                 </children>
                                                             </HBox>
                                                             <HBox prefHeight="75.0" prefWidth="600.0" styleClass="vboxBotBorder">
@@ -210,7 +209,7 @@
                                                                             <Label alignment="CENTER" prefHeight="18.0" prefWidth="125.0" text="Ressourcer" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                                                                         </children>
                                                                     </GridPane>
-                                                                    <TextArea fx:id="txtAreaGenInfoRessources" prefHeight="75.0" prefWidth="498.0" />
+                                                                    <TextArea fx:id="txtAreaGenInfoRessources" prefHeight="75.0" prefWidth="498.0" wrapText="true" />
                                                                 </children>
                                                             </HBox>
                                                             <HBox prefHeight="75.0" prefWidth="600.0" styleClass="vboxBotBorder">
@@ -226,7 +225,7 @@
                                                                             <Label alignment="CENTER" prefHeight="18.0" prefWidth="125.0" text="Roller" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                                                                         </children>
                                                                     </GridPane>
-                                                                    <TextArea fx:id="txtAreaGenInfoRoles" prefHeight="75.0" prefWidth="498.0" />
+                                                                    <TextArea fx:id="txtAreaGenInfoRoles" prefHeight="75.0" prefWidth="498.0" wrapText="true" />
                                                                 </children>
                                                             </HBox>
                                                             <HBox prefHeight="75.0" prefWidth="600.0" styleClass="vboxBotBorder">
@@ -242,7 +241,7 @@
                                                                             <Label alignment="CENTER" prefHeight="42.0" prefWidth="126.0" text="Vaner" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                                                                         </children>
                                                                     </GridPane>
-                                                                    <TextArea fx:id="txtAreaGenInfoHabits" prefHeight="75.0" prefWidth="498.0" />
+                                                                    <TextArea fx:id="txtAreaGenInfoHabits" prefHeight="75.0" prefWidth="498.0" wrapText="true" />
                                                                 </children>
                                                             </HBox>
                                                             <HBox prefHeight="75.0" prefWidth="600.0" styleClass="vboxBotBorder">
@@ -258,7 +257,7 @@
                                                                             <Label alignment="CENTER" prefHeight="43.0" prefWidth="106.0" text="Uddannelse og Job" textAlignment="CENTER" wrapText="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                                                                         </children>
                                                                     </GridPane>
-                                                                    <TextArea fx:id="txtAreaGenInfoEduAndJob" prefHeight="75.0" prefWidth="498.0" />
+                                                                    <TextArea fx:id="txtAreaGenInfoEduAndJob" prefHeight="75.0" prefWidth="498.0" wrapText="true" />
                                                                 </children>
                                                             </HBox>
                                                             <HBox prefHeight="75.0" prefWidth="600.0" styleClass="vboxBotBorder">
@@ -274,7 +273,7 @@
                                                                             <Label alignment="CENTER" prefHeight="18.0" prefWidth="125.0" text="Livshistorie" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                                                                         </children>
                                                                     </GridPane>
-                                                                    <TextArea fx:id="txtAreaGenInfoLifeStory" prefHeight="75.0" prefWidth="498.0" />
+                                                                    <TextArea fx:id="txtAreaGenInfoLifeStory" prefHeight="75.0" prefWidth="498.0" wrapText="true" />
                                                                 </children>
                                                             </HBox>
                                                             <HBox prefHeight="75.0" prefWidth="600.0" styleClass="vboxPadding">
@@ -290,7 +289,7 @@
                                                                             <Label alignment="CENTER" prefHeight="18.0" prefWidth="125.0" text="Helbredsoplysniger" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                                                                         </children>
                                                                     </GridPane>
-                                                                    <TextArea fx:id="txtAreaGenInfoHealthInfo" prefHeight="75.0" prefWidth="498.0" />
+                                                                    <TextArea fx:id="txtAreaGenInfoHealthInfo" prefHeight="75.0" prefWidth="498.0" wrapText="true" />
                                                                 </children>
                                                             </HBox>
                                                             <Label styleClass="lblBackgroundBold" text="Omgivelses Faktorer">
@@ -311,7 +310,7 @@
                                                                             <Label alignment="CENTER" prefHeight="18.0" prefWidth="125.0" text="Hjælpemidler" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                                                                         </children>
                                                                     </GridPane>
-                                                                    <TextArea fx:id="txtAreaGenInfoAssistiveDevices" prefHeight="75.0" prefWidth="498.0" />
+                                                                    <TextArea fx:id="txtAreaGenInfoAssistiveDevices" prefHeight="75.0" prefWidth="498.0" wrapText="true" />
                                                                 </children>
                                                             </HBox>
                                                             <HBox prefHeight="75.0" prefWidth="600.0" styleClass="vboxBotBorder">
@@ -327,7 +326,7 @@
                                                                             <Label alignment="CENTER" prefHeight="18.0" prefWidth="125.0" text="Boligens Indretning" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                                                                         </children>
                                                                     </GridPane>
-                                                                    <TextArea fx:id="txtAreaGenInfoHomeLayout" prefHeight="75.0" prefWidth="498.0" />
+                                                                    <TextArea fx:id="txtAreaGenInfoHomeLayout" prefHeight="75.0" prefWidth="498.0" wrapText="true" />
                                                                 </children>
                                                             </HBox>
                                                             <HBox prefHeight="75.0" prefWidth="600.0" styleClass="vboxPadding">
@@ -343,7 +342,7 @@
                                                                             <Label alignment="CENTER" prefHeight="18.0" prefWidth="125.0" text="Netværk" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                                                                         </children>
                                                                     </GridPane>
-                                                                    <TextArea fx:id="txtAreaGenInfoNetwork" prefHeight="75.0" prefWidth="498.0" />
+                                                                    <TextArea fx:id="txtAreaGenInfoNetwork" prefHeight="75.0" prefWidth="498.0" wrapText="true" />
                                                                 </children>
                                                             </HBox>
                                                         </children>

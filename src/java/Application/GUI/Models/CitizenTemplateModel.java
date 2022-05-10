@@ -277,4 +277,9 @@ public class CitizenTemplateModel {
     public void setHealthConditions(ObservableList<CategoryEntryModel> healthConditions) {
         this.healthConditions = healthConditions;
     }
+
+    @Override
+    public String toString() {
+        return name.get() + " " +surname.get();
+    }
 }

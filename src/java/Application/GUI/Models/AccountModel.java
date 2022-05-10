@@ -17,6 +17,7 @@ public class AccountModel
     private StringProperty firstName;
     private StringProperty lastName;
     private StringProperty email;
+    private StringProperty accountClass;
 
     private Account account;
 
@@ -31,10 +32,12 @@ public class AccountModel
         this.firstName = new SimpleStringProperty();
         this.lastName = new SimpleStringProperty();
         this.email = new SimpleStringProperty();
+        this.accountClass = new SimpleStringProperty();
 
         firstName.set(account.getFirstName());
         lastName.set(account.getLastName());
         email.set(account.getEmail());
+        accountClass.set(account.getClass().getName());
     }
 
     public String getFirstName() {
@@ -84,5 +87,22 @@ public class AccountModel
     {
         var account = adminDataManager.createAccount(username, password, firstName, surname, email, school, i);
         accounts.add(account);
+    }
+
+    public String getAccountClass() {
+        return accountClass.get();
+    }
+
+    public StringProperty accountClassProperty() {
+        return accountClass;
+    }
+
+    public void setAccountClass(String accountClass) {
+        this.accountClass.set(accountClass);
+    }
+
+    @Override
+    public String toString() {
+        return firstName.get();
     }
 }
