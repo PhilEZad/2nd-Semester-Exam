@@ -124,5 +124,8 @@ public class Citizen
         this.lastname = lastname;
     }
 
-
+    @Override
+    public String toString() {
+        return "" +firstname +" " +lastname + " "+ age;
+    }
 }
