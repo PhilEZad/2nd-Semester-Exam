@@ -57,7 +57,11 @@ public class AccountModel
         return lastName;
     }
 
-    public StringProperty getFullNameProperty(){return new SimpleStringProperty(firstName + " " + lastName);}
+    public StringProperty getFullNameProperty() {
+        StringProperty fullName = new SimpleStringProperty();
+        fullName.set(getFirstName() + " " + getLastName());
+        return fullName;
+    }
 
     public void setLastName(String lastName) {
         this.lastName.set(lastName);
