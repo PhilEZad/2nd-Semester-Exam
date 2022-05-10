@@ -1,6 +1,7 @@
 package Application.GUI.Controllers.dashboard;
 
 import Application.BE.Citizen;
+import Application.GUI.Models.AccountModel;
 import Application.GUI.Models.CategoryEntryModel;
 import Application.GUI.Models.CitizenTemplateModel;
 import Application.GUI.Models.ControllerModels.TeacherViewModel;
@@ -9,6 +10,8 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -16,6 +19,7 @@ import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class CitizenTemplate implements Initializable {
@@ -83,6 +87,7 @@ public class CitizenTemplate implements Initializable {
     initToggleGroup();
     setFuncTreeTable();
     editModeListener();
+    initCitizenTemplatesList();
     mockData();
     }
 
@@ -162,12 +167,38 @@ public class CitizenTemplate implements Initializable {
     }
 
     private void initCitizenTemplatesList(){
-        listViewCitizenTemplates.setItems(teacherViewModel.getCitizenTemplates());
-        listViewCitizenTemplates.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            teacherViewModel.setSelectedCitizenTemplateModel((CitizenTemplateModel) newValue);
-            setDataToCitizenTemplateView();
+
+//Wrap ObservableList of UserInfo in a FilteredList.
+        FilteredList<CitizenTemplateModel> filteredData = new FilteredList<>(mockList(), b -> true);
+
+        //Sets the filter predict when filter changes.
+
+        txtFieldCitizenTemplateSearch.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(data -> {
+
+                //If filter is empty, display all accounts.
+                if (newValue == null || newValue.isEmpty())
+                {
+                    return true;
+                }
+
+                //Compare Account name with filter text.
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                if (data.getFullName().toLowerCase().indexOf(lowerCaseFilter) != -1)
+                {
+                    return true;
+                } else return false;
+            });
         });
+
+        SortedList<CitizenTemplateModel> sortedUsers = new SortedList<>(filteredData);
+
+        listViewCitizenTemplates.setItems(sortedUsers);
     }
+
+
+
 
     private void setDataToCitizenTemplateView(){
         lblCitizenTemplateName.setText(teacherViewModel.getSelectedCitizenTemplateModel().getName());
@@ -224,7 +255,6 @@ public class CitizenTemplate implements Initializable {
         }
     }
 
-
     // FIXME: 10/05/2022 - Mock Data, replace with real data
     private void mockData()
     {
@@ -252,6 +282,10 @@ public class CitizenTemplate implements Initializable {
         txtAreaGenInfoAssistiveDevices.setText("N.N. har indkøbt badebænk, rollator og gribetang. N.N. har et høreapparat.");
         txtAreaGenInfoNetwork.setText("N.N. har en barndomsven fra Fyn, som han ringer sammen med 1 gang om ugen. N.N. fortæller, at hans nærmeste venner er fra hans skakklub – der kommer han hver tirsdag, og de ringer altid efter ham, hvis han ikke dukker op. N.N. fortæller, at han får besøg af Mia fra besøgstjenesten hver onsdag.");
         txtAreaGenInfoHomeLayout.setText("N.N. har svært ved at bevæge sig udenfor sin lejlighed, da der ikke er elevator i bygningen. N.N. har en ældrevenlig bolig med handicapvenligt badeværelse.");
+    }
+
+    private ObservableList<CitizenTemplateModel> mockList()
+    {
 
         ObservableList<CitizenTemplateModel> citizenList = FXCollections.observableArrayList();
 
@@ -297,7 +331,7 @@ public class CitizenTemplate implements Initializable {
 
         CitizenTemplateModel ramus = new CitizenTemplateModel();
         ramus.setName("Ramus");
-        ramus.setSurname("Sandbøk");
+        ramus.setSurname("Sandbæk");
         citizenList.add(ramus);
 
         CitizenTemplateModel kasper = new CitizenTemplateModel();
@@ -305,6 +339,6 @@ public class CitizenTemplate implements Initializable {
         kasper.setSurname("Rasmussen");
         citizenList.add(kasper);
 
-        listViewCitizenTemplates.setItems(citizenList);
+        return  citizenList;
     }
 }

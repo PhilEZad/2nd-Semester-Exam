@@ -106,10 +106,10 @@ public class AddToTaskViewController implements Initializable {
     public void initEventListeners()
     {
         tblClmAccountName.setCellValueFactory(param -> param.getValue().getFullNameProperty());
-        tblClmAccountClass.setCellValueFactory(param -> param.getValue().accountClassProperty());
+        tblClmAccountClass.setCellValueFactory(param -> param.getValue().getClassNameProperty());
 
         clmAddedAccountName.setCellValueFactory(param -> param.getValue().getFullNameProperty());
-        clmAddedAccountClass.setCellValueFactory(param -> param.getValue().accountClassProperty());
+        clmAddedAccountClass.setCellValueFactory(param -> param.getValue().getClassNameProperty());
 
         //Wrap ObservableList of UserInfo in a FilteredList.
         FilteredList<AccountModel> filteredData = new FilteredList<>(mockAccounts(), b -> true);

@@ -86,6 +86,10 @@ public class CitizenTemplateModel {
         return name.get();
     }
 
+    public String getFullName() {
+        return name.get() + " " + surname.get();
+    }
+
     public StringProperty nameProperty() {
         return name;
     }

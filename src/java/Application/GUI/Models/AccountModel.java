@@ -37,7 +37,7 @@ public class AccountModel
         firstName.set(account.getFirstName());
         lastName.set(account.getLastName());
         email.set(account.getEmail());
-        accountClass.set(account.getClass().getName());
+        accountClass.set(account.getSchool().getSchoolName());
     }
 
     public String getFirstName() {
@@ -105,8 +105,10 @@ public class AccountModel
         this.accountClass.set(accountClass);
     }
 
-    @Override
-    public String toString() {
-        return firstName.get();
+    public StringProperty getClassNameProperty()
+    {
+        StringProperty className = new SimpleStringProperty();
+        className.set(accountClass.get());
+        return className;
     }
 }
