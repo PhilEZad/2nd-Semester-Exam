@@ -1,6 +1,8 @@
 package Application.GUI.Models;
 
 import Application.BE.CategoryEntry;
+import Application.BE.CitizenBaseData;
+import Application.BE.CitizenTemplate;
 import Application.BE.ContactInfo;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
@@ -10,7 +12,10 @@ import javafx.scene.control.TreeItem;
 import java.time.LocalDate;
 import java.util.stream.Collectors;
 
+
 public class CitizenTemplateModel implements Cloneable {
+
+    CitizenTemplate template;
 
     private StringProperty name;
     private StringProperty surname;
@@ -21,22 +26,12 @@ public class CitizenTemplateModel implements Cloneable {
     private StringProperty address;
     private ListProperty<ContactInfo> contactInfo;
 
-    private String mastering;
-    private String motivation;
-    private String resources;
-    private String roles;
-    private String habits;
-    private String eduAndJob;
-    private String lifeStory;
-    private String healthInfo;
-    private String assistiveDevices;
-    private String homeLayout;
-    private String network;
 
     private ObservableList<CategoryEntryModel> relevantFunctionalAbilities;
     private ObservableList<CategoryEntryModel> relevantHealthConditions;
     private ObservableList<CategoryEntryModel> nonRelevantFunctionalAbilities;
     private ObservableList<CategoryEntryModel> nonRelevantHealthConditions;
+
 
 
     public CitizenTemplateModel(String name, String surname, LocalDate birthDate, String helpStatus, String civilianStatus, String address, ObservableList<ContactInfo> contactInfo) {
@@ -70,8 +65,13 @@ public class CitizenTemplateModel implements Cloneable {
         initHealthConditions();
     }
 
-    public CitizenTemplateModel() {
+    public CitizenTemplateModel()
+    {
+        template = new CitizenTemplate();
+
+        this.name.bindBidirectional(new SimpleStringProperty(template.getBaseData().getName()));
         initProperties();
+
         this.name = new SimpleStringProperty();
         this.surname = new SimpleStringProperty();
         this.age = new SimpleIntegerProperty();
@@ -79,19 +79,9 @@ public class CitizenTemplateModel implements Cloneable {
         this.civilianStatus = new SimpleStringProperty();
         this.address = new SimpleStringProperty();
         this.contactInfo = new SimpleListProperty<>();
-        this.birthDate = LocalDate.now();
-        this.mastering = "";
-        this.motivation = "";
-        this.resources = "";
-        this.roles = "";
-        this.habits = "";
-        this.eduAndJob = "";
-        this.lifeStory = "";
-        this.healthInfo = "";
-        this.assistiveDevices = "";
-        this.homeLayout = "";
-        this.network = "";
 
+        this.functionalAbilities = null;
+        this.healthConditions = null;
 
         this.relevantFunctionalAbilities = FXCollections.observableArrayList();
         this.relevantHealthConditions = FXCollections.observableArrayList();
@@ -118,29 +108,36 @@ public class CitizenTemplateModel implements Cloneable {
     }
 
     private void initFunctionalAbilities() {
-        relevantFunctionalAbilities.add(new CategoryEntryModel(new CategoryEntry(0, "Walking", 1, true)));
-        relevantFunctionalAbilities.add(new CategoryEntryModel(new CategoryEntry(0, "Climbing", 1, true)));
-        relevantFunctionalAbilities.add(new CategoryEntryModel(new CategoryEntry(0, "Swimming", 1, true)));
-        relevantFunctionalAbilities.add(new CategoryEntryModel(new CategoryEntry(0, "Bathing", 4, true)));
 
-        nonRelevantFunctionalAbilities.add(new CategoryEntryModel(new CategoryEntry(0, "Sleeping", 0, true)));
-        nonRelevantFunctionalAbilities.add(new CategoryEntryModel(new CategoryEntry(0, "Eating", 0, true)));
-        nonRelevantFunctionalAbilities.add(new CategoryEntryModel(new CategoryEntry(0, "Toileting", 0, true)));
+        functionalAbilities = FXCollections.observableArrayList();
+        functionalAbilities.add(new CategoryEntryModel(new CategoryEntry(0, "Walking", 1, true)));
+        functionalAbilities.add(new CategoryEntryModel(new CategoryEntry(0, "Climbing", 1, true)));
+        functionalAbilities.add(new CategoryEntryModel(new CategoryEntry(0, "Swimming", 1, true)));
+        functionalAbilities.add(new CategoryEntryModel(new CategoryEntry(0, "Bathing", 4, true)));
+
+        relevantFunctionalAbilities.add(new CategoryEntryModel(new CategoryEntry(0, "Walking", 1, true, false)));
+        relevantFunctionalAbilities.add(new CategoryEntryModel(new CategoryEntry(0, "Climbing", 1, true, false)));
+        relevantFunctionalAbilities.add(new CategoryEntryModel(new CategoryEntry(0, "Swimming", 1, true, false)));
+        relevantFunctionalAbilities.add(new CategoryEntryModel(new CategoryEntry(0, "Bathing", 4, true, false)));
+
+        nonRelevantFunctionalAbilities.add(new CategoryEntryModel(new CategoryEntry(0, "Sleeping", 0, true, false)));
+        nonRelevantFunctionalAbilities.add(new CategoryEntryModel(new CategoryEntry(0, "Eating", 0, true, false)));
+        nonRelevantFunctionalAbilities.add(new CategoryEntryModel(new CategoryEntry(0, "Toileting", 0, true, false)));
 
         relevantFunctionalAbilities.add(new CategoryEntryModel("Other", 2, "note", true));
         nonRelevantFunctionalAbilities.add(new CategoryEntryModel("Other", 0, "note", true));
     }
 
     private void initHealthConditions() {
-        relevantHealthConditions.add(new CategoryEntryModel(new CategoryEntry(0, "Diabetes", 1, false)));
-        relevantHealthConditions.add(new CategoryEntryModel(new CategoryEntry(0, "High Blood Pressure", 1, false)));
-        relevantHealthConditions.add(new CategoryEntryModel(new CategoryEntry(0, "Heart Disease", 1, false)));
-        relevantHealthConditions.add(new CategoryEntryModel(new CategoryEntry(0, "Asthma", 1, false)));
-        relevantHealthConditions.add(new CategoryEntryModel(new CategoryEntry(0, "Epilepsy", 1, false)));
-        relevantHealthConditions.add(new CategoryEntryModel(new CategoryEntry(0, "Allergies", 1, false)));
-        relevantHealthConditions.add(new CategoryEntryModel(new CategoryEntry(0, "Other", 1, false)));
+        relevantHealthConditions.add(new CategoryEntryModel(new CategoryEntry(0, "Diabetes", 1, false, false)));
+        relevantHealthConditions.add(new CategoryEntryModel(new CategoryEntry(0, "High Blood Pressure", 1, false, false)));
+        relevantHealthConditions.add(new CategoryEntryModel(new CategoryEntry(0, "Heart Disease", 1, false, false)));
+        relevantHealthConditions.add(new CategoryEntryModel(new CategoryEntry(0, "Asthma", 1, false, false)));
+        relevantHealthConditions.add(new CategoryEntryModel(new CategoryEntry(0, "Epilepsy", 1, false, false)));
+        relevantHealthConditions.add(new CategoryEntryModel(new CategoryEntry(0, "Allergies", 1, false, false)));
+        relevantHealthConditions.add(new CategoryEntryModel(new CategoryEntry(0, "Other", 1, false, false)));
 
-        nonRelevantHealthConditions.add(new CategoryEntryModel(new CategoryEntry(0, "None", 0, false)));
+        nonRelevantHealthConditions.add(new CategoryEntryModel(new CategoryEntry(0, "None", 0, false, false)));
 
         relevantHealthConditions.add(new CategoryEntryModel("Other", 1, "note", false));
         nonRelevantHealthConditions.add(new CategoryEntryModel("Other", 0, "note", false));
@@ -239,93 +236,9 @@ public class CitizenTemplateModel implements Cloneable {
         this.contactInfo.set(contactInfo);
     }
 
-    public String getMastering() {
-        return mastering;
-    }
 
-    public void setMastering(String mastering) {
-        this.mastering = mastering;
-    }
-
-    public String getMotivation() {
-        return motivation;
-    }
-
-    public void setMotivation(String motivation) {
-        this.motivation = motivation;
-    }
-
-    public String getResources() {
-        return resources;
-    }
-
-    public void setResources(String resources) {
-        this.resources = resources;
-    }
-
-    public String getRoles() {
-        return roles;
-    }
-
-    public void setRoles(String roles) {
-        this.roles = roles;
-    }
-
-    public String getHabits() {
-        return habits;
-    }
-
-    public void setHabits(String habits) {
-        this.habits = habits;
-    }
-
-    public String getEduAndJob() {
-        return eduAndJob;
-    }
-
-    public void setEduAndJob(String eduAndJob) {
-        this.eduAndJob = eduAndJob;
-    }
-
-    public String getLifeStory() {
-        return lifeStory;
-    }
-
-    public void setLifeStory(String lifeStory) {
-        this.lifeStory = lifeStory;
-    }
-
-    public String getHealthInfo() {
-        return healthInfo;
-    }
-
-    public void setHealthInfo(String healthInfo) {
-        this.healthInfo = healthInfo;
-    }
-
-    public String getAssistiveDevices() {
-        return assistiveDevices;
-    }
-
-    public void setAssistiveDevices(String assistiveDevices) {
-        this.assistiveDevices = assistiveDevices;
-    }
-
-    public String getHomeLayout() {
-        return homeLayout;
-    }
-
-    public void setHomeLayout(String homeLayout) {
-        this.homeLayout = homeLayout;
-    }
-
-    public String getNetwork() {
-        return network;
-    }
-
-    public void setNetwork(String network) {
-        this.network = network;
-    }
+    public ObservableList<CategoryEntryModel> getFunctionalAbilities() {
+        return functionalAbilities;
 
     public ObservableList<CategoryEntryModel> getNonRelevantFunctionalAbilities() {
         return nonRelevantFunctionalAbilities;

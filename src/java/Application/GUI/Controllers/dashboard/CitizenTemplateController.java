@@ -434,8 +434,8 @@ public class CitizenTemplateController implements Initializable {
 
 
             model.saveEditedCitizenTemplate();
-            treeTblViewFunc.setRoot(model.getNewRelevantFuncCategoriesAsTreeItem());
-            treeTblViewHealth.setRoot(model.getNewRelevantHealthCategoriesAsTreeItem());
+            treeTblViewFunc.setRoot(model.getRelevantFuncCategoriesAsTreeItem());
+            treeTblViewHealth.setRoot(model.getRelevantHealthCategoriesAsTreeItem());
             setEditable(false);
         }
     }

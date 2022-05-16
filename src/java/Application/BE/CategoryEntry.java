@@ -13,8 +13,9 @@ public class CategoryEntry {
     private String expectedCondition;
     private String note;
     private boolean isFunctionAbility;
+    private boolean isSuperCategory;
 
-    public CategoryEntry(int id, String categoryName, int level, boolean isFunctionAbility) {
+    public CategoryEntry(int id, String categoryName, int level, boolean isFunctionAbility, boolean isSuperCategory) {
         this.id = id;
         this.categoryName = categoryName;
         this.level = level;

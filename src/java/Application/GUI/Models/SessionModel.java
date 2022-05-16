@@ -58,8 +58,4 @@ public class SessionModel {
         return this.account != null;
     }
 
-
-    /*
-     * todo: move below code to a different model (some model for the admin view ?)
-     * */
 }

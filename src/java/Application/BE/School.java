@@ -1,8 +1,8 @@
 package Application.BE;
-import Application.DAL.Annotations.SQLColumn;
-import Application.DAL.Annotations.SQLGetter;
-import Application.DAL.Annotations.SQLSetter;
-import Application.DAL.Annotations.SQLTable;
+import Application.DAL.TemplateMethod.Annotations.SQLColumn;
+import Application.DAL.TemplateMethod.Annotations.SQLGetter;
+import Application.DAL.TemplateMethod.Annotations.SQLSetter;
+import Application.DAL.TemplateMethod.Annotations.SQLTable;
 
 @SQLTable(name = "schools")
 public class School {

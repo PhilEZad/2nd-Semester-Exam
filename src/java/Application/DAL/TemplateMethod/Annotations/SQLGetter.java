@@ -1,4 +1,4 @@
-package Application.DAL.Annotations;
+package Application.DAL.TemplateMethod.Annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

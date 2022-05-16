@@ -1,10 +1,8 @@
 package Application.GUI.Models.ControllerModels;
 
 import Application.BE.ContactInfo;
-import Application.GUI.Models.CategoryEntryModel;
-import Application.GUI.Models.CitizenModel;
-import Application.GUI.Models.CitizenTemplateModel;
-import com.sun.source.tree.Tree;
+import Application.BLL.TeacherDataManager;
+import Application.GUI.Models.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TreeItem;
@@ -15,6 +13,8 @@ import java.util.List;
 
 public class CitizenTemplateControllerModel {
 
+    private TeacherDataManager teacherDataManager;
+
     private CitizenTemplateModel selectedCitizenTemplateModel;
 
     //Copies from before the editMode is activated
@@ -22,6 +22,9 @@ public class CitizenTemplateControllerModel {
     private TreeItem<CategoryEntryModel> preEditFunctionCategoryEntryModels;
     private CitizenTemplateModel preEditCitizenTemplateModel;
 
+    public CitizenTemplateControllerModel() {
+        teacherDataManager = new TeacherDataManager();
+    }
 
     public void citizenTemplateSearch() {
     }
@@ -170,7 +173,78 @@ public class CitizenTemplateControllerModel {
      * Save all the edits to the citizen template to the DB.
      */
     public void saveEditedCitizenTemplate() {
-        //TODO save to DB
+        if (preEditCitizenTemplateModel != null) {
+            ObservableList<CategoryEntryModel> newHealthRoot = selectedCitizenTemplateModel.getAllHealthConditions();
+            ObservableList<CategoryEntryModel> newFuncRoot = selectedCitizenTemplateModel.getAllFuncCategories();
+            List<CategoryEntryModel> allOldHealth = new ArrayList<>(preEditCitizenTemplateModel.getAllHealthConditions());
+            List<CategoryEntryModel> allOldFunc = new ArrayList<>(preEditCitizenTemplateModel.getAllFuncCategories());
+
+
+            ObservableList<CategoryEntryModel> newRelevantHealthConditions = FXCollections.observableArrayList();
+            ObservableList<CategoryEntryModel> newRelevantFunctionalAbilities = FXCollections.observableArrayList();
+            ObservableList<CategoryEntryModel> newNonRelevantHealthConditions = FXCollections.observableArrayList();
+            ObservableList<CategoryEntryModel> newNonRelevantFunctionalAbilities = FXCollections.observableArrayList();
+
+            List<CategoryEntryModel> dbWriteHealthConditions = new ArrayList<>();
+            List<CategoryEntryModel> dbWriteFunctionalAbilities = new ArrayList<>();
+
+            for (CategoryEntryModel newHealth : newHealthRoot) {
+                if (newHealth.getLevelHealth() != HealthLevels.NOT_RELEVANT) {
+                    newRelevantHealthConditions.add(newHealth);
+                }
+                else {
+                    newNonRelevantHealthConditions.add(newHealth);
+                }
+            }
+
+
+            for (CategoryEntryModel newFunc : newFuncRoot) {
+                if (newFunc.getLevelFunc() != FunctionalLevels.LEVEL_9) {
+                    newRelevantFunctionalAbilities.add(newFunc);
+                }
+                else {
+                    newNonRelevantFunctionalAbilities.add(newFunc);
+                }
+            }
+
+            selectedCitizenTemplateModel.setRelevantHealthConditions(newRelevantHealthConditions);
+            selectedCitizenTemplateModel.setRelevantFunctionalAbilities(newRelevantFunctionalAbilities);
+            selectedCitizenTemplateModel.setNonRelevantHealthConditions(newNonRelevantHealthConditions);
+            selectedCitizenTemplateModel.setNonRelevantFunctionalAbilities(newNonRelevantFunctionalAbilities);
+
+            //List of changed health conditions
+            dbWriteHealthConditions.addAll(newRelevantHealthConditions);
+            dbWriteHealthConditions.addAll(newNonRelevantHealthConditions);
+            for (CategoryEntryModel health : dbWriteHealthConditions) {
+                int index = allOldHealth.indexOf(health);
+                if (index != -1) {
+                    int compare = health.compareTo(allOldHealth.get(index));
+                    if (compare != 0) {
+                        dbWriteHealthConditions.remove(health);
+                    }
+                }
+            }
+
+
+            //List of changed functional abilities
+            dbWriteFunctionalAbilities.addAll(newRelevantFunctionalAbilities);
+            dbWriteFunctionalAbilities.addAll(newNonRelevantFunctionalAbilities);
+            for (CategoryEntryModel func : dbWriteFunctionalAbilities) {
+                int index = allOldFunc.indexOf(func);
+                if (index != -1) {
+                    int compare = func.compareTo(allOldHealth.get(index));
+                    if (compare != 0) {
+                        dbWriteHealthConditions.remove(func);
+                    }
+                }
+            }
+
+
+
+
+            //teacherDataManager.saveCitizenTemplate(selectedCitizenTemplateModel.getBE());
+
+        }
     }
 
     /**

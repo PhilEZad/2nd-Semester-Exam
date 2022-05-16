@@ -10,7 +10,7 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class CategoryEntryModel {
+public class CategoryEntryModel implements Comparable<CategoryEntryModel> {
 
 
     private int id;
@@ -29,6 +29,7 @@ public class CategoryEntryModel {
     private StringProperty note;
     private boolean isFunctionAbility;
     private CategoryEntry categoryEntry;
+
 
 
     public CategoryEntryModel(CategoryEntry categoryEntry) {
@@ -407,5 +408,20 @@ public class CategoryEntryModel {
     }
 
 
+    @Override
+    public int compareTo(CategoryEntryModel o) {
+        if(o.getId() != this.getId()){
+            return this.getId() - o.getId();
+        }
+        int name = this.getCategoryEntry().getCategoryName().compareTo(o.getCategoryEntry().getCategoryName());
+        int levelCompare = this.getLevel() - o.getLevel();
+        int assessmentCompare = this.getAssessment().compareTo(o.getAssessment());
+        int causeCompare = this.getCause().compareTo(o.getCause());
+        int implicationsCompare = this.getImplications().compareTo(o.getImplications());
+        int citizenGoalsCompare = this.getCitizenGoals().compareTo(o.getCitizenGoals());
+        int expectedConditionCompare = this.getExpectedCondition().compareTo(o.getExpectedCondition());
+        int noteCompare = this.getNote().compareTo(o.getNote());
 
+        return name + levelCompare + assessmentCompare + causeCompare + implicationsCompare + citizenGoalsCompare + expectedConditionCompare + noteCompare;
+    }
 }

@@ -29,5 +29,8 @@ public class TeacherDataManager
         return inquiryDAO.readAll();
     }
 
+    public List getAllCitizenTemplates() {
+        return null;
+    }
 
 }
