@@ -17,7 +17,7 @@ public class CitizenTemplateModel implements Cloneable {
 
     CitizenTemplate template;
 
-    private StringProperty name;
+    private StringProperty name = new SimpleStringProperty();
     private StringProperty surname;
     private IntegerProperty age;
     private LocalDate birthDate;
@@ -35,7 +35,8 @@ public class CitizenTemplateModel implements Cloneable {
 
 
     public CitizenTemplateModel(String name, String surname, LocalDate birthDate, String helpStatus, String civilianStatus, String address, ObservableList<ContactInfo> contactInfo) {
-        initProperties();
+        this();
+
         this.name.set(name);
         this.surname.set(surname);
         this.age.set((LocalDate.now().getYear()) - (birthDate.getYear()));
@@ -44,17 +45,6 @@ public class CitizenTemplateModel implements Cloneable {
         this.address.set(address);
         this.contactInfo.set(contactInfo);
         this.birthDate = birthDate;
-        this.mastering = "";
-        this.motivation = "";
-        this.resources = "";
-        this.roles = "";
-        this.habits = "";
-        this.eduAndJob = "";
-        this.lifeStory = "";
-        this.healthInfo = "";
-        this.assistiveDevices = "";
-        this.homeLayout = "";
-        this.network = "";
 
         this.relevantFunctionalAbilities = FXCollections.observableArrayList();
         this.relevantHealthConditions = FXCollections.observableArrayList();
@@ -70,26 +60,21 @@ public class CitizenTemplateModel implements Cloneable {
         template = new CitizenTemplate();
 
         this.name.bindBidirectional(new SimpleStringProperty(template.getBaseData().getName()));
-        initProperties();
-
-        this.name = new SimpleStringProperty();
-        this.surname = new SimpleStringProperty();
-        this.age = new SimpleIntegerProperty();
-        this.helpStatus = new SimpleStringProperty();
-        this.civilianStatus = new SimpleStringProperty();
-        this.address = new SimpleStringProperty();
-        this.contactInfo = new SimpleListProperty<>();
-
-        this.functionalAbilities = null;
-        this.healthConditions = null;
 
         this.relevantFunctionalAbilities = FXCollections.observableArrayList();
         this.relevantHealthConditions = FXCollections.observableArrayList();
+
         this.nonRelevantFunctionalAbilities = FXCollections.observableArrayList();
         this.nonRelevantHealthConditions = FXCollections.observableArrayList();
 
+        initProperties();
         initFunctionalAbilities();
         initHealthConditions();
+    }
+
+    public CitizenTemplate getTemplate()
+    {
+        return this.template;
     }
 
     private void initProperties() {
@@ -109,16 +94,12 @@ public class CitizenTemplateModel implements Cloneable {
 
     private void initFunctionalAbilities() {
 
-        functionalAbilities = FXCollections.observableArrayList();
-        functionalAbilities.add(new CategoryEntryModel(new CategoryEntry(0, "Walking", 1, true)));
-        functionalAbilities.add(new CategoryEntryModel(new CategoryEntry(0, "Climbing", 1, true)));
-        functionalAbilities.add(new CategoryEntryModel(new CategoryEntry(0, "Swimming", 1, true)));
-        functionalAbilities.add(new CategoryEntryModel(new CategoryEntry(0, "Bathing", 4, true)));
 
-        relevantFunctionalAbilities.add(new CategoryEntryModel(new CategoryEntry(0, "Walking", 1, true, false)));
-        relevantFunctionalAbilities.add(new CategoryEntryModel(new CategoryEntry(0, "Climbing", 1, true, false)));
-        relevantFunctionalAbilities.add(new CategoryEntryModel(new CategoryEntry(0, "Swimming", 1, true, false)));
-        relevantFunctionalAbilities.add(new CategoryEntryModel(new CategoryEntry(0, "Bathing", 4, true, false)));
+        template.addFunctionalAbility(new CategoryEntry(0, "Walking", 1, true, false));
+
+        template.addFunctionalAbility(new CategoryEntry(0, "Climbing", 1, true, false));
+        template.addFunctionalAbility(new CategoryEntry(0, "Swimming", 1, true, false));
+        template.addFunctionalAbility(new CategoryEntry(0, "Bathing", 4, true, false));
 
         nonRelevantFunctionalAbilities.add(new CategoryEntryModel(new CategoryEntry(0, "Sleeping", 0, true, false)));
         nonRelevantFunctionalAbilities.add(new CategoryEntryModel(new CategoryEntry(0, "Eating", 0, true, false)));
@@ -238,7 +219,8 @@ public class CitizenTemplateModel implements Cloneable {
 
 
     public ObservableList<CategoryEntryModel> getFunctionalAbilities() {
-        return functionalAbilities;
+        return new SimpleListProperty(FXCollections.observableArrayList(template.getFunctionalAbilities()));
+    }
 
     public ObservableList<CategoryEntryModel> getNonRelevantFunctionalAbilities() {
         return nonRelevantFunctionalAbilities;

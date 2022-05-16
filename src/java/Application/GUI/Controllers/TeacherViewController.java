@@ -70,9 +70,6 @@ public class TeacherViewController implements Initializable {
         stateMachine.addState(tglBtnStudents, new State(anchorPaneStudents, tglBtnStudents)); // Students
         stateMachine.addState(tglBtnCitizenTemplates, new State(anchorPaneCitizenTemplate, tglBtnCitizenTemplates)); // Citizen Templates
         stateMachine.addState(tglBtnCitizens, new State(anchorPaneCitizens, tglBtnCitizens)); // Citizens
-        stateMachine.addState(tglBtnCases, new State(anchorPaneCases, tglBtnCases)); // Cases
-        stateMachine.addState(tglBtnAssignments, new State(anchorPaneAssignments, tglBtnAssignments)); // Assignments
-        stateMachine.addState(tglBtnJournals, new State(anchorPaneJournals, tglBtnJournals)); // Journals
     }
 
     private void initToggleGroup()
@@ -82,9 +79,6 @@ public class TeacherViewController implements Initializable {
         tglBtnStudents.setToggleGroup(toggleGroupViews);
         tglBtnCitizenTemplates.setToggleGroup(toggleGroupViews);
         tglBtnCitizens.setToggleGroup(toggleGroupViews);
-        tglBtnCases.setToggleGroup(toggleGroupViews);
-        tglBtnAssignments.setToggleGroup(toggleGroupViews);
-        tglBtnJournals.setToggleGroup(toggleGroupViews);
     }
 
     private void viewChangedListener()
@@ -105,9 +99,6 @@ public class TeacherViewController implements Initializable {
         anchorPaneStudents.setVisible(false);
         anchorPaneCitizenTemplate.setVisible(false);
         anchorPaneCitizens.setVisible(false);
-        anchorPaneCases.setVisible(false);
-        anchorPaneAssignments.setVisible(false);
-        anchorPaneJournals.setVisible(false);
     }
 
 

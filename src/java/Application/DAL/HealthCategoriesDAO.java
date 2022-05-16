@@ -28,7 +28,7 @@ public class HealthCategoriesDAO extends TemplatePatternDAO{
     @Override
     public List readAll() {
         String sql = """
-                    SELECT * cases dbo.functionalCatgories
+                    SELECT * FROM dbo.functionalCatgories
                     """;
 
         Connection conn = DBConnectionPool.getInstance().checkOut();
@@ -40,8 +40,6 @@ public class HealthCategoriesDAO extends TemplatePatternDAO{
                 int id = resultSet.getInt("funCatId");
                 int superId = resultSet.getInt("funSuperCat");
                 String name = resultSet.getString("funCatName");
-
-
             }
 
 
@@ -56,6 +54,8 @@ public class HealthCategoriesDAO extends TemplatePatternDAO{
         finally {
             DBConnectionPool.getInstance().checkIn(conn);
         }
+
+        return null;
     }
 
 

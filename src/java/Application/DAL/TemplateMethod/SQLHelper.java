@@ -85,7 +85,7 @@ public final class SQLHelper
     {
         
         String parameters = "?, ".repeat(columns.size());
-        System.out.println("INSERT INTO " + tableName + " (" + columns + ") VALUES (" + a.substring(0, a.length() - 2) + ")");
+        //System.out.println("INSERT INTO " + tableName + " (" + columns + ") VALUES (" + a.substring(0, a.length() - 2) + ")");
         /*
         String csv = ;
 

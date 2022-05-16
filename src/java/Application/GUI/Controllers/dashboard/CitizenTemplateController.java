@@ -314,17 +314,17 @@ public class CitizenTemplateController implements Initializable {
             treeTblViewHealth.setShowRoot(false);
 
             //set the general information section to that of the selected citizen template
-            txtAreaGenInfoMastering.setText(model.getSelectedCitizenTemplateModel().getMastering());
-            txtAreaGenInfoMotivation.setText(model.getSelectedCitizenTemplateModel().getMotivation());
-            txtAreaGenInfoResources.setText(model.getSelectedCitizenTemplateModel().getResources());
-            txtAreaGenInfoRoles.setText(model.getSelectedCitizenTemplateModel().getRoles());
-            txtAreaGenInfoHabits.setText(model.getSelectedCitizenTemplateModel().getHabits());
-            txtAreaGenInfoEduAndJob.setText(model.getSelectedCitizenTemplateModel().getEduAndJob());
-            txtAreaGenInfoLifeStory.setText(model.getSelectedCitizenTemplateModel().getLifeStory());
-            txtAreaGenInfoHealthInfo.setText(model.getSelectedCitizenTemplateModel().getHealthInfo());
-            txtAreaGenInfoAssistiveDevices.setText(model.getSelectedCitizenTemplateModel().getAssistiveDevices());
-            txtAreaGenInfoHomeLayout.setText(model.getSelectedCitizenTemplateModel().getHomeLayout());
-            txtAreaGenInfoNetwork.setText(model.getSelectedCitizenTemplateModel().getNetwork());
+            txtAreaGenInfoMastering.setText(model.getSelectedCitizenTemplateModel().getTemplate().getGeneralInfo().getMastering());
+            txtAreaGenInfoMotivation.setText(model.getSelectedCitizenTemplateModel().getTemplate().getGeneralInfo().getMotivation());
+            txtAreaGenInfoResources.setText(model.getSelectedCitizenTemplateModel().getTemplate().getGeneralInfo().getResources());
+            txtAreaGenInfoRoles.setText(model.getSelectedCitizenTemplateModel().getTemplate().getGeneralInfo().getRoles());
+            txtAreaGenInfoHabits.setText(model.getSelectedCitizenTemplateModel().getTemplate().getGeneralInfo().getHabits());
+            txtAreaGenInfoEduAndJob.setText(model.getSelectedCitizenTemplateModel().getTemplate().getGeneralInfo().getEduAndJob());
+            txtAreaGenInfoLifeStory.setText(model.getSelectedCitizenTemplateModel().getTemplate().getGeneralInfo().getLifeStory());
+            txtAreaGenInfoHealthInfo.setText(model.getSelectedCitizenTemplateModel().getTemplate().getGeneralInfo().getHealthInfo());
+            txtAreaGenInfoAssistiveDevices.setText(model.getSelectedCitizenTemplateModel().getTemplate().getGeneralInfo().getAssistiveDevices());
+            txtAreaGenInfoHomeLayout.setText(model.getSelectedCitizenTemplateModel().getTemplate().getGeneralInfo().getHomeLayout());
+            txtAreaGenInfoNetwork.setText(model.getSelectedCitizenTemplateModel().getTemplate().getGeneralInfo().getNetwork());
         }
 
     }
@@ -420,17 +420,17 @@ public class CitizenTemplateController implements Initializable {
                 selected.setAge(Integer.parseInt(txtFieldAge.getText()));
             }
 
-            selected.setMastering(txtAreaGenInfoMastering.getText());
-            selected.setMotivation(txtAreaGenInfoMotivation.getText());
-            selected.setResources(txtAreaGenInfoResources.getText());
-            selected.setRoles(txtAreaGenInfoRoles.getText());
-            selected.setHabits(txtAreaGenInfoHabits.getText());
-            selected.setEduAndJob(txtAreaGenInfoEduAndJob.getText());
-            selected.setLifeStory(txtAreaGenInfoLifeStory.getText());
-            selected.setHealthInfo(txtAreaGenInfoHealthInfo.getText());
-            selected.setAssistiveDevices(txtAreaGenInfoAssistiveDevices.getText());
-            selected.setHomeLayout(txtAreaGenInfoHomeLayout.getText());
-            selected.setNetwork(txtAreaGenInfoNetwork.getText());
+            selected.getTemplate().getGeneralInfo().setMastering(txtAreaGenInfoMastering.getText());
+            selected.getTemplate().getGeneralInfo().setMotivation(txtAreaGenInfoMotivation.getText());
+            selected.getTemplate().getGeneralInfo().setResources(txtAreaGenInfoResources.getText());
+            selected.getTemplate().getGeneralInfo().setRoles(txtAreaGenInfoRoles.getText());
+            selected.getTemplate().getGeneralInfo().setHabits(txtAreaGenInfoHabits.getText());
+            selected.getTemplate().getGeneralInfo().setEduAndJob(txtAreaGenInfoEduAndJob.getText());
+            selected.getTemplate().getGeneralInfo().setLifeStory(txtAreaGenInfoLifeStory.getText());
+            selected.getTemplate().getGeneralInfo().setHealthInfo(txtAreaGenInfoHealthInfo.getText());
+            selected.getTemplate().getGeneralInfo().setAssistiveDevices(txtAreaGenInfoAssistiveDevices.getText());
+            selected.getTemplate().getGeneralInfo().setHomeLayout(txtAreaGenInfoHomeLayout.getText());
+            selected.getTemplate().getGeneralInfo().setNetwork(txtAreaGenInfoNetwork.getText());
 
 
             model.saveEditedCitizenTemplate();
