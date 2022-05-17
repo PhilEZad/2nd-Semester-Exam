@@ -49,4 +49,9 @@ public class AdminDataManager {
         return (School) schoolDAO.create(new School(-1, schoolName, zipCode, ""));
     }
 
+    public void editAccount(Account account)
+    {
+        accountDAO.update(account);
+    }
+
 }

@@ -18,14 +18,18 @@ public class AccountModel
     private StringProperty lastName;
     private StringProperty email;
 
-    ObservableList<Account> accounts;
+    Account account;
+
+    ObservableList<Account> accountsList;
 
     public AccountModel() {
-        accounts = FXCollections.observableArrayList();
+        accountsList = FXCollections.observableArrayList();
     }
 
     public AccountModel(Account account)
     {
+        this.account = account;
+
         this.userName = new SimpleStringProperty();
         this.firstName = new SimpleStringProperty();
         this.lastName = new SimpleStringProperty();
@@ -81,12 +85,17 @@ public class AccountModel
 
     public ObservableList<Account> getAccountList()
     {
-        return accounts;
+        return accountsList;
     }
 
     public void createAccount(String username, String password, String firstName, String surname, String email, School school, int i)
     {
         var account = adminDataManager.createAccount(username, password, firstName, surname, email, school, i);
-        accounts.add(account);
+        accountsList.add(account);
+    }
+
+    public void update(Account account)
+    {
+        adminDataManager.editAccount(account);
     }
 }

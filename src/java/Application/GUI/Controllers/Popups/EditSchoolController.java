@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.stage.Stage;
+import javafx.util.converter.IntegerStringConverter;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -33,6 +34,8 @@ public class EditSchoolController implements Initializable {
     {
         txtSchoolName.setText(school.getName().get());
         txtSchoolZipCode.setText(txtSchoolZipCode.getText());
+
+        txtSchoolZipCode.setTextFormatter(new TextFormatter<Integer>(new IntegerStringConverter(), 0, integerFilter()));
     }
 
     public void saveEdits(ActionEvent actionEvent)

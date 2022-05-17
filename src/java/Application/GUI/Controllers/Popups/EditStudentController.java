@@ -1,5 +1,6 @@
 package Application.GUI.Controllers.Popups;
 
+import Application.BE.Account;
 import Application.GUI.Models.AccountModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -40,7 +41,7 @@ public class EditStudentController implements Initializable {
 
     public void onSaveStudent(ActionEvent actionEvent)
     {
-        // TODO: 17-05-2022 Save to DB method
+        // TODO: 17-05-2022 Update method 
 
         Stage stage = (Stage) btnSaveStudent.getScene().getWindow();
         stage.close();
