@@ -221,7 +221,7 @@ public class AccountDAO extends TemplatePatternDAO<Account> {
     public void update(Account input) {
         String sql = """
                      UPDATE accounts 
-                     SET firstName = ?, surname = ?, email = ? 
+                     SET firstName = ?, surname = ?, email = ?
                      WHERE accountId = ?
                      """;
 
@@ -244,6 +244,27 @@ public class AccountDAO extends TemplatePatternDAO<Account> {
         }
         finally {
             DBConnectionPool.getInstance().checkIn(conn);
+        }
+    }
+
+    public void changePassword(String password, Account account)
+    {
+        String sqlPassUpdate = """
+                UPDATE acounts
+                SET password = ?
+                WHERE accountId = ?
+                """;
+
+        Connection conn = DBConnectionPool.getInstance().checkOut();
+
+        try { PreparedStatement pscp = conn.prepareStatement(sqlPassUpdate);
+            pscp.setString(1,password);
+            pscp.setInt(2,account.getId());
+
+            pscp.executeUpdate();
+            pscp.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
     }
 }

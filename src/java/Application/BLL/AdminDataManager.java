@@ -10,7 +10,7 @@ import java.util.List;
 
 public class AdminDataManager {
 
-    private TemplatePatternDAO accountDAO;
+    private AccountDAO accountDAO;
     private TemplatePatternDAO schoolDAO;
 
 
@@ -26,6 +26,12 @@ public class AdminDataManager {
     public void updateAccount(Account student){
         accountDAO.update(student);
     }
+
+    public void changePassword(String newPassword, Account account)
+    {
+        accountDAO.changePassword(newPassword,account);
+    }
+
 
     public void deleteAccount(Account student){
         accountDAO.delete(student.getId());
