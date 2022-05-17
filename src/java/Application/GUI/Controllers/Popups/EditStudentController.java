@@ -1,12 +1,17 @@
 package Application.GUI.Controllers.Popups;
 
+import Application.GUI.Models.AccountModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class EditStudentController {
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class EditStudentController implements Initializable {
 
     @FXML public TextField txtFieldUsername;
     @FXML public TextField txtFieldFirstName;
@@ -16,6 +21,22 @@ public class EditStudentController {
 
     @FXML public Button btnSaveStudent;
     @FXML public Button btnCancel;
+
+    AccountModel student;
+
+    public EditStudentController()
+    {
+
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources)
+    {
+        txtFieldUsername.setText("Place Holder");
+        txtFieldFirstName.setText(student.getFirstName());
+        txtFieldLastName.setText(student.getLastName());
+        txtFieldEmail.setText(student.getEmail());
+    }
 
     public void onSaveStudent(ActionEvent actionEvent)
     {
