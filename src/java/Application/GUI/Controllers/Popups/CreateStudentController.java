@@ -10,6 +10,7 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 
@@ -50,7 +51,9 @@ public class CreateStudentController implements Initializable {
                 school,
                 0))
         {
-            new Alert(Alert.AlertType.INFORMATION, alertInfo, ButtonType.OK);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, alertInfo, ButtonType.OK);
+            alert.getDialogPane().getStylesheets().add(Objects.requireNonNull(getClass().getResource("/Styles/MainStylesheet.css")).toExternalForm());
+            alert.showAndWait();
         }
         //TODO: add getSchool() and implement salt for hashing
         ((Node) (event.getSource())).getScene().getWindow().hide();

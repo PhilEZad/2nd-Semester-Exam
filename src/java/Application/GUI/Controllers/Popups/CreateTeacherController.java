@@ -10,6 +10,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 
+import java.util.Objects;
+
 public class CreateTeacherController
 {
     @FXML public TextField txtFieldLogin;
@@ -35,7 +37,9 @@ public class CreateTeacherController
                 school,
                 1))
         {
-            new Alert(Alert.AlertType.INFORMATION, alertInfo, ButtonType.OK);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, alertInfo, ButtonType.OK);
+            alert.getDialogPane().getStylesheets().add(Objects.requireNonNull(getClass().getResource("/Styles/MainStylesheet.css")).toExternalForm());
+            alert.showAndWait();
         }
         ((Node) (actionEvent.getSource())).getScene().getWindow().hide();
     }
