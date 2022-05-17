@@ -2,12 +2,12 @@ package Application.GUI.Controllers.Popups;
 
 import Application.BE.School;
 import Application.BLL.AdminDataManager;
+import Application.Utility.Strings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -36,15 +36,25 @@ public class CreateStudentController implements Initializable {
         String login = txtFieldUsername.getText();
         String password = passwordField.getText();
 
+        String alertInfo = "login navn er allerede taget,";
+
         // FIXME: 03/05/2022 -- Dummy School
         School school = new School(1, "Dummy School", 6715, "NotARealCity");
 
-        adminDataManager.createAccount(login, password, firstName, lastName, email, school, 0);
+        if (!adminDataManager.createAccount(
+                login,
+                Strings.generateAccessToken(login, password),
+                firstName,
+                lastName,
+                email,
+                school,
+                0))
+        {
+            new Alert(Alert.AlertType.INFORMATION, alertInfo, ButtonType.OK);
+        }
         //TODO: add getSchool() and implement salt for hashing
-
         ((Node) (event.getSource())).getScene().getWindow().hide();
     }
-
     public void onCancel(ActionEvent event) {
         ((Node) (event.getSource())).getScene().getWindow().hide();
     }

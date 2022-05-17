@@ -19,7 +19,7 @@ public class AccountDAO extends TemplatePatternDAO<Account> {
      * @return
      */
     @Override
-    public Account create(Account input) {
+    public Boolean create(Account input) {
         String sql = """
                     INSERT INTO accounts (login, password, firstName, surname, email, school, auth) 
                     VALUES (?, ?, ?, ?, ?, ?, ?)
@@ -27,7 +27,7 @@ public class AccountDAO extends TemplatePatternDAO<Account> {
 
         Connection conn = DBConnectionPool.getInstance().checkOut();
         try {
-            PreparedStatement pstmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+            PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, input.getLogin());
             pstmt.setString(2, input.getPassword());
             pstmt.setString(3, input.getFirstName());
@@ -38,28 +38,13 @@ public class AccountDAO extends TemplatePatternDAO<Account> {
 
             pstmt.executeUpdate();
 
-            int id = -1;
-
-            ResultSet generatedKeys = pstmt.getGeneratedKeys();
-            if (generatedKeys.next()) {
-                id = generatedKeys.getInt(1);
-            }
 
             pstmt.close();
-            return new Account(
-                    id,
-                    input.getLogin(),
-                    input.getPassword(),
-                    input.getFirstName(),
-                    input.getLastName(),
-                    input.getEmail(),
-                    input.getSchool(),
-                    input.getAuthorization()
-            );
+            return true;
 
         } catch (SQLException e) {
             e.printStackTrace();
-            return null;
+            return false;
         }
         finally {
             DBConnectionPool.getInstance().checkIn(conn);

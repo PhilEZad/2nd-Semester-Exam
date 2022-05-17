@@ -83,10 +83,9 @@ public class AccountModel
         return accounts;
     }
 
-    public void createAccount(String username, String password, String firstName, String surname, String email, School school, int i)
+    public boolean createAccount(String username, String password, String firstName, String surname, String email, School school, int i)
     {
-        var account = adminDataManager.createAccount(username, password, firstName, surname, email, school, i);
-        accounts.add(account);
+        return adminDataManager.createAccount(username, password, firstName, surname, email, school, i);
     }
 
     public int getId() {
