@@ -22,72 +22,33 @@ public class CitizenTemplateDAO extends TemplatePatternDAO<CitizenTemplate> {
         String lName = input.getBaseData().getSurname();
         int age = input.getBaseData().getAge();
         int schoolID = SessionModel.getSchool().getSchoolID();
-        GeneralJournal genInfo = input.getGeneralInfo();
 
         String baseDataSQL = """
-                    INSERT INTO citizens (cFirstName, cSurname, cAge, cSchool) 
-                    VALUES (?, ?, ?, ?);
-                    """;
-
-        String genInfoSQL = """
-                    INSERT INTO citizens (cFirstName, cSurname, cAge, cSchool) 
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
-                    """;
-
-        String categorySQL = """
-                    INSERT INTO citizens (cFirstName, cSurname, cAge, cSchool) 
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+                    INSERT INTO citizen (FK_InfoID, FK_SchoolOwner, firstName, lastName, age) 
+                    VALUES (?, ?, ?, ?, ?);
                     """;
 
         Connection conn = DBConnectionPool.getInstance().checkOut();
         try {
-            conn.setAutoCommit(false);
-
             //Base data transaction
             PreparedStatement baseDataPSTMT = conn.prepareStatement(baseDataSQL, PreparedStatement.RETURN_GENERATED_KEYS);
-            baseDataPSTMT.setString(1, fName);
-            baseDataPSTMT.setString(2, lName);
-            baseDataPSTMT.setInt(3, age);
-            baseDataPSTMT.setInt(4, schoolID);
+            baseDataPSTMT.setInt(1, insertGeneralInfo(input.getGeneralInfo()));
+            baseDataPSTMT.setInt(2, schoolID);
+            baseDataPSTMT.setString(3, fName);
+            baseDataPSTMT.setString(4, lName);
+            baseDataPSTMT.setInt(5, age);
             baseDataPSTMT.executeUpdate();
 
-            //General info transaction
-            PreparedStatement genInfoPSTMT = conn.prepareStatement(genInfoSQL);
-            genInfoPSTMT.setString(1, genInfo.getMastering());
-            genInfoPSTMT.setString(2, genInfo.getMotivation());
-            genInfoPSTMT.setString(3, genInfo.getResources());
-            genInfoPSTMT.setString(4, genInfo.getRoles());
-            genInfoPSTMT.setString(5, genInfo.getHabits());
-            genInfoPSTMT.setString(6, genInfo.getEduAndJob());
-            genInfoPSTMT.setString(7, genInfo.getLifeStory());
-            genInfoPSTMT.setString(8, genInfo.getHealthInfo());
-            genInfoPSTMT.setString(9, genInfo.getAssistiveDevices());
-            genInfoPSTMT.setString(10, genInfo.getHomeLayout());
-            genInfoPSTMT.setString(11, genInfo.getNetwork());
-            genInfoPSTMT.executeUpdate();
-
-            //Category entries transaction
-            PreparedStatement categoryPSTMT = conn.prepareStatement(categorySQL);
-            for (CategoryEntry categoryEntry : input.getFunctionalAbilities()) {
-
-            }
-            for (CategoryEntry categoryEntry : input.getHealthConditions()) {
-
-            }
-
-
-
-
-            conn.commit();
 
             int id = -1;
-
             ResultSet generatedKeys = baseDataPSTMT.getGeneratedKeys();
             if (generatedKeys.next()) {
-                id = generatedKeys.getInt(1);
+                id = generatedKeys.getInt("CID");
                 input.setId(id);
             }
-            conn.setAutoCommit(true);
+
+            insertCategories(input);
+
             baseDataPSTMT.close();
 
             return input;
@@ -100,6 +61,111 @@ public class CitizenTemplateDAO extends TemplatePatternDAO<CitizenTemplate> {
                 ex.printStackTrace();
             }
             return null;
+        }
+        finally {
+            DBConnectionPool.getInstance().checkIn(conn);
+        }
+    }
+
+    public int insertGeneralInfo(GeneralJournal genInfo) {
+        String genInfoSQL = """
+                    INSERT INTO GeneralInfo(coping, motivation, resourses, roles, habits, eduAndJob, lifeStory, healthInfo, assistiveDevices, homeLayout, network)  
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+                    """;
+
+        Connection conn = DBConnectionPool.getInstance().checkOut();
+        try {
+            //General info transaction
+            PreparedStatement genInfoPSTMT = conn.prepareStatement(genInfoSQL, PreparedStatement.RETURN_GENERATED_KEYS);
+            genInfoPSTMT.setString(1, genInfo.getMastering());
+            genInfoPSTMT.setString(2, genInfo.getMotivation());
+            genInfoPSTMT.setString(3, genInfo.getResources());
+            genInfoPSTMT.setString(4, genInfo.getRoles());
+            genInfoPSTMT.setString(5, genInfo.getHabits());
+            genInfoPSTMT.setString(6, genInfo.getEduAndJob());
+            genInfoPSTMT.setString(7, genInfo.getLifeStory());
+            genInfoPSTMT.setString(8, genInfo.getHealthInfo());
+            genInfoPSTMT.setString(9, genInfo.getAssistiveDevices());
+            genInfoPSTMT.setString(10, genInfo.getHomeLayout());
+            genInfoPSTMT.setString(11, genInfo.getNetwork());
+
+            genInfoPSTMT.executeUpdate();
+
+            ResultSet genKeys = genInfoPSTMT.getGeneratedKeys();
+            int genID = -1;
+
+            while (genKeys.next()) {
+                genID = genKeys.getInt(1);
+            }
+            genInfoPSTMT.close();
+            return genID;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return -1;
+        } finally {
+            DBConnectionPool.getInstance().checkIn(conn);
+        }
+    }
+
+    public void insertCategories(CitizenTemplate input){
+        String contentSQL = """
+                    INSERT INTO Content (FK_citizenID, FK_JournalEntry) 
+                    VALUES (?, ?);
+                    """;
+
+        String categoriesSQL = """
+                    INSERT INTO JournalEntry (FK_Category, assessment, cause, implications, currentStatus, expectedStatus, citizenGoals, notes) 
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?);
+                    """;
+
+        Connection conn = DBConnectionPool.getInstance().checkOut();
+        try {
+            conn.setAutoCommit(false);
+
+            PreparedStatement contentPSTMT = conn.prepareStatement(contentSQL);
+            PreparedStatement categoryPSTMT = conn.prepareStatement(categoriesSQL, PreparedStatement.RETURN_GENERATED_KEYS);
+
+            List<CategoryEntry> allCategories = new ArrayList<>();
+            allCategories.addAll(input.getFunctionalAbilities());
+            allCategories.addAll(input.getHealthConditions());
+
+            contentPSTMT.setInt(1, input.getId());
+
+            for (CategoryEntry categoryEntry : allCategories) {
+                categoryPSTMT.setInt(1, categoryEntry.getCategory().getId());
+                categoryPSTMT.setString(2, categoryEntry.getAssessment());
+                categoryPSTMT.setString(3, categoryEntry.getCause());
+                categoryPSTMT.setString(4, categoryEntry.getImplications());
+                categoryPSTMT.setInt(5, categoryEntry.getLevel());
+                categoryPSTMT.setInt(6, categoryEntry.getExpectedCondition());
+                categoryPSTMT.setString(7, categoryEntry.getCitizenGoals());
+                categoryPSTMT.setString(8, categoryEntry.getNote());
+
+                ResultSet keys = categoryPSTMT.executeQuery();
+                while (keys.next()) {
+                    int catID = keys.getInt(1);
+                    categoryEntry.setId(catID);
+                    contentPSTMT.setInt(2, catID);
+                    contentPSTMT.executeUpdate();
+                }
+            }
+
+
+            conn.commit();
+            conn.setAutoCommit(true);
+
+            contentPSTMT.close();
+            categoryPSTMT.close();
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            try {
+                conn.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         }
         finally {
             DBConnectionPool.getInstance().checkIn(conn);
@@ -135,7 +201,7 @@ public class CitizenTemplateDAO extends TemplatePatternDAO<CitizenTemplate> {
             ResultSet resultSet = pstmt.executeQuery();
 
             while (resultSet.next()) {
-                int id = resultSet.getInt("citizenId");
+                int id = resultSet.getInt("CID");
                 String fName = resultSet.getString("cFirstName");
                 String lName = resultSet.getString("cSurname");
                 int age = resultSet.getInt("cAge");
@@ -248,5 +314,5 @@ public class CitizenTemplateDAO extends TemplatePatternDAO<CitizenTemplate> {
     public void updateCategoryEntries(){
 
     }
-
+    
 }

@@ -45,7 +45,7 @@ public class CitizenTemplateController implements Initializable {
     public TreeTableColumn<CategoryEntryModel, String> treeTblColumnFuncCause;
     public TreeTableColumn<CategoryEntryModel, String> treeTblColumnFuncImplications;
     public TreeTableColumn<CategoryEntryModel, String> treeTblColumnFuncCitizenGoals;
-    public TreeTableColumn<CategoryEntryModel, String> treeTblColumnFuncExpectedCondition;
+    public TreeTableColumn<CategoryEntryModel, ComboBox<FunctionalLevels>> treeTblColumnFuncExpectedCondition;
     public TreeTableColumn<CategoryEntryModel, String> treeTblColumnFuncNote;
 
     // Citizen Template - Health Conditions
@@ -54,7 +54,7 @@ public class CitizenTemplateController implements Initializable {
     public TreeTableColumn<CategoryEntryModel, ComboBox<HealthLevels>> treeTblColumnHealthLevel;
     public TreeTableColumn<CategoryEntryModel, String> treeTblColumnHealthAssessment;
     public TreeTableColumn<CategoryEntryModel, String> treeTblColumnHealthCause;
-    public TreeTableColumn<CategoryEntryModel, String> treeTblColumnHealthExpectedCondition;
+    public TreeTableColumn<CategoryEntryModel, ComboBox<HealthLevels>> treeTblColumnHealthExpectedCondition;
     public TreeTableColumn<CategoryEntryModel, String> treeTblColumnHealthNote;
 
     // Citizen Template - General Information
@@ -246,12 +246,10 @@ public class CitizenTemplateController implements Initializable {
         editableTreeTableColumns.add(treeTblColumnFuncCause);
         editableTreeTableColumns.add(treeTblColumnFuncImplications);
         editableTreeTableColumns.add(treeTblColumnFuncCitizenGoals);
-        editableTreeTableColumns.add(treeTblColumnFuncExpectedCondition);
         editableTreeTableColumns.add(treeTblColumnFuncNote);
 
         editableTreeTableColumns.add(treeTblColumnHealthAssessment);
         editableTreeTableColumns.add(treeTblColumnHealthCause);
-        editableTreeTableColumns.add(treeTblColumnHealthExpectedCondition);
         editableTreeTableColumns.add(treeTblColumnHealthNote);
     }
 
@@ -263,19 +261,19 @@ public class CitizenTemplateController implements Initializable {
      */
     private void initTreeTableClmns() {
         treeTblColumnFuncCategory.setCellValueFactory(param -> param.getValue().getValue().categoryNameProperty());
-        treeTblColumnFuncLevel.setCellValueFactory(param -> param.getValue().getValue().getFuncComboBoxProperty());
+        treeTblColumnFuncLevel.setCellValueFactory(param -> param.getValue().getValue().getLevelFuncComboBoxProperty());
         treeTblColumnFuncAssessment.setCellValueFactory(param -> param.getValue().getValue().assessmentProperty());
         treeTblColumnFuncCause.setCellValueFactory(param -> param.getValue().getValue().causeProperty());
         treeTblColumnFuncImplications.setCellValueFactory(param -> param.getValue().getValue().implicationsProperty());
         treeTblColumnFuncCitizenGoals.setCellValueFactory(param -> param.getValue().getValue().citizenGoalsProperty());
-        treeTblColumnFuncExpectedCondition.setCellValueFactory(param -> param.getValue().getValue().expectedConditionProperty());
+        treeTblColumnFuncExpectedCondition.setCellValueFactory(param -> param.getValue().getValue().getExConFuncComboBoxProperty());
         treeTblColumnFuncNote.setCellValueFactory(param -> param.getValue().getValue().noteProperty());
 
         treeTblColumnHealthCategory.setCellValueFactory(param -> param.getValue().getValue().categoryNameProperty());
-        treeTblColumnHealthLevel.setCellValueFactory(param -> param.getValue().getValue().getHealthComboBoxProperty());
+        treeTblColumnHealthLevel.setCellValueFactory(param -> param.getValue().getValue().getLevelHealthComboBoxProperty());
         treeTblColumnHealthAssessment.setCellValueFactory(param -> param.getValue().getValue().assessmentProperty());
         treeTblColumnHealthCause.setCellValueFactory(param -> param.getValue().getValue().causeProperty());
-        treeTblColumnHealthExpectedCondition.setCellValueFactory(param -> param.getValue().getValue().expectedConditionProperty());
+        treeTblColumnHealthExpectedCondition.setCellValueFactory(param -> param.getValue().getValue().getExConHealthComboBoxProperty());
         treeTblColumnHealthNote.setCellValueFactory(param -> param.getValue().getValue().noteProperty());
 
 
@@ -363,15 +361,23 @@ public class CitizenTemplateController implements Initializable {
 
         //Set all ComboBoxes to editable
         for (CategoryEntryModel cat : GUIUtils.getTreeItemsFromRoot(treeTblViewFunc.getRoot())) {
-            ComboBox<FunctionalLevels> funcLevelComboBox = cat.getFuncLevelComboBox();
+            ComboBox<FunctionalLevels> funcLevelComboBox = cat.getLevelFuncLevelComboBox();
+            ComboBox<FunctionalLevels> funcExConComboBox = cat.getExConFuncComboBox();
             if (funcLevelComboBox != null) {
                 funcLevelComboBox.setDisable(!editable);
             }
+            if (funcExConComboBox != null) {
+                funcExConComboBox.setDisable(!editable);
+            }
         }
         for (CategoryEntryModel cat : GUIUtils.getTreeItemsFromRoot(treeTblViewHealth.getRoot())) {
-            ComboBox<HealthLevels> healthLevelComboBox = cat.getHealthLevelComboBox();
+            ComboBox<HealthLevels> healthLevelComboBox = cat.getLevelHealthLevelComboBox();
+            ComboBox<HealthLevels> healthExConComboBox = cat.getExConHealthLevelComboBox();
             if (healthLevelComboBox != null) {
                 healthLevelComboBox.setDisable(!editable);
+            }
+            if (healthExConComboBox != null) {
+                healthExConComboBox.setDisable(!editable);
             }
         }
 
@@ -473,12 +479,10 @@ public class CitizenTemplateController implements Initializable {
         treeTblColumnFuncCause.setOnEditCommit(event -> getItemFromEditEvent(event).setCause(event.getOldValue()));
         treeTblColumnFuncImplications.setOnEditCommit(event -> getItemFromEditEvent(event).setImplications(event.getOldValue()));
         treeTblColumnFuncCitizenGoals.setOnEditCommit(event -> getItemFromEditEvent(event).setCitizenGoals(event.getOldValue()));
-        treeTblColumnFuncExpectedCondition.setOnEditCommit(event -> getItemFromEditEvent(event).setExpectedCondition(event.getOldValue()));
         treeTblColumnFuncNote.setOnEditCommit(event -> getItemFromEditEvent(event).setNote(event.getOldValue()));
 
         treeTblColumnHealthAssessment.setOnEditCommit(event -> getItemFromEditEvent(event).setAssessment(event.getOldValue()));
         treeTblColumnHealthCause.setOnEditCommit(event -> getItemFromEditEvent(event).setCause(event.getOldValue()));
-        treeTblColumnHealthExpectedCondition.setOnEditCommit(event -> getItemFromEditEvent(event).setExpectedCondition(event.getOldValue()));
         treeTblColumnHealthNote.setOnEditCommit(event -> getItemFromEditEvent(event).setNote(event.getOldValue()));
 
             //Cancel Edit
@@ -486,12 +490,10 @@ public class CitizenTemplateController implements Initializable {
         treeTblColumnFuncCause.setOnEditCancel(event -> getItemFromEditEvent(event).setCause(event.getOldValue()));
         treeTblColumnFuncImplications.setOnEditCancel(event -> getItemFromEditEvent(event).setImplications(event.getOldValue()));
         treeTblColumnFuncCitizenGoals.setOnEditCancel(event -> getItemFromEditEvent(event).setCitizenGoals(event.getOldValue()));
-        treeTblColumnFuncExpectedCondition.setOnEditCancel(event -> getItemFromEditEvent(event).setExpectedCondition(event.getOldValue()));
         treeTblColumnFuncNote.setOnEditCancel(event -> getItemFromEditEvent(event).setNote(event.getOldValue()));
 
         treeTblColumnHealthAssessment.setOnEditCancel(event -> getItemFromEditEvent(event).setAssessment(event.getOldValue()));
         treeTblColumnHealthCause.setOnEditCancel(event -> getItemFromEditEvent(event).setCause(event.getOldValue()));
-        treeTblColumnHealthExpectedCondition.setOnEditCancel(event -> getItemFromEditEvent(event).setExpectedCondition(event.getOldValue()));
         treeTblColumnHealthNote.setOnEditCancel(event -> getItemFromEditEvent(event).setNote(event.getOldValue()));
     }
 

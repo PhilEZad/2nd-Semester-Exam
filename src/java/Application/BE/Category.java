@@ -5,21 +5,36 @@ public class Category {
     private String name;
     private Category parent;
     private CategoryType type;
+    private int depth;
 
     public Category(String name) {
         this.name = name;
     }
+
     public Category(int id, String name, Category parent) {
         this.id = id;
         this.name = name;
         this.parent = parent;
+        this.depth = 0;
         this.initTypeIndicator();
+        this.initDepth();
     }
 
     private void initTypeIndicator() {
         if (this.getParent() != null) {
             this.type = this.getParent().getType();
         }
+    }
+
+    private void initDepth() {
+        if (this.getParent() != null) {
+            this.depth = this.getParent().getDepth() + 1;
+        }
+        else depth = 0;
+    }
+
+    public int getDepth() {
+        return this.depth;
     }
 
     public CategoryType getType() {
