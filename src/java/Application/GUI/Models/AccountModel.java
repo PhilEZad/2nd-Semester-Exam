@@ -11,15 +11,12 @@ import javafx.collections.ObservableList;
 
 public class AccountModel
 {
-
     private AdminDataManager adminDataManager = new AdminDataManager();
 
     private StringProperty userName;
     private StringProperty firstName;
     private StringProperty lastName;
     private StringProperty email;
-
-    private Account account;
 
     ObservableList<Account> accounts;
 

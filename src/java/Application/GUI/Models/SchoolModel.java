@@ -10,6 +10,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class SchoolModel {
+
+    IntegerProperty id;
     StringProperty name;
     IntegerProperty zipCode;
     StringProperty city;
@@ -20,14 +22,18 @@ public class SchoolModel {
 
     public SchoolModel(School school)
     {
+        id.set(school.getSchoolID());
         name.setValue(school.getSchoolName());
         zipCode.setValue(school.getZipCode());
         city.setValue(school.getCityName());
     }
 
+
     public SchoolModel() {
         schools = FXCollections.observableArrayList();
     }
+
+    public int getSchoolID(){ return id.get();}
 
     public StringProperty getName(){
         return name;
@@ -44,5 +50,10 @@ public class SchoolModel {
     public void create(String random, int i) {
         var school = DAO.createSchool(random, i);
         schools.add(school);
+    }
+
+    public void update(School school)
+    {
+        DAO.editSchool(school);
     }
 }

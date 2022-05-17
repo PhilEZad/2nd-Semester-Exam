@@ -23,6 +23,11 @@ public class AdminDataManager {
         return (Account) accountDAO.create(new Account(-1, username, password, firstName, lastName, email, school, auth));
     }
 
+    public void editSchool(School school)
+    {
+        schoolDAO.update(school);
+    }
+
     public void updateAccount(Account student){
         accountDAO.update(student);
     }

@@ -1,15 +1,18 @@
 package Application.GUI.Controllers.Popups;
 
+import Application.BE.School;
 import Application.GUI.Models.SchoolModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.function.UnaryOperator;
 
 public class EditSchoolController implements Initializable {
 
@@ -34,7 +37,7 @@ public class EditSchoolController implements Initializable {
 
     public void saveEdits(ActionEvent actionEvent)
     {
-        // TODO: 17-05-2022 Set database method 
+        school.update(new School(school.getSchoolID(), txtSchoolName.getText(), Integer.parseInt(txtSchoolZipCode.getText()), ""));
         
         Stage stage = (Stage) btnSave.getScene().getWindow();
         stage.close();
@@ -44,5 +47,18 @@ public class EditSchoolController implements Initializable {
     {
         Stage stage = (Stage) btnCancel.getScene().getWindow();
         stage.close();
+    }
+
+    private UnaryOperator<TextFormatter.Change> integerFilter(){
+        UnaryOperator<TextFormatter.Change> integerFilter = change -> {
+            String newText = change.getControlNewText();
+            if (newText.matches("-?([1-9][0-9]*)?")) {
+
+                return change;
+            }
+            return null;
+        };
+
+        return integerFilter;
     }
 }
