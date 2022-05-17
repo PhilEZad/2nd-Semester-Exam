@@ -21,6 +21,8 @@ public class CaseModel {
 
     public CaseModel(Case caseInfo)
     {
+        teacherBLL = new TeacherDataManager();
+
         this.id = new SimpleIntegerProperty();
         this.caseName = new SimpleStringProperty();
         this.inquiryReason = new SimpleStringProperty();
@@ -31,7 +33,6 @@ public class CaseModel {
         this.inquiryReason.set(caseInfo.getInquiryReason());
         this.medicalDiagnose.set(caseInfo.getMedicalDiagnose());
 
-        teacherBLL = new TeacherDataManager();
     }
 
     public CaseModel()

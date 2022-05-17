@@ -41,7 +41,16 @@ public class EditStudentController implements Initializable {
 
     public void onSaveStudent(ActionEvent actionEvent)
     {
-        // TODO: 17-05-2022 Update method 
+        student.update(new Account(
+                student.getAccount().getId(),
+                txtFieldUsername.getText(),
+                student.getAccount().getPassword(),
+                txtFieldFirstName.getText(),
+                txtFieldLastName.getText(),
+                txtFieldEmail.getText(),
+                student.getAccount().getSchool(),
+                student.getAccount().getAuthorization()
+        ));
 
         Stage stage = (Stage) btnSaveStudent.getScene().getWindow();
         stage.close();

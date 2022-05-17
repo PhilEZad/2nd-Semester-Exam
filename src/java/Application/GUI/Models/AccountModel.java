@@ -41,6 +41,8 @@ public class AccountModel
         email.set(account.getEmail());
     }
 
+    public Account getAccount() { return account;}
+
     public String getUserName() { return userName.getName();}
 
     public void setUserName(String userName) { this.userName.set(userName);}
