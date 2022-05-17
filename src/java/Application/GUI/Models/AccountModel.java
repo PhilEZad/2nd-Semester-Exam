@@ -98,6 +98,6 @@ public class AccountModel
 
     public void update(Account account)
     {
-        adminDataManager.editAccount(account);
+        adminDataManager.updateAccount(account);
     }
 }

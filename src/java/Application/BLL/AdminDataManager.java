@@ -23,9 +23,8 @@ public class AdminDataManager {
         return (Account) accountDAO.create(new Account(-1, username, password, firstName, lastName, email, school, auth));
     }
 
-    public void editSchool(School school)
-    {
-        schoolDAO.update(school);
+    public Account getAccount(int id) {
+        return (Account) accountDAO.read(id);
     }
 
     public void updateAccount(Account student){
@@ -36,22 +35,22 @@ public class AdminDataManager {
         accountDAO.delete(student.getId());
     }
 
-    public Account getStudent(int id) {
-        return (Account) accountDAO.read(id);
-    }
-
-    public List<Account> getAllStudents(){
-        return accountDAO.readAll();
-    }
-
     public School createSchool(String schoolName, int zipCode)
     {
         return (School) schoolDAO.create(new School(-1, schoolName, zipCode, ""));
     }
 
-    public void editAccount(Account account)
+    public void editSchool(School school)
     {
-        accountDAO.update(account);
+        schoolDAO.update(school);
     }
 
+    public void deleteSchool(School school)
+    {
+        schoolDAO.delete(school.getSchoolID());
+    }
+
+    public List<Account> getAllStudents(){
+        return accountDAO.readAll();
+    }
 }
