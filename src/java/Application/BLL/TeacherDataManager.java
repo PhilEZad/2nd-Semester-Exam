@@ -62,7 +62,7 @@ public class TeacherDataManager
     }
 
     public void newCitizenEntity(CitizenTemplate template) {
-        citizenDAO.create(new Citizen(template));
+        citizenDAO.create(new Citizen());
     }
 
     public void updateCitizenEntity(Citizen citizen) {

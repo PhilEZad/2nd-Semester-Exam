@@ -1,7 +1,11 @@
 package Application.DAL.TemplateMethod;
 
 import Application.BE.Citizen;
+import Application.BE.School;
 import Application.DAL.TemplateMethod.AbstractDAO_TP;
+import org.intellij.lang.annotations.Language;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -19,10 +23,7 @@ public class CitizenDAO
                 statement.setString(1, input.getFirstname());
                 statement.setString(2, input.getLastname());
                 statement.setInt(3, input.getAge());
-                statement.setInt(4, input.getStreetID());
-                statement.setInt(5, input.getStreetNumber());
-                statement.setInt(6, input.getZipCode());
-                statement.setInt(7, input.getSchoolID());
+                statement.setInt(7, input.getOwner().getSchoolID());
 
                 statement.executeUpdate();
 
@@ -30,9 +31,9 @@ public class CitizenDAO
             }
 
             @Override
-            protected String getSQLStatement() {
-                return "INSERT INTO citizen (cFirstName, cSurname, cAge, cStreet, cStreetNumber, cZipCode, cSchool)" +
-                        " VALUES (?, ?, ?, ?, ?, ?, ?)";
+            protected String getSQLStatement()
+            {
+                return "INSERT INTO citizen (firstName, lastName, age, FK_SchoolOwner, FK_Info) VALUES (?, ?, ?, ?, ?)";
             }
         };
 
@@ -58,14 +59,11 @@ public class CitizenDAO
                 while (result.next())
                 {
                     Citizen citizen = new Citizen(
-                            result.getInt("citizenId"),
-                            result.getString("cFirstName"),
-                            result.getString("cSurname"),
-                            result.getInt("cAge"),
-                            result.getInt("cStreet"),
-                            result.getInt("cStreetNumber"),
-                            result.getInt("cZipCode"),
-                            result.getInt("cSchool")
+                            result.getInt("CID"),
+                            result.getString("firstName"),
+                            result.getString("lastName"),
+                            result.getInt("age"),
+                            result.getInt("FK_SchoolOwner")
                     );
 
                     array.add(citizen);
@@ -74,9 +72,10 @@ public class CitizenDAO
                 return array;
             }
 
+
             @Override
-            protected String getSQLStatement() {
-                return "SELECT * FROM citizen where cSchool = ?";
+            protected @NotNull String getSQLStatement() {
+                return "SELECT * FROM Citizen where FK_SchoolOwner = ?";
             }
        };
 
