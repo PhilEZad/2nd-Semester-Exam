@@ -24,15 +24,15 @@ public class EditStudentController implements Initializable {
 
     AccountModel student;
 
-    public EditStudentController()
+    public EditStudentController(AccountModel student)
     {
-
+        this.student = student;
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
-        txtFieldUsername.setText("Place Holder");
+        txtFieldUsername.setText(student.getUserName());
         txtFieldFirstName.setText(student.getFirstName());
         txtFieldLastName.setText(student.getLastName());
         txtFieldEmail.setText(student.getEmail());
@@ -40,6 +40,8 @@ public class EditStudentController implements Initializable {
 
     public void onSaveStudent(ActionEvent actionEvent)
     {
+        // TODO: 17-05-2022 Save to DB method
+
         Stage stage = (Stage) btnSaveStudent.getScene().getWindow();
         stage.close();
     }

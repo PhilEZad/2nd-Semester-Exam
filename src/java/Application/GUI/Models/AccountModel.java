@@ -14,6 +14,7 @@ public class AccountModel
 
     private AdminDataManager adminDataManager = new AdminDataManager();
 
+    private StringProperty userName;
     private StringProperty firstName;
     private StringProperty lastName;
     private StringProperty email;
@@ -28,14 +29,20 @@ public class AccountModel
 
     public AccountModel(Account account)
     {
+        this.userName = new SimpleStringProperty();
         this.firstName = new SimpleStringProperty();
         this.lastName = new SimpleStringProperty();
         this.email = new SimpleStringProperty();
 
+        userName.set(account.getLogin());
         firstName.set(account.getFirstName());
         lastName.set(account.getLastName());
         email.set(account.getEmail());
     }
+
+    public String getUserName() { return userName.getName();}
+
+    public void setUserName(String userName) { this.userName.set(userName);}
 
     public String getFirstName() {
         return firstName.get();
