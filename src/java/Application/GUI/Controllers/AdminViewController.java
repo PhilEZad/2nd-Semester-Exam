@@ -11,6 +11,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
@@ -22,9 +23,15 @@ import java.util.ResourceBundle;
 
 public class AdminViewController implements Initializable {
 
+    AdminDataManager daoAdmin;
+
     @FXML Button btnCreateTeacher;
     @FXML Button btnCreateStudent;
     @FXML Button btnCreateSchool;
+
+    @FXML Tab tabViewStudent;
+    @FXML Tab tabViewTeacher;
+    @FXML Tab tabViewSchool;
     
     @FXML private TableView<StudentModel> tblViewStudent;
     @FXML private TableColumn<StudentModel, String> tblClmStudentFirstName;
@@ -42,14 +49,16 @@ public class AdminViewController implements Initializable {
     @FXML private TableColumn<SchoolModel, Number> tblClmSchoolZipCode;
     @FXML private TableColumn<SchoolModel, String> tblClmSchoolCity;
 
-
-
-    AdminDataManager dataManager = new AdminDataManager();
+    public AdminViewController()
+    {
+        daoAdmin = new AdminDataManager();
+    }
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         initTableViews();
+        populateTableViews();
     }
 
     private void initTableViews()
@@ -57,6 +66,11 @@ public class AdminViewController implements Initializable {
         tblClmSchoolName.setCellValueFactory(param -> param.getValue().getName());
         tblClmSchoolZipCode.setCellValueFactory(param -> param.getValue().getZipCode());
         tblClmSchoolCity.setCellValueFactory(param -> param.getValue().getCity());
+    }
+
+    private void populateTableViews()
+    {
+
     }
 
     public void createStudent(ActionEvent actionEvent) throws IOException
@@ -79,7 +93,7 @@ public class AdminViewController implements Initializable {
         {
             Stage popupMenu = new Stage();
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/views/Popups/CreateTeacherView.fxml")));
-            popupMenu.setTitle("Ny Elev");
+            popupMenu.setTitle("Ny Lærer");
             popupMenu.setScene(new Scene(root));
             popupMenu.show();
         } catch (IOException e)
@@ -101,5 +115,13 @@ public class AdminViewController implements Initializable {
         {
             e.printStackTrace();
         }
+    }
+
+    public void editSelected(ActionEvent actionEvent)
+    {
+    }
+
+    public void removeSelected(ActionEvent actionEvent)
+    {
     }
 }
