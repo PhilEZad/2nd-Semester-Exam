@@ -2,8 +2,10 @@ package Application.GUI.Controllers;
 
 import Application.BE.Account;
 import Application.BLL.AdminDataManager;
+import Application.GUI.Models.AccountModel;
 import Application.GUI.Models.SchoolModel;
 import Application.GUI.Models.StudentModel;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -70,10 +72,10 @@ public class AdminViewController implements Initializable {
 
     private void populateTableViews()
     {
-
+        tblViewSchool.setItems(FXCollections.observableArrayList(daoAdmin.getAllSchools()));
     }
 
-    public void createStudent(ActionEvent actionEvent) throws IOException
+    public void createStudent(ActionEvent actionEvent)
     {
         try {
             Stage popupMenu = new Stage();
@@ -117,8 +119,35 @@ public class AdminViewController implements Initializable {
         }
     }
 
-    public void editSelected(ActionEvent actionEvent)
+    public void editSelected(ActionEvent actionEvent) throws IOException
     {
+        if (!(tblViewTeacher == null))
+        {
+            Stage popupMenuTeacher = new Stage();
+            Parent rootTeacher = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/views/Popups/EditTeacherView.fxml")));
+            popupMenuTeacher.setTitle("Rediger Lærer");
+            popupMenuTeacher.setScene(new Scene(rootTeacher));
+            popupMenuTeacher.show();
+        }
+        else if (!(tblViewStudent == null))
+        {
+            Stage popupMenuStudent = new Stage();
+            Parent rootStudent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/views/Popups/EditStudentView.fxml")));
+            popupMenuStudent.setTitle("Rediger Elev");
+            popupMenuStudent.setScene(new Scene(rootStudent));
+            popupMenuStudent.show();
+        }
+        else if (!(tblViewSchool == null))
+        {
+            Stage popupMenuSchool = new Stage();
+            Parent rootSchool = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/views/Popups/EditSchoolView.fxml")));
+            popupMenuSchool.setTitle("Rediger Skole");
+            popupMenuSchool.setScene(new Scene(rootSchool));
+            popupMenuSchool.show();
+        } else
+        {
+
+        }
     }
 
     public void removeSelected(ActionEvent actionEvent)

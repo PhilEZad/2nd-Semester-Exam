@@ -20,7 +20,7 @@
               <tabs>
                 <Tab fx:id="tabViewStudent" text="Elever">
                      <content>
-                        <TableView fx:id="tblViewStudent" prefHeight="279.0" prefWidth="596.0" stylesheets="@../Styles/TableViewStylesheet.css">
+                        <TableView fx:id="tblViewStudent" prefHeight="279.0" prefWidth="596.0" styleClass="container-funcTable" stylesheets="@../Styles/TableViewStylesheet.css">
                           <columns>
                             <TableColumn fx:id="tblClmStudentFirstName" prefWidth="180.0" text="Forenavn" />
                               <TableColumn fx:id="tblClmStudentLastName" prefWidth="180.0" text="Efternavn" />
@@ -31,7 +31,7 @@
                   </Tab>
                 <Tab fx:id="tabViewTeacher" text="Lærer">
                      <content>
-                        <TableView fx:id="tblViewTeachers" prefHeight="200.0" prefWidth="200.0" stylesheets="@../Styles/TableViewStylesheet.css">
+                        <TableView fx:id="tblViewTeachers" prefHeight="200.0" prefWidth="200.0" styleClass="container-funcTable" stylesheets="@../Styles/TableViewStylesheet.css">
                           <columns>
                             <TableColumn fx:id="tblClmTeacherFirstName" prefWidth="180.0" text="Forenavn" />
                             <TableColumn fx:id="tblClmTeacherLastName" prefWidth="180.0" text="Efternavn" />
@@ -42,7 +42,7 @@
                   </Tab>
                   <Tab fx:id="tabViewSchool" text="Skoler">
                      <content>
-                        <TableView fx:id="tblViewSchool" prefHeight="200.0" prefWidth="200.0" stylesheets="@../Styles/TableViewStylesheet.css">
+                        <TableView fx:id="tblViewSchool" prefHeight="200.0" prefWidth="200.0" styleClass="container-funcTable" stylesheets="@../Styles/TableViewStylesheet.css">
                           <columns>
                             <TableColumn fx:id="tblClmSchoolName" prefWidth="180.0" text="Institution" />
                               <TableColumn fx:id="tblClmSchoolCity" prefWidth="180.0" text="Bynavn" />

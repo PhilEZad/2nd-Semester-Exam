@@ -5,6 +5,8 @@ import Application.BLL.AdminDataManager;
 import Application.DAL.SchoolDAO;
 import Application.DAL.TemplatePatternDAO;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -20,6 +22,10 @@ public class SchoolModel {
 
     public SchoolModel(School school)
     {
+        name = new SimpleStringProperty();
+        zipCode = new SimpleIntegerProperty();
+        city = new SimpleStringProperty();
+
         name.setValue(school.getSchoolName());
         zipCode.setValue(school.getLocation().getZipCode());
         city.setValue(school.getLocation().getCityName());

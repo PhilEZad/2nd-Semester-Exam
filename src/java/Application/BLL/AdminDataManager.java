@@ -6,6 +6,9 @@ import Application.BE.School;
 import Application.DAL.AccountDAO;
 import Application.DAL.SchoolDAO;
 import Application.DAL.TemplatePatternDAO;
+import Application.GUI.Models.SchoolModel;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.util.List;
 
@@ -33,9 +36,17 @@ public class AdminDataManager {
         return (School) schoolDAO.read(id);
     }
 
-    public List<School> getAllSchools()
+    public ObservableList<SchoolModel> getAllSchools()
     {
-        return schoolDAO.readAll();
+        List<School> schoolListBE = schoolDAO.readAll();
+        ObservableList<SchoolModel> schoolModelsList = FXCollections.observableArrayList();
+
+        for (School school : schoolListBE)
+        {
+            SchoolModel schoolModel = new SchoolModel(school);
+            schoolModelsList.add(schoolModel);
+        }
+        return schoolModelsList;
     }
 
     public void updateSchool(School school)

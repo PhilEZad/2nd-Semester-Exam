@@ -91,7 +91,7 @@ public class SchoolDAO extends TemplatePatternDAO<School>
             while (rs.next()) {
                 schoolList.add(
                         new School(
-                                rs.getInt("id"),
+                                rs.getInt("SID"),
                                 rs.getString("schoolName"),
                                 new Location(
                                         rs.getInt("Zip"),
