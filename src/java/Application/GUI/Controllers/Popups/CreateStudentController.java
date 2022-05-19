@@ -40,7 +40,7 @@ public class CreateStudentController implements Initializable {
         // FIXME: 03/05/2022 -- Dummy School
         School school = new School(1, "Dummy School", new Location(0));
 
-        adminDataManager.createAccount(login, password, firstName, lastName, email, school, 0);
+        adminDataManager.createAccount(login, password, firstName, lastName, email, school, 2);
         //TODO: add getSchool() and implement salt for hashing
 
         ((Node) (event.getSource())).getScene().getWindow().hide();

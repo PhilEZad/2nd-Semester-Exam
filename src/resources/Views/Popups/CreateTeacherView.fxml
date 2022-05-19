@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="391.0" prefWidth="412.0" styleClass="transparentBG" stylesheets="@../../Styles/MainStylesheet.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Application.GUI.Controllers.Popups.CreateStudentController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="391.0" prefWidth="412.0" styleClass="transparentBG" stylesheets="@../../Styles/MainStylesheet.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Application.GUI.Controllers.Popups.CreateTeacherController">
    <children>
       <BorderPane prefHeight="391.0" prefWidth="412.0" styleClass="panel30Deg" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
@@ -41,7 +41,7 @@
                               <Insets right="50.0" />
                            </HBox.margin>
                         </TextField>
-                        <PasswordField fx:id="passwordField" prefHeight="31.0" prefWidth="150.0" promptText="Kodeord" styleClass="text-fieldBase" />
+                        <PasswordField fx:id="txtFieldPassword" prefHeight="31.0" prefWidth="150.0" promptText="Kodeord" styleClass="text-fieldBase" />
                      </children>
                   </HBox>
                </children>
@@ -55,7 +55,7 @@
                         <Insets right="150.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="btnSaveStudent" mnemonicParsing="false" onAction="#onSaveStudent" prefHeight="42.0" prefWidth="100.0" styleClass="panelBtn" text="Gem">
+                  <Button fx:id="btnSaveTeacher" mnemonicParsing="false" onAction="#onSaveTeacher" prefHeight="42.0" prefWidth="100.0" styleClass="panelBtn" text="Gem">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
