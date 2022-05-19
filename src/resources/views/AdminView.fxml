@@ -31,7 +31,7 @@
                   </Tab>
                 <Tab fx:id="tabViewTeacher" text="Lærer">
                      <content>
-                        <TableView fx:id="tblViewTeachers" prefHeight="200.0" prefWidth="200.0" styleClass="container-funcTable" stylesheets="@../Styles/TableViewStylesheet.css">
+                        <TableView fx:id="tblViewTeacher" prefHeight="200.0" prefWidth="200.0" styleClass="container-funcTable" stylesheets="@../Styles/TableViewStylesheet.css">
                           <columns>
                             <TableColumn fx:id="tblClmTeacherFirstName" prefWidth="180.0" text="Forenavn" />
                             <TableColumn fx:id="tblClmTeacherLastName" prefWidth="180.0" text="Efternavn" />

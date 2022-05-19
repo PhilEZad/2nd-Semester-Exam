@@ -6,16 +6,16 @@ import Application.GUI.Models.AccountModel;
 import Application.GUI.Models.SchoolModel;
 import Application.GUI.Models.StudentModel;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -27,6 +27,8 @@ public class AdminViewController implements Initializable {
 
     AdminDataManager daoAdmin;
 
+    @FXML TextField txtFieldSearch;
+
     @FXML Button btnCreateTeacher;
     @FXML Button btnCreateStudent;
     @FXML Button btnCreateSchool;
@@ -35,16 +37,15 @@ public class AdminViewController implements Initializable {
     @FXML Tab tabViewTeacher;
     @FXML Tab tabViewSchool;
     
-    @FXML private TableView<StudentModel> tblViewStudent;
-    @FXML private TableColumn<StudentModel, String> tblClmStudentFirstName;
-    @FXML private TableColumn<StudentModel, String> tblClmStudentLastName;
-    @FXML private TableColumn<StudentModel, String> tblClmStudentEmail;
-    @FXML private TableColumn<StudentModel, String> tblClmStudentClass;
+    @FXML private TableView<AccountModel> tblViewStudent;
+    @FXML private TableColumn<AccountModel, String> tblClmStudentFirstName;
+    @FXML private TableColumn<AccountModel, String> tblClmStudentLastName;
+    @FXML private TableColumn<AccountModel, String> tblClmStudentEmail;
 
-    @FXML private TableView<Account> tblViewTeacher;
-    @FXML private TableColumn<Account, String> tblClmTeacherFirstName;
-    @FXML private TableColumn<Account, String> tblClmTeacherLastName;
-    @FXML private TableColumn<Account, String> tblClmTeacherEmail;
+    @FXML private TableView<AccountModel> tblViewTeacher;
+    @FXML private TableColumn<AccountModel, String> tblClmTeacherFirstName;
+    @FXML private TableColumn<AccountModel, String> tblClmTeacherLastName;
+    @FXML private TableColumn<AccountModel, String> tblClmTeacherEmail;
 
     @FXML private TableView<SchoolModel> tblViewSchool;
     @FXML private TableColumn<SchoolModel, String> tblClmSchoolName;
@@ -65,6 +66,14 @@ public class AdminViewController implements Initializable {
 
     private void initTableViews()
     {
+        tblClmStudentFirstName.setCellValueFactory(param -> param.getValue().firstNameProperty());
+        tblClmStudentLastName.setCellValueFactory(param -> param.getValue().lastNameProperty());
+        tblClmStudentEmail.setCellValueFactory(param -> param.getValue().emailProperty());
+
+        tblClmTeacherFirstName.setCellValueFactory(param -> param.getValue().firstNameProperty());
+        tblClmTeacherLastName.setCellValueFactory(param -> param.getValue().lastNameProperty());
+        tblClmTeacherEmail.setCellValueFactory(param -> param.getValue().emailProperty());
+
         tblClmSchoolName.setCellValueFactory(param -> param.getValue().getName());
         tblClmSchoolZipCode.setCellValueFactory(param -> param.getValue().getZipCode());
         tblClmSchoolCity.setCellValueFactory(param -> param.getValue().getCity());
@@ -72,7 +81,9 @@ public class AdminViewController implements Initializable {
 
     private void populateTableViews()
     {
-        tblViewSchool.setItems(FXCollections.observableArrayList(daoAdmin.getAllSchools()));
+        tblViewTeacher.setItems(searchTable(txtFieldSearch, tblViewTeacher, daoAdmin.getAllTeachers()));
+        tblViewStudent.setItems(searchTable(txtFieldSearch, tblViewTeacher, daoAdmin.getAllStudents()));
+        tblViewSchool.setItems(daoAdmin.getAllSchools());
     }
 
     public void createStudent(ActionEvent actionEvent)
@@ -152,5 +163,40 @@ public class AdminViewController implements Initializable {
 
     public void removeSelected(ActionEvent actionEvent)
     {
+    }
+
+    private SortedList<AccountModel> searchTable(TextField searchField, TableView table, ObservableList searchList)
+    {
+        FilteredList<AccountModel> filteredData = new FilteredList<>(searchList, b -> true);
+
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(user -> {
+
+                if (newValue == null || newValue.isEmpty())
+                {
+                    return true;
+                }
+
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                if (user.getFirstName().toLowerCase().indexOf(lowerCaseFilter) != -1)
+                {
+                    return true;
+                } else if(user.getLastName().toLowerCase().indexOf(lowerCaseFilter) != -1)
+                {
+                    return true;
+                }else if (user.getEmail().toLowerCase().indexOf(lowerCaseFilter) != -1)
+                {
+                    return true;
+                } else
+                    return false;
+            });
+        });
+
+        SortedList<AccountModel> sortedUsers = new SortedList<>(filteredData);
+
+        sortedUsers.comparatorProperty().bind(table.comparatorProperty());
+
+        return sortedUsers;
     }
 }

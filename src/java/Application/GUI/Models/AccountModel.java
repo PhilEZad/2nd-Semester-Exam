@@ -153,8 +153,6 @@ public class AccountModel
 
     public void setSchool(School school){this.school = school;}
 
-
-
     public ObservableList<Account> getAccountList()
     {
         return accounts;
