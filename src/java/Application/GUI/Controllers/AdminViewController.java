@@ -132,31 +132,24 @@ public class AdminViewController implements Initializable {
     {
         try {
 
-            ResourceBundle resource = new ListResourceBundle() {
-                @Override
-                protected Object[][] getContents() {
-                    return new Object[][]
-                    {
-                        {"selectedStudent", tblViewStudent.getSelectionModel().getSelectedItem()},
-                        {"selectedStudent", tblViewTeacher.getSelectionModel().getSelectedItem()},
-                        {"selectedSchool", tblViewSchool.getSelectionModel().getSelectedItem()}
-                    };
-                }
-            };
+            ResourceBundle resource;
 
             if (tabViewTeacher.isSelected()) {
+                resource = getResource(tblViewTeacher);
                 Stage popupMenuTeacher = new Stage();
                 Parent rootTeacher = FXMLLoader.load(getClass().getResource("/views/Popups/EditAccountView.fxml"), resource);
                 popupMenuTeacher.setTitle("Rediger Lærer");
                 popupMenuTeacher.setScene(new Scene(rootTeacher));
                 popupMenuTeacher.show();
             } else if (tabViewStudent.isSelected()) {
+                resource = getResource(tblViewStudent);
                 Stage popupMenuStudent = new Stage();
                 Parent rootStudent = FXMLLoader.load(getClass().getResource("/Views/Popups/EditAccountView.fxml"), resource);
                 popupMenuStudent.setTitle("Rediger Elev");
                 popupMenuStudent.setScene(new Scene(rootStudent));
                 popupMenuStudent.show();
             } else if (tabViewSchool.isSelected()) {
+                resource = getResource(tblViewSchool);
                 Stage popupMenuSchool = new Stage();
                 Parent rootSchool = FXMLLoader.load(getClass().getResource("/views/Popups/EditSchoolView.fxml"), resource);
                 popupMenuSchool.setTitle("Rediger Skole");
@@ -172,8 +165,17 @@ public class AdminViewController implements Initializable {
         }
     }
 
-    public void removeSelected(ActionEvent actionEvent)
-    {
+    public void removeSelected(ActionEvent actionEvent) {
+        if (tabViewTeacher.isSelected())
+        {
+            daoAdmin.deleteAccount(tblViewTeacher.getSelectionModel().getSelectedItem().getId());
+        } else if (tabViewStudent.isSelected())
+        {
+            daoAdmin.deleteAccount(tblViewStudent.getSelectionModel().getSelectedItem().getId());
+        } else if (tabViewSchool.isSelected())
+        {
+            daoAdmin.deleteSchool(tblViewSchool.getSelectionModel().getSelectedItem().getId());
+        }
     }
 
     private SortedList<AccountModel> searchTable(TextField searchField, TableView table, ObservableList searchList)
@@ -209,5 +211,18 @@ public class AdminViewController implements Initializable {
         sortedUsers.comparatorProperty().bind(table.comparatorProperty());
 
         return sortedUsers;
+    }
+
+    private ResourceBundle getResource(TableView tableView) {
+        ResourceBundle resource = new ListResourceBundle() {
+            @Override
+            protected Object[][] getContents() {
+                return new Object[][]
+                        {
+                                {"selectedModel", tableView.getSelectionModel().getSelectedItem()},
+                        };
+            }
+        };
+        return resource;
     }
 }

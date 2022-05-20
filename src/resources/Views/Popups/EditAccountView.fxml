@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="391.0" prefWidth="412.0" styleClass="transparentBG" stylesheets="@../../Styles/MainStylesheet.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Application.GUI.Controllers.Popups.EditStudentController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="391.0" prefWidth="412.0" styleClass="transparentBG" stylesheets="@../../Styles/MainStylesheet.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Application.GUI.Controllers.Popups.EditAccountController">
    <children>
       <AnchorPane layoutX="6.0" layoutY="3.0" prefHeight="384.0" prefWidth="400.0" styleClass="panel30Deg">
          <children>
@@ -49,7 +49,7 @@
                <top>
                   <HBox alignment="CENTER" prefHeight="38.0" prefWidth="396.0" BorderPane.alignment="CENTER">
                      <children>
-                        <Label styleClass="panelLbl" text="Rediger Elev" />
+                        <Label fx:id="lblHeaderTitle" styleClass="panelLbl" text="Rediger Elev" />
                      </children>
                   </HBox>
                </top>

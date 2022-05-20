@@ -3,11 +3,6 @@ package Application.GUI.Models;
 import Application.BE.Account;
 import Application.BE.School;
 import Application.BLL.AccountManager;
-import Application.Utility.Strings;
-import at.favre.lib.crypto.bcrypt.BCrypt;
-
-import java.nio.charset.StandardCharsets;
-import java.util.Base64;
 
 import static Application.Utility.Strings.generateAccessToken;
 

@@ -6,13 +6,16 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class EditStudentController implements Initializable {
+public class EditAccountController implements Initializable {
+
+    @FXML public Label lblHeaderTitle;
 
     @FXML public TextField txtFieldUsername;
     @FXML public TextField txtFieldFirstName;
@@ -23,30 +26,30 @@ public class EditStudentController implements Initializable {
     @FXML public Button btnSaveStudent;
     @FXML public Button btnCancel;
 
-    AccountModel student;
+    AccountModel account;
 
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
         initBundle(resources);
 
-        txtFieldUsername.setText(student.getAccountName());
-        txtFieldFirstName.setText(student.getFirstName());
-        txtFieldLastName.setText(student.getLastName());
-        txtFieldEmail.setText(student.getEmail());
+        txtFieldUsername.setText(account.getAccountName());
+        txtFieldFirstName.setText(account.getFirstName());
+        txtFieldLastName.setText(account.getLastName());
+        txtFieldEmail.setText(account.getEmail());
     }
 
     public void onSaveStudent(ActionEvent actionEvent)
     {
-        student.updateAccount(new Account(
-                student.getId(),
+        account.updateAccount(new Account(
+                account.getId(),
                 txtFieldUsername.getText(),
-                student.getPassword(),
+                account.getPassword(),
                 txtFieldFirstName.getText(),
                 txtFieldLastName.getText(),
                 txtFieldEmail.getText(),
-                student.getSchool(),
-                student.getAuthorization()
+                account.getSchool(),
+                account.getAuthorization()
         ));
 
         Stage stage = (Stage) btnSaveStudent.getScene().getWindow();
@@ -61,9 +64,9 @@ public class EditStudentController implements Initializable {
 
     private void initBundle(ResourceBundle resource)
     {
-        if (!(resource.getObject("selectedStudent") == null))
+        if (!(resource.getObject("selectedModel") == null))
         {
-            student = (AccountModel) resource.getObject("selectedStudent");
+            account = (AccountModel) resource.getObject("selectedModel");
         }
     }
 }

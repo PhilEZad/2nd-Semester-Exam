@@ -29,10 +29,14 @@ public class EditSchoolController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
-        txtSchoolName.setText(school.getName().get());
-        txtSchoolZipCode.setText(txtSchoolZipCode.getText());
+        initBundle(resources);
 
         txtSchoolZipCode.setTextFormatter(new TextFormatter<Integer>(new IntegerStringConverter(), 0, integerFilter()));
+
+        txtSchoolName.setText(school.getName().get());
+        txtSchoolZipCode.setText(Integer.toString(school.getId()));
+
+
     }
 
     public void saveEdits(ActionEvent actionEvent)
@@ -64,9 +68,9 @@ public class EditSchoolController implements Initializable {
 
     private void initBundle(ResourceBundle resource)
     {
-        if (!(resource.getObject("selectedSchool") == null))
+        if (!(resource.getObject("selectedModel") == null))
         {
-            school = (SchoolModel) resource.getObject("selectedSchool");
+            school = (SchoolModel) resource.getObject("selectedModel");
         }
     }
 }
