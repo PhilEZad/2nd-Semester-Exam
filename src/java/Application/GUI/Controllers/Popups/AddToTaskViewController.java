@@ -54,8 +54,6 @@ public class AddToTaskViewController implements Initializable {
     @FXML
     public ComboBox<Class> comboBoxClasses;
 
-    AccountModel accountDAO = new AccountModel();
-
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {

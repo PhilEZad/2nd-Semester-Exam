@@ -23,12 +23,14 @@ public class AccountModel
     private StringProperty lastName;
     private StringProperty email;
     private IntegerProperty authorization;
-    School school;
+    private School school;
+    private Account account;
 
     ObservableList<Account> accounts;
 
-    public AccountModel() {
-        accounts = FXCollections.observableArrayList();
+    public AccountModel()
+    {
+
     }
 
     public AccountModel(Account account)
@@ -41,6 +43,7 @@ public class AccountModel
         this.email = new SimpleStringProperty();
         this.authorization = new SimpleIntegerProperty();
         this.school = account.getSchool();
+        this.account = account;
 
         id.set(account.getId());
         password.set(account.getPassword());
@@ -158,14 +161,16 @@ public class AccountModel
         return accounts;
     }
 
-    public void createAccount(String username, String password, String firstName, String surname, String email, School school, int i)
-    {
-        var account = adminDataManager.createAccount(username, password, firstName, surname, email, school, i);
-        accounts.add(account);
-    }
-
     public void updateAccount(Account account)
     {
         adminDataManager.updateAccount(account);
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
     }
 }

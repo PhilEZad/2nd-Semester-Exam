@@ -33,6 +33,11 @@ public class EditAccountController implements Initializable {
     {
         initBundle(resources);
 
+        if (account.getAuthorization() == 1)
+        {
+            lblHeaderTitle.setText("Rediger Lærer");
+        };
+
         txtFieldUsername.setText(account.getAccountName());
         txtFieldFirstName.setText(account.getFirstName());
         txtFieldLastName.setText(account.getLastName());

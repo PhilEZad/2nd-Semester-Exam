@@ -75,6 +75,8 @@ public class AccountDAO extends TemplatePatternDAO<Account> {
     @Override
     public void delete(int accountid){
         String sql = """
+                    DELETE FROM AccountGroup
+                    WHERE FK_MemberID = ?
                     DELETE FROM account
                     WHERE AID = ?
                     """;
@@ -84,6 +86,7 @@ public class AccountDAO extends TemplatePatternDAO<Account> {
             PreparedStatement pstmt = conn.prepareStatement(sql);
 
             pstmt.setInt(1, accountid);
+            pstmt.setInt(2, accountid);
 
             pstmt.executeUpdate();
 

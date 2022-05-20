@@ -3,6 +3,7 @@ package Application.GUI.Controllers.Popups;
 import Application.BE.Location;
 import Application.BE.School;
 import Application.BLL.AdminDataManager;
+import Application.GUI.Models.AccountModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -49,4 +50,5 @@ public class CreateStudentController implements Initializable {
     public void onCancel(ActionEvent event) {
         ((Node) (event.getSource())).getScene().getWindow().hide();
     }
+
 }

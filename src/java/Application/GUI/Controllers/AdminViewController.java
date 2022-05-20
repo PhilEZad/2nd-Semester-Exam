@@ -1,5 +1,6 @@
 package Application.GUI.Controllers;
 
+import Application.BE.Account;
 import Application.BLL.AdminDataManager;
 import Application.GUI.Models.AccountModel;
 import Application.GUI.Models.SchoolModel;
@@ -17,6 +18,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Enumeration;
 import java.util.ListResourceBundle;
 import java.util.Objects;
 import java.util.ResourceBundle;
@@ -86,9 +88,10 @@ public class AdminViewController implements Initializable {
 
     public void createStudent(ActionEvent actionEvent)
     {
+        Stage popupMenu = new Stage();
+
         try {
-            Stage popupMenu = new Stage();
-            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/views/Popups/CreateStudentView.fxml")));
+            Parent root = FXMLLoader.load(getClass().getResource("/views/Popups/CreateStudentView.fxml"));
             popupMenu.setTitle("Ny Elev");
             popupMenu.setScene(new Scene(root));
             popupMenu.show();
@@ -96,14 +99,15 @@ public class AdminViewController implements Initializable {
         {
             e.printStackTrace();
         }
+        popupMenu.setOnHidden(event -> tblViewStudent.setItems(searchTable(txtFieldSearch, tblViewTeacher, daoAdmin.getAllStudents())));
     }
 
     public void createTeacher(ActionEvent actionEvent)
     {
+        Stage popupMenu = new Stage();
         try
         {
-            Stage popupMenu = new Stage();
-            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/views/Popups/CreateTeacherView.fxml")));
+            Parent root = FXMLLoader.load(getClass().getResource("/views/Popups/CreateTeacherView.fxml"));
             popupMenu.setTitle("Ny Lærer");
             popupMenu.setScene(new Scene(root));
             popupMenu.show();
@@ -111,13 +115,15 @@ public class AdminViewController implements Initializable {
         {
             e.printStackTrace();
         }
+        popupMenu.setOnHidden(event -> tblViewTeacher.setItems(searchTable(txtFieldSearch, tblViewTeacher, daoAdmin.getAllTeachers())));
     }
 
     public void createSchool(ActionEvent actionEvent)
     {
+        Stage popupMenu = new Stage();
+
         try
         {
-            Stage popupMenu = new Stage();
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/views/Popups/CreateSchoolView.fxml")));
             popupMenu.setTitle("Ny Skole");
             popupMenu.setScene(new Scene(root));
@@ -126,6 +132,7 @@ public class AdminViewController implements Initializable {
         {
             e.printStackTrace();
         }
+        popupMenu.setOnHidden(event -> tblViewSchool.setItems(daoAdmin.getAllSchools()));
     }
 
     public void editSelected(ActionEvent actionEvent)
@@ -141,6 +148,7 @@ public class AdminViewController implements Initializable {
                 popupMenuTeacher.setTitle("Rediger Lærer");
                 popupMenuTeacher.setScene(new Scene(rootTeacher));
                 popupMenuTeacher.show();
+                popupMenuTeacher.setOnHidden(event -> tblViewTeacher.setItems(searchTable(txtFieldSearch, tblViewTeacher, daoAdmin.getAllTeachers())));
             } else if (tabViewStudent.isSelected()) {
                 resource = getResource(tblViewStudent);
                 Stage popupMenuStudent = new Stage();
@@ -148,6 +156,7 @@ public class AdminViewController implements Initializable {
                 popupMenuStudent.setTitle("Rediger Elev");
                 popupMenuStudent.setScene(new Scene(rootStudent));
                 popupMenuStudent.show();
+                popupMenuStudent.setOnHidden(event -> tblViewStudent.setItems(searchTable(txtFieldSearch, tblViewTeacher, daoAdmin.getAllStudents())));
             } else if (tabViewSchool.isSelected()) {
                 resource = getResource(tblViewSchool);
                 Stage popupMenuSchool = new Stage();
@@ -155,6 +164,7 @@ public class AdminViewController implements Initializable {
                 popupMenuSchool.setTitle("Rediger Skole");
                 popupMenuSchool.setScene(new Scene(rootSchool));
                 popupMenuSchool.show();
+                popupMenuSchool.setOnHidden(event -> tblViewSchool.setItems(daoAdmin.getAllSchools()));
             } else {
                 //Alert alert
             }
@@ -169,12 +179,16 @@ public class AdminViewController implements Initializable {
         if (tabViewTeacher.isSelected())
         {
             daoAdmin.deleteAccount(tblViewTeacher.getSelectionModel().getSelectedItem().getId());
+            tblViewTeacher.setItems(searchTable(txtFieldSearch, tblViewTeacher, daoAdmin.getAllTeachers()));
+
         } else if (tabViewStudent.isSelected())
         {
             daoAdmin.deleteAccount(tblViewStudent.getSelectionModel().getSelectedItem().getId());
+            tblViewStudent.setItems(searchTable(txtFieldSearch, tblViewTeacher, daoAdmin.getAllStudents()));
         } else if (tabViewSchool.isSelected())
         {
             daoAdmin.deleteSchool(tblViewSchool.getSelectionModel().getSelectedItem().getId());
+            tblViewSchool.setItems(daoAdmin.getAllSchools());
         }
     }
 
@@ -220,6 +234,19 @@ public class AdminViewController implements Initializable {
                 return new Object[][]
                         {
                                 {"selectedModel", tableView.getSelectionModel().getSelectedItem()},
+                        };
+            }
+        };
+        return resource;
+    }
+
+    private ResourceBundle getResource(AccountModel account) {
+        ResourceBundle resource = new ListResourceBundle() {
+            @Override
+            protected Object[][] getContents() {
+                return new Object[][]
+                        {
+                                {"selectedModel", account},
                         };
             }
         };
