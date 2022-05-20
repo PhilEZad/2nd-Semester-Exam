@@ -130,7 +130,7 @@ public class ObservationViewController implements Initializable {
 
 
             //Obligatory fields for health conditions
-            if (observation.getValue().getCategoryName() == null || observation.getValue().getContentEntry().getCategory().getDepth() <= 1){
+            if (observation.getValue().getCategoryName() == null){// || observation.getValue().getContentEntry().getCategory().getDepth() <= 1){
                 showAlert();
                 return;
             }
@@ -164,7 +164,7 @@ public class ObservationViewController implements Initializable {
         if (observation != null){
 
             //Obligatory fields for functional abilities
-            if (observation.getValue().getCategoryName() == null || observation.getValue().getContentEntry().getCategory().getDepth() <= 1){
+            if (observation.getValue().getCategoryName() == null){// || observation.getValue().getContentEntry().getCategory().getDepth() <= 1){
                 showAlert();
                 return;
             }

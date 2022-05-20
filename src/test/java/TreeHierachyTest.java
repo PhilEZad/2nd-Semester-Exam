@@ -1,6 +1,6 @@
 import Application.BE.Category;
-import Application.BE.CategoryEntry;
-import Application.GUI.Models.CategoryEntryModel;
+
+
 import Application.Utility.GUIUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,19 +17,19 @@ import static org.junit.Assert.assertNull;
 
 public class TreeHierachyTest {
     /*
-  Cannot test classes which contain JavaFX components, such as the CategoryEntryModel. The test needs to
+  Cannot test classes which contain JavaFX components, such as the CategoryModel. The test needs to
   use a JavaFX thread, for which the below rule is required.
    */
     @Rule
     public JavaFXThreadingRule javafxRule = new JavaFXThreadingRule();
+/*
 
-
-    ObservableList<CategoryEntryModel> categoryEntryModels;
+    ObservableList<CategoryModel> CategoryModels;
 
     @Before
     public void setUp(){
         //Lists
-        categoryEntryModels = FXCollections.observableArrayList();
+        CategoryModels = FXCollections.observableArrayList();
 
 
         //Categories
@@ -59,46 +59,46 @@ public class TreeHierachyTest {
         Category subD3 = new Category(-1, "Condition D.3", superD);
         Category subD4 = new Category(-1, "Condition D.4", superD);
 
-        List<CategoryEntry> categoryEntries = new ArrayList<>();
-        categoryEntries.add(new CategoryEntry(-1, superA));
-        categoryEntries.add(new CategoryEntry(-1, subA1));
-        categoryEntries.add(new CategoryEntry(-1, subA2));
-        categoryEntries.add(new CategoryEntry(-1, subA3));
-        categoryEntries.add(new CategoryEntry(-1, subA4));
+        List<Category> categoryEntries = new ArrayList<>();
+        categoryEntries.add(new Category(-1, superA));
+        categoryEntries.add(new Category(-1, subA1));
+        categoryEntries.add(new Category(-1, subA2));
+        categoryEntries.add(new Category(-1, subA3));
+        categoryEntries.add(new Category(-1, subA4));
 
-        categoryEntries.add(new CategoryEntry(-1, superB));
-        categoryEntries.add(new CategoryEntry(-1, subB1));
-        categoryEntries.add(new CategoryEntry(-1, subB2));
-        categoryEntries.add(new CategoryEntry(-1, subB3));
-        categoryEntries.add(new CategoryEntry(-1, subB4));
+        categoryEntries.add(new Category(-1, superB));
+        categoryEntries.add(new Category(-1, subB1));
+        categoryEntries.add(new Category(-1, subB2));
+        categoryEntries.add(new Category(-1, subB3));
+        categoryEntries.add(new Category(-1, subB4));
 
-        categoryEntries.add(new CategoryEntry(-1, superC));
-        categoryEntries.add(new CategoryEntry(-1, subC1));
-        categoryEntries.add(new CategoryEntry(-1, subC2));
-        categoryEntries.add(new CategoryEntry(-1, subC3));
-        categoryEntries.add(new CategoryEntry(-1, subC4));
+        categoryEntries.add(new Category(-1, superC));
+        categoryEntries.add(new Category(-1, subC1));
+        categoryEntries.add(new Category(-1, subC2));
+        categoryEntries.add(new Category(-1, subC3));
+        categoryEntries.add(new Category(-1, subC4));
 
-        categoryEntries.add(new CategoryEntry(-1, superD));
-        categoryEntries.add(new CategoryEntry(-1, subD1));
-        categoryEntries.add(new CategoryEntry(-1, subD2));
-        categoryEntries.add(new CategoryEntry(-1, subD3));
-        categoryEntries.add(new CategoryEntry(-1, subD4));
+        categoryEntries.add(new Category(-1, superD));
+        categoryEntries.add(new Category(-1, subD1));
+        categoryEntries.add(new Category(-1, subD2));
+        categoryEntries.add(new Category(-1, subD3));
+        categoryEntries.add(new Category(-1, subD4));
 
 
-        categoryEntryModels.add(new CategoryEntryModel(new CategoryEntry(-1, superSuperCategory)));
-        categoryEntries.forEach(categoryEntry -> categoryEntryModels.add(new CategoryEntryModel(categoryEntry)));
+        CategoryModels.add(new CategoryModel(new Category(-1, superSuperCategory)));
+        categoryEntries.forEach(Category -> CategoryModels.add(new CategoryModel(Category)));
     }
 
     //assert that the tree structure is correct
     @Test
     public void setTreeStructureHierachy(){
-        //Collections.shuffle(categoryEntryModels);
-        TreeItem<CategoryEntryModel> root = GUIUtils.setCategoryHierachy2(categoryEntryModels);
+        //Collections.shuffle(CategoryModels);
+        TreeItem<CategoryModel> root = GUIUtils.setCategoryHierachy2(CategoryModels);
 
-        CategoryEntryModel rootValue = root.getValue();
-        TreeItem<CategoryEntryModel> superSuperCategory = root.getChildren().get(0);
-        TreeItem<CategoryEntryModel> superCategory = superSuperCategory.getChildren().get(0);
-        TreeItem<CategoryEntryModel> subCategory = superCategory.getChildren().get(0);
+        CategoryModel rootValue = root.getValue();
+        TreeItem<CategoryModel> superSuperCategory = root.getChildren().get(0);
+        TreeItem<CategoryModel> superCategory = superSuperCategory.getChildren().get(0);
+        TreeItem<CategoryModel> subCategory = superCategory.getChildren().get(0);
 
         System.out.println(rootValue.getCategoryName() + " SIZE: " + root.getChildren().size());
         System.out.println("");
@@ -113,4 +113,6 @@ public class TreeHierachyTest {
         assertEquals("Condition A.1", subCategory.getValue().getCategoryName());
         assertEquals(0, subCategory.getChildren().size());
     }
+
+ */
 }
