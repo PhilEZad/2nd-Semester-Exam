@@ -2,6 +2,7 @@ package Application.GUI.Controllers.Popups;
 
 import Application.BE.Location;
 import Application.BE.School;
+import Application.GUI.Models.AccountModel;
 import Application.GUI.Models.SchoolModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -24,16 +25,6 @@ public class EditSchoolController implements Initializable {
     @FXML TextField txtSchoolZipCode;
 
     SchoolModel school;
-
-    public EditSchoolController()
-    {
-
-    }
-
-    public EditSchoolController(SchoolModel school)
-    {
-        this.school = school;
-    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources)
@@ -69,5 +60,13 @@ public class EditSchoolController implements Initializable {
         };
 
         return integerFilter;
+    }
+
+    private void initBundle(ResourceBundle resource)
+    {
+        if (!(resource.getObject("selectedSchool") == null))
+        {
+            school = (SchoolModel) resource.getObject("selectedSchool");
+        }
     }
 }

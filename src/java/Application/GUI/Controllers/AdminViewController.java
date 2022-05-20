@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ListResourceBundle;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -127,35 +128,47 @@ public class AdminViewController implements Initializable {
         }
     }
 
-    public void editSelected(ActionEvent actionEvent) throws IOException
+    public void editSelected(ActionEvent actionEvent)
     {
+        try {
 
-        if (tabViewTeacher.isSelected())
-        {
-            Stage popupMenuTeacher = new Stage();
-            Parent rootTeacher = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/views/Popups/EditTeacherView.fxml")));
-            popupMenuTeacher.setTitle("Rediger Lærer");
-            popupMenuTeacher.setScene(new Scene(rootTeacher));
-            popupMenuTeacher.show();
-        }
-        else if (tabViewStudent.isSelected())
-        {
-            Stage popupMenuStudent = new Stage();
-            Parent rootStudent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/views/Popups/EditStudentView.fxml")));
-            popupMenuStudent.setTitle("Rediger Elev");
-            popupMenuStudent.setScene(new Scene(rootStudent));
-            popupMenuStudent.show();
-        }
-        else if (tabViewSchool.isSelected())
-        {
-            Stage popupMenuSchool = new Stage();
-            Parent rootSchool = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/views/Popups/EditSchoolView.fxml")));
-            popupMenuSchool.setTitle("Rediger Skole");
-            popupMenuSchool.setScene(new Scene(rootSchool));
-            popupMenuSchool.show();
-        } else
-        {
+            ResourceBundle resource = new ListResourceBundle() {
+                @Override
+                protected Object[][] getContents() {
+                    return new Object[][]
+                    {
+                        {"selectedStudent", tblViewStudent.getSelectionModel().getSelectedItem()},
+                        {"selectedStudent", tblViewTeacher.getSelectionModel().getSelectedItem()},
+                        {"selectedSchool", tblViewSchool.getSelectionModel().getSelectedItem()}
+                    };
+                }
+            };
 
+            if (tabViewTeacher.isSelected()) {
+                Stage popupMenuTeacher = new Stage();
+                Parent rootTeacher = FXMLLoader.load(getClass().getResource("/views/Popups/EditAccountView.fxml"), resource);
+                popupMenuTeacher.setTitle("Rediger Lærer");
+                popupMenuTeacher.setScene(new Scene(rootTeacher));
+                popupMenuTeacher.show();
+            } else if (tabViewStudent.isSelected()) {
+                Stage popupMenuStudent = new Stage();
+                Parent rootStudent = FXMLLoader.load(getClass().getResource("/Views/Popups/EditAccountView.fxml"), resource);
+                popupMenuStudent.setTitle("Rediger Elev");
+                popupMenuStudent.setScene(new Scene(rootStudent));
+                popupMenuStudent.show();
+            } else if (tabViewSchool.isSelected()) {
+                Stage popupMenuSchool = new Stage();
+                Parent rootSchool = FXMLLoader.load(getClass().getResource("/views/Popups/EditSchoolView.fxml"), resource);
+                popupMenuSchool.setTitle("Rediger Skole");
+                popupMenuSchool.setScene(new Scene(rootSchool));
+                popupMenuSchool.show();
+            } else {
+                //Alert alert
+            }
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+            //Alert
         }
     }
 

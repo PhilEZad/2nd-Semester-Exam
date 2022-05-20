@@ -25,19 +25,11 @@ public class EditStudentController implements Initializable {
 
     AccountModel student;
 
-    public EditStudentController()
-    {
-
-    }
-
-    public EditStudentController(AccountModel student)
-    {
-        this.student = student;
-    }
-
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
+        initBundle(resources);
+
         txtFieldUsername.setText(student.getAccountName());
         txtFieldFirstName.setText(student.getFirstName());
         txtFieldLastName.setText(student.getLastName());
@@ -65,5 +57,13 @@ public class EditStudentController implements Initializable {
     {
         Stage stage = (Stage) btnCancel.getScene().getWindow();
         stage.close();
+    }
+
+    private void initBundle(ResourceBundle resource)
+    {
+        if (!(resource.getObject("selectedStudent") == null))
+        {
+            student = (AccountModel) resource.getObject("selectedStudent");
+        }
     }
 }
