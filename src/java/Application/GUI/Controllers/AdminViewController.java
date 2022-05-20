@@ -132,7 +132,8 @@ public class AdminViewController implements Initializable {
 
     public void editSelected(ActionEvent actionEvent) throws IOException
     {
-        if (!(tblViewTeacher == null))
+
+        if (tabViewTeacher.isSelected())
         {
             Stage popupMenuTeacher = new Stage();
             Parent rootTeacher = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/views/Popups/EditTeacherView.fxml")));
@@ -140,7 +141,7 @@ public class AdminViewController implements Initializable {
             popupMenuTeacher.setScene(new Scene(rootTeacher));
             popupMenuTeacher.show();
         }
-        else if (!(tblViewStudent == null))
+        else if (tabViewStudent.isSelected())
         {
             Stage popupMenuStudent = new Stage();
             Parent rootStudent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/views/Popups/EditStudentView.fxml")));
@@ -148,7 +149,7 @@ public class AdminViewController implements Initializable {
             popupMenuStudent.setScene(new Scene(rootStudent));
             popupMenuStudent.show();
         }
-        else if (!(tblViewSchool == null))
+        else if (tabViewSchool.isSelected())
         {
             Stage popupMenuSchool = new Stage();
             Parent rootSchool = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/views/Popups/EditSchoolView.fxml")));
