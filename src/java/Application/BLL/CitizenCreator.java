@@ -18,17 +18,26 @@ public class CitizenCreator
 
     public Citizen create (Citizen citizen, List<ContentEntry> entries)
     {
+        // create citizen in db
         var qualified = citizenDAO.create(citizen);
-        var content = contentDAO.create(entries);
 
+        // create all entries from list in db
+        for (var entry : entries)
+        {
+            entry.setId(contentDAO.create(entry).getId());
+        }
+
+        // setup binding
         var binding = new CitizenContentBinding();
 
         binding.citizenID = qualified.getId();
-        binding.contentIDs = content.stream().map(ContentEntry::getId).collect(Collectors.toList());
+        binding.contentIDs = entries.stream().map(ContentEntry::getId).collect(Collectors.toList());
 
+        // commit bind of one citizen and all entries
         binder.create(binding);
 
-        qualified.setContent(content);
+        // make it available to the citizen object instance
+        qualified.setContent(entries);
 
         return qualified;
     }

@@ -17,7 +17,9 @@ public class Citizen implements Cloneable
     private int zipCode;
 
     private GeneralJournal generalJournal;
+
     private HashMap<Category, ContentEntry> healthCategoryEntries;
+
     private HashMap<Category, ContentEntry> funcCategoryEntries;
 
     public Citizen(int id)
