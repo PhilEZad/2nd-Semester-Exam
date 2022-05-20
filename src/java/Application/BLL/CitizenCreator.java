@@ -1,12 +1,11 @@
 package Application.BLL;
 
-import Application.BE.Citizen;
-import Application.BE.CitizenContentBinding;
-import Application.BE.ContentEntry;
+import Application.BE.*;
 import Application.DAL.CitizenContentLinkDAO;
 import Application.DAL.CitizenDAO;
 import Application.DAL.ContentDAO;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,12 +15,6 @@ public class CitizenCreator
     CitizenDAO citizenDAO = new CitizenDAO();
 
     CitizenContentLinkDAO binder = new CitizenContentLinkDAO();
-
-
-    public CitizenCreator()
-    {
-
-    }
 
     public Citizen create (Citizen citizen, List<ContentEntry> entries)
     {
@@ -38,6 +31,22 @@ public class CitizenCreator
         qualified.setContent(content);
 
         return qualified;
+    }
+
+    public static void main(String[] args) {
+        CitizenCreator creator = new CitizenCreator();
+
+        Citizen citizen = new Citizen(0, new GeneralJournal(1), new School(1), "hello", "world", 1970);
+
+        List<ContentEntry> entries = new ArrayList<>();
+        var con1 = new ContentEntry(new Category(14, "Problemer med hukommelse", 0));
+
+        con1.setCause("amnesia");
+
+        entries.add(con1);
+
+
+        creator.create(citizen, entries);
     }
 
 }

@@ -30,10 +30,10 @@ public class ContentDAO extends TemplatePatternDAO<List<ContentEntry>>
             pstmt.setString(3, entry.getCause());
             pstmt.setString(4, entry.getImplications());
             pstmt.setInt(5, entry.getCurrentStatus());
-            pstmt.setInt(5, entry.getExpectedStatus());
-            pstmt.setString(4, entry.getCitizenGoals());
-            pstmt.setString(4, entry.getNote());
-            pstmt.setInt(4, entry.getSeverity());
+            pstmt.setInt(6, entry.getExpectedStatus());
+            pstmt.setString(7, entry.getCitizenGoals());
+            pstmt.setString(8, entry.getNote());
+            pstmt.setInt(9, entry.getSeverity());
 
             pstmt.execute();
 

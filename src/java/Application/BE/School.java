@@ -8,12 +8,28 @@ public class School {
     private String schoolName;
     private Location location;
 
+    public School()
+    {
+        this.schoolID = -1;
+        this.schoolName = "";
+        this.location = new Location();
+    }
+
+    public School(int id)
+    {
+        this();
+
+        this.schoolID = id;
+    }
+
     public School(int schoolID, String schoolName, Location location)
     {
         this.schoolID = schoolID;
         this.schoolName = schoolName;
         this.location = location;
     }
+
+
 
     public int getSchoolID() {
         return schoolID;

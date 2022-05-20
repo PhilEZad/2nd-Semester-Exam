@@ -31,6 +31,12 @@ public class GeneralJournal
         this.network = "";
     }
 
+    public GeneralJournal(int id)
+    {
+        this();
+
+        this.id = id;
+    }
   
     public GeneralJournal(int generalID, String coping, String motivation, String resources, String roles, String habits, String eduAndJob, String lifeStory, String healthInfo, String assistiveDevices, String homeLayout, String network) {
         this.id = generalID;

@@ -4,18 +4,18 @@ public class ContentEntry {
 
     private Category category = null;
 
-    private Integer id = null;
+    private Integer id = 0;
 
     private String assessment = "";
     private String cause = "";
     private String implications = "";
-    private Integer currentStatus = null;
-    private Integer expectedStatus = null;
+    private Integer currentStatus = 0;
+    private Integer expectedStatus = 0;
 
     private String citizenGoals = "";
     private String note = "";
 
-    private Integer severity = null;
+    private Integer severity = 0;
 
 
     public ContentEntry(Category category)
