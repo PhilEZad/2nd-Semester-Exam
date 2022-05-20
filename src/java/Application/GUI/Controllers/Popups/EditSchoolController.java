@@ -34,7 +34,7 @@ public class EditSchoolController implements Initializable {
         txtSchoolZipCode.setTextFormatter(new TextFormatter<Integer>(new IntegerStringConverter(), 0, integerFilter()));
 
         txtSchoolName.setText(school.getName().get());
-        txtSchoolZipCode.setText(Integer.toString(school.getId()));
+        txtSchoolZipCode.setText(Integer.toString(school.getZipCode().get()));
 
 
     }
@@ -56,7 +56,8 @@ public class EditSchoolController implements Initializable {
     private UnaryOperator<TextFormatter.Change> integerFilter(){
         UnaryOperator<TextFormatter.Change> integerFilter = change -> {
             String newText = change.getControlNewText();
-            if (newText.matches("-?([1-9][0-9]*)?")) {
+
+            if (newText.matches("[0-9]+")) {
 
                 return change;
             }

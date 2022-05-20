@@ -59,7 +59,8 @@ public class AdminViewController implements Initializable {
 
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    public void initialize(URL location, ResourceBundle resources)
+    {
         initTableViews();
         populateTableViews();
     }
