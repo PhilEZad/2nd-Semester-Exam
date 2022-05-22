@@ -6,9 +6,7 @@ import Application.GUI.Models.AccountModel;
 import Application.GUI.Models.CitizenModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import org.boon.template.Template;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class TeacherDataManager
@@ -262,14 +260,27 @@ public class TeacherDataManager
         }
     }
 
+    // FIXME: 22-05-2022 Not correct list
     // get student(s) in a group (members)
+    public ObservableList<AccountModel> getGroupMembers()
+    {
+        List<Account> accountList = groupDAO.readAll();
+        ObservableList<AccountModel> returnList = FXCollections.observableArrayList();
+     for (Account account: accountList)
+        {
+            AccountModel accountModel = new AccountModel(
+                    account
+            );
+            returnList.add(accountModel);
+        }
+        return returnList;
+    }
 
     // get all groups that contains a specific student
 
     public void assignToGroup(Citizen citizen, Group group)
     {
-    // assign citizen to group (GroupDAO)
-        // create clone of template (CitizenDAO)
+
     }
 
     public void assignToGroup(Account student, Group group)
@@ -307,17 +318,25 @@ public class TeacherDataManager
 
     public void deleteCitizenTemplate(Citizen template)
     {
-
+        citizenDAO.delete(template.getId());
     }
 
-    public void copyCitizenTemplate(Citizen template)
+    public CitizenModel copyCitizenTemplate(Citizen template)
     {
-
+        CitizenModel citizenModel = new CitizenModel
+                (
+                        (Citizen) citizenDAO.create(template)
+                );
+        return citizenModel;
     }
 
     public void updateCitizenTemplate(Citizen template, List<ContentEntry> beHealthConditions, List<ContentEntry> beFunctionalAbilities)
     {
+        template.setContent(beHealthConditions);
+        template.setHealthConditions(beHealthConditions);
+        template.setFunctionalAbilities(beFunctionalAbilities);
 
+        citizenDAO.update(template);
     }
 
     public void newCitizenEntity(Citizen template) {
