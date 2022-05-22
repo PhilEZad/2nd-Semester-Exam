@@ -3,6 +3,7 @@ package Application.BLL;
 import Application.BE.*;
 import Application.DAL.*;
 import Application.GUI.Models.AccountModel;
+import Application.GUI.Models.CitizenModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -125,6 +126,101 @@ public class TeacherDataManager
     // Create/Read/Update/Delete - citizen (template) (CitizenDAO)
         // single / all
 
+    public CitizenModel createCitizenTemplate (CitizenModel citizen)
+    {
+        CitizenModel citizenModel = new CitizenModel
+                (
+                    (Citizen) citizenDAO.create(citizen)
+                );
+        return citizenModel;
+    }
+
+    public Boolean updateCitizen (Citizen citizen)
+    {
+        if (citizen != null)
+        {
+        citizenDAO.update(citizen);
+        return true;
+        } else
+        {
+            return false;
+        }
+    }
+
+    public CitizenModel getCitizen(Citizen citizen)
+    {
+        CitizenModel citizenModel;
+
+        if(citizen != null)
+        {
+            citizenModel = new CitizenModel(
+                    (Citizen) accountDAO.read(citizen.getId())
+            );
+
+            return citizenModel;
+
+        } else {
+            citizenModel = new CitizenModel(
+                    new Citizen(
+                            -1,
+                            new GeneralJournal(
+                                    -1,
+                                    "",
+                                    "",
+                                    "",
+                                    "",
+                                    "",
+                                    "",
+                                    "",
+                                    "",
+                                    "",
+                                    "",
+                                    ""
+                            ),
+                            new School(
+                                    -1,
+                                    "",
+                                    new Location(
+                                            -1,
+                                            ""
+                                    )
+                            ),
+                            "",
+                            "",
+                            -1
+                    ));
+
+            return citizenModel;
+        }
+    }
+
+    public ObservableList<CitizenModel> getAllCitizens()
+    {
+        ObservableList<CitizenModel> returnList = FXCollections.observableArrayList();
+        List<Citizen> citizenList = citizenDAO.readAll();
+
+        for (Citizen citizen : citizenList)
+        {
+            {
+                CitizenModel citizenModel = new CitizenModel(citizen);
+                returnList.add(citizenModel);
+            }
+        }
+        return returnList;
+    }
+
+    public Boolean deleteCitizen(Citizen citizen)
+    {
+        if(citizen != null)
+        {
+            citizenDAO.update(citizen.getId());
+            return true;
+        } else
+        {
+            return false;
+        }
+    }
+
     // copy citizen (clone template - new ID)
 
     // Create/Read/Update/Delete - group (GroupDAO)
@@ -158,12 +254,6 @@ public class TeacherDataManager
 
 
 
-
-
-    public List getAllInquiries()
-    {
-        return inquiryDAO.readAll();
-    }
 
     public List getAllCitizenTemplates() {
         List<Citizen> citizenTemplates = citizenTemplateDAO.readAll();
@@ -204,13 +294,4 @@ public class TeacherDataManager
     public void deleteCitizenEntity(Citizen citizen) {
         citizenDAO.delete(citizen.getId());
     }
-
-    public List getAllCitizens() {
-        return citizenDAO.readAll();
-    }
-
-
-
-
-
 }
