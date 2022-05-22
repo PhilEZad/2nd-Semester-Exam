@@ -18,10 +18,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Enumeration;
-import java.util.ListResourceBundle;
-import java.util.Objects;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class AdminViewController implements Initializable {
 
@@ -177,19 +174,50 @@ public class AdminViewController implements Initializable {
     }
 
     public void removeSelected(ActionEvent actionEvent) {
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+
         if (tabViewTeacher.isSelected())
         {
-            daoAdmin.deleteAccount(tblViewTeacher.getSelectionModel().getSelectedItem().getId());
-            tblViewTeacher.setItems(searchTable(txtFieldSearch, tblViewTeacher, daoAdmin.getAllTeachers()));
+            alert.setHeaderText("Slet " + tblViewTeacher.getSelectionModel().getSelectedItem().getLastName() + " " + tblViewTeacher.getSelectionModel().getSelectedItem().getLastName() + "?");
+            alert.setContentText("Dette kan ikke fortrydes.");
+            alert.getDialogPane().getStylesheets().add(Objects.requireNonNull(getClass().getResource("/Styles/MainStylesheet.css")).toExternalForm());
+
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.get() == ButtonType.OK)
+            {
+                daoAdmin.deleteAccount(tblViewTeacher.getSelectionModel().getSelectedItem().getId());
+                tblViewTeacher.setItems(searchTable(txtFieldSearch, tblViewTeacher, daoAdmin.getAllTeachers()));
+            }
 
         } else if (tabViewStudent.isSelected())
         {
-            daoAdmin.deleteAccount(tblViewStudent.getSelectionModel().getSelectedItem().getId());
-            tblViewStudent.setItems(searchTable(txtFieldSearch, tblViewTeacher, daoAdmin.getAllStudents()));
+            alert.setHeaderText("Slet " + tblViewStudent.getSelectionModel().getSelectedItem().getFirstName() + " " + tblViewStudent.getSelectionModel().getSelectedItem().getLastName() + "?");
+            alert.setContentText("Dette kan ikke fortrydes.");
+            alert.getDialogPane().getStylesheets().add(Objects.requireNonNull(getClass().getResource("/Styles/MainStylesheet.css")).toExternalForm());
+
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.get() == ButtonType.OK)
+            {
+                daoAdmin.deleteAccount(tblViewStudent.getSelectionModel().getSelectedItem().getId());
+                tblViewStudent.setItems(searchTable(txtFieldSearch, tblViewTeacher, daoAdmin.getAllStudents()));
+            }
+
         } else if (tabViewSchool.isSelected())
         {
-            daoAdmin.deleteSchool(tblViewSchool.getSelectionModel().getSelectedItem().getId());
-            tblViewSchool.setItems(daoAdmin.getAllSchools());
+            alert.setHeaderText("Slet " + tblViewSchool.getSelectionModel().getSelectedItem().getName().get() + "?");
+            alert.setContentText("Dette kan ikke fortrydes.");
+            alert.getDialogPane().getStylesheets().add(Objects.requireNonNull(getClass().getResource("/Styles/MainStylesheet.css")).toExternalForm());
+
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.get() == ButtonType.OK)
+            {
+                daoAdmin.deleteSchool(tblViewSchool.getSelectionModel().getSelectedItem().getId());
+                tblViewSchool.setItems(daoAdmin.getAllSchools());
+            }
         }
     }
 
