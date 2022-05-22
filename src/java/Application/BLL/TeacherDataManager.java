@@ -6,6 +6,7 @@ import Application.GUI.Models.AccountModel;
 import Application.GUI.Models.CitizenModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import org.boon.template.Template;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,19 +14,17 @@ import java.util.List;
 public class TeacherDataManager
 {
     TemplatePatternDAO accountDAO;
-    TemplatePatternDAO inquiryDAO;
-    TemplatePatternDAO healthCategoryDAO;
-    TemplatePatternDAO functionalAbilityDAO;
     TemplatePatternDAO citizenDAO;
     TemplatePatternDAO citizenTemplateDAO;
     TemplatePatternDAO categoryDAO;
-    TemplatePatternDAO generalInfoDAO;
+    TemplatePatternDAO groupDAO;
 
     public TeacherDataManager()
     {
         accountDAO = new AccountDAO();
         citizenDAO = new CitizenDAO();
         categoryDAO = new CategoryDAO();
+        groupDAO = new GroupDAO();
     }
 
 
@@ -227,6 +226,42 @@ public class TeacherDataManager
         // [delete/archive citizen]
         // single / all
 
+    public Group createGroup(Group group)
+    {
+        return (Group) groupDAO.create(group);
+    }
+
+    public Group getGroup(Group group)
+    {
+        return (Group) groupDAO.read(group.getId());
+    }
+
+    // TODO: 22-05-2022 List of all Groups in ObservableList form 
+    
+    public Boolean updateGroup(Group group)
+    {
+        if (group != null)
+        {
+            groupDAO.update(group);
+            return true;
+        } else
+        {
+            return false;
+        }
+    }
+
+    public Boolean deleteGroup(Group group)
+    {
+        if (group != null)
+        {
+            groupDAO.delete(group.getId());
+            return true;
+        } else
+        {
+            return false;
+        }
+    }
+
     // get student(s) in a group (members)
 
     // get all groups that contains a specific student
@@ -239,12 +274,12 @@ public class TeacherDataManager
 
     public void assignToGroup(Account student, Group group)
     {
-       // assign student to group (GroupDAO)
+
     }
 
     public void unassignFromGroup(Account student, Group group)
     {
-       // unassign student to group (GroupDAO)
+
     }
 
 
@@ -270,13 +305,19 @@ public class TeacherDataManager
         return (Citizen) citizenTemplateDAO.create(newTemplate);
     }
 
-    public void deleteCitizenTemplate(Citizen template) {
+    public void deleteCitizenTemplate(Citizen template)
+    {
+
     }
 
-    public void copyCitizenTemplate(Citizen template) {
+    public void copyCitizenTemplate(Citizen template)
+    {
+
     }
 
-    public void updateCitizenTemplate(Citizen template, List<ContentEntry> beHealthConditions, List<ContentEntry> beFunctionalAbilities) {
+    public void updateCitizenTemplate(Citizen template, List<ContentEntry> beHealthConditions, List<ContentEntry> beFunctionalAbilities)
+    {
+
     }
 
     public void newCitizenEntity(Citizen template) {
