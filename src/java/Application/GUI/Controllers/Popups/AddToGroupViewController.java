@@ -3,6 +3,7 @@ package Application.GUI.Controllers.Popups;
 import Application.BLL.TeacherDataManager;
 import Application.GUI.Models.AccountModel;
 import Application.GUI.Models.CitizenModel;
+import javafx.collections.FXCollections;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
@@ -88,7 +89,7 @@ public class AddToGroupViewController implements Initializable {
     {
         tblClmAccountName.setCellValueFactory(param -> param.getValue().getFullNameProperty());
 
-        FilteredList<AccountModel> filteredData = new FilteredList<>(dataManager.getAllStudents(), b -> true);
+        FilteredList<AccountModel> filteredData = new FilteredList<>(FXCollections.observableArrayList(dataManager.getAllStudents()), b -> true);
 
         txtAccountSearch.textProperty().addListener((observable, oldValue, newValue) -> {
             filteredData.setPredicate(account -> {
