@@ -85,7 +85,9 @@ public class CitizenTemplateControllerModel {
     public CitizenModel newCitizenTemplate() {
         GeneralJournal generalJournal = new GeneralJournal();
 
-        CitizenModel citizenTemplateModel = CitizenModel.convert(new Citizen(-1, generalJournal, SessionModel.getSchool(), "Ny Borger", "Skabelon", 0));
+        CitizenModel citizenTemplateModel =
+                CitizenModel.convert(
+                        new Citizen(-1, generalJournal, SessionModel.getSchool(), "Ny Borger", "Skabelon", 0, 1));
 
         return teacherDataManager.createCitizenTemplate(citizenTemplateModel);
     }

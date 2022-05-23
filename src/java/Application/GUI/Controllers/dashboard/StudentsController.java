@@ -247,14 +247,13 @@ public class StudentsController implements Initializable {
     private ObservableList<AccountModel> studentList()
     {
         ObservableList<AccountModel> returnList = FXCollections.observableArrayList();
-        List<Account> accountList = dataManger.getAllStudents();
+        List<AccountModel> accountList = dataManger.getAllStudents();
 
-        for (Account account : accountList)
+        for (AccountModel account : accountList)
         {
             if (account.getAuthorization() == 2)
             {
-                AccountModel accountModel = new AccountModel(account);
-                returnList.add(accountModel);
+                returnList.add(account);
             }
         }
         return returnList;

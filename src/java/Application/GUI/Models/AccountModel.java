@@ -40,7 +40,7 @@ public class AccountModel
         this.accountName =  new SimpleStringProperty();
         this.account = account;
 
-        this.userName = new SimpleStringProperty();
+        this.accountName = new SimpleStringProperty();
         this.firstName = new SimpleStringProperty();
         this.lastName = new SimpleStringProperty();
         this.email = new SimpleStringProperty();
@@ -52,7 +52,6 @@ public class AccountModel
         id.set(account.getId());
         password.set(account.getPassword());
         accountName.set(account.getUsername());
-        userName.set(account.getLogin());
         firstName.set(account.getFirstName());
         lastName.set(account.getLastName());
         email.set(account.getEmail());
@@ -107,9 +106,9 @@ public class AccountModel
 
     public Account getAccount() { return account;}
 
-    public String getUserName() { return userName.getName();}
+    public String getUserName() { return accountName.getName();}
 
-    public void setUserName(String userName) { this.userName.set(userName);}
+    public void setUserName(String userName) { this.accountName.set(userName);}
 
     public String getFirstName() {
         return firstName.get();
@@ -191,8 +190,9 @@ public class AccountModel
     @Override
     public String toString() {
         return firstName.get() + " " + lastName.get();
-        var account = adminDataManager.createAccount(username, password, firstName, surname, email, school, i);
-        accountsList.add(account);
+
+        //var account = adminDataManager.createAccount(accountName.get(), password.get(), firstName.get(), lastName.get(), email.get(), school, authorization.get());
+        //accountsList.add(account);
     }
 
     public void update(Account account)

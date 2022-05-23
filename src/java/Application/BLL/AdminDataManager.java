@@ -25,17 +25,17 @@ public class AdminDataManager {
         schoolDAO = new SchoolDAO();
     }
 
+
+
     public Account createAccount(String username, String password, String firstName, String lastName, String email, School school, int auth) {
         return (Account) accountDAO.create(new Account(-1, username, password, firstName, lastName, email, school, auth));
     }
 
-    public Account getAccount(int id) {
+    public Account getAccount(int id) throws SQLException {
         return (Account) accountDAO.read(id);
     }
 
-    public void updateAccount(Account student){
-        accountDAO.update(student);
-    }
+
 
     public void deleteAccount(Account student){
         accountDAO.delete(student.getId());
@@ -76,10 +76,6 @@ public class AdminDataManager {
     // CREATE/READ/UPDATE/DELETE teacher
         // read one / all
 
-    public Account createAccount(String username, String password, String firstName, String lastName, String email, School school, int auth)
-    {
-        return (Account) accountDAO.create(new Account(-1, username, password, firstName, lastName, email, school, auth));
-    }
 
     public Account getStudent(int id) throws SQLException {
         return (Account) accountDAO.read(id);
@@ -121,6 +117,7 @@ public class AdminDataManager {
     {
         accountDAO.update(account);
     }
+
 
     public void deleteAccount(int id)
     {

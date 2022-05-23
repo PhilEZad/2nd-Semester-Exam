@@ -70,11 +70,6 @@ public class CitizensController implements Initializable
     }
 
 
-    public void onRemoveStudentToCitizen(ActionEvent event) {
-        model.removeStudentToCitizen();
-        listViewStudentsForCitizen.getItems().remove(listViewStudentsForCitizen.getSelectionModel().getSelectedItem());
-    }
-
     public void onAddStudentToCitizen(ActionEvent event) 
     {
         Stage stage = new Stage();
@@ -132,15 +127,12 @@ public class CitizensController implements Initializable
         availableCitizens.getSelectionModel().selectedItemProperty().addListener(citizenSelectionChanged());
     }
 
-    public void onRemoveStudentToCitizen(ActionEvent event)
-    {
-
+    public void onRemoveStudentToCitizen(ActionEvent event) {
+        model.removeStudentToCitizen();
+        listViewStudentsForCitizen.getItems().remove(listViewStudentsForCitizen.getSelectionModel().getSelectedItem());
     }
 
-    public void onAddStudentToCitizen(ActionEvent event)
-    {
-     //   dataManager.
-    }
+
 
     public void onJournal(ActionEvent event) {
         if (availableCitizens.getSelectionModel().getSelectedItem() != null) {
@@ -188,7 +180,7 @@ public class CitizensController implements Initializable
 
     public void onDeleteCitizen(ActionEvent event)
     {
-        dataManager.deleteCitizen(availableCitizens.getSelectionModel().getSelectedItem().getBeCitizen());
+        dataManager.deleteCitizen(CitizenModel.convert(availableCitizens.getSelectionModel().getSelectedItem()));
     }
 
     private ChangeListener<CitizenModel> citizenSelectionChanged()
@@ -249,7 +241,7 @@ public class CitizensController implements Initializable
         ObservableList<CitizenModel> citizenModelObservableList = FXCollections.observableArrayList();
         for (Citizen citizen: list)
         {
-            CitizenModel citizenModel = new CitizenModel(citizen);
+            CitizenModel citizenModel = CitizenModel.convert(citizen);
             citizenModelObservableList.add(citizenModel);
         }
 

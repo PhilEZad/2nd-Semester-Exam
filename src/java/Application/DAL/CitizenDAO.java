@@ -88,8 +88,7 @@ public class CitizenDAO extends TemplatePatternDAO<Citizen>
     }
 
     @Override
-    public Citizen read(int id)
-    {
+    public Citizen read(int id) {
         String sql = """
                     SELECT * FROM Citizen
                     JOIN School ON School.SID = Citizen.FK_SchoolOwner
@@ -135,15 +134,15 @@ public class CitizenDAO extends TemplatePatternDAO<Citizen>
                         result.getString("network")
                 );
 
-            return new Citizen(
-                    result.getInt("CID"),
-                    journal,
-                    school,
-                    result.getString("firstName"),
-                    result.getString("lastName"),
-                    result.getInt("age"),
-                    result.getInt("template")
-            );
+                return new Citizen(
+                        result.getInt("CID"),
+                        journal,
+                        school,
+                        result.getString("firstName"),
+                        result.getString("lastName"),
+                        result.getInt("age"),
+                        result.getInt("template"));
+            }
         } catch (Exception e)
         {
             e.printStackTrace();

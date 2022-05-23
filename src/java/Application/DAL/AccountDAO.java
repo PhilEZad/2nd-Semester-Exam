@@ -4,14 +4,12 @@ import Application.BE.Account;
 import Application.BE.Location;
 import Application.BE.School;
 import Application.DAL.DBConnector.DBConnectionPool;
-import Application.Utility.AccountType;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class AccountDAO extends TemplatePatternDAO<Account> {
@@ -250,7 +248,7 @@ public class AccountDAO extends TemplatePatternDAO<Account> {
     {
         String sql = """
                     SELECT * FROM Account
-                    WHERE Account.username = ?
+                    WHERE username = ?
                     """;
     
         Connection conn = DBConnectionPool.getInstance().checkOut();
@@ -258,12 +256,14 @@ public class AccountDAO extends TemplatePatternDAO<Account> {
         {
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, username);
+
             ResultSet rs = pstmt.executeQuery();
-            rs.next();
+            //rs.next();
 
             //var school = new School(rs.getInt("SID"), rs.getString("schoolName"), new Location(rs.getInt("zip"), rs.getString("city")));
-
-            return new Account(
+            while(rs.next()){
+                System.out.println("loop");
+                return new Account(
                         rs.getInt("AID"),
                         rs.getString("username"),
                         rs.getString("hashed_pwd"),
@@ -273,8 +273,8 @@ public class AccountDAO extends TemplatePatternDAO<Account> {
                         null,
                         rs.getInt("privilegeLevel")
                 );
-
-
+            }
+            return null;
         } catch (SQLException e) {
             e.printStackTrace();
 
@@ -310,7 +310,7 @@ public class AccountDAO extends TemplatePatternDAO<Account> {
                 School school = new School(
                         rs.getInt("SID"),
                         rs.getString("schoolName"),
-                        new City(rs.getInt("Zip"),
+                        new Location(rs.getInt("Zip"),
                                 rs.getString("city"))
                 );
 

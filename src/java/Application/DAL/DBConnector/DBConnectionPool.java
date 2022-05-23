@@ -4,6 +4,7 @@ import Application.Utility.ObjectPool;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.SQLException;
 
 

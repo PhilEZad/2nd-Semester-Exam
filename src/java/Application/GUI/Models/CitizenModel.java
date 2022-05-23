@@ -34,11 +34,11 @@ public class CitizenModel implements Cloneable
     private final ObjectProperty<ObservableMap<Category, CategoryEntryModel>> relevantHealthConditions = new SimpleObjectProperty<>(FXCollections.emptyObservableMap());
     private final ObjectProperty<ObservableMap<Category, CategoryEntryModel>> nonRelevantFunctionalAbilities = new SimpleObjectProperty<>(FXCollections.emptyObservableMap());
     private final ObjectProperty<ObservableMap<Category, CategoryEntryModel>> nonRelevantHealthConditions = new SimpleObjectProperty<>(FXCollections.emptyObservableMap());
+    private Citizen beCitizen = null;
 
     private IntegerProperty template;
 
-    public static Citizen convert(CitizenModel model)
-    {
+    public static Citizen convert(CitizenModel model) {
         GeneralJournal general = new GeneralJournal();
 
         general.setCoping(model.getCoping());
@@ -53,20 +53,27 @@ public class CitizenModel implements Cloneable
         general.setHomeLayout(model.getHomeLayout());
         general.setNetwork(model.getNetwork());
 
-        Citizen citizen = new Citizen(model.getId(), general, SessionModel.getSchool(), model.getFirstName(), model.getLastName(), model.getAge());
+        Citizen citizen = new Citizen(model.getId(), general, SessionModel.getSchool(), model.getFirstName(), model.getLastName(), model.getAge(), model.template.get());
 
         citizen.getHealthConditions().clear();
         citizen.getFunctionalAbilities().clear();
 
+        return citizen;
+    }
+
+    public CitizenModel()
+    {
+
+    }
+
     public CitizenModel(String firstName, String lastName, int age, int template) {
         this.beCitizen = new Citizen(-1, new GeneralJournal(), SessionModel.getSchool(), firstName, lastName, age, template);
 
-        this.firstName = new SimpleStringProperty(beCitizen.getFirstname());
-        this.lastName = new SimpleStringProperty(beCitizen.getLastname());
-        this.age = new SimpleIntegerProperty(beCitizen.getAge());
-        this.template = new SimpleIntegerProperty(beCitizen.getTemplate());
+        this.firstName.set(beCitizen.getFirstname());
+        this.lastName.set(beCitizen.getLastname());
+        this.age.set(beCitizen.getAge());
+        this.template.set(beCitizen.getTemplate());
 
-        return citizen;
     }
 
     public static CitizenModel convert(Citizen citizen)
@@ -78,19 +85,19 @@ public class CitizenModel implements Cloneable
         model.setLastName(citizen.getLastname());
         model.setAge(citizen.getAge());
 
-        if (citizen.getGeneralJournal() != null)
+        if (citizen.getJournal() != null)
         {
-            model.setCoping(citizen.getGeneralJournal().getCoping());
-            model.setMotivation(citizen.getGeneralJournal().getMotivation());
-            model.setResources(citizen.getGeneralJournal().getResources());
-            model.setRoles(citizen.getGeneralJournal().getRoles());
-            model.setHabits(citizen.getGeneralJournal().getHabits());
-            model.setEduAndJob(citizen.getGeneralJournal().getEduAndJob());
-            model.setLifeStory(citizen.getGeneralJournal().getLifeStory());
-            model.setHealthInfo(citizen.getGeneralJournal().getHealthInfo());
-            model.setAssistiveDevices(citizen.getGeneralJournal().getAssistiveDevices());
-            model.setHomeLayout(citizen.getGeneralJournal().getHomeLayout());
-            model.setNetwork(citizen.getGeneralJournal().getNetwork());
+            model.setCoping(citizen.getJournal().getCoping());
+            model.setMotivation(citizen.getJournal().getMotivation());
+            model.setResources(citizen.getJournal().getResources());
+            model.setRoles(citizen.getJournal().getRoles());
+            model.setHabits(citizen.getJournal().getHabits());
+            model.setEduAndJob(citizen.getJournal().getEduAndJob());
+            model.setLifeStory(citizen.getJournal().getLifeStory());
+            model.setHealthInfo(citizen.getJournal().getHealthInfo());
+            model.setAssistiveDevices(citizen.getJournal().getAssistiveDevices());
+            model.setHomeLayout(citizen.getJournal().getHomeLayout());
+            model.setNetwork(citizen.getJournal().getNetwork());
         }
 
         for (ContentEntry entry : citizen.getFunctionalAbilities().values())

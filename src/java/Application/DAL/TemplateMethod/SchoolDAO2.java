@@ -28,7 +28,7 @@ public class SchoolDAO2
             @Override
             protected School execute(PreparedStatement statement, School input) throws SQLException {
                 statement.setString(1,input.getSchoolName());
-                statement.setInt(2,input.getZipCode());
+                statement.setInt(2,input.getLocation().getZipCode());
 
                 statement.execute();
 
@@ -47,8 +47,7 @@ public class SchoolDAO2
         return new School(
                 (int) query.getResultID(),
                 input.getSchoolName(),
-                input.getZipCode(),
-                input.getCityName()
+                input.getLocation()
         );
     }
 

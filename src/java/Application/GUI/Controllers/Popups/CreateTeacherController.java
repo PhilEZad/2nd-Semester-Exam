@@ -3,11 +3,14 @@ package Application.GUI.Controllers.Popups;
 import Application.BE.Location;
 import Application.BE.School;
 import Application.BLL.AdminDataManager;
+import Application.Utility.Strings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
+
+import java.util.Objects;
 
 public class CreateTeacherController
 {

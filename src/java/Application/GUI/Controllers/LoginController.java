@@ -45,6 +45,8 @@ public class LoginController implements Initializable
         toggleGroup.getToggles().add(rbAdmin);
         toggleGroup.getToggles().add(rbTeacher);
 
+        System.out.println("admin hash \"" + SessionManager.createToken("admin", "admin")+"\"");
+
         toggleGroup.selectToggle(rbStudent);
     }
 

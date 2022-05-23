@@ -31,6 +31,11 @@ public class GroupDAO extends TemplatePatternDAO<Group>
 
     }
 
+    @Override
+    public Group read(int id) throws SQLException {
+        return null;
+    }
+
     private List<Account> readMembers(int groupID) {
         List<Account> members = new ArrayList<>();
         String sqlReadGroup = """
@@ -91,7 +96,9 @@ public class GroupDAO extends TemplatePatternDAO<Group>
     @Override
     public List<Group> readAll()
     {
-        String sql 
+        String sql;
+
+        return null;
     }
 
     @Override

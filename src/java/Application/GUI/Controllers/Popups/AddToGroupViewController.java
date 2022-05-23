@@ -125,7 +125,7 @@ public class AddToGroupViewController implements Initializable {
     private ObservableList<AccountModel> studentList()
     {
         ObservableList<AccountModel> returnList = FXCollections.observableArrayList();
-        List<Account> accountList = dataManager.getAllStudents();
+        List<Account> accountList = dataManager.getAllStudents2();
 
         for (Account account : accountList)
         {

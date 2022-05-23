@@ -48,7 +48,7 @@ public class EditSchoolController implements Initializable
     public void saveEdits(ActionEvent actionEvent)
     {
         school.update(new School(school.getId(), txtSchoolName.getText(), new Location(Integer.parseInt(txtSchoolZipCode.getText()), "")));
-        school.update(new School(school.getSchoolID(), txtSchoolName.getText(), Integer.parseInt(txtSchoolZipCode.getText()), ""));
+        //school.update(new School(school.getSchoolID(), txtSchoolName.getText(), Integer.parseInt(txtSchoolZipCode.getText()), ""));
         
         Stage stage = (Stage) btnSave.getScene().getWindow();
         stage.close();

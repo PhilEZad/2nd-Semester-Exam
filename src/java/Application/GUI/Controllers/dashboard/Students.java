@@ -2,9 +2,8 @@ package Application.GUI.Controllers.dashboard;
 
 import Application.BE.Account;
 import Application.BE.Citizen;
+import Application.BE.Location;
 import Application.BE.School;
-import Application.GUI.Models.AccountModel;
-import Application.GUI.Models.CitizenTemplateModel;
 import Application.GUI.Models.StudentModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -87,7 +86,7 @@ public class Students implements Initializable {
 
     public ObservableList<StudentModel> mockUp(){
 
-        School school = new School(1, "SOSU", 6710, "Esbjerg");
+        School school = new School(1, "SOSU", new Location(6710, "Esbjerg"));
         Account account = new Account(1, "", "","Stine","Rasmussen" ,"stin543@SOSU.dk", school, 2);
         StudentModel stine = new StudentModel(account);
         StudentModel emilie = new StudentModel(account);
@@ -102,18 +101,18 @@ public class Students implements Initializable {
         lblStudentsStudentName.setText(stine.getFirstName() + " " + stine.getLastName());
         lblStudentEmail.setText(stine.getEmail());
 
-        Citizen arne = new Citizen(1, "Arne", "Johansen", 68, 0, 5, 6710, 1);
-        Citizen bodil = new Citizen(2,"Bodil", "Stender", 57, 0,53, 6715,1);
-        Citizen karsten = new Citizen(3, "Karsten", "Andersen", 47, 0, 32, 6700, 1);
-        ObservableList citizenList = FXCollections.observableArrayList();
+      //  Citizen arne = new Citizen(1, "Arne", "Johansen", 68, 0, 5, 6710, 1);
+      //  Citizen bodil = new Citizen(2,"Bodil", "Stender", 57, 0,53, 6715,1);
+      //  Citizen karsten = new Citizen(3, "Karsten", "Andersen", 47, 0, 32, 6700, 1);
+      //  ObservableList citizenList = FXCollections.observableArrayList();
         ObservableList studedntList = FXCollections.observableArrayList();
-        studedntList.add(stine);
-        studedntList.add(emilie);
-        studedntList.add(julie);
-        citizenList.add(arne);
-        citizenList.add(bodil);
-        citizenList.add(karsten);
-        listViewCitizensForStudents.setItems(citizenList);
+      //  studedntList.add(stine);
+      //  studedntList.add(emilie);
+      //  studedntList.add(julie);
+      //  citizenList.add(arne);
+      //  citizenList.add(bodil);
+      //  citizenList.add(karsten);
+      //  listViewCitizensForStudents.setItems(citizenList);
         return studedntList;
     }
 

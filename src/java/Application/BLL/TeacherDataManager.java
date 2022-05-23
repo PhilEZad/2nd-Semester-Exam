@@ -148,8 +148,7 @@ public class TeacherDataManager
         }
     }
 
-    public CitizenModel getCitizen(Citizen citizen)
-    {
+    public CitizenModel getCitizen(Citizen citizen) throws SQLException {
         return CitizenModel.convert((Citizen) accountDAO.read(citizen.getId()));
     }
 
@@ -218,7 +217,7 @@ public class TeacherDataManager
     // get student(s) in a group (members)
     public List<Account> getGroupMembers()
     {
-        return groupDAO.readAll();
+        return null ;//groupDAO.readAll();
     }
 
     // get all groups that contains a specific student
@@ -246,7 +245,7 @@ public class TeacherDataManager
 
 
 
-    public List getAllCitizenTemplates() {
+    public List<Citizen> getAllCitizenTemplates() {
         List<Citizen> citizenList = citizenTemplateDAO.readAll();
         List<Citizen> citizenTemplatesList = new ArrayList<>();
 

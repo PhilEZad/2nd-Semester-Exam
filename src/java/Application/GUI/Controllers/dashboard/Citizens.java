@@ -1,5 +1,8 @@
 package Application.GUI.Controllers.dashboard;
 
+import Application.BE.Citizen;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -75,30 +78,29 @@ public class Citizens implements Initializable
 
     public void mockUp()
     {
-        Citizen arne = new Citizen(1, "Arne", "Johansen", 68, 0, 5, 6710, 1);
-        Citizen bodil = new Citizen(2,"Bodil", "Stender", 57, 0,53, 6715,1);
-        Citizen karsten = new Citizen(3, "Karsten", "Andersen", 47, 0, 32, 6700, 1);
-        ObservableList citizenList = FXCollections.observableArrayList();
-        citizenList.add(arne);
-        citizenList.add(bodil);
-        citizenList.add(karsten);
-        AvailableCitizens.setItems(citizenList);
+       // Citizen arne = new Citizen(1, "Arne", "Johansen", 68, 0, 5, 6710, 1);
+       // Citizen bodil = new Citizen(2,"Bodil", "Stender", 57, 0,53, 6715,1);
+       // Citizen karsten = new Citizen(3, "Karsten", "Andersen", 47, 0, 32, 6700, 1);
+       //
+       // ObservableList citizenList = FXCollections.observableArrayList();
+       // citizenList.add(arne);
+       // citizenList.add(bodil);
+       // citizenList.add(karsten);
+       // AvailableCitizens.setItems(citizenList);
+        //
 
-
-
-
-        lblCitizenName.setText("Arne Johansen");
-        lblAge.setText("68");
-        lblBirthdateYear.setText("1954");
-        lblAddress.setText("granly alle 5c");
-        lblHelpStatus.setText("aktiv");
-        lblCivilianStatus.setText("gift");
-
-        listViewContactInfo.getItems().add("Tlf: 52 74 68 88");
-        listViewContactInfo.getItems().add("");
-        listViewContactInfo.getItems().add("Kontant Personer:");
-        listViewContactInfo.getItems().add("Christian Sandbæk");
-        listViewContactInfo.getItems().add("Tlf: 50 74 67 77");
+        //lblCitizenName.setText("Arne Johansen");
+        //lblAge.setText("68");
+        //lblBirthdateYear.setText("1954");
+        //lblAddress.setText("granly alle 5c");
+        //lblHelpStatus.setText("aktiv");
+        //lblCivilianStatus.setText("gift");
+//
+        //listViewContactInfo.getItems().add("Tlf: 52 74 68 88");
+        //listViewContactInfo.getItems().add("");
+        //listViewContactInfo.getItems().add("Kontant Personer:");
+        //listViewContactInfo.getItems().add("Christian Sandbæk");
+        //listViewContactInfo.getItems().add("Tlf: 50 74 67 77");
     }
 
 }
