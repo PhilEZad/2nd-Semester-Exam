@@ -24,6 +24,7 @@ public class TreeHierachyTest {
    */
     //@Rule
     // public JavaFXThreadingRule javafxRule = new JavaFXThreadingRule();
+
 /*
 
     private HashMap<Category, CategoryEntryModel> categoryEntryModelHashMap;
@@ -160,7 +161,5 @@ public class TreeHierachyTest {
         assertEquals("Condition A.1", subCategory.getValue().getCategoryName());
         assertEquals(0, subCategory.getChildren().size());
     }
-
-}
- */
+*/
 }

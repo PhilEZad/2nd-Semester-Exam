@@ -21,6 +21,7 @@ public class CitizensController implements Initializable
     public ListView<Citizen> AvailableCitizens;
     public ListView listViewStudentsForCitizen;
 
+
     public Button btnRemoveStudentToCitizen;
     public Button btnAddStudentToCitizen;
     public TextField txtFieldCitizensSearch;

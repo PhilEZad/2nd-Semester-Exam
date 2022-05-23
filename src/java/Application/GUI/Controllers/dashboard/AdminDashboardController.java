@@ -272,7 +272,7 @@ public class AdminDashboardController implements Initializable {
     private SortedList<AccountModel> searchTable(TextField searchField, TableView table, ObservableList searchList)
     {
         FilteredList<AccountModel> filteredData = new FilteredList<>(searchList, b -> true);
-
+    
         searchField.textProperty().addListener((observable, oldValue, newValue) -> {
             filteredData.setPredicate(user -> {
 

@@ -173,4 +173,9 @@ public class AccountModel
     public void setAccount(Account account) {
         this.account = account;
     }
+
+    @Override
+    public String toString() {
+        return firstName.get() + " " + lastName.get();
+    }
 }
