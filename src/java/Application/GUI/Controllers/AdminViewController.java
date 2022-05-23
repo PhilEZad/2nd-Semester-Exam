@@ -120,17 +120,16 @@ public class AdminViewController implements Initializable {
     {
         Stage popupMenu = new Stage();
 
-        try
-        {
-            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/views/Popups/CreateSchoolView.fxml")));
-            popupMenu.setTitle("Ny Skole");
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/views/Popups/CreateStudentView.fxml"));
+            popupMenu.setTitle("Ny Elev");
             popupMenu.setScene(new Scene(root));
             popupMenu.show();
         } catch (IOException e)
         {
             e.printStackTrace();
         }
-        popupMenu.setOnHidden(event -> tblViewSchool.setItems(daoAdmin.getAllSchools()));
+        popupMenu.setOnHidden(event -> tblViewStudent.setItems(searchTable(txtFieldSearch, tblViewTeacher, daoAdmin.getAllStudents())));
     }
 
     public void editSelected(ActionEvent actionEvent)
