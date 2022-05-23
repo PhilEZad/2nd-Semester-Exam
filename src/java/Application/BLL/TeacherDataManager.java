@@ -162,30 +162,11 @@ public class TeacherDataManager
             citizenModel = new CitizenModel(
                     new Citizen(
                             -1,
-                            new GeneralJournal(
-                                    -1,
-                                    "",
-                                    "",
-                                    "",
-                                    "",
-                                    "",
-                                    "",
-                                    "",
-                                    "",
-                                    "",
-                                    "",
-                                    ""
-                            ),
-                            new School(
-                                    -1,
-                                    "",
-                                    new Location(
-                                            -1,
-                                            ""
-                                    )
-                            ),
-                            "",
-                            "",
+                            new GeneralJournal(-1),
+                            new School(-1, " ",
+                                    new Location(-1, " ")),
+                            "Fejl",
+                            "Fejl",
                             -1
                     ));
 

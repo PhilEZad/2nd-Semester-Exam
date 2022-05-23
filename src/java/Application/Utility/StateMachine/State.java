@@ -36,8 +36,6 @@ public class State implements IState {
         timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(0.3), new KeyValue(viewPane.opacityProperty(), 0)));
         timeline.play();
         menuButton.setDisable(false);
-        //viewPane.setVisible(false);
-        //menuButton.setDisable(false);
     }
 
     @Override

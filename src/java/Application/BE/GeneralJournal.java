@@ -40,8 +40,6 @@ public class GeneralJournal
   
     public GeneralJournal(int generalID, String coping, String motivation, String resources, String roles, String habits, String eduAndJob, String lifeStory, String healthInfo, String assistiveDevices, String homeLayout, String network) {
         this.id = generalID;
-        if (coping != null)
-            this.coping = " ";
         this.coping = coping;
         this.motivation = motivation;
         this.resources = resources;

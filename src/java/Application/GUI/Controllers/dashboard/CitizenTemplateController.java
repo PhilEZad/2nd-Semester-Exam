@@ -4,7 +4,9 @@ import Application.BE.GeneralJournal;
 import Application.GUI.Models.*;
 import Application.GUI.Models.ControllerModels.CitizenTemplateControllerModel;
 import Application.Utility.GUIUtils;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.geometry.Side;
@@ -71,7 +73,7 @@ public class CitizenTemplateController implements Initializable {
     private ContextMenu actionsMenu = new ContextMenu();
     private List<TreeTableColumn<CategoryEntryModel, String>> editableTreeTableColumns = new ArrayList<>();
     private List<TextArea> editableTextAreas = new ArrayList<>();
-
+    private FilteredList filteredCitizenTemplates;
     private CitizenTemplateControllerModel model = new CitizenTemplateControllerModel();
 
     @Override
@@ -83,10 +85,10 @@ public class CitizenTemplateController implements Initializable {
         initTreeTblColumnEdit();
 
 
-        //initCitizenTemplatesList();
+        initCitizenTemplatesList();
         initActionsMenu();
         initTextFields();
-        GUIUtils.searchListener(txtFieldCitizenTemplateSearch, listViewCitizenTemplates);
+        filteredCitizenTemplates = GUIUtils.searchListener(txtFieldCitizenTemplateSearch, listViewCitizenTemplates);
     }
 
     /**
@@ -98,6 +100,7 @@ public class CitizenTemplateController implements Initializable {
         txtFieldSurname.setDisable(true);
         txtFieldAge.setDisable(true);
         txtFieldAge.setTextFormatter(new TextFormatter<>(new IntegerStringConverter(),0, GUIUtils.getIntegerFilter()));
+        btnGenerateBaseData.setVisible(false);
     }
 
 
@@ -149,7 +152,7 @@ public class CitizenTemplateController implements Initializable {
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {
             listViewCitizenTemplates.getItems().remove(listViewCitizenTemplates.getSelectionModel().getSelectedItem());
-            // model.deleteCitizenTemplate();
+            model.deleteCitizenTemplate();
         }
     }
 
@@ -282,7 +285,6 @@ public class CitizenTemplateController implements Initializable {
                             Label label = new Label(item);
                             setGraphic(label);
                             label.setTooltip(new Tooltip(model.getTooltipText(item)));
-                            //setText(item);
                         }
                     }
                 };
@@ -304,7 +306,6 @@ public class CitizenTemplateController implements Initializable {
                             Label label = new Label(item);
                             setGraphic(label);
                             label.setTooltip(new Tooltip(model.getTooltipText(item)));
-                            //setText(item);
                         }
                     }
                 };
@@ -403,24 +404,29 @@ public class CitizenTemplateController implements Initializable {
         editableTextAreas.forEach(ta -> ta.setEditable(editable));
 
         //Set all ComboBoxes to editable
-        for (CategoryEntryModel cat : GUIUtils.getTreeItemsFromRoot(treeTblViewFunc.getRoot())) {
-            ComboBox<FunctionalLevels> funcLevelComboBox = cat.getLevelFuncLevelComboBox();
-            ComboBox<FunctionalLevels> funcExConComboBox = cat.getExConFuncComboBox();
-            if (funcLevelComboBox != null) {
-                funcLevelComboBox.setDisable(!editable);
-            }
-            if (funcExConComboBox != null) {
-                funcExConComboBox.setDisable(!editable);
+        if (treeTblViewFunc.getRoot() != null) {
+            for (CategoryEntryModel cat : GUIUtils.getTreeItemsFromRoot(treeTblViewFunc.getRoot())) {
+                ComboBox<FunctionalLevels> funcLevelComboBox = cat.getLevelFuncLevelComboBox();
+                ComboBox<FunctionalLevels> funcExConComboBox = cat.getExConFuncComboBox();
+                if (funcLevelComboBox != null) {
+                    funcLevelComboBox.setDisable(!editable);
+                }
+                if (funcExConComboBox != null) {
+                    funcExConComboBox.setDisable(!editable);
+                }
             }
         }
-        for (CategoryEntryModel cat : GUIUtils.getTreeItemsFromRoot(treeTblViewHealth.getRoot())) {
-            ComboBox<HealthLevels> healthLevelComboBox = cat.getLevelHealthLevelComboBox();
-            ComboBox<HealthLevels> healthExConComboBox = cat.getExConHealthLevelComboBox();
-            if (healthLevelComboBox != null) {
-                healthLevelComboBox.setDisable(!editable);
-            }
-            if (healthExConComboBox != null) {
-                healthExConComboBox.setDisable(!editable);
+
+        if (treeTblViewHealth.getRoot() != null) {
+            for (CategoryEntryModel cat : GUIUtils.getTreeItemsFromRoot(treeTblViewHealth.getRoot())) {
+                ComboBox<HealthLevels> healthLevelComboBox = cat.getLevelHealthLevelComboBox();
+                ComboBox<HealthLevels> healthExConComboBox = cat.getExConHealthLevelComboBox();
+                if (healthLevelComboBox != null) {
+                    healthLevelComboBox.setDisable(!editable);
+                }
+                if (healthExConComboBox != null) {
+                    healthExConComboBox.setDisable(!editable);
+                }
             }
         }
 
@@ -509,8 +515,9 @@ public class CitizenTemplateController implements Initializable {
      */
     public void onEditCancel(ActionEvent event) {
         ObservableList<CitizenModel> templateModelObservableList = listViewCitizenTemplates.getItems();
-        int index = templateModelObservableList.indexOf(model.getSelectedCitizenTemplateModel());
-        listViewCitizenTemplates.getItems().set(index, model.getPreEditState());
+        int index = templateModelObservableList.indexOf(model.getSelectedCitizenTemplateModel());;
+        filteredCitizenTemplates.getSource().set(index, model.getPreEditState());
+
         listViewCitizenTemplates.getSelectionModel().select(index);
         setEditable(false);
     }

@@ -133,6 +133,9 @@ public class Citizen implements Cloneable
     }
 
     public GeneralJournal getGeneralJournal() {
+        if (generalJournal == null) {
+            return new GeneralJournal(-1);
+        }
         return generalJournal;
     }
 
