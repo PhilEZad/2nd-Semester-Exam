@@ -61,6 +61,20 @@ public class TeacherAdminViewController implements Initializable
 
     private void initViewStates()
     {
+
+        DashboardStateMachine.setTarget(dashboard);
+
+        DashboardStateMachine.HOME.setTransition(tglBtnDashboard.selectedProperty());
+        DashboardStateMachine.CITIZEN.setTransition(tglBtnCitizens.selectedProperty());
+        DashboardStateMachine.STUDENT.setTransition(tglBtnStudents.selectedProperty());
+        DashboardStateMachine.TEMPLATE.setTransition(tglBtnCitizenTemplates.selectedProperty());
+
+        toggleGroup.getToggles().add(this.tglBtnDashboard);
+        toggleGroup.getToggles().add(this.tglBtnCitizens);
+        toggleGroup.getToggles().add(this.tglBtnCitizenTemplates);
+        toggleGroup.getToggles().add(this.tglBtnStudents);
+
+        toggleGroup.selectToggle(tglBtnCitizens);
         stateMachine.addState(tglBtnDashboard, new State(anchorPaneDashboard, tglBtnDashboard)); // Dashboard
         stateMachine.addState(tglBtnStudents, new State(anchorPaneStudents, tglBtnStudents)); // Students
         stateMachine.addState(tglBtnCitizenTemplates, new State(anchorPaneCitizenTemplate, tglBtnCitizenTemplates)); // Citizen Templates
