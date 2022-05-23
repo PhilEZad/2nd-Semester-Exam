@@ -4,9 +4,9 @@ import Application.BE.*;
 import Application.DAL.*;
 import Application.GUI.Models.AccountModel;
 import Application.GUI.Models.CitizenModel;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -78,9 +78,9 @@ public class TeacherDataManager
      * Fetches a list of all accounts, sorts them by privilege and returns an ObservableList of only student AccountModel objects.
      * @return ObservableList<AccountModel>
      */
-    public ObservableList<AccountModel> getAllStudents()
+    public List<AccountModel> getAllStudents()
     {
-        ObservableList<AccountModel> returnList = FXCollections.observableArrayList();
+        List<AccountModel> returnList = new ArrayList<>();
         List<Account> accountList = accountDAO.readAll();
 
         for (Account account : accountList)
@@ -193,19 +193,9 @@ public class TeacherDataManager
         }
     }
 
-    public ObservableList<CitizenModel> getAllCitizens()
+    public List<Citizen> getAllCitizens()
     {
-        ObservableList<CitizenModel> returnList = FXCollections.observableArrayList();
-        List<Citizen> citizenList = citizenDAO.readAll();
-
-        for (Citizen citizen : citizenList)
-        {
-            {
-                CitizenModel citizenModel = new CitizenModel(citizen);
-                returnList.add(citizenModel);
-            }
-        }
-        return returnList;
+        return citizenDAO.readAll();
     }
 
     public Boolean deleteCitizen(Citizen citizen)
@@ -264,18 +254,9 @@ public class TeacherDataManager
 
     // FIXME: 22-05-2022 Not correct list
     // get student(s) in a group (members)
-    public ObservableList<AccountModel> getGroupMembers()
+    public List<Account> getGroupMembers()
     {
-        List<Account> accountList = groupDAO.readAll();
-        ObservableList<AccountModel> returnList = FXCollections.observableArrayList();
-     for (Account account: accountList)
-        {
-            AccountModel accountModel = new AccountModel(
-                    account
-            );
-            returnList.add(accountModel);
-        }
-        return returnList;
+        return groupDAO.readAll();
     }
 
     // get all groups that contains a specific student
@@ -303,7 +284,7 @@ public class TeacherDataManager
 
 
 
-    public List getAllCitizenTemplates() {
+    public List<Citizen> getAllCitizenTemplates() {
         List<Citizen> citizenTemplates = citizenTemplateDAO.readAll();
 
 

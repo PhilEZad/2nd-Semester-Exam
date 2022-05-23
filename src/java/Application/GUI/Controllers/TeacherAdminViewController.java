@@ -2,6 +2,7 @@ package Application.GUI.Controllers;
 
 
 import Application.BLL.TeacherDataManager;
+import Application.GUI.Controllers.dashboard.DefaultController;
 import Application.GUI.Models.AccountModel;
 
 import Application.Utility.StateMachine.State;
@@ -33,7 +34,6 @@ public class TeacherAdminViewController implements Initializable
 
     private ToggleGroup toggleGroupViews;
     private StateMachine<ToggleButton> stateMachine = new StateMachine<>();
-    private TeacherDataManager dataManager = new TeacherDataManager();
     
 
     /**
@@ -61,7 +61,6 @@ public class TeacherAdminViewController implements Initializable
 
     private void initViewStates()
     {
-        System.out.println(anchorPaneDashboard.getChildren());
         stateMachine.addState(tglBtnDashboard, new State(anchorPaneDashboard, tglBtnDashboard)); // Dashboard
         stateMachine.addState(tglBtnStudents, new State(anchorPaneStudents, tglBtnStudents)); // Students
         stateMachine.addState(tglBtnCitizenTemplates, new State(anchorPaneCitizenTemplate, tglBtnCitizenTemplates)); // Citizen Templates

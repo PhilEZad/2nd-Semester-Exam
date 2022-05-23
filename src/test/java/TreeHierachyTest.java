@@ -160,5 +160,5 @@ public class TreeHierachyTest {
         assertEquals("Condition A.1", subCategory.getValue().getCategoryName());
         assertEquals(0, subCategory.getChildren().size());
     }
-
+*/
 }

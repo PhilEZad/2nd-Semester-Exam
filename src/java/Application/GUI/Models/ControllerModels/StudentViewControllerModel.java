@@ -21,14 +21,6 @@ public class StudentViewControllerModel {
         studentDataManager = new StudentDataManager();
     }
 
-    public void onStudentCitizensSearch() {
-        //TODO
-    }
-
-    public void onOpenJournal() {
-        //TODO
-    }
-
 
     public void onAddObservation() {
         //TODO
