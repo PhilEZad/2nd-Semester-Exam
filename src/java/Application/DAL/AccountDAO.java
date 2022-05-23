@@ -76,7 +76,7 @@ public class AccountDAO extends TemplatePatternDAO<Account> {
     public void delete(int accountid){
         String sql = """
                     DELETE FROM AccountGroup
-                    WHERE FK_MemberID = ?
+                    WHERE EXISTS (SELECT * FROM AccountGroup WHERE FK_MemberID = =)
                     DELETE FROM account
                     WHERE AID = ?
                     """;
