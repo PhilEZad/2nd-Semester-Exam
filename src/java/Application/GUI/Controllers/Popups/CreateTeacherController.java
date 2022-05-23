@@ -6,13 +6,16 @@ import Application.BE.School;
 import Application.BLL.AdminDataManager;
 import Application.GUI.Models.AccountModel;
 import Application.GUI.Models.SchoolModel;
+import Application.Utility.Strings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class CreateTeacherController
@@ -32,15 +35,25 @@ public class CreateTeacherController
         // FIXME: 03/05/2022 -- Dummy School
         School school = new School(1, "Dummy School", new Location(6800, "Varde"));
 
-        accountDAO.createAccount(
-                txtFieldUsername.getText(),
-                txtFieldPassword.getText(),
-                txtFieldFirstName.getText(),
-                txtFieldLastName.getText(),
-                txtFieldEmail.getText(),
-                school,
-                1
-        );
+        try {
+            accountDAO.createAccount(
+                    txtFieldUsername.getText(),
+                    Strings.generateAccessToken(txtFieldUsername.getText(),txtFieldPassword.getText()),
+                    txtFieldFirstName.getText(),
+                    txtFieldLastName.getText(),
+                    txtFieldEmail.getText(),
+                    school,
+                    1
+            );
+        }
+        catch (Exception e)
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Fejl");
+            alert.setHeaderText("brugernavnet er allerede taget, lav venligst en anden.");
+            alert.getDialogPane().getStylesheets().add(Objects.requireNonNull(getClass().getResource("/Styles/MainStylesheet.css")).toExternalForm());
+            alert.showAndWait();
+        }
         ((Node) (actionEvent.getSource())).getScene().getWindow().hide();
     }
 
