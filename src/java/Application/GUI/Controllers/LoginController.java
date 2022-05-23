@@ -1,17 +1,17 @@
 package Application.GUI.Controllers;
 
+import Application.BLL.SessionManager;
 import Application.GUI.Models.SessionModel;
+import Application.Utility.AccountType;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 
 import java.io.IOException;
 import java.net.URL;
@@ -21,63 +21,48 @@ import java.util.ResourceBundle;
 
 public class LoginController implements Initializable
 {
+    public RadioButton rbStudent;
+    public RadioButton rbTeacher;
+    public RadioButton rbAdmin;
+
+    ToggleGroup toggleGroup = new ToggleGroup();
+
+    public TextField username;
+    public TextField password;
+
     private SessionModel account;
 
     @FXML
-    public AnchorPane LoginScene;
+    public BorderPane root;
 
-    @FXML
-    public TextField txtUsername;
-
-    @FXML
-    public TextField txtPwd;
-
-    @FXML
-    public Button btnSubmit;
-
-
-    public LoginController()
-    {
-        this.txtUsername = new TextField();
-        this.txtPwd = new TextField();
-        this.btnSubmit = new Button();
-    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
+        toggleGroup = new ToggleGroup();
+
+        toggleGroup.getToggles().add(rbStudent);
+        toggleGroup.getToggles().add(rbAdmin);
+        toggleGroup.getToggles().add(rbTeacher);
+
+        toggleGroup.selectToggle(rbStudent);
     }
 
-    private ResourceBundle createResourceBundle()
+    public void onSubmit(ActionEvent actionEvent) throws IOException
     {
-        return new ListResourceBundle() {
-            @Override
-            protected Object[][] getContents() {
-                return new Object[][] {
-                    {"account", account}
-                };
-            }
-        };
-    }
+        AccountType accountType = rbAdmin.isSelected() ? AccountType.ADMIN : rbTeacher.isSelected() ? AccountType.TEACHER : rbStudent.isSelected() ? AccountType.STUDENT : AccountType.NONE;
 
-    public void onSubmit(ActionEvent event) throws IOException {
-
-        account = new SessionModel();
-
-        if (account.authenticate(this.txtUsername.getText(), this.txtPwd.getText()))
+        if (SessionManager.tryBeginSession(accountType, this.username.getText(), this.password.getText()))
         {
-            Parent root = FXMLLoader.load(Objects.requireNonNull(this.getClass().getResource("/views/TeacherView.fxml")), createResourceBundle());
+            String url = switch (accountType)
+                    {
+                        case ADMIN -> "/Views/AdminView.fxml";
+                        case TEACHER -> "/Views/TeacherView.fxml";
+                        case STUDENT -> "/Views/StudentView.fxml";
+                        case NONE -> null;
+                    };
 
-            // switch to dashboard
-            LoginScene.getScene().setRoot(root);
-        }
-        else
-        {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Login Fejl");
-            alert.setHeaderText("Fejl i login");
-            alert.setContentText("Brugernavn eller kodeord er forkert");
-            alert.showAndWait();
+            if (url != null) root.getScene().setRoot(FXMLLoader.load(Objects.requireNonNull(this.getClass().getResource(url))));
         }
     }
 }

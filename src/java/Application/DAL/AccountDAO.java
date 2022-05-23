@@ -4,6 +4,7 @@ import Application.BE.Account;
 import Application.BE.Location;
 import Application.BE.School;
 import Application.DAL.DBConnector.DBConnectionPool;
+import Application.Utility.AccountType;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -128,20 +129,20 @@ public class AccountDAO extends TemplatePatternDAO<Account> {
 
             while (rs.next()) {
                 school = new School(
-                        rs.getInt("schoolId"),
+                        rs.getInt("SID"),
                         rs.getString("schoolName"),
-                        new Location(rs.getInt("zipCode"), rs.getString("cityName"))
+                        new Location(rs.getInt("Zip"), rs.getString("city"))
                 );
 
                 account = new Account(
-                        rs.getInt("accountId"),
-                        rs.getString("login"),
-                        rs.getString("password"),
+                        rs.getInt("AID"),
+                        rs.getString("username"),
+                        rs.getString("hashed_pwd"),
                         rs.getString("firstName"),
                         rs.getString("surname"),
                         rs.getString("email"),
                         school,
-                        rs.getInt("auth")
+                        rs.getInt("privilegeLevel")
                 );
             }
             pstmt.close();
@@ -246,6 +247,42 @@ public class AccountDAO extends TemplatePatternDAO<Account> {
 
     public Account read(String username)
     {
-        return null;
+        String sql = """
+                    SELECT * FROM Account
+                    WHERE Account.username = ?
+                    """;
+
+
+        Connection conn = DBConnectionPool.getInstance().checkOut();
+        try
+        {
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+
+            pstmt.setString(1, username);
+            ResultSet rs = pstmt.executeQuery();
+            rs.next();
+
+            //var school = new School(rs.getInt("SID"), rs.getString("schoolName"), new Location(rs.getInt("zip"), rs.getString("city")));
+
+            return new Account(
+                        rs.getInt("AID"),
+                        rs.getString("username"),
+                        rs.getString("hashed_pwd"),
+                        rs.getString("firstName"),
+                        rs.getString("lastname"),
+                        rs.getString("email"),
+                        null,
+                        rs.getInt("privilegeLevel")
+                );
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+            return null;
+        }
+        finally {
+            DBConnectionPool.getInstance().checkIn(conn);
+        }
     }
 }

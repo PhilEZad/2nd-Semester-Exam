@@ -20,7 +20,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException
     {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(this.getClass().getResource("/Views/TeacherView.fxml")));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(this.getClass().getResource("/Views/LoginScreen.fxml")));
 
         primaryStage.setTitle("FS3 Simluations Platform");
 
