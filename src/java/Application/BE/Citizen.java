@@ -125,7 +125,6 @@ public class Citizen implements Cloneable
     }
 
 
-
     @Override
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
@@ -139,6 +138,11 @@ public class Citizen implements Cloneable
     public void setTemplate(int template)
     {
         this.template = template;
+    }
+
+    @Override
+    public String toString() {
+        return "" +firstname +" " +lastname + " "+ age;
     }
 }
 

@@ -23,6 +23,9 @@ public class StudentModel {
         this.student = student;
     }
 
+    public String getFullName(){
+        return firstName.get() + " " + lastName.get();
+    }
 
     public String getFirstName() {
         return firstName.get();
@@ -59,5 +62,11 @@ public class StudentModel {
 
     public void setEmail(String email) {
         this.email.set(email);
+    }
+
+    @Override
+    public String toString() {
+        return firstName.get() +
+                " " + lastName.get();
     }
 }

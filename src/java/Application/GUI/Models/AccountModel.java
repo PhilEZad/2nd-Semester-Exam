@@ -23,6 +23,8 @@ public class AccountModel
     private StringProperty email;
     private IntegerProperty authorization;
     private School school;
+    private StringProperty accountClass;
+
     private Account account;
 
     ObservableList<Account> accountsList;
@@ -45,6 +47,7 @@ public class AccountModel
         this.authorization = new SimpleIntegerProperty();
         this.school = account.getSchool();
         this.account = account;
+        this.accountClass = new SimpleStringProperty();
 
         id.set(account.getId());
         password.set(account.getPassword());
@@ -54,6 +57,7 @@ public class AccountModel
         lastName.set(account.getLastName());
         email.set(account.getEmail());
         authorization.set(account.getAuthorization());
+        accountClass.set(account.getSchool().getSchoolName());
     }
 
     public int getId()
@@ -127,7 +131,9 @@ public class AccountModel
         return lastName;
     }
 
-    public StringProperty getFullNameProperty(){return new SimpleStringProperty(firstName.get() + " " + lastName.get());}
+    public StringProperty getFullNameProperty() {
+        return new SimpleStringProperty(firstName.get() + " " + lastName.get());
+    }
 
     public void setLastName(String lastName) {
         this.lastName.set(lastName);
@@ -192,5 +198,24 @@ public class AccountModel
     public void update(Account account)
     {
         adminDataManager.updateAccount(account);
+    }
+
+    public String getAccountClass() {
+        return accountClass.get();
+    }
+
+    public StringProperty accountClassProperty() {
+        return accountClass;
+    }
+
+    public void setAccountClass(String accountClass) {
+        this.accountClass.set(accountClass);
+    }
+
+    public StringProperty getClassNameProperty()
+    {
+        StringProperty className = new SimpleStringProperty();
+        className.set(accountClass.get());
+        return className;
     }
 }

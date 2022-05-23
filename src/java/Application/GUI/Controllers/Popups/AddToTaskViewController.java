@@ -100,6 +100,10 @@ public class AddToTaskViewController implements Initializable {
     public void initEventListeners()
     {
         tblClmAccountName.setCellValueFactory(param -> param.getValue().getFullNameProperty());
+        tblClmAccountClass.setCellValueFactory(param -> param.getValue().getClassNameProperty());
+
+        clmAddedAccountName.setCellValueFactory(param -> param.getValue().getFullNameProperty());
+        clmAddedAccountClass.setCellValueFactory(param -> param.getValue().getClassNameProperty());
 
         //Wrap ObservableList of UserInfo in a FilteredList.
         FilteredList<AccountModel> filteredData = new FilteredList<>(mockAccounts(), b -> true);
@@ -109,13 +113,13 @@ public class AddToTaskViewController implements Initializable {
         txtAccountSearch.textProperty().addListener((observable, oldValue, newValue) -> {
             filteredData.setPredicate(account -> {
 
-                //If filter is empty, display all users.
+                //If filter is empty, display all accounts.
                 if (newValue == null || newValue.isEmpty())
                 {
                     return true;
                 }
 
-                //Compare user name with filter text.
+                //Compare Account name with filter text.
                 String lowerCaseFilter = newValue.toLowerCase();
 
                 if (account.getFirstName().toLowerCase().indexOf(lowerCaseFilter) != -1)
