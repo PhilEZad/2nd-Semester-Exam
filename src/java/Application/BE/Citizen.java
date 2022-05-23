@@ -15,12 +15,13 @@ public class Citizen implements Cloneable
     private String lastname;
     private int age;
     private int zipCode;
+    private int template;
 
     private HashMap<Category, ContentEntry> healthCategoryEntries;
 
     private HashMap<Category, ContentEntry> funcCategoryEntries;
 
-    public Citizen(int id, GeneralJournal journal, School school, String firstname, String lastname, int age)
+    public Citizen(int id, GeneralJournal journal, School school, String firstname, String lastname, int age, int template)
     {
         this.id = id;
         this.journal = journal;
@@ -28,6 +29,7 @@ public class Citizen implements Cloneable
         this.firstname = firstname;
         this.lastname = lastname;
         this.age = age;
+        this.template = template;
 
         funcCategoryEntries = new HashMap<>();
         healthCategoryEntries = new HashMap<>();
@@ -135,6 +137,16 @@ public class Citizen implements Cloneable
     @Override
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
+    }
+
+    public int getTemplate()
+    {
+        return template;
+    }
+
+    public void setTemplate(int template)
+    {
+        this.template = template;
     }
 }
 

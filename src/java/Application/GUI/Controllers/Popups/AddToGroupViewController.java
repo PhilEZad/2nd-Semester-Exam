@@ -1,8 +1,11 @@
 package Application.GUI.Controllers.Popups;
 
+import Application.BE.Account;
 import Application.BLL.TeacherDataManager;
 import Application.GUI.Models.AccountModel;
 import Application.GUI.Models.CitizenModel;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
@@ -16,6 +19,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class AddToGroupViewController implements Initializable {
@@ -88,7 +92,7 @@ public class AddToGroupViewController implements Initializable {
     {
         tblClmAccountName.setCellValueFactory(param -> param.getValue().getFullNameProperty());
 
-        FilteredList<AccountModel> filteredData = new FilteredList<>(dataManager.getAllStudents(), b -> true);
+        FilteredList<AccountModel> filteredData = new FilteredList<>(studentList(), b -> true);
 
         txtAccountSearch.textProperty().addListener((observable, oldValue, newValue) -> {
             filteredData.setPredicate(account -> {
@@ -116,5 +120,21 @@ public class AddToGroupViewController implements Initializable {
         sortedUsers.comparatorProperty().bind(tblAccountTable.comparatorProperty());
 
         tblAccountTable.setItems(sortedUsers);
+    }
+
+    private ObservableList<AccountModel> studentList()
+    {
+        ObservableList<AccountModel> returnList = FXCollections.observableArrayList();
+        List<Account> accountList = dataManager.getAllStudents();
+
+        for (Account account : accountList)
+        {
+            if (account.getAuthorization() == 2)
+            {
+                AccountModel accountModel = new AccountModel(account);
+                returnList.add(accountModel);
+            }
+        }
+        return returnList;
     }
 }

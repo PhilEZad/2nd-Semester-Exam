@@ -26,28 +26,28 @@ public class AdminViewController implements Initializable {
 
     @FXML TextField txtFieldSearch;
 
-    @FXML Button btnCreateTeacher;
-    @FXML Button btnCreateStudent;
-    @FXML Button btnCreateSchool;
+    @FXML public Button btnCreateTeacher;
+    @FXML public Button btnCreateStudent;
+    @FXML public Button btnCreateSchool;
 
-    @FXML Tab tabViewStudent;
-    @FXML Tab tabViewTeacher;
-    @FXML Tab tabViewSchool;
+    @FXML public Tab tabViewStudent;
+    @FXML public Tab tabViewTeacher;
+    @FXML public Tab tabViewSchool;
     
-    @FXML private TableView<AccountModel> tblViewStudent;
-    @FXML private TableColumn<AccountModel, String> tblClmStudentFirstName;
-    @FXML private TableColumn<AccountModel, String> tblClmStudentLastName;
-    @FXML private TableColumn<AccountModel, String> tblClmStudentEmail;
+    @FXML public TableView<AccountModel> tblViewStudent;
+    @FXML public TableColumn<AccountModel, String> tblClmStudentFirstName;
+    @FXML public TableColumn<AccountModel, String> tblClmStudentLastName;
+    @FXML public TableColumn<AccountModel, String> tblClmStudentEmail;
 
-    @FXML private TableView<AccountModel> tblViewTeacher;
-    @FXML private TableColumn<AccountModel, String> tblClmTeacherFirstName;
-    @FXML private TableColumn<AccountModel, String> tblClmTeacherLastName;
-    @FXML private TableColumn<AccountModel, String> tblClmTeacherEmail;
+    @FXML public TableView<AccountModel> tblViewTeacher;
+    @FXML public TableColumn<AccountModel, String> tblClmTeacherFirstName;
+    @FXML public TableColumn<AccountModel, String> tblClmTeacherLastName;
+    @FXML public TableColumn<AccountModel, String> tblClmTeacherEmail;
 
-    @FXML private TableView<SchoolModel> tblViewSchool;
-    @FXML private TableColumn<SchoolModel, String> tblClmSchoolName;
-    @FXML private TableColumn<SchoolModel, Number> tblClmSchoolZipCode;
-    @FXML private TableColumn<SchoolModel, String> tblClmSchoolCity;
+    @FXML public TableView<SchoolModel> tblViewSchool;
+    @FXML public TableColumn<SchoolModel, String> tblClmSchoolName;
+    @FXML public TableColumn<SchoolModel, Number> tblClmSchoolZipCode;
+    @FXML public TableColumn<SchoolModel, String> tblClmSchoolCity;
 
     public AdminViewController()
     {
@@ -262,19 +262,6 @@ public class AdminViewController implements Initializable {
                 return new Object[][]
                         {
                                 {"selectedModel", tableView.getSelectionModel().getSelectedItem()},
-                        };
-            }
-        };
-        return resource;
-    }
-
-    private ResourceBundle getResource(AccountModel account) {
-        ResourceBundle resource = new ListResourceBundle() {
-            @Override
-            protected Object[][] getContents() {
-                return new Object[][]
-                        {
-                                {"selectedModel", account},
                         };
             }
         };

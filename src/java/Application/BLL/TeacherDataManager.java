@@ -4,13 +4,11 @@ import Application.BE.*;
 import Application.DAL.*;
 import Application.GUI.Models.AccountModel;
 import Application.GUI.Models.CitizenModel;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class TeacherDataManager
 {
@@ -79,20 +77,9 @@ public class TeacherDataManager
      * Fetches a list of all accounts, sorts them by privilege and returns an ObservableList of only student AccountModel objects.
      * @return ObservableList<AccountModel>
      */
-    public ObservableList<AccountModel> getAllStudents()
+    public List<Account> getAllStudents()
     {
-        ObservableList<AccountModel> returnList = FXCollections.observableArrayList();
-        List<Account> accountList = accountDAO.readAll();
-
-        for (Account account : accountList)
-        {
-            if (account.getAuthorization() == 2)
-            {
-                AccountModel accountModel = new AccountModel(account);
-                returnList.add(accountModel);
-            }
-        }
-        return returnList;
+        return accountDAO.readAll();
     }
 
     public Boolean updateStudent(Account account)
@@ -186,32 +173,40 @@ public class TeacherDataManager
                             ),
                             "",
                             "",
-                            -1
+                            -1,
+                            1
                     ));
 
             return citizenModel;
         }
     }
 
-    public ObservableList<CitizenModel> getAllCitizens()
+    public List<Citizen> getAllCitizens()
     {
-        ObservableList<CitizenModel> returnList = FXCollections.observableArrayList();
         List<Citizen> citizenList = citizenDAO.readAll();
 
         for (Citizen citizen : citizenList)
         {
+            if (citizen.getTemplate() == 0)
             {
-                CitizenModel citizenModel = new CitizenModel(citizen);
-                returnList.add(citizenModel);
+                citizenList.remove(citizen);
             }
         }
-        return returnList;
+
+        return citizenList;
     }
 
     public void deleteCitizen(Citizen citizen)
     {
             citizenDAO.delete(citizen.getId());
     }
+
+    public void citizenFromTemplate(Citizen citizen)
+    {
+        citizen.setTemplate(1);
+        citizenDAO.create(citizen);
+    }
+
 
     // copy citizen (clone template - new ID)
 
@@ -242,16 +237,9 @@ public class TeacherDataManager
         }
     }
 
-    public Boolean deleteGroup(Group group)
+    public void deleteGroup(Group group)
     {
-        if (group != null)
-        {
             groupDAO.delete(group.getId());
-            return true;
-        } else
-        {
-            return false;
-        }
     }
 
     // FIXME: 22-05-2022 Not correct list
@@ -296,10 +284,19 @@ public class TeacherDataManager
 
 
     public List getAllCitizenTemplates() {
-        List<Citizen> citizenTemplates = citizenTemplateDAO.readAll();
+        List<Citizen> citizenList = citizenTemplateDAO.readAll();
+        List<Citizen> citizenTemplatesList = new ArrayList<>();
 
 
-        return citizenTemplates;
+        for (Citizen citizenTemplate: citizenList)
+        {
+            if (citizenTemplate.getTemplate() == 0)
+            {
+                citizenTemplatesList.add(citizenTemplate);
+            }
+        }
+
+        return citizenTemplatesList;
     }
 
     public Citizen newCitizenTemplate() {
