@@ -5,14 +5,6 @@ import Application.GUI.Models.*;
 import Application.GUI.Models.ControllerModels.CitizenTemplateControllerModel;
 import Application.Utility.Bind;
 import Application.Utility.GUIUtils;
-
-
-import javafx.collections.FXCollections;
-
-import javafx.beans.binding.StringBinding;
-
-import javafx.beans.property.StringProperty;
-
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
@@ -28,7 +20,6 @@ import org.controlsfx.control.Notifications;
 
 import java.net.URL;
 import java.util.*;
-import java.util.function.Predicate;
 
 public class CitizenTemplateController implements Initializable {
 
@@ -104,6 +95,27 @@ public class CitizenTemplateController implements Initializable {
             };
         }
     }
+
+    public class TooltipCellFactory implements Callback<TreeTableColumn<CategoryEntryModel, String>, TreeTableCell<CategoryEntryModel, String>> {
+        @Override
+        public TreeTableCell<CategoryEntryModel, String> call(TreeTableColumn<CategoryEntryModel, String> param) {
+            return new TreeTableCell<>() {
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty) {
+                        setText(null);
+                    } else {
+                        Label label = new Label(item);
+                        setGraphic(label);
+                        label.setTooltip(new Tooltip(model.getTooltipText(item)));
+                        //setText(item);
+                    }
+                }
+            };
+        }
+    }
+
 
     CitizenModel citizenBackup = new CitizenModel();
     CitizenModel previousSelection = new CitizenModel();
@@ -233,6 +245,7 @@ public class CitizenTemplateController implements Initializable {
 
         initColumnList();
         initTextAreaList();
+
         setTreeTables();
         initTreeTableClmns();
         initTreeTblColumnEdit();
@@ -276,16 +289,17 @@ public class CitizenTemplateController implements Initializable {
      */
     private void initActionsMenu()
     {
-        MenuItem newCitizenTemplate = new MenuItem("Ny Borger Skabelon");
+        MenuItem newCitizenTemplate = new MenuItem("Ny Skabelon");
         newCitizenTemplate.setOnAction(event -> onNewCitizenTemplate());
-        MenuItem copyCitizenTemplate = new MenuItem("Kopier Borger Skabelon");
+        MenuItem copyCitizenTemplate = new MenuItem("Kopier Skabelon");
         copyCitizenTemplate.setOnAction(event -> onCopyCitizenTemplate());
-        MenuItem deleteCitizenTemplate = new MenuItem("Slet Borger Skabelon");
+        MenuItem deleteCitizenTemplate = new MenuItem("Slet Skabelon");
         deleteCitizenTemplate.setOnAction(event -> onDeleteCitizenTemplate());
-        MenuItem newCitizenEntity = new MenuItem("Ny Borger Fra Skabelon");
-        deleteCitizenTemplate.setOnAction(event -> onNewCitizenEntity());
 
-        actionsMenu = new ContextMenu(newCitizenTemplate, copyCitizenTemplate, deleteCitizenTemplate, newCitizenEntity);
+        // MenuItem newCitizenEntity = new MenuItem("Ny Borger Fra Skabelon");
+        // deleteCitizenTemplate.setOnAction(event -> onNewCitizenEntity());
+
+        actionsMenu = new ContextMenu(newCitizenTemplate, copyCitizenTemplate, deleteCitizenTemplate); //, newCitizenEntity);
         actionsMenu.setAutoHide(true);
     }
 
@@ -338,29 +352,27 @@ public class CitizenTemplateController implements Initializable {
     }
 
     private void setTreeTables() {
-        /*
+
         //TODO: Proper table population
         // Set up the table
-        CitizenModel citizenTemplateModel = new CitizenModel();
-
-        ObservableList<CategoryEntryModel> func = citizenTemplateModel.getRelevantFunctionalAbilities();
-        ObservableList<CategoryEntryModel> health = citizenTemplateModel.getRelevantHealthConditions();
-
+/*
         ObservableList<TreeItem<CategoryEntryModel>> funcTree = FXCollections.observableArrayList();
         ObservableList<TreeItem<CategoryEntryModel>> healthTree = FXCollections.observableArrayList();
 
         TreeItem<CategoryEntryModel> funcRoot = new TreeItem<>(new CategoryEntryModel("Functional Abilities"));
         TreeItem<CategoryEntryModel> healthRoot = new TreeItem<>(new CategoryEntryModel("Health Conditions"));
+
         treeTblViewFunc.setRoot(funcRoot);
         treeTblViewHealth.setRoot(healthRoot);
 
-        for (CategoryEntryModel categoryEntryModel : func) {
+        for (CategoryEntryModel categoryEntryModel : currentSelection.getAllFuncCategories().values()) {
             funcTree.add(new TreeItem<>(categoryEntryModel));
         }
 
-        for (CategoryEntryModel categoryEntryModel : health) {
+        for (CategoryEntryModel categoryEntryModel : currentSelection.getAllHealthConditions().values()) {
             healthTree.add(new TreeItem<>(categoryEntryModel));
         }
+
         funcRoot.getChildren().addAll(funcTree);
         healthRoot.getChildren().addAll(healthTree);
         */
@@ -407,6 +419,9 @@ public class CitizenTemplateController implements Initializable {
 
     }
 
+
+
+
     /**
      * Initializes the TreeTableColumns for the Function and Health TreeTableViews.
      * Sets the cellValueFactory for the TreeTableColumns.
@@ -430,46 +445,8 @@ public class CitizenTemplateController implements Initializable {
         treeTblColumnHealthExpectedCondition.setCellValueFactory(param -> param.getValue().getValue().getExConHealthComboBoxProperty());
         treeTblColumnHealthNote.setCellValueFactory(param -> param.getValue().getValue().noteProperty());
 
-        treeTblColumnHealthCategory.setCellFactory(new Callback<TreeTableColumn<CategoryEntryModel, String>, TreeTableCell<CategoryEntryModel, String>>() {
-            @Override
-            public TreeTableCell<CategoryEntryModel, String> call(TreeTableColumn<CategoryEntryModel, String> param) {
-                return new TreeTableCell<>() {
-                    @Override
-                    protected void updateItem(String item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (empty) {
-                            setText(null);
-                        } else {
-                            Label label = new Label(item);
-                            setGraphic(label);
-                            label.setTooltip(new Tooltip(model.getTooltipText(item)));
-                        }
-                    }
-                };
-
-            }
-        });
-
-
-        treeTblColumnFuncCategory.setCellFactory(new Callback<TreeTableColumn<CategoryEntryModel, String>, TreeTableCell<CategoryEntryModel, String>>() {
-            @Override
-            public TreeTableCell<CategoryEntryModel, String> call(TreeTableColumn<CategoryEntryModel, String> param) {
-                return new TreeTableCell<>() {
-                    @Override
-                    protected void updateItem(String item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (empty) {
-                            setText(null);
-                        } else {
-                            Label label = new Label(item);
-                            setGraphic(label);
-                            label.setTooltip(new Tooltip(model.getTooltipText(item)));
-                        }
-                    }
-                };
-
-            }
-        });
+        treeTblColumnHealthCategory.setCellFactory(new TooltipCellFactory());
+        treeTblColumnFuncCategory.setCellFactory(new TooltipCellFactory());
 
         //Use TextFieldTreeTableCell for the editable columns
         editableTreeTableColumns.forEach(col -> col.setCellFactory(TextFieldTreeTableCell.forTreeTableColumn()));
@@ -480,8 +457,6 @@ public class CitizenTemplateController implements Initializable {
     {
 
     }
-
-
 
     /**
      * sets every compononent of the citizen template view to the values of the selected citizen template.
@@ -521,9 +496,7 @@ public class CitizenTemplateController implements Initializable {
             txtAreaGenInfoHomeLayout.setText(journal.getHomeLayout());
             txtAreaGenInfoNetwork.setText(journal.getNetwork());
         }
-
     }
-
 
     /**
      * Sets the tables and relevant columns to editable or not. The same applies to the combo boxes within the level columns.
@@ -659,6 +632,7 @@ public class CitizenTemplateController implements Initializable {
      */
     public void onEditCancel(ActionEvent event) {
         int index = listViewCitizenTemplates.getItems().indexOf(this.currentSelection);
+
         listViewCitizenTemplates.getItems().set(index, this.citizenBackup.clone());
         listViewCitizenTemplates.getSelectionModel().select(index);
 
@@ -670,19 +644,20 @@ public class CitizenTemplateController implements Initializable {
      * onEditCommit applies the changes made in the tree table to the edited categoryEntryModel.
      * onEditCancel returns the edited variable to its pre-edit state.
      */
-    private void initTreeTblColumnEdit() {
-            //Commit Edit
-        treeTblColumnFuncAssessment.setOnEditCommit(event -> getItemFromEditEvent(event).setAssessment(event.getOldValue()));
-        treeTblColumnFuncCause.setOnEditCommit(event -> getItemFromEditEvent(event).setCause(event.getOldValue()));
-        treeTblColumnFuncImplications.setOnEditCommit(event -> getItemFromEditEvent(event).setImplications(event.getOldValue()));
-        treeTblColumnFuncCitizenGoals.setOnEditCommit(event -> getItemFromEditEvent(event).setCitizenGoals(event.getOldValue()));
-        treeTblColumnFuncNote.setOnEditCommit(event -> getItemFromEditEvent(event).setNote(event.getOldValue()));
+    private void initTreeTblColumnEdit()
+    {
+        //Commit Edit
+        treeTblColumnFuncAssessment.setOnEditCommit(event -> getItemFromEditEvent(event).setAssessment(event.getNewValue()));
+        treeTblColumnFuncCause.setOnEditCommit(event -> getItemFromEditEvent(event).setCause(event.getNewValue()));
+        treeTblColumnFuncImplications.setOnEditCommit(event -> getItemFromEditEvent(event).setImplications(event.getNewValue()));
+        treeTblColumnFuncCitizenGoals.setOnEditCommit(event -> getItemFromEditEvent(event).setCitizenGoals(event.getNewValue()));
+        treeTblColumnFuncNote.setOnEditCommit(event -> getItemFromEditEvent(event).setNote(event.getNewValue()));
 
-        treeTblColumnHealthAssessment.setOnEditCommit(event -> getItemFromEditEvent(event).setAssessment(event.getOldValue()));
-        treeTblColumnHealthCause.setOnEditCommit(event -> getItemFromEditEvent(event).setCause(event.getOldValue()));
-        treeTblColumnHealthNote.setOnEditCommit(event -> getItemFromEditEvent(event).setNote(event.getOldValue()));
+        treeTblColumnHealthAssessment.setOnEditCommit(event -> getItemFromEditEvent(event).setAssessment(event.getNewValue()));
+        treeTblColumnHealthCause.setOnEditCommit(event -> getItemFromEditEvent(event).setCause(event.getNewValue()));
+        treeTblColumnHealthNote.setOnEditCommit(event -> getItemFromEditEvent(event).setNote(event.getNewValue()));
 
-            //Cancel Edit
+        //Cancel Edit
         treeTblColumnFuncAssessment.setOnEditCancel(event -> getItemFromEditEvent(event).setAssessment(event.getOldValue()));
         treeTblColumnFuncCause.setOnEditCancel(event -> getItemFromEditEvent(event).setCause(event.getOldValue()));
         treeTblColumnFuncImplications.setOnEditCancel(event -> getItemFromEditEvent(event).setImplications(event.getOldValue()));
