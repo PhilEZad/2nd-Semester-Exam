@@ -1,0 +1,105 @@
+﻿PK_CategoryID;FK_ParentID;categoryName;FK_Description;FK_Guide;PK_ToolTipID;toolTipText
+1;;Generelle oplysninger;;;0;Borgerens bevidste eller ubevidste håndtering af livet/sygdommen – både udfordringer og muligheder.
+2;;Funktionsevnetilstande;;;1;Drivkraften bag at borgeren handler på en bestemt måde eller går i gang med/opretholder en opgave/indsats.
+3;;Helbredstilstande;;;2;De fysiske eller mentale kræfter, som borgerenen i et vist omfang har til rådighed og kan udnytte. Fysiske kræfter kan fx være i form af fysisk sundhed og styrke. Mentale kræfter kan fx være i form af psykisk sundhed og styrke, herunder tanker og måder at forholde sig til situationer og andre mennesker på.
+4;1;Mestring;1;12;3;De roller som er særligt vigtige for borgeren i forhold til familie, arbejde og samfund
+5;1;Motivation;2;13;4;Regelmæssig adfærd som borgeren har tillært gennem stadig gentagelse og udførelse helt eller delvist ubevidst. Vaner er fx døgnrytmen, måden at blive tiltalt på, kontakt med medmennesker og relationer, måde at anskue verden på.
+6;1;Ressourcer;3;14;5;nuværende eller tidligere uddannelses STX og/eller erhvervsmæssig baggrund. Fx folkeskole, erhvervsuddannelse og videregående uddannelse.
+7;1;Roller;4;15;6;En beskrivelse af borgerens oplevelse af væsentlige begivenheder, interesser og gøremål igennem livet.
+8;1;Vaner;5;16;7;Personer som er tæt på borgeren, og som giver praktisk og/eller følelsesmæssigt støtte og omsorg overfor borgeren. Netværk kan være offentligt eller privat.
+9;1;Uddannelse og job;6;17;8;Aktuelle eller tidligere sygdomme og handicap der har betydning for borgerens situation.
+10;1;Livshistorie;7;18;9;Udstyr, produkter og teknologi som anvendes af borgeren i daglige aktiviteter, inkl. sådanne som er tilpasset eller særligt fremstillet til, implanteret i,placeret på eller nær personen, som anvender dem.
+11;1;Netværk;8;19;10;En beskrivelse af boligens fysiske rammer og omgivelser, der har betydning for borgerens hverdagsliv og funktionsevne.
+12;1;Helbredsoplysninger;9;20;11;Her dokumenteres, hvordan borgeren positivt eller negativt mestrer den modgang vedkommende møder.
+13;1;Hjælpemidler;10;21;12;Her dokumenteres borgerens ønsker for sit liv (overordnet mål), og hvad der motiverer borgeren.
+14;1;Boligens indretning;11;22;13;Her dokumenteres de ressourcer, borgeren har i forhold til at løse dagligdagens opgaver. Det kan være både fysiske og mentale funktioner.
+15;2;Egenomsorg;;;14;Her dokumenteres de roller, borgeren angiver at have. Det kan fx være rolle som ægtefælle, bedsteforælder eller aktiv i beboerforening.
+16;2;Praktiske opgaver;;;15;Her dokumenteres borgerens vaner, som er en naturlig del af hverdagen, og som borgeren plejer at gøre.
+17;2;Mobilitet;;;16;Her dokumenteres borgerens oplysninger om uddannelse og erhverv.
+18;2;Mentale funktioner;;;17;Her dokumenteres borgerens fortælling om sit liv. Her dokumenteres borgerens ønsker for den sidste tid.
+19;2;Samfundsliv;;;18;Her dokumenteres borgerens netværk i bredere forstand.
+20;3;Funktionsniveau;;;19;Her kan borgerens sygdomme og handicap dokumenteres for at give et samlet overblik. Hvis oplysningen kommer fra borgeren eller pårørende, skal dette fremgå.
+21;3;Bevægeapparat;;;20;Her dokumenteres de hjælpemidler borger selv har anskaffet. Bevilligede hjælpemidler kan også dokumenteres eller vises her.
+22;3;Ernæring;;;21;Her dokumenteres både det der hæmmer og fremmer borgerens funktionsevne i hverdagen. Kan suppleres med praktiske oplysninger fx om der er elevator, dørtrin eller trapper.
+23;3;Hud og slimhinder;;;22;Vælges når borger har problemer med at varetage personlig pleje som følge af sygdom, skade eller handicap, og hvor kompleksiteten eller en kritisk situation kræver et særligt kompetenceniveau hos personalet, eller ved brug for støtte til kropspleje, af- og påklædning og/eller toiletbesøg
+24;3;Kommunikation;;;23;Vælges når borgeren har problemer med at varetage daglige aktiviteter, og hvor kompleksiteten eller en kritisk situation kræver et særligt kompetenceniveau hos personalet. Fx behov for hjælp til koordinering og planlægning af daglige aktiviteter ved tab af fysisk-, mental- og social funktionsevne, eller ved brug for anden støtte til planlægning og koordinering af dagligdagen.
+25;3;Psykosociale forhold;;;24;Vælges når borgeren har problemer med bevægelses-forstyrrelser og problemer med at bevæge sig, forflytte sig, ændre kropsstilling eller ved inaktivitet som følge af sygdom, skade eller behandling, fx bivirkning af medicin, eller ved brug for anden støtte til at ændre kropsstilling, forflytning og/eller at bevæge sig omkring. Fx borgere med Parkinsons sygdom og essentiel tremor.
+26;3;Respiration og cirkulation;;;25;Vælges når borgeren har problemer med at indtage en korrekt mængde væske som følge af sygdom eller behandling, fx bivirkning af medicin, hvor der er risiko for dehydrering eller overhydrering, eller ved brug for anden støtte til væskeindtag.
+27;3;Seksualitet;;;26;Vælges når borgeren har problemer med at indtage eller optage ernæring og vitaminer/mineraler eller ved ernæringsbetingede stofskifteproblematikker som følge af sygdom eller behandling, fx bivirkning af medicin
+28;3;Smerter og sanseindtryk;;;27;Vælges når borgeren har problemer med pludselig vægtændring som følge af sygdom eller behandling, fx bivirkning af medicin, eller brug for anden støtte til at håndtere uplanlagt vægtændring
+29;3;Søvn og hvile;;;28;Vælges når borgeren har problemer med overvægt som følge af sygdom eller behandling, fx bivirkning af medicin, eller brug for anden støtte til at håndtere overvægt.
+30;3;Viden og udvikling;;;29;Vælges når borgeren har problemer med overvægt som følge af sygdom eller behandling, fx bivirkning af medicin, eller brug for anden støtte til at håndtere overvægt.
+31;3;Udskillelse af affaldsstoffer;;;30;Vælges når borgeren har problemer med sår, der er opstået som følge af et kirurgisk indgreb efter en operation, eller brug for anden støtte til behandling af kirurgisk sår
+32;15;Vaske sig;66;;31;Vælges når borgeren har problemer med sår, der er opstået som en senkomplikation til diabetes, eller brug for anden støtte til behandling af diabetisk sår
+33;15;Gå på toilet;67;;32;Vælges når borgeren har problemer med sår, der er opstået som følge af cancer og metastaser, eller brug for anden støtte til behandling af cancersår
+34;15;kropspleje;68;;33;Vælges når borgeren har problemer med sår, der er opstået som følge af tryk og/eller shear, eller brug for anden støtte til behandling af tryksår.
+35;15;Af og påklædning;69;;34;Vælges når borgeren har problemer med sår, der er opstået som følge af nedsat arteriel blodtilførsel, eller brug for anden støtte til behandling af arterielt sår
+36;15;Spise;70;;35;Vælges når borgeren har problemer med sår, der er opstået som følge af venøs insufficiens, typisk manglende funktion af veneklapperne, eller brug for anden støtte til behandling af venøst sår
+37;15;Drikke;71;;36;Vælges når borgeren har problemer med sår, der er opstået som følge af arteriel og venøs insufficiens, typisk en forværring af et venøst sår, eller brug for anden støtte til behandling af blandingsså
+38;15;Varetage egen sundhed;72;;37;Vælges når borgeren har problemer med sår, der er opstået som følge af traumer på hårdt væv og/eller bløddele.
+39;15;Fødeindtagelse;73;;38;Vælges når borgeren har problemer med hud og slimhinder som ikke er sår. Fx borgere der har svampeinfektion, fnat eller MRSA, eller brug for anden støtte til behandling af hud- og slimhindeproblemer som ikke er sår.
+40;16;Udføre daglige rutiner;74;;39;Vælges når borgeren har problemer med at tale, forstå, skrive, stave og læse som følge af sygdom, skade eller behandling, fx bivirkning af medicin. Fx borgere med en svær hjerneskade og/eller nedsat bevidsthedsniveau, eller brug for anden støtte til kommunikation.
+41;16;Skaffe sig varer og tjenesteydelser;75;;40;Vælges når borgeren har problemer med at håndtere socialt samvær, overholde sociale normer, interagere med andre eller etablere og opretholde relationer, eller brug for anden støtte til at fungere socialt
+42;16;Lave mad;76;;41;Vælges når borgeren har problemer med at håndtere følelser i forbindelse med kronisk sygdom, skade eller i forbindelse med livsbegivenheder, eller brug for anden støtte til at håndtere følelser
+43;16;Lave husligt arbejde;77;;42;Vælges når borgeren har problemer med vedvarende og skadelig brug af medicin, alkohol eller stoffer, der medfører legemlige, psykiske eller sociale problemer, eller brug for anden støtte til at håndtere misbrugsproblemer
+44;17;Ændre kropsstilling;78;;43;Vælges når borgeren har problemer med psykiske eller psykiatriske symptomer som følge af sygdom, skade eller behandling, fx bivirkning af medicin. Fx borgere med depression, bipolar lidelse, psykose, spiseforstyrrelse eller skizofreni, eller brug for anden støtte til at håndtere psykiske og psykiatriske symptomer
+45;17;Forflytte sig;79;;44;Vælges når borgeren har respirationsproblemer som følge af sygdom eller skade.
+46;17;Løfte og bære;80;;45;Vælges når borgeren har cirkulationsproblemer som følge af sygdom, skade eller behandling, fx bivirkning af medicin. Fx borgere med hjerte-kar-problemer, pacemaker, i AK-behandling, eller brug for støtte til håndtering af cardio-vaskulære problemer
+47;17;Gå ;81;;46;Vælges når borgeren har problemer ift. seksualitet som følge af sygdom, skade eller behandling, fx bivirkning af medicin, brug for anden støtte til seksuel aktivitet.
+48;17;Bevæge sig omkring;82;;47;Vælges når borgeren har problemer med smerter karakteriseret ved, at de er pludseligt indsættende og af kort varighed som følge af sygdom eller skade, eller brug for anden støtte til at håndtere akutte smerter
+49;17;Færden i forskellige omgivelser ;83;;48;Vælges når borgeren har problemer med smerter som forekommer af og til som følge af sygdom eller skade, eller brug for anden støtte til at håndtere periodevise smerter.
+50;17;Bruge transportmidler;84;;49;Vælges når borgeren har problemer med smerter som har varet i mere end 6 måneder som følge af sygdom eller skade, eller brug for anden støtte til at håndtere kroniske smerter
+51;17;Udholdenhed;85;;50;Vælges når borgeren har problemer med synssans som følge af sygdom eller skade. Fx borgere med grøn stær, grå stær eller øjeninfektion, eller brug for anden støtte til at kompensere for ændret synssans
+52;17;Muskelstyrke;86;;51;Vælges når borgeren har problemer med lugtesans som følge af sygdom, skade eller behandling, fx bivirkning af medicin, eller brug for anden støtte til at kompensere for ændret lugtesans.
+53;18;Tilegne sig færdigheder;87;;52;Vælges når borgeren har problemer med hørelse som følge af sygdom eller skade, eller brug for anden støtte til at kompensere for ændret høresans
+54;18;Problemløsning;88;;53;Vælges når borgeren har problemer med smagssans som følge af sygdom, skade eller behandling, fx bivirkning af medicin, eller brug for anden støtte til at kompensere for ændret smagssans
+55;18;Anvende kommunikationsudstyr og teknikker;89;;54;Vælges når borgeren har problemer med følesans som følge af sygdom, skade eller behandling, fx bivirkning af medicin
+56;18;Orienteringsevne;90;;55;Vælges når borgeren har problemer med forstyrrelse af søvn og hvile som følge af sygdom, skade eller behandling,
+57;18;Energi og handlekraft;91;;56;Vælges når borgeren har søvnproblemer som følge af sygdom, skade eller behandling, fx bivirkning af medicin. Fx borgere med narkolepsi, eller brug for anden støtte til at kompensere for dårlig søvnkvalitet.
+58;18;Hukommelse;92;;57;Vælges når borgeren har problemer med hukommelsen som følge af sygdom, skade eller behandling, fx bivirkning af medicin
+59;18;Følesesfunktioner;93;;58;Vælges når borgeren har problemer med egenomsorg og håndtering af egen sundhed, sygdom eller symptomer.
+60;18;Overordnede kognitive funktioner;94;;59;Vælges når borgeren har problemer med at forstå formålet med behandlingen
+61;19;Have lønnet beskæftigelse;95;;60;Vælges når borgeren har kognitive problemer som følge af sygdom, skade eller behandling, fx bivirkning af medicin. Fx borgere med neglect eller delir, eller brug for anden støtte til logisk tænkning, tilegnelse af viden, overblik, planlægning og organisering.
+62;20;Problemer med personlig pleje;23;;61;Vælges når borgeren har problemer med vandladning som følge af sygdom, skade eller behandling, fx bivirkning af medicin. Fx borgere der er i dialysebehandling eller borgere med nefrostomi, urostomi, topkateter eller kateter à demeure, eller brug for anden støtte til at håndtere vandladningsproblemer, der ikke er inkontinens.
+63;20;Problemer med daglige aktiviteter ;24;;62;Vælges når borgeren har problemer med stressinkontinens, tranginkontinens, blandingsinkontinens eller falsk inkontinens som følge af sygdom, skade eller behandling, fx bivirkning af medicin, eller brug for anden støtte til at håndtere urininkontinens
+64;21;Problemer med mobilitet og bevægelse;25;;63;Vælges når borgeren har problemer med afføringsinkontinens som følge af sygdom, skade eller behandling, fx bivirkning af medicin, eller brug for anden støtte til at håndtere afføringsproblemer/ styre afføring.
+65;22;Problemer med væskeindtag;26;;64;Vælges når borgeren har problemer med mave og tarm som følge af sygdom, skade eller behandling, fx bivirkning af medicin
+66;22;Problemer med fødeindtag;27;;65;Vaske og tørre sig på kroppen og kropsdele med anvendelse af vand og passende rensemidler f.eks. tage bad, brusebad, vaske hænder og fødder, ansigt og hår og tørre sig med håndklæde.
+67;22;Uhensigtsmæssig vægtændring;28;;66;Planlægge og udføre toiletbesøg til udskillelse af affaldsprodukter (menstruation, urin og afføring) og efterfølgende rengøring.
+68;22;Problemer med overvægt;29;;67;Pleje af de dele af kroppen, som behøver anden pleje end vask og tørring f.eks. hud, ansigt, tænder, hår, negle og kønsdele
+69;22;Problemer med undervægt;30;;68;Udføre sammensatte handlinger i forbindelse med på- og afklædning, at tage fodbeklædning på og af i rækkefølge
+70;23;Problemer med kirurgisk sår;31;;69;Udføre sammensatte handlinger i forbindelse med indtagelse af føde, som er serveret for én, få maden op til munden og spise på en kulturelt accepteret måde, skære eller bryde maden i stykker, åbne flasker og dåser, anvende spiseredskaber, deltage i måltider og i festligheder.
+71;23;Problemer med diabetisk sår;32;;70;"Holde fast om en drik, tage drikken op til munden og drikke på en kulturelt accepteret måde, blande, omrøre og skænke drikke op, åbne flasker og dåser, bruge sugerør eller drikke af rindende vand fra en hane eller en kilde; amning"
+72;23;Problemer med cancersår;33;;71;Sikre sit velvære, helbred og fysiske og psykiske velbefindende ved f.eks. at indtage varieret kost, have passende niveau af fysisk aktivitet, holde sig varm eller afkølet, undgå skader på helbredet, dyrke sikker sex inkl. anvendelse af kondomer, lade sig vaccinere og følge regelmæssige helbredsundersøgelser.
+73;23;Problemer med tryksår;34;;72;"Indtagelse og bearbejdning af fødemidler og væsker gennem munden. Inkl.: at suge, tygge, bide og behandle maden i mundhulen, spytflåd, at synke, gylpe, spytte og kaste op; tilstande som dysfagi, aspiration af føde,"
+74;23;Problemer med arterielt sår;35;;73;Udføre simple, komplekse og sammensatte handlinger til planlægning, styring og gennemførelse af dagligt tilbagevendende rutiner eller pligter som f.eks. at overholde tider og lægge planer for særlige aktiviteter i løbet af dagen.
+75;23;Problemer med venøst sår;36;;74;"Vælge, tilvejebringe og transportere varer, som er nødvendige i dagliglivet som f.eks. at vælge, købe, transportere og opbevare mad, drikke, tøj, rengøringsmidler, brændsel, husholdningsgenstande og værktøj; tilvejebringe brugsgenstande og service."
+76;23;Problemer med traumesård blandingssår;37;;75;"Planlægge, tilberede og servere enkle eller sammensatte måltider til sig selv og andre som f.eks. at sammensætte et måltid, udvælge appetitlig mad og drikke, fremskaffe ingredienser til tilberedning af måltider;"
+77;23;Problemer med traumesår;38;;76;Holde hus ved at gøre rent, vaske tøj, bruge husholdningsmaskiner, opbevare mad og smide affald ud, f.eks. ved at feje, moppe, tørre borde, […]
+78;23;Andre problemer med hud og slimhinder;39;;77;Skifte kropsstilling og bevæge sig fra et sted til et andet som f.eks. at flytte sig fra en stol til liggende stilling og skifte til og fra knælende eller hugsiddende stilling
+79;24;Problemer med kommunikation;40;;78;Flytte sig fra en overflade til en anden som f.eks. at glide hen ad en bænk eller bevæge sig fra seng til stol uden at ændre kroppens stilling
+80;25;Problemer med socialt samvær;41;;79;Løfte en genstand op og flytte noget fra et sted til et andet som f.eks. at løfte en kop eller bære et barn fra et rum til et andet
+81;25;Emotionelle problemer;42;;80;Bevæge sig til fods skridt for skridt på et underlag, således at den ene fod hele tiden hviler på underlaget, som når man slentrer, går forlæns, baglæns eller sidelæns.
+82;25;Problemer med misbrug;43;;81;Bevæge sig fra et sted til et andet på andre måder end ved at gå […].
+83;25;Mentale problemer;44;;82;Gang og færden i forskellige omgivelser som f.eks. at gå mellem rum i huset, inden for en bygning eller ned ad gaden.
+84;26;Respirationsproblemer;45;;83;Bruge transportmidler som passager til at færdes omkring som f.eks. at blive kørt i en bil eller køre med […] taxi, bus, tog, sporvogn, undergrundsbane, skib eller fly
+85;26;Cirkulationsproblemer;46;;84;Funktioner bestemmende for respiratorisk og kardiovaskulær kapacitet, som er nødvendig ved fysisk anstrengelse.
+86;27;Problemer med seksualitet;47;;85;Kraften som opstår ved kontraktion af en muskel eller en muskelgruppe.
+87;28;Akutte smerter;48;;86;Udvikle basale og komplekse kompetencer i sammensatte handlinger eller opgaver med det formål at påbegynde og gennemføre erhvervelsen af en færdighed, som f.eks. håndtering af værktøj eller spil som skak
+88;28;Periodevise smerter;49;;87;Løsning af spørgsmål eller situationer ved at identificere og analysere emner, udvikle muligheder og løsninger, evaluere mulige virkninger af løsninger og gennemføre en valgt løsning som f.eks. ved løsning af en uoverensstemmelse mellem to personer.
+89;28;Kroniske smerter;50;;88;Anvende udstyr, teknikker og andre midler med kommunikationsformål som f.eks. at ringe til en ven.
+90;28;Problemer med synssans;51;;89;Overordnede mentale funktioner bestemmende for kendskab til og konstatering af relationerne til en selv, til andre, til tid, sted og andre omgivelser.
+91;28;Problemer med lugtesans;52;;90;Overordnede mentale funktioner af fysiologisk og psykologisk art, som får personen til at opnå tilfredsstillelse af specifikke behov og overordnede mål på en vedholdende måde.
+92;28;Problemer med hørelse;53;;91;Specifikke mentale funktioner bestemmende for registrering, lagring genkaldelse af information efter behov.
+93;28;Problemer med smagssans;54;;92;Specifikke mentale funktioner forbundet med følelser og affektive komponenter i sindet.
+94;28;Problemer med følesans;55;;93;Specifikke mentale funktioner først og fremmest knyttet til hjernens pandelapper omfattende kompleks målrettet adfærd som beslutningstagning, abstrakt tænkning, planlægning og gennemførelse af planer, mental fleksibilitet og tilpasning af adfærden efter omstændighederne, såkaldte eksekutive funktioner.
+95;29;Døgnrytmeproblemer;56;;94;Deltage i alle aspekter af et arbejde, erhverv eller anden form for beskæftigelse […].
+96;29;Søvnproblemer;57;;;
+97;30;Problemer med hukommelse;58;;;
+98;30;Problemer med indsigt i behandlingsformål;60;;;
+99;30;Problemer med sygdomsindsigt;59;;;
+100;30;Kognitive problemer;61;;;
+101;31;Problemer med vandladning;62;;;
+102;31;Problemer med urininkontinens;63;;;
+103;31;Problemer med afføringsinkontinens;64;;;
+104;31;Problemer med mave og tarm;65;;;
