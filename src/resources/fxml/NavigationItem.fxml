@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<fx:root styleClass="sideMenuToggleBtn"
+         stylesheets="@../style/MainStylesheet.css"
+         type="javafx.scene.control.ToggleButton"
+         xmlns="http://javafx.com/javafx/17"
+         xmlns:fx="http://javafx.com/fxml/1">
+
+    <textAlignment>CENTER</textAlignment>
+    <graphic>
+        <VBox>
+            <prefWidth>72.0</prefWidth>
+            <prefHeight>66.0</prefHeight>
+            <alignment>CENTER</alignment>
+
+            <ImageView fx:id="imgIcon">
+                <preserveRatio>true</preserveRatio>
+                <pickOnBounds>true</pickOnBounds>
+                <fitWidth>40.0</fitWidth>
+                <fitHeight>40.0</fitHeight>
+            </ImageView>
+
+            <Text fx:id="lblTitle" fill="WHITE" styleClass="smallPanelLblNormal">
+            <VBox.margin>
+               <Insets top="5.0" />
+            </VBox.margin></Text>
+        </VBox>
+    </graphic>
+</fx:root>

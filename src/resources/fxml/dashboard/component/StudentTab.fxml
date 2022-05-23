@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="frontend.controller.dashboard.StudentTabController">
+    <styleClass>background</styleClass>
+
+
+    <AnchorPane>
+        <AnchorPane.topAnchor>23.0</AnchorPane.topAnchor>
+        <AnchorPane.leftAnchor>14.0</AnchorPane.leftAnchor>
+        <AnchorPane.bottomAnchor>26.6</AnchorPane.bottomAnchor>
+        <styleClass>panel30Deg</styleClass>
+        <prefWidth>200.0</prefWidth>
+        <prefHeight>362.0</prefHeight>
+        <layoutY>23.0</layoutY>
+        <layoutX>14.0</layoutX>
+
+        <ListView fx:id="listViewStudents">
+            <AnchorPane.topAnchor>70.0</AnchorPane.topAnchor>
+            <AnchorPane.rightAnchor>16.8</AnchorPane.rightAnchor>
+            <AnchorPane.leftAnchor>18.0</AnchorPane.leftAnchor>
+            <AnchorPane.bottomAnchor>18.4</AnchorPane.bottomAnchor>
+            <prefWidth>163.0</prefWidth>
+            <prefHeight>272.0</prefHeight>
+            <layoutY>70.0</layoutY>
+            <layoutX>18.0</layoutX>
+        </ListView>
+
+        <HBox>
+            <AnchorPane.topAnchor>24.0</AnchorPane.topAnchor>
+            <AnchorPane.leftAnchor>16.0</AnchorPane.leftAnchor>
+            <prefWidth>163.0</prefWidth>
+            <prefHeight>26.0</prefHeight>
+            <layoutY>26.0</layoutY>
+            <layoutX>20.0</layoutX>
+
+            <TextField fx:id="txtFieldStudentsSearch" styleClass="text-fieldBase">
+                <prefWidth>141.0</prefWidth>
+                <prefHeight>26.0</prefHeight>
+                <promptText>Search</promptText>
+            </TextField>
+
+            <Button styleClass="searchBtn">
+                <prefWidth>34.0</prefWidth>
+                <prefHeight>26.0</prefHeight>
+            </Button>
+        </HBox>
+    </AnchorPane>
+
+    <AnchorPane styleClass="panel30Deg">
+        <AnchorPane.topAnchor>23.0</AnchorPane.topAnchor>
+        <AnchorPane.rightAnchor>22.0</AnchorPane.rightAnchor>
+        <AnchorPane.leftAnchor>230.0</AnchorPane.leftAnchor>
+        <AnchorPane.bottomAnchor>755.0</AnchorPane.bottomAnchor>
+        <prefWidth>623.0</prefWidth>
+        <prefHeight>221.0</prefHeight>
+        <layoutY>23.0</layoutY>
+        <layoutX>230.0</layoutX>
+
+        <GridPane>
+            <AnchorPane.topAnchor>14.0</AnchorPane.topAnchor>
+            <AnchorPane.leftAnchor>14.0</AnchorPane.leftAnchor>
+            <prefWidth>227.0</prefWidth>
+            <prefHeight>93.0</prefHeight>
+            <layoutY>14.0</layoutY>
+            <layoutX>14.0</layoutX>
+
+            <columnConstraints>
+                <ColumnConstraints>
+                    <minWidth>10.0</minWidth>
+                    <hgrow>SOMETIMES</hgrow>
+                </ColumnConstraints>
+            </columnConstraints>
+
+            <rowConstraints>
+                <RowConstraints>
+                    <vgrow>SOMETIMES</vgrow>
+                    <prefHeight>37.0</prefHeight>
+                    <minHeight>10.0</minHeight>
+                    <maxHeight>96.6</maxHeight>
+                </RowConstraints>
+
+                <RowConstraints>
+                    <vgrow>SOMETIMES</vgrow>
+                    <prefHeight>56.0</prefHeight>
+                    <minHeight>10.0</minHeight>
+                    <maxHeight>173.4</maxHeight>
+                </RowConstraints>
+            </rowConstraints>
+
+            <Label fx:id="lblStudentsStudentName">
+                <GridPane.halignment>CENTER</GridPane.halignment>
+                <styleClass>nameLbl</styleClass>
+                <text>N/A (Navn på student)</text>
+            </Label>
+
+            <Label fx:id="lblStudentEmail" styleClass="smallPanelLblBold">
+                <GridPane.valignment>TOP</GridPane.valignment>
+                <GridPane.rowIndex>1</GridPane.rowIndex>
+                <text>Email</text>
+                <GridPane.margin>
+                    <Insets>
+                        <top>5.0</top>
+                        <left>17.0</left>
+                    </Insets>
+                </GridPane.margin>
+            </Label>
+        </GridPane>
+
+        <Button styleClass="panelBtnNoPadding">
+            <layoutY>29.0</layoutY>
+            <layoutX>498.0</layoutX>
+            <prefWidth>111.0</prefWidth>
+            <prefHeight>54.0</prefHeight>
+            <text>Elev indstillinger</text>
+            <AnchorPane.rightAnchor>14.0</AnchorPane.rightAnchor>
+        </Button>
+    </AnchorPane>
+
+    <AnchorPane>
+        <prefWidth>615.0</prefWidth>
+        <prefHeight>699.0</prefHeight>
+        <layoutY>157.0</layoutY>
+        <layoutX>234.0</layoutX>
+
+        <Label styleClass="lblBackgroundBold">
+            <text>Eleven kan tilgå af følgende borgere:</text>
+        </Label>
+
+        <ListView fx:id="listViewCitizensForStudents" styleClass="bg-list-view">
+            <AnchorPane.topAnchor>25.0</AnchorPane.topAnchor>
+            <AnchorPane.rightAnchor>244.0</AnchorPane.rightAnchor>
+            <AnchorPane.leftAnchor>14.0</AnchorPane.leftAnchor>
+            <AnchorPane.bottomAnchor>25.0</AnchorPane.bottomAnchor>
+            <prefWidth>357.0</prefWidth>
+            <prefHeight>649.0</prefHeight>
+            <layoutY>25.0</layoutY>
+            <layoutX>14.0</layoutX>
+        </ListView>
+
+        <Button styleClass="backgroundButton">
+            <layoutY>356.0</layoutY>
+            <layoutX>486.0</layoutX>
+            <prefWidth>119.0</prefWidth>
+            <prefHeight>60.0</prefHeight>
+            <text>Tilgå elevens arbejde</text>
+            <AnchorPane.rightAnchor>14.0</AnchorPane.rightAnchor>
+            <AnchorPane.bottomAnchor>178.0</AnchorPane.bottomAnchor>
+        </Button>
+
+        <Button>
+            <AnchorPane.rightAnchor>14.0</AnchorPane.rightAnchor>
+            <AnchorPane.bottomAnchor>18.0</AnchorPane.bottomAnchor>
+            <styleClass>backgroundButton</styleClass>
+            <prefWidth>119.0</prefWidth>
+            <prefHeight>60.0</prefHeight>
+            <layoutY>517.0</layoutY>
+            <layoutX>490.0</layoutX>
+            <text>Tilknyt borger til elev</text>
+        </Button>
+
+        <Button>
+            <AnchorPane.rightAnchor>14.0</AnchorPane.rightAnchor>
+            <AnchorPane.bottomAnchor>98.0</AnchorPane.bottomAnchor>
+            <styleClass>backgroundButton</styleClass>
+            <prefWidth>119.0</prefWidth>
+            <prefHeight>60.0</prefHeight>
+            <layoutY>441.0</layoutY>
+            <layoutX>490.0</layoutX>
+            <text>Fjern borger fra elev</text>
+        </Button>
+    </AnchorPane>
+
+    <stylesheets>
+        <URL value="@../../../style/MainStylesheet.css" />
+        <URL value="@../../../style/TableViewStylesheet.css" />
+    </stylesheets>
+</AnchorPane>

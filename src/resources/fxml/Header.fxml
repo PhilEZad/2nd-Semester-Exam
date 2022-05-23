@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.text.Text?>
+<fx:root stylesheets="@../style/MainStylesheet.css"
+         type="javafx.scene.layout.HBox"
+         xmlns="http://javafx.com/javafx/17"
+         xmlns:fx="http://javafx.com/fxml/1"
+         alignment="CENTER_RIGHT"
+         styleClass="sideMenu">
+    <children>
+        <VBox alignment="CENTER_RIGHT">
+            <HBox.margin>
+                <Insets right="5.0" left="5" top="1" bottom="1" />
+            </HBox.margin>
+            <Button fx:id="btnLogout" alignment="CENTER_RIGHT" styleClass="sideMenuToggleBtn">
+                <graphic>
+                    <HBox alignment="CENTER">
+                        <ImageView>
+                            <Image url="@../img/edit.png"/>
+                            <preserveRatio>true</preserveRatio>
+                            <pickOnBounds>true</pickOnBounds>
+                            <fitHeight>30</fitHeight>
+                            <fitWidth>30</fitWidth>
+                        </ImageView>
+                        <Text textAlignment="CENTER" fill="white">Log ud</Text>
+                    </HBox>
+                </graphic>
+            </Button>
+        </VBox>
+    </children>
+</fx:root>

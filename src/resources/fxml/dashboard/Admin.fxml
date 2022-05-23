@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+
+<?import frontend.view.NavigationItemControl?>
+<?import frontend.view.HeaderControl?>
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml" fx:controller="frontend.controller.AdminMainController" stylesheets="@../../style/MainStylesheet.css">
+    <prefWidth>1200.0</prefWidth>
+    <prefHeight>768.0</prefHeight>
+    <top>
+        <HeaderControl onLogout="#logoutAction"/>
+    </top>
+
+    <center>
+        <Pane fx:id="dashboard"/>
+    </center>
+
+    <left>
+        <VBox styleClass="sideMenu">
+            <NavigationItemControl fx:id="tglBtnDashboard" title="Home" icon="@../../img/dashboard.png"/>
+            <NavigationItemControl fx:id="tglBtnStudents" title="student" icon="@../../img/students.png"/>
+            <NavigationItemControl fx:id="tglBtnCitizens" title="Citizens" icon="@../../img/citizens.png"/>
+            <NavigationItemControl fx:id="tglBtnCitizenTemplates" title="template" icon="@../../img/citizenTemplate.png"/>
+            <NavigationItemControl fx:id="tglBtnAdminPanel" title="Administrate" icon="@../../img/citizenTemplate.png"/>
+        </VBox>
+    </left>
+</BorderPane>
