@@ -30,6 +30,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ListResourceBundle;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class CitizensController implements Initializable
@@ -123,7 +124,7 @@ public class CitizensController implements Initializable
 
     public void initTables()
     {
-        searchTable(txtFieldCitizensSearch, availableCitizens , dataManager.getAllCitizens());
+        availableCitizens.setItems(listToObservable(dataManager.getAllCitizens()));
     }
 
     public void initListeners()
@@ -238,8 +239,20 @@ public class CitizensController implements Initializable
 
         SortedList<CitizenModel> sortedUsers = new SortedList<>(filteredData);
 
-        //sortedUsers.comparatorProperty().bind(table.comparatorProperty());
+        //sortedUsers.comparatorProperty().bind(table.itemsProperty()comparatorProperty());
 
         return sortedUsers;
+    }
+
+    private ObservableList<CitizenModel> listToObservable(List<Citizen> list)
+    {
+        ObservableList<CitizenModel> citizenModelObservableList = FXCollections.observableArrayList();
+        for (Citizen citizen: list)
+        {
+            CitizenModel citizenModel = new CitizenModel(citizen);
+            citizenModelObservableList.add(citizenModel);
+        }
+
+        return citizenModelObservableList;
     }
 }

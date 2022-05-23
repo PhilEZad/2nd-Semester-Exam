@@ -42,21 +42,21 @@ public class CitizenCreator
         return qualified;
     }
 
-    public static void main(String[] args) {
-        CitizenCreator creator = new CitizenCreator();
-
-        Citizen citizen = new Citizen(0, new GeneralJournal(1), new School(1), "hello", "world", 1970);
-
-        HashMap<Category, ContentEntry> entries = new HashMap<>();
-
-
-        var cat = new Category(14, "Problemer med hukommelse", 0);
-        var entry =  new ContentEntry(99, cat);
-        entry.setCause("amnesia");
-
-        entries.put(cat, entry);
-
-        creator.create(citizen, entries);
-    }
+    //public static void main(String[] args) {
+    //    CitizenCreator creator = new CitizenCreator();
+//
+    //    Citizen citizen = new Citizen(0, new GeneralJournal(1), new School(1), "hello", "world", 1970);
+//
+    //    HashMap<Category, ContentEntry> entries = new HashMap<>();
+//
+//
+    //    var cat = new Category(14, "Problemer med hukommelse", 0);
+    //    var entry =  new ContentEntry(99, cat);
+    //    entry.setCause("amnesia");
+//
+    //    entries.put(cat, entry);
+//
+    //    creator.create(citizen, entries);
+    //}
 
 }

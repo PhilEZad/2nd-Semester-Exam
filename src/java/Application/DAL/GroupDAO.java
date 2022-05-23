@@ -91,7 +91,7 @@ public class GroupDAO extends TemplatePatternDAO<Group>
     @Override
     public List<Group> readAll()
     {
-        return null;
+        String sql 
     }
 
     @Override

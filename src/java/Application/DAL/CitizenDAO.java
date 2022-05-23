@@ -16,8 +16,8 @@ public class CitizenDAO extends TemplatePatternDAO<Citizen>
     @Override
     public Citizen create(Citizen input) {
         String sql = """
-                    INSERT INTO Citizen (FK_Info, FK_SchoolOwner, firstName, lastName, age) 
-                    VALUES (?, ?, ?, ?, ?)
+                    INSERT INTO Citizen (FK_Info, FK_SchoolOwner, firstName, lastName, age, template) 
+                    VALUES (?, ?, ?, ?, ?, ?)
                     """;
 
         Connection conn = DBConnectionPool.getInstance().checkOut();
@@ -28,6 +28,7 @@ public class CitizenDAO extends TemplatePatternDAO<Citizen>
             pstmt.setString(3, input.getFirstname());
             pstmt.setString(4, input.getLastname());
             pstmt.setInt(5, input.getAge());
+            pstmt.setInt(6, input.getTemplate());
 
             pstmt.executeUpdate();
 
@@ -45,7 +46,8 @@ public class CitizenDAO extends TemplatePatternDAO<Citizen>
                     input.getSchool(),
                     input.getFirstname(),
                     input.getLastname(),
-                    input.getAge()
+                    input.getAge(),
+                    input.getTemplate()
             );
 
         } catch (SQLException e) {
@@ -133,15 +135,15 @@ public class CitizenDAO extends TemplatePatternDAO<Citizen>
                         result.getString("network")
                 );
 
-                return new Citizen(
-                        result.getInt("CID"),
-                        journal,
-                        school,
-                        result.getString("firstName"),
-                        result.getString("lastName"),
-                        result.getInt("age")
-                );
-            }
+            return new Citizen(
+                    result.getInt("CID"),
+                    journal,
+                    school,
+                    result.getString("firstName"),
+                    result.getString("lastName"),
+                    result.getInt("age"),
+                    result.getInt("template")
+            );
         } catch (Exception e)
         {
             e.printStackTrace();
@@ -202,7 +204,8 @@ public class CitizenDAO extends TemplatePatternDAO<Citizen>
                         school,
                         result.getString("firstName"),
                         result.getString("lastName"),
-                        result.getInt("age")
+                        result.getInt("age"),
+                        result.getInt("template")
                 );
 
                 returnList.add(citizen);

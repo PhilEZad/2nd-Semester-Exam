@@ -7,6 +7,8 @@ import Application.GUI.Models.CitizenModel;
 import Application.GUI.Models.StudentModel;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
@@ -21,10 +23,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ListResourceBundle;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class StudentsController implements Initializable {
 
@@ -54,7 +53,7 @@ public class StudentsController implements Initializable {
     }
 
     private SortedList initTableWithSearch() {
-        FilteredList<AccountModel> filteredData = new FilteredList<>(dataManger.getAllStudents(), b -> true);
+        FilteredList<AccountModel> filteredData = new FilteredList<>(studentList(), b -> true);
 
         txtFieldStudentsSearch.textProperty().addListener((observable, oldValue, newValue) -> {
             filteredData.setPredicate(user -> {
@@ -243,6 +242,22 @@ public class StudentsController implements Initializable {
 
         lblStudentsStudentName.setText(selected.getFirstName() + " " + selected.getLastName());
         lblStudentEmail.setText(selected.getEmail());
+    }
+
+    private ObservableList<AccountModel> studentList()
+    {
+        ObservableList<AccountModel> returnList = FXCollections.observableArrayList();
+        List<Account> accountList = dataManger.getAllStudents();
+
+        for (Account account : accountList)
+        {
+            if (account.getAuthorization() == 2)
+            {
+                AccountModel accountModel = new AccountModel(account);
+                returnList.add(accountModel);
+            }
+        }
+        return returnList;
     }
 }
 

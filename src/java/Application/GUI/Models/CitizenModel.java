@@ -15,7 +15,6 @@ import java.util.Map;
 public class CitizenModel implements Cloneable
 {
     private final IntegerProperty id = new SimpleIntegerProperty();
-
     private final StringProperty firstName = new SimpleStringProperty();
     private final StringProperty lastName = new SimpleStringProperty();
     private final IntegerProperty age = new SimpleIntegerProperty();
@@ -36,6 +35,7 @@ public class CitizenModel implements Cloneable
     private final ObjectProperty<ObservableMap<Category, CategoryEntryModel>> nonRelevantFunctionalAbilities = new SimpleObjectProperty<>(FXCollections.emptyObservableMap());
     private final ObjectProperty<ObservableMap<Category, CategoryEntryModel>> nonRelevantHealthConditions = new SimpleObjectProperty<>(FXCollections.emptyObservableMap());
 
+    private IntegerProperty template;
 
     public static Citizen convert(CitizenModel model)
     {
@@ -58,13 +58,13 @@ public class CitizenModel implements Cloneable
         citizen.getHealthConditions().clear();
         citizen.getFunctionalAbilities().clear();
 
-        model.getAllFuncCategories().forEach((category, categoryEntryModel) -> {
-            citizen.getFunctionalAbilities().put(category, CategoryEntryModel.convert(categoryEntryModel));
-        });
+    public CitizenModel(String firstName, String lastName, int age, int template) {
+        this.beCitizen = new Citizen(-1, new GeneralJournal(), SessionModel.getSchool(), firstName, lastName, age, template);
 
-        model.getAllHealthConditions().forEach((category, categoryEntryModel) -> {
-            citizen.getHealthConditions().put(category, CategoryEntryModel.convert(categoryEntryModel));
-        });
+        this.firstName = new SimpleStringProperty(beCitizen.getFirstname());
+        this.lastName = new SimpleStringProperty(beCitizen.getLastname());
+        this.age = new SimpleIntegerProperty(beCitizen.getAge());
+        this.template = new SimpleIntegerProperty(beCitizen.getTemplate());
 
         return citizen;
     }
@@ -412,5 +412,8 @@ public class CitizenModel implements Cloneable
         return model;
     }
 
-
+    public void setTemplate(int template)
+    {
+        this.template.set(template);
+    }
 }

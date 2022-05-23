@@ -8,9 +8,9 @@ import Application.GUI.Models.CitizenModel;
 
 import java.util.ArrayList;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class TeacherDataManager
 {
@@ -95,6 +95,11 @@ public class TeacherDataManager
         return returnList;
     }
 
+    public List<Account> getAllStudents2()
+    {
+        return accountDAO.readAll();
+    }
+
     public Boolean updateStudent(Account account)
     {
         if (account != null)
@@ -150,13 +155,30 @@ public class TeacherDataManager
 
     public List<Citizen> getAllCitizens()
     {
-        return citizenDAO.readAll();
+        List<Citizen> citizenList = citizenDAO.readAll();
+
+        for (Citizen citizen : citizenList)
+        {
+            if (citizen.getTemplate() == 0)
+            {
+                citizenList.remove(citizen);
+            }
+        }
+
+        return citizenList;
     }
 
     public void deleteCitizen(Citizen citizen)
     {
             citizenDAO.delete(citizen.getId());
     }
+
+    public void citizenFromTemplate(Citizen citizen)
+    {
+        citizen.setTemplate(1);
+        citizenDAO.create(citizen);
+    }
+
 
     // copy citizen (clone template - new ID)
 
@@ -187,16 +209,9 @@ public class TeacherDataManager
         }
     }
 
-    public Boolean deleteGroup(Group group)
+    public void deleteGroup(Group group)
     {
-        if (group != null)
-        {
             groupDAO.delete(group.getId());
-            return true;
-        } else
-        {
-            return false;
-        }
     }
 
     // FIXME: 22-05-2022 Not correct list
@@ -231,9 +246,20 @@ public class TeacherDataManager
 
 
 
-    public List<Citizen> getAllCitizenTemplates() {
-        List<Citizen> citizenTemplates = citizenTemplateDAO.readAll();
-        return citizenTemplates;
+    public List getAllCitizenTemplates() {
+        List<Citizen> citizenList = citizenTemplateDAO.readAll();
+        List<Citizen> citizenTemplatesList = new ArrayList<>();
+
+
+        for (Citizen citizenTemplate: citizenList)
+        {
+            if (citizenTemplate.getTemplate() == 0)
+            {
+                citizenTemplatesList.add(citizenTemplate);
+            }
+        }
+
+        return citizenTemplatesList;
     }
 
     public Citizen newCitizenTemplate() {
