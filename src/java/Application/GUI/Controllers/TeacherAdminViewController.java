@@ -17,24 +17,17 @@ import javafx.scene.layout.BorderPane;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class TeacherViewController implements Initializable
+public class TeacherAdminViewController implements Initializable
 {
     @FXML public AnchorPane anchorPaneDashboard;
     @FXML public AnchorPane anchorPaneStudents;
     @FXML public AnchorPane anchorPaneCitizenTemplate;
     @FXML public AnchorPane anchorPaneCitizens;
-    @FXML public AnchorPane anchorPaneCases;
-    @FXML public AnchorPane anchorPaneAssignments;
-    @FXML public AnchorPane anchorPaneJournals;
 
     @FXML public ToggleButton tglBtnDashboard;
     @FXML public ToggleButton tglBtnStudents;
     @FXML public ToggleButton tglBtnCitizenTemplates;
     @FXML public ToggleButton tglBtnCitizens;
-    @FXML public ToggleButton tglBtnCases;
-    @FXML public ToggleButton tglBtnAssignments;
-    @FXML public ToggleButton tglBtnJournals;
-
 
 
     private ToggleGroup toggleGroupViews;

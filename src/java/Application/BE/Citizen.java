@@ -114,7 +114,7 @@ public class Citizen implements Cloneable
         };
     }
 
-    public void setHealthConditions (List < ContentEntry > healthConditions) {
+    public void setHealthConditions (List <ContentEntry> healthConditions) {
         healthCategoryEntries.clear();
         for (ContentEntry entry : healthConditions) {
             healthCategoryEntries.put(entry.getCategory(), entry);

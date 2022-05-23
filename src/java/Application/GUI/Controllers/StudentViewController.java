@@ -85,8 +85,8 @@ public class StudentViewController implements Initializable {
         lblCitizenName.setText(citizen.getFirstName() + " " + citizen.getLastName());
         lblAge.setText(citizen.getAge() + "");
 
-        tblViewStudentDashboardHealth.setItems(model.getSelectedCitizen().getAllHealthConditions());
-        tblViewStudentDashboardFunc.setItems(model.getSelectedCitizen().getRelevantFunctionalAbilities());
+        tblViewStudentDashboardHealth.setItems(model.getRelevantHealthCategoriesAsList());
+        tblViewStudentDashboardFunc.setItems(model.getRelevantFuncCategoriesAsList());
     }
 
     private void initListViewCitizens(){
@@ -100,9 +100,6 @@ public class StudentViewController implements Initializable {
     }
 
 
-    public void onStudentCitizensSearch(ActionEvent event) {
-        model.onStudentCitizensSearch();
-    }
 
     public void onOpenDetails(ActionEvent event) {
         Stage stage = (Stage) btnOpenDetails.getScene().getWindow();
@@ -114,7 +111,7 @@ public class StudentViewController implements Initializable {
                 @Override
                 protected Object[][] getContents()
                 {
-                    return new Object[][]{  {"selectedCitizen", model.getSelectedCitizen()}};
+                    return new Object[][]{  {"selectedCitizen", model.getSelectedCitizen()}, {"accountType", "student"}};
                 }
             };
 
@@ -124,11 +121,13 @@ public class StudentViewController implements Initializable {
 
         } catch (IOException e) {
             e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Fejl");
+            alert.setHeaderText("Ingen valgt borger");
+            alert.setContentText("Vælg venligst en borger");
+            alert.showAndWait();
         }
     }
 
 
-    public void onAddObservation(ActionEvent event) {
-        model.onAddObservation();
-    }
 }

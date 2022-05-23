@@ -54,14 +54,9 @@ public class CitizensController implements Initializable
     public void onAddStudentToCitizen(ActionEvent event) {
     }
 
-    public void onCitizensSearch(ActionEvent event) {
-    }
-
-    public void onGeneralInfo(ActionEvent event) {
-    }
-
     public void onJournal(ActionEvent event) {
     }
 
-
+    public void onDeleteCitizen(ActionEvent event) {
+    }
 }

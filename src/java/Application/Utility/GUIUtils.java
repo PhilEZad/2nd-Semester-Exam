@@ -1,5 +1,6 @@
 package Application.Utility;
 
+
 import Application.BE.Category;
 import Application.GUI.Models.AccountModel;
 import Application.GUI.Models.CategoryEntryModel;
@@ -13,7 +14,6 @@ import javafx.scene.control.TreeItem;
 
 import java.util.*;
 import java.util.function.UnaryOperator;
-import java.util.stream.Collectors;
 
 public final class GUIUtils {
 
@@ -112,4 +112,48 @@ public final class GUIUtils {
 
         listView.setItems(sortedUsers);
     }
+
+    public static TreeItem<CategoryEntryModel> mapToTreeItem(Map<Category, CategoryEntryModel> map){
+        //Find the root category
+        Category rootCategory = null;
+        for(Map.Entry<Category, CategoryEntryModel> entry : map.entrySet()){
+            if(entry.getKey().getParent() == null){
+                rootCategory = entry.getKey();
+            }
+        }
+
+        TreeItem<CategoryEntryModel> treeRoot = new TreeItem<>(map.get(rootCategory));
+
+        TreeItem<CategoryEntryModel> returnRoot = null;
+        if (rootCategory != null) {
+            returnRoot = getChildrenToTreeItem(map, treeRoot, rootCategory.getChildren());
+            returnRoot = sortTreeItem(returnRoot);
+        }
+
+        return returnRoot;
+    }
+
+    private static TreeItem<CategoryEntryModel> getChildrenToTreeItem(Map<Category, CategoryEntryModel> map, TreeItem<CategoryEntryModel> parent, List<Category> children){
+        if (children.size() != 0) {
+            for (Category child : children) {
+                TreeItem<CategoryEntryModel> childTreeItem = new TreeItem<>(map.get(child));
+                parent.getChildren().add(childTreeItem);
+                getChildrenToTreeItem(map, childTreeItem, child.getChildren());
+            }
+        }
+        return parent;
+    }
+
+    private static TreeItem<CategoryEntryModel> sortTreeItem(TreeItem<CategoryEntryModel> treeItem){
+        if(treeItem.getChildren().size() > 0){
+            treeItem.getChildren().sort(Comparator.comparing(o -> o.getValue().getCategoryName()));
+            for(TreeItem<CategoryEntryModel> child : treeItem.getChildren()){
+                sortTreeItem(child);
+            }
+        }
+        return treeItem;
+    }
+
 }
+
+

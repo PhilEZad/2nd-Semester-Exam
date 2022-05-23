@@ -8,6 +8,9 @@ import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class CitizenModel implements Cloneable{
 
     private StringProperty firstName;
@@ -29,10 +32,10 @@ public class CitizenModel implements Cloneable{
 
     private Citizen beCitizen;
 
-    private ObservableList<CategoryEntryModel> relevantFunctionalAbilities;
-    private ObservableList<CategoryEntryModel> relevantHealthConditions;
-    private ObservableList<CategoryEntryModel> nonRelevantFunctionalAbilities;
-    private ObservableList<CategoryEntryModel> nonRelevantHealthConditions;
+    private Map<Category, CategoryEntryModel> relevantFunctionalAbilities;
+    private Map<Category, CategoryEntryModel> relevantHealthConditions;
+    private Map<Category, CategoryEntryModel> nonRelevantFunctionalAbilities;
+    private Map<Category, CategoryEntryModel> nonRelevantHealthConditions;
 
 
     public CitizenModel(String firstName, String lastName, int age) {
@@ -55,10 +58,10 @@ public class CitizenModel implements Cloneable{
         this.network = new SimpleStringProperty(beCitizen.getGeneralInfo().getNetwork());
         initBindings();
 
-        this.relevantFunctionalAbilities = FXCollections.observableArrayList();
-        this.relevantHealthConditions = FXCollections.observableArrayList();
-        this.nonRelevantFunctionalAbilities = FXCollections.observableArrayList();
-        this.nonRelevantHealthConditions = FXCollections.observableArrayList();
+        this.relevantFunctionalAbilities = new HashMap<Category, CategoryEntryModel>();
+        this.relevantHealthConditions = new HashMap<Category, CategoryEntryModel>();
+        this.nonRelevantFunctionalAbilities = new HashMap<Category, CategoryEntryModel>();
+        this.nonRelevantHealthConditions = new HashMap<Category, CategoryEntryModel>();
 
         initFunctionalAbilities();
         initHealthConditions();
@@ -85,10 +88,10 @@ public class CitizenModel implements Cloneable{
         initBindings();
 
 
-        this.relevantFunctionalAbilities = FXCollections.observableArrayList();
-        this.relevantHealthConditions = FXCollections.observableArrayList();
-        this.nonRelevantFunctionalAbilities = FXCollections.observableArrayList();
-        this.nonRelevantHealthConditions = FXCollections.observableArrayList();
+        this.relevantFunctionalAbilities = new HashMap<Category, CategoryEntryModel>();
+        this.relevantHealthConditions = new HashMap<Category, CategoryEntryModel>();
+        this.nonRelevantFunctionalAbilities = new HashMap<Category, CategoryEntryModel>();
+        this.nonRelevantHealthConditions = new HashMap<Category, CategoryEntryModel>();
 
         initFunctionalAbilities();
         initHealthConditions();
@@ -112,10 +115,10 @@ public class CitizenModel implements Cloneable{
 
 
 
-        this.relevantFunctionalAbilities = FXCollections.observableArrayList();
-        this.relevantHealthConditions = FXCollections.observableArrayList();
-        this.nonRelevantFunctionalAbilities = FXCollections.observableArrayList();
-        this.nonRelevantHealthConditions = FXCollections.observableArrayList();
+        this.relevantFunctionalAbilities = new HashMap<Category, CategoryEntryModel>();
+        this.relevantHealthConditions = new HashMap<Category, CategoryEntryModel>();
+        this.nonRelevantFunctionalAbilities = new HashMap<Category, CategoryEntryModel>();
+        this.nonRelevantHealthConditions = new HashMap<Category, CategoryEntryModel>();
 
         initFunctionalAbilities();
         initHealthConditions();
@@ -145,28 +148,31 @@ public class CitizenModel implements Cloneable{
         return firstName.get() + " " + lastName.get();
     }
 
-    private void initFunctionalAbilities() {
-        relevantFunctionalAbilities.add(new CategoryEntryModel(new ContentEntry(0, new Category("Walking"), 1)));
-        relevantFunctionalAbilities.add(new CategoryEntryModel(new ContentEntry(0, new Category("Climbing"), 1)));
-        relevantFunctionalAbilities.add(new CategoryEntryModel(new ContentEntry(0, new Category("Swimming"), 1)));
-        relevantFunctionalAbilities.add(new CategoryEntryModel(new ContentEntry(0, new Category("Bathing"), 4)));
 
-        nonRelevantFunctionalAbilities.add(new CategoryEntryModel(new ContentEntry(0, new Category("Sleeping"), 0)));
-        nonRelevantFunctionalAbilities.add(new CategoryEntryModel(new ContentEntry(0, new Category("Eating"), 0)));
-        nonRelevantFunctionalAbilities.add(new CategoryEntryModel(new ContentEntry(0, new Category("Toileting"), 0)));
+    private void initFunctionalAbilities() {
+        for (ContentEntry entry : beCitizen.getFunctionalAbilities().values()) {
+            Category category = entry.getCategory();
+            CategoryEntryModel model = new CategoryEntryModel(entry);
+            if (entry.getRelevant()) {
+                relevantFunctionalAbilities.put(category, model);
+            }
+            else {
+                nonRelevantFunctionalAbilities.put(category, model);
+            }
+        }
     }
 
     private void initHealthConditions() {
-        relevantHealthConditions.add(new CategoryEntryModel(new ContentEntry(0, new Category("Diabetes"), 1)));
-        relevantHealthConditions.add(new CategoryEntryModel(new ContentEntry(0, new Category("High Blood Pressure"), 1)));
-        relevantHealthConditions.add(new CategoryEntryModel(new ContentEntry(0, new Category("Heart Disease"), 1)));
-        relevantHealthConditions.add(new CategoryEntryModel(new ContentEntry(0, new Category("Asthma"), 1)));
-        relevantHealthConditions.add(new CategoryEntryModel(new ContentEntry(0, new Category("Epilepsy"), 1)));
-        relevantHealthConditions.add(new CategoryEntryModel(new ContentEntry(0, new Category("Allergies"), 1)));
-        relevantHealthConditions.add(new CategoryEntryModel(new ContentEntry(0, new Category("Other"), 1)));
-
-        nonRelevantHealthConditions.add(new CategoryEntryModel(new ContentEntry(0, new Category("None"), 0)));
-
+        for (ContentEntry entry : beCitizen.getFunctionalAbilities().values()) {
+            Category category = entry.getCategory();
+            CategoryEntryModel model = new CategoryEntryModel(entry);
+            if (entry.getRelevant()) {
+                relevantHealthConditions.put(category, model);
+            }
+            else {
+                nonRelevantHealthConditions.put(category, model);
+            }
+        }
     }
 
 
@@ -347,48 +353,49 @@ public class CitizenModel implements Cloneable{
         this.beCitizen = beCitizen;
     }
 
-    public ObservableList<CategoryEntryModel> getNonRelevantFunctionalAbilities() {
+    public Map<Category, CategoryEntryModel> getNonRelevantFunctionalAbilities() {
         return nonRelevantFunctionalAbilities;
     }
 
-    public void setNonRelevantFunctionalAbilities(ObservableList<CategoryEntryModel> nonRelevantFunctionalAbilities) {
-        this.nonRelevantFunctionalAbilities = relevantFunctionalAbilities;
+    public void setNonRelevantFunctionalAbilities(Map<Category, CategoryEntryModel> nonRelevantFunctionalAbilities) {
+        this.nonRelevantFunctionalAbilities = nonRelevantFunctionalAbilities;
     }
 
-    public ObservableList<CategoryEntryModel> getNonRelevantHealthConditions() {
+    public Map<Category, CategoryEntryModel> getNonRelevantHealthConditions() {
         return nonRelevantHealthConditions;
     }
 
-    public void setNonRelevantHealthConditions(ObservableList<CategoryEntryModel> nonRelevantHealthConditions) {
-        this.nonRelevantHealthConditions = relevantHealthConditions;
+    public void setNonRelevantHealthConditions(Map<Category, CategoryEntryModel> nonRelevantHealthConditions) {
+        this.nonRelevantHealthConditions = nonRelevantHealthConditions;
     }
-    public ObservableList<CategoryEntryModel> getRelevantFunctionalAbilities() {
+
+    public Map<Category, CategoryEntryModel> getRelevantFunctionalAbilities() {
         return relevantFunctionalAbilities;
     }
 
-    public void setRelevantFunctionalAbilities(ObservableList<CategoryEntryModel> relevantFunctionalAbilities) {
+    public void setRelevantFunctionalAbilities(Map<Category, CategoryEntryModel> relevantFunctionalAbilities) {
         this.relevantFunctionalAbilities = relevantFunctionalAbilities;
     }
 
-    public ObservableList<CategoryEntryModel> getRelevantHealthConditions() {
+    public Map<Category, CategoryEntryModel> getRelevantHealthConditions() {
         return relevantHealthConditions;
     }
 
-    public void setRelevantHealthConditions(ObservableList<CategoryEntryModel> relevantHealthConditions) {
+    public void setRelevantHealthConditions(Map<Category, CategoryEntryModel> relevantHealthConditions) {
         this.relevantHealthConditions = relevantHealthConditions;
     }
 
-    public ObservableList<CategoryEntryModel> getAllFuncCategories() {
-        ObservableList<CategoryEntryModel> allFuncConditions = FXCollections.observableArrayList();
-        allFuncConditions.addAll(nonRelevantFunctionalAbilities);
-        allFuncConditions.addAll(relevantFunctionalAbilities);
-        return allFuncConditions;
+    public Map<Category, CategoryEntryModel> getAllFuncCategories() {
+        HashMap<Category, CategoryEntryModel> allFuncCategories = new HashMap<>();
+        allFuncCategories.putAll(nonRelevantFunctionalAbilities);
+        allFuncCategories.putAll(relevantFunctionalAbilities);
+        return allFuncCategories;
     }
 
-    public ObservableList<CategoryEntryModel> getAllHealthConditions() {
-        ObservableList<CategoryEntryModel> allHealthConditions = FXCollections.observableArrayList();
-        allHealthConditions.addAll(nonRelevantHealthConditions);
-        allHealthConditions.addAll(relevantHealthConditions);
+    public Map<Category, CategoryEntryModel> getAllHealthConditions() {
+        HashMap<Category, CategoryEntryModel> allHealthConditions = new HashMap<>();
+        allHealthConditions.putAll(nonRelevantHealthConditions);
+        allHealthConditions.putAll(relevantHealthConditions);
         return allHealthConditions;
     }
 

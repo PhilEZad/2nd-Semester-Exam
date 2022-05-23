@@ -11,6 +11,8 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Side;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldTreeTableCell;
+import javafx.scene.control.skin.TableHeaderRow;
+import javafx.scene.control.skin.TableViewSkinBase;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
 import javafx.util.converter.IntegerStringConverter;
@@ -27,6 +29,7 @@ public class CitizenTemplateController implements Initializable {
     public TextField txtFieldName;
     public TextField txtFieldSurname;
     public TextField txtFieldAge;
+    public Button btnGenerateBaseData;
     public Button btnCitizenTemplateEditOn;
     public Button btnCitizenTemplateEditCancel;
     public Button btnCitizenTemplateEditSave;
@@ -66,7 +69,7 @@ public class CitizenTemplateController implements Initializable {
     public TextArea txtAreaGenInfoHomeLayout;
     public TextArea txtAreaGenInfoNetwork;
 
-   // private CitizenTemplateControllerModel model = new CitizenTemplateControllerModel();
+    // private CitizenTemplateControllerModel model = new CitizenTemplateControllerModel();
     private ContextMenu actionsMenu = new ContextMenu();
     private List<TreeTableColumn<CategoryEntryModel, String>> editableTreeTableColumns = new ArrayList<>();
     private List<TextArea> editableTextAreas = new ArrayList<>();
@@ -132,7 +135,7 @@ public class CitizenTemplateController implements Initializable {
      * Creates a new blank citizen template.
      */
     private void onNewCitizenTemplate() {
-        listViewCitizenTemplates.getItems().add(null);
+        listViewCitizenTemplates.getItems().add(model.newCitizenTemplate());
     }
 
     /**
@@ -161,7 +164,7 @@ public class CitizenTemplateController implements Initializable {
 
     private void onNewCitizenEntity() {
         try {
-            //model.newCitizenEntity();
+            model.newCitizenEntity();
             Notifications notifications = Notifications.create();
             notifications.title("Ny borger");
             notifications.text("Borger er oprettet");
@@ -176,7 +179,7 @@ public class CitizenTemplateController implements Initializable {
 
     }
 
-    private void setTreeTables() {
+    private void setTreeTables() {/*
         //TODO: Proper table population
         // Set up the table
         CitizenModel citizenTemplateModel = new CitizenModel();
@@ -201,6 +204,7 @@ public class CitizenTemplateController implements Initializable {
         }
         funcRoot.getChildren().addAll(funcTree);
         healthRoot.getChildren().addAll(healthTree);
+        */
 
     }
 
@@ -241,6 +245,7 @@ public class CitizenTemplateController implements Initializable {
         editableTreeTableColumns.add(treeTblColumnHealthAssessment);
         editableTreeTableColumns.add(treeTblColumnHealthCause);
         editableTreeTableColumns.add(treeTblColumnHealthNote);
+
     }
 
     /**
@@ -278,7 +283,7 @@ public class CitizenTemplateController implements Initializable {
      * which calls the setDataToCitizenTemplatesList() method when the selected citizenTemplate changes.
      */
     private void initCitizenTemplatesList() {
-        listViewCitizenTemplates.setItems(null);
+        listViewCitizenTemplates.setItems(model.getCitizenTemplates());
 
         listViewCitizenTemplates.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             model.setSelectedCitizenTemplateModel((CitizenModel) newValue);
@@ -378,9 +383,11 @@ public class CitizenTemplateController implements Initializable {
         txtFieldName.setDisable(!editable);
         txtFieldSurname.setDisable(!editable);
         txtFieldAge.setDisable(!editable);
+        btnGenerateBaseData.setVisible(editable);
 
         //ensures another citizen template is not selected while editing
         listViewCitizenTemplates.setDisable(editable);
+
 
         btnCitizenTemplateEditOn.setVisible(!editable); //Only visible if not editable
         btnCitizenTemplateEditSave.setVisible(editable); //Only visible if editable
@@ -395,9 +402,9 @@ public class CitizenTemplateController implements Initializable {
      * @param event
      */
     public void onEditOn(ActionEvent event) {
-       //model.savePreEditState();
-       //treeTblViewFunc.setRoot(model.getAllFuncCategoriesAsTreeItem());
-       //treeTblViewHealth.setRoot(model.getAllHealthConditionsAsTreeItem());
+        model.savePreEditState();
+        treeTblViewFunc.setRoot(model.getAllFuncCategoriesAsTreeItem());
+        treeTblViewHealth.setRoot(model.getAllHealthConditionsAsTreeItem());
         setEditable(true);
 
     }
@@ -417,38 +424,36 @@ public class CitizenTemplateController implements Initializable {
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {
-            /*
-            CitizenTemplateModel selected = model.getSelectedCitizenTemplateModel();
-            if (selected.getName() != txtFieldName.getText() && !txtFieldName.getText().isEmpty()) {
-                selected.setName(txtFieldName.getText());
+            CitizenModel selected = model.getSelectedCitizenTemplateModel();
+            if (selected.getFirstName() != txtFieldName.getText() && !txtFieldName.getText().isEmpty()) {
+                selected.setFirstName(txtFieldName.getText());
             }
-            if (selected.getSurname() != txtFieldSurname.getText() && !txtFieldSurname.getText().isEmpty()) {
-                selected.setSurname(txtFieldSurname.getText());
+            if (selected.getLastName() != txtFieldSurname.getText() && !txtFieldSurname.getText().isEmpty()) {
+                selected.setLastName(txtFieldSurname.getText());
             }
             if (selected.getAge() != Integer.parseInt(txtFieldAge.getText()) && !txtFieldAge.getText().isEmpty()) {
                 selected.setAge(Integer.parseInt(txtFieldAge.getText()));
             }
 
 
-            selected.getTemplate().getGeneralInfo().setCoping(txtAreaGenInfoCoping.getText());
-            selected.getTemplate().getGeneralInfo().setMotivation(txtAreaGenInfoMotivation.getText());
-            selected.getTemplate().getGeneralInfo().setResources(txtAreaGenInfoResources.getText());
-            selected.getTemplate().getGeneralInfo().setRoles(txtAreaGenInfoRoles.getText());
-            selected.getTemplate().getGeneralInfo().setHabits(txtAreaGenInfoHabits.getText());
-            selected.getTemplate().getGeneralInfo().setEduAndJob(txtAreaGenInfoEduAndJob.getText());
-            selected.getTemplate().getGeneralInfo().setLifeStory(txtAreaGenInfoLifeStory.getText());
-            selected.getTemplate().getGeneralInfo().setHealthInfo(txtAreaGenInfoHealthInfo.getText());
-            selected.getTemplate().getGeneralInfo().setAssistiveDevices(txtAreaGenInfoAssistiveDevices.getText());
-            selected.getTemplate().getGeneralInfo().setHomeLayout(txtAreaGenInfoHomeLayout.getText());
-            selected.getTemplate().getGeneralInfo().setNetwork(txtAreaGenInfoNetwork.getText());
+            selected.getBeCitizen().getGeneralInfo().setCoping(txtAreaGenInfoCoping.getText());
+            selected.getBeCitizen().getGeneralInfo().setMotivation(txtAreaGenInfoMotivation.getText());
+            selected.getBeCitizen().getGeneralInfo().setResources(txtAreaGenInfoResources.getText());
+            selected.getBeCitizen().getGeneralInfo().setRoles(txtAreaGenInfoRoles.getText());
+            selected.getBeCitizen().getGeneralInfo().setHabits(txtAreaGenInfoHabits.getText());
+            selected.getBeCitizen().getGeneralInfo().setEduAndJob(txtAreaGenInfoEduAndJob.getText());
+            selected.getBeCitizen().getGeneralInfo().setLifeStory(txtAreaGenInfoLifeStory.getText());
+            selected.getBeCitizen().getGeneralInfo().setHealthInfo(txtAreaGenInfoHealthInfo.getText());
+            selected.getBeCitizen().getGeneralInfo().setAssistiveDevices(txtAreaGenInfoAssistiveDevices.getText());
+            selected.getBeCitizen().getGeneralInfo().setHomeLayout(txtAreaGenInfoHomeLayout.getText());
+            selected.getBeCitizen().getGeneralInfo().setNetwork(txtAreaGenInfoNetwork.getText());
 
 
             model.saveEditedCitizenTemplate();
+
             treeTblViewFunc.setRoot(model.getRelevantFuncCategoriesAsTreeItem());
             treeTblViewHealth.setRoot(model.getRelevantHealthCategoriesAsTreeItem());
             setEditable(false);
-
-             */
         }
     }
 
@@ -505,5 +510,11 @@ public class CitizenTemplateController implements Initializable {
     }
 
 
+    public void onGenerateBaseData(ActionEvent event) {
+        Object[] baseData = model.generateBaseData();
+        txtFieldName.setText((String) baseData[0]);
+        txtFieldSurname.setText((String) baseData[1]);
+        txtFieldAge.setText((String) baseData[2]);
+    }
 }
 

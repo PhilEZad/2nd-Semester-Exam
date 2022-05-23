@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" styleClass="background" stylesheets="@../../Styles/MainStylesheet.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Application.GUI.Controllers.Popups.SchoolSelectionViewController">
+    <children>
+            <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <center>
+                    <TableView fx:id="tblViewSchool" prefHeight="200.0" prefWidth="200.0" stylesheets="@../../Styles/TableViewStylesheet.css">
+                        <columns>
+                            <TableColumn fx:id="tblClmSchoolName" prefWidth="188.0" text="Navn" />
+                            <TableColumn fx:id="tblClmSchoolZipCode" prefWidth="95.0" text="Post Nr." />
+                            <TableColumn fx:id="tblClmSchoolCity" prefWidth="183.0" text="By" />
+                        </columns>
+                    </TableView>
+                </center>
+                <bottom>
+                    <GridPane hgap="15.0" prefHeight="49.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+                        <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="125.0" minWidth="10.0" prefWidth="125.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="125.0" minWidth="10.0" prefWidth="125.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        </columnConstraints>
+                        <rowConstraints>
+                            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                        </rowConstraints>
+                        <children>
+                            <Button mnemonicParsing="false" onAction="#onNewSchool" prefHeight="40.0" prefWidth="126.0" styleClass="backgroundButton" text="Opret Ny Skole" GridPane.halignment="LEFT" />
+                            <Button mnemonicParsing="false" onAction="#onEditSchool" prefWidth="126.0" styleClass="backgroundButton" text="Rediger Skole" GridPane.columnIndex="1" GridPane.halignment="LEFT" />
+                            <Button mnemonicParsing="false" onAction="#onDeleteSchool" prefWidth="126.0" styleClass="backgroundButton" text="Slet Skole" GridPane.columnIndex="2" GridPane.halignment="LEFT" />
+                  <Button fx:id="btnContinue" mnemonicParsing="false" onAction="#onContinue" prefWidth="126.0" styleClass="backgroundButton" text="Gå Videre" GridPane.columnIndex="3" GridPane.halignment="RIGHT" />
+                        </children>
+                    </GridPane>
+                </bottom>
+            </BorderPane>
+    </children>
+</AnchorPane>

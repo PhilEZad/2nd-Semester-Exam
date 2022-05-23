@@ -15,24 +15,32 @@ public class ContentEntry {
     private String citizenGoals = "";
     private String note = "";
 
-    private Integer severity = 0;
+    private boolean relevant;
+    private Integer severity = null;
 
 
     public ContentEntry(Category category)
     {
+        this.id = category.getId();
         this.category = category;
+        initRelevance();
     }
 
     public ContentEntry(int id, Category category, int level) {
         this.id = id;
         this.category = category;
         this.currentStatus = level;
+        this.expectedStatus = -1;
+        initRelevance();
     }
 
     public ContentEntry(int id, Category category) {
         this.id = id;
         this.category = category;
+        this.currentStatus = -1;
+
     }
+
 
     public int getId() {
         return id;
@@ -54,12 +62,13 @@ public class ContentEntry {
         return category.getName();
     }
 
-    public int getCurrentStatus() {
+    public Integer getCurrentStatus() {
         return currentStatus;
     }
 
     public void setCurrentStatus(int currentStatus) {
         this.currentStatus = currentStatus;
+        initRelevance();
     }
 
     public String getAssessment() {
@@ -94,7 +103,7 @@ public class ContentEntry {
         this.citizenGoals = citizenGoals;
     }
 
-    public int getExpectedStatus() {
+    public Integer getExpectedStatus() {
         return expectedStatus;
     }
 
@@ -110,7 +119,40 @@ public class ContentEntry {
         this.note = note;
     }
 
+    public void setRelevant(boolean relevant) {
+        this.relevant = relevant;
+    }
+
+    public boolean getRelevant() {
+        return relevant;
+    }
+
+    private void initRelevance() {
+        if (this.currentStatus == -1)
+            this.relevant = false;
+        else switch (getCategory().getType()){
+            case FUNCTIONAL_ABILITY -> {
+                if (this.currentStatus != 9) {
+                    setRelevant(true);
+                }
+                else {
+                    setRelevant(false);
+                }
+            }
+            case HEALTH_CONDITION -> {
+                if (this.currentStatus != 0) {
+                    setRelevant(true);
+                }
+                else {
+                    setRelevant(false);
+                }
+            }
+            case GENERAL_INFORMATION -> setRelevant(true);
+            }
+    }
+
     public int getSeverity() {
         return this.severity;
     }
+
 }

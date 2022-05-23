@@ -17,12 +17,19 @@ public class SessionModel {
 
     private static Account account;
 
+    private static School school;
+
     /**
      * @return the currently logged-in user, may be null.
      * */
-    public Account getCurrent()
+    public static Account getCurrent()
     {
         return account;
+    }
+
+    public static void setAccount(Account accountLoggedIn)
+    {
+        account = accountLoggedIn;
     }
 
 
@@ -33,8 +40,13 @@ public class SessionModel {
         return account != null;
     }
 
+    public static void setSchool(School school)
+    {
+        SessionModel.school = school;
+    }
+
     public static School getSchool()
     {
-        return null;
+        return school;
     }
 }

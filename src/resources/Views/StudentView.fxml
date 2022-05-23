@@ -32,7 +32,7 @@
          <children>
             <AnchorPane layoutX="18.0" layoutY="14.0" prefHeight="70.0" prefWidth="657.0" styleClass="studentPanel30Deg" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="9.0" AnchorPane.topAnchor="14.0">
                <children>
-                  <Label fx:id="lblCitizenName" layoutX="26.0" layoutY="16.0" styleClass="studentNameLbl" text="Rasmus Scherning Sandbæk" AnchorPane.leftAnchor="26.0" AnchorPane.topAnchor="16.0" />
+                  <Label fx:id="lblCitizenName" layoutX="26.0" layoutY="16.0" styleClass="studentNameLbl" text="Navn" AnchorPane.leftAnchor="26.0" AnchorPane.topAnchor="16.0" />
                   <HBox layoutX="244.0" layoutY="24.0" AnchorPane.leftAnchor="244.0" AnchorPane.topAnchor="24.0">
                      <children>
                         <Label styleClass="smallPanelLblBold" text="Alder:  " />
@@ -48,14 +48,13 @@
                   <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <HBox maxWidth="-Infinity" minHeight="-Infinity" prefHeight="50.0" prefWidth="290.0" GridPane.halignment="CENTER">
+                  <HBox maxWidth="-Infinity" minHeight="-Infinity" prefHeight="50.0" prefWidth="135.0" GridPane.halignment="CENTER">
                      <children>
                         <Button fx:id="btnOpenDetails" mnemonicParsing="false" onAction="#onOpenDetails" prefHeight="50.0" prefWidth="135.0" styleClass="studentBackgroundButton" text="Åben Detaljer">
                            <HBox.margin>
-                              <Insets right="15.0" />
+                              <Insets />
                            </HBox.margin>
                         </Button>
-                        <Button mnemonicParsing="false" onAction="#onAddObservation" prefHeight="50.0" prefWidth="135.0" styleClass="studentBackgroundButton" text="Tilføj Obsevation" />
                      </children>
                   </HBox>
                </children>

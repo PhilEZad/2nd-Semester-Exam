@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 
 
-<BorderPane fx:id="TeacherScene" stylesheets="@../Styles/MainStylesheet.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Application.GUI.Controllers.TeacherViewController">
+<BorderPane fx:id="TeacherScene" stylesheets="@../Styles/MainStylesheet.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Application.GUI.Controllers.TeacherAdminViewController">
    <center>
       <StackPane prefHeight="891.0" prefWidth="938.0">
             <fx:include fx:id="anchorPaneDashboard" source="dashboard/Default.fxml"/>

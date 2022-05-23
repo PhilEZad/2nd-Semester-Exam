@@ -14,9 +14,11 @@ public class CategoryLoader
     {
         for (var category : completeList)
         {
+
             if (category.getParentID() == root.getId())
             {
                 root.getChildren().add(category);
+                category.setParent(root);
             }
         }
     }
@@ -33,6 +35,7 @@ public class CategoryLoader
             if (element.getParentID() <= 0)
             {
                 content.getChildren().add(element);
+                element.setParent(content);
             }
 
             getImmediateChildren(element, allCategories);
@@ -45,6 +48,8 @@ public class CategoryLoader
 
         CategoryLoader loader = new CategoryLoader();
 
+        System.out.println("/t/t/t" + " : " + loader.load());
+
         for (var Level0 : loader.load().getChildren()) {
             System.out.println(Level0.getName());
 
@@ -53,6 +58,7 @@ public class CategoryLoader
 
                 for (var Level2 : Level1.getChildren()) {
                     System.out.println("\t\t" + Level2.getName());
+                    System.out.println("\t\t\t" + Level2.getParent().getName());
                 }
             }
         }

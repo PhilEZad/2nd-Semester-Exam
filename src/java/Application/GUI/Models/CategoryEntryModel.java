@@ -43,12 +43,16 @@ public class CategoryEntryModel implements Comparable<CategoryEntryModel> {
 
         initProperties();
         categoryName.set(contentEntry.getCategoryName());
+        if (contentEntry.getCurrentStatus() != null)
         level.set(contentEntry.getCurrentStatus());
+        else level.set(-1);
         assessment.set(contentEntry.getAssessment());
         cause.set(contentEntry.getCause());
         implications.set(contentEntry.getImplications());
         citizenGoals.set(contentEntry.getCitizenGoals());
+        if (contentEntry.getExpectedStatus() != null)
         expectedCondition.set(contentEntry.getExpectedStatus());
+        else expectedCondition.set(-1);
         note.set(contentEntry.getNote());
         type = contentEntry.getCategory().getType();
         initBinds();
@@ -162,16 +166,20 @@ public class CategoryEntryModel implements Comparable<CategoryEntryModel> {
         exConHealthComboBox.get().setDisable(true);
 
         if (this.type == CategoryType.FUNCTIONAL_ABILITY) {
-            if (level.get() == 9){
+            if (level.get() == 9 || level.get() == -1) {
                 levelFuncComboBox.get().setValue(FunctionalLevels.LEVEL_9);
             } else levelFuncComboBox.get().setValue(FunctionalLevels.values()[level.get()]);
-            if (expectedCondition.get() == 9){
+            if (expectedCondition.get() == 9 || expectedCondition.get() == -1){
                 exConFuncComboBox.get().setValue(FunctionalLevels.LEVEL_9);
             } else exConFuncComboBox.get().setValue(FunctionalLevels.values()[expectedCondition.get()]);
         }
         else {
-           // levelHealthComboBox.get().setValue(HealthLevels.values()[level.get()]);
-           // exConHealthComboBox.get().setValue(HealthLevels.values()[expectedCondition.get()]);
+            if (level.get() == -1) {
+                levelHealthComboBox.get().setValue(HealthLevels.NOT_RELEVANT);
+                exConHealthComboBox.get().setValue(HealthLevels.NOT_RELEVANT);
+            }
+           levelHealthComboBox.get().setValue(HealthLevels.values()[level.get()]);
+           exConHealthComboBox.get().setValue(HealthLevels.values()[expectedCondition.get()]);
         }
     }
 
@@ -280,12 +288,13 @@ public class CategoryEntryModel implements Comparable<CategoryEntryModel> {
      **/
     private void initLevelFuncAndLevelHealth(){
         if (this.type == CategoryType.FUNCTIONAL_ABILITY){
-            if (level.get() == 9)
+            if (level.get() == 9 || level.get() == -1)
                 this.levelFunc.set(FunctionalLevels.LEVEL_9);
             else this.levelFunc.set(FunctionalLevels.values()[level.get()]);
         }
         else {
-           // this.levelHealth.set(HealthLevels.values()[level.get()]);
+            if (level.get() == -1)
+           this.levelHealth.set(HealthLevels.values()[level.get()]);
         }
     }
 
@@ -294,12 +303,14 @@ public class CategoryEntryModel implements Comparable<CategoryEntryModel> {
      **/
     private void initExConFuncAndLevelHealth(){
         if (this.type == CategoryType.FUNCTIONAL_ABILITY){
-            if (expectedCondition.get() == 9)
+            if (expectedCondition.get() == 9 || expectedCondition.get() == -1)
                 this.exConFunc.set(FunctionalLevels.LEVEL_9);
             else this.exConFunc.set(FunctionalLevels.values()[level.get()]);
         }
         else {
-            //this.exConHealth.set(HealthLevels.values()[level.get()]);
+            if (expectedCondition.get() == -1)
+                this.exConHealth.set(HealthLevels.NOT_RELEVANT);
+            this.exConHealth.set(HealthLevels.values()[level.get()]);
         }
     }
 
@@ -308,13 +319,12 @@ public class CategoryEntryModel implements Comparable<CategoryEntryModel> {
     }
 
     public ObjectProperty<ImageView> levelFuncProperty() {
-       // Image image = levelFunc.get().image;
-       // ImageView imageView = new ImageView(levelFunc.get().image);
-       // imageView.setFitWidth(60);
-        //imageView.setFitHeight(50);
+       Image funcImage = levelFunc.get().image;
+       ImageView imageView = new ImageView(funcImage);
+       imageView.setFitWidth(60);
+       imageView.setFitHeight(50);
 
-        //return new SimpleObjectProperty<ImageView>(imageView);
-        return new SimpleObjectProperty<>();
+        return new SimpleObjectProperty<ImageView>(imageView);
     }
 
     public void setLevelFunc(FunctionalLevels levelFunc) {
@@ -338,8 +348,8 @@ public class CategoryEntryModel implements Comparable<CategoryEntryModel> {
     }
 
     public ObjectProperty<ImageView> exConFuncProperty() {
-        Image image = exConFunc.get().image;
-        ImageView imageView = new ImageView(exConFunc.get().image);
+        Image exConimage = exConFunc.get().image;
+        ImageView imageView = new ImageView(exConimage);
         imageView.setFitWidth(60);
         imageView.setFitHeight(50);
 

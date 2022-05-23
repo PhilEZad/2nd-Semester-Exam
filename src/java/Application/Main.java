@@ -21,7 +21,7 @@ public class Main extends Application {
     {
         Parent root = FXMLLoader.load(this.getClass().getResource("/views/AdminView.fxml"));
 
-        primaryStage.setTitle("main");
+        primaryStage.setTitle("FS3 Simluations Platform");
 
         primaryStage.setScene(new Scene(root));
         primaryStage.show();

@@ -64,6 +64,7 @@ public class CitizenDetailsViewController implements Initializable {
     public Button btnBackToDashboard;
 
     private StudentViewControllerModel model = new StudentViewControllerModel();
+    private boolean isTeacher = false;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -75,6 +76,14 @@ public class CitizenDetailsViewController implements Initializable {
     private void initBundle(ResourceBundle bundle) {
         if (bundle.getObject("selectedCitizen") != null){
             model.setSelectedCitizen((CitizenModel) bundle.getObject("selectedCitizen"));
+        }
+        if (bundle.getObject("accountType") != null){
+            String accountType = (String) bundle.getObject("accountType");
+            if (accountType.equals("teacher")){
+                isTeacher = true;
+            }else {
+                isTeacher = false;
+            }
         }
     }
 
@@ -89,15 +98,11 @@ public class CitizenDetailsViewController implements Initializable {
             lblCitizenAge.setText(String.valueOf(model.getSelectedCitizen().getAge()));
 
             //set the functional abilities TreeTableView to the values of the selected citizen template
-            TreeItem<CategoryEntryModel> funcRoot = new TreeItem<>();
-            funcRoot.getChildren().addAll(model.getRelevantFuncCategoriesAsTreeItem());
-            treeTblViewFunc.setRoot(funcRoot);
+            treeTblViewFunc.setRoot(model.getRelevantFuncCategoriesAsTreeItem());
             treeTblViewFunc.setShowRoot(false);
 
             //set the health categories to the health categories of the selected citizen template
-            TreeItem<CategoryEntryModel> healthRoot = new TreeItem<>();
-            healthRoot.getChildren().addAll(model.getRelevantHealthCategoriesAsTreeItem());
-            treeTblViewHealth.setRoot(healthRoot);
+            treeTblViewHealth.setRoot(model.getRelevantHealthCategoriesAsTreeItem());
             treeTblViewHealth.setShowRoot(false);
 
             GeneralJournal journal = model.getSelectedCitizen().getBeCitizen().getGeneralInfo();
@@ -184,15 +189,11 @@ public class CitizenDetailsViewController implements Initializable {
             model.recalculateRelevantCategories();
 
             //set the functional abilities TreeTableView to the values of the selected citizen template
-            TreeItem<CategoryEntryModel> funcRoot = new TreeItem<>();
-            funcRoot.getChildren().addAll(model.getRelevantFuncCategoriesAsTreeItem());
-            treeTblViewFunc.setRoot(funcRoot);
+            treeTblViewFunc.setRoot(model.getRelevantFuncCategoriesAsTreeItem());
             treeTblViewFunc.setShowRoot(false);
 
             //set the health categories to the health categories of the selected citizen template
-            TreeItem<CategoryEntryModel> healthRoot = new TreeItem<>();
-            healthRoot.getChildren().addAll(model.getRelevantHealthCategoriesAsTreeItem());
-            treeTblViewHealth.setRoot(healthRoot);
+            treeTblViewHealth.setRoot(model.getRelevantHealthCategoriesAsTreeItem());
             treeTblViewHealth.setShowRoot(false);
         });
     }
@@ -211,10 +212,14 @@ public class CitizenDetailsViewController implements Initializable {
                 }
             };
 
-
-            root = FXMLLoader.load(getClass().getResource("/Views/StudentView.fxml"), resources);
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
+            if (isTeacher) {
+                stage.close();
+            }
+            else {
+                root = FXMLLoader.load(getClass().getResource("/Views/StudentView.fxml"), resources);
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+            }
 
         } catch (IOException e) {
             e.printStackTrace();
