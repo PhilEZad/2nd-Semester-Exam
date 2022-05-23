@@ -1,11 +1,10 @@
 package Application.BLL;
 
 
-import Application.BE.Account;
-import Application.BE.Citizen;
-import Application.BE.ContentEntry;
-import Application.BE.Group;
+import Application.BE.*;
+import Application.DAL.CategoryDAO;
 import Application.DAL.CitizenDAO;
+import Application.DAL.ContentDAO;
 import Application.DAL.GroupDAO;
 import Application.GUI.Models.CitizenModel;
 import Application.GUI.Models.SessionModel;
@@ -28,10 +27,7 @@ public class StudentDataManager {
         return dao.readAll().stream().filter(group -> group.getGroupMembers().contains(studentID)).toList();
     }
 
-
-    // update assigned citizen
-        // add observation
-            // journal entry!!! CRUD
+     // journal entry!!! CRUD
 
     public List<Citizen> getAssignedCitizens(int studentID)
     {
@@ -49,13 +45,27 @@ public class StudentDataManager {
         return citizens;
     }
 
-    public static void main(String[] args) {
-        StudentDataManager manager = new StudentDataManager();
-
-        manager.getAssignedCitizens(1);
-
-    }
-
     public void updateObservation(Citizen selectedCitizen, ContentEntry value) {
+
+        ContentDAO DAO = new ContentDAO();
+
+        if (value.getCategory().getType() == CategoryType.FUNCTIONAL_ABILITY)
+        {
+            if (selectedCitizen.getFunctionalAbilities().containsKey(value.getCategory())  || selectedCitizen.getHealthConditions().containsKey(value.getCategory()))
+            {
+                DAO.update(value);
+            }
+            else
+            {
+                selectedCitizen.addFunctionalAbility(value);
+                DAO.create(value);
+            }
+        }
+        else
+        {
+            selectedCitizen.addHealthConditions(value);
+            DAO.create(value);
+        }
     }
+
 }

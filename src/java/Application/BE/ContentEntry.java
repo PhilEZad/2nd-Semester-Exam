@@ -151,8 +151,8 @@ public class ContentEntry {
             }
     }
 
-    public int getSeverity() {
-        return this.severity;
+    public Integer getSeverity() {
+        return (this.severity == null) ? 0 : severity;
     }
 
 }
