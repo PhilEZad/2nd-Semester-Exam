@@ -28,7 +28,12 @@ public class SessionManager
 
     public static boolean tryBeginSession(int schoolID, AccountType type, String username, String password) throws InvalidClassException
     {
-        User account = (User) DataAccessFactory.get(User.class).getAccessObject().getByString(username);
+        User account = null;
+        try {
+            account = (User) DataAccessFactory.get(User.class).getAccessObject().getByString(username);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         if (account != null && account.getAuthorization().equals(type) && account.getPassword().equals(createToken(username, password)))
         {
