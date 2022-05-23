@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class AccountDAO extends TemplatePatternDAO<Account> {
@@ -251,13 +252,11 @@ public class AccountDAO extends TemplatePatternDAO<Account> {
                     SELECT * FROM Account
                     WHERE Account.username = ?
                     """;
-
-
+    
         Connection conn = DBConnectionPool.getInstance().checkOut();
         try
         {
             PreparedStatement pstmt = conn.prepareStatement(sql);
-
             pstmt.setString(1, username);
             ResultSet rs = pstmt.executeQuery();
             rs.next();
@@ -284,5 +283,59 @@ public class AccountDAO extends TemplatePatternDAO<Account> {
         finally {
             DBConnectionPool.getInstance().checkIn(conn);
         }
+    }
+
+
+    public static List<Account> getSchoolAccounts(School schoolBE)
+    {
+        String sql = """
+                    SELECT * FROM Account
+                    JOIN School ON Account.FK_AccountSchool = School.SID
+                    JOIN ZipCode ON School.FK_Zipcode = ZipCode.Zip
+                    WHERE SID = ? AND privilegeLevel = 2
+                    """;
+        List<Account> studentsList = new ArrayList<>();
+
+        Connection conn = DBConnectionPool.getInstance().checkOut();
+        try
+        {
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, schoolBE.getSchoolID());
+
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next())
+            {
+
+                School school = new School(
+                        rs.getInt("SID"),
+                        rs.getString("schoolName"),
+                        new City(rs.getInt("Zip"),
+                                rs.getString("city"))
+                );
+
+                Account student = new Account(
+                        rs.getInt("AID"),
+                        rs.getString("username"),
+                        rs.getString("hashed_pwd"),
+                        rs.getString("firstname"),
+                        rs.getString("lastname"),
+                        rs.getString("email"),
+                        school,
+                        rs.getInt("privilegeLevel"));
+
+                studentsList.add(student);
+            }
+
+            pstmt.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        finally {
+            DBConnectionPool.getInstance().checkIn(conn);
+        }
+
+        return studentsList;
     }
 }
