@@ -1,6 +1,8 @@
 package Application.GUI.Controllers.Popups;
 
+import Application.BE.Category;
 import Application.BE.CategoryType;
+import Application.GUI.Controllers.dashboard.CitizenTemplateController;
 import Application.GUI.Models.CategoryEntryModel;
 import Application.GUI.Models.CitizenModel;
 import Application.GUI.Models.ControllerModels.StudentViewControllerModel;
@@ -14,8 +16,10 @@ import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 
 import java.net.URL;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 public class ObservationViewController implements Initializable {
 
@@ -124,15 +128,13 @@ public class ObservationViewController implements Initializable {
 
         treeTblColumnFuncCatName.setCellValueFactory(param -> param.getValue().getValue().categoryNameProperty());
         treeTblColumnHealthCatName.setCellValueFactory(param -> param.getValue().getValue().categoryNameProperty());
+        
     }
 
 
     public void onSaveHealthObservation(ActionEvent event) {
         if (observation != null){
-
-
             //Obligatory fields for health conditions
-
             if (observation.getValue().getCategoryName() == null || observation.getValue().getContentEntry().getCategory().getChildren().size() > 0){
 
                 showAlert();
