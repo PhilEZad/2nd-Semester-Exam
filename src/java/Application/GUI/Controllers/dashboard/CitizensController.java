@@ -1,11 +1,8 @@
 package Application.GUI.Controllers.dashboard;
 
-import Application.BE.Citizen;
-
-import Application.DAL.CitizenDAO;
-import Application.Utility.GUIUtils;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import Application.GUI.Models.AccountModel;
+import Application.GUI.Models.CitizenModel;
+import Application.GUI.Models.ControllerModels.CitizensControllerModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -18,35 +15,47 @@ public class CitizensController implements Initializable
 {
     public AnchorPane anchorPaneCitizensDashboard;
 
-    public ListView<Citizen> AvailableCitizens;
-    public ListView listViewStudentsForCitizen;
+    public ListView<CitizenModel> availableCitizens;
+    public ListView<AccountModel> listViewStudentsForCitizen;
 
     public Button btnRemoveStudentToCitizen;
     public Button btnAddStudentToCitizen;
     public TextField txtFieldCitizensSearch;
-    public Button btnCitizensSearch;
     public Label lblCitizenName;
     public Label lblAge;
-
-    public Button btnGeneralInfo;
     public Button btnJournal;
 
-    private ObservableList<Citizen> citizens;
+
+    private CitizensControllerModel model = new CitizensControllerModel();
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
-        // TODO: 09-05-2022 abstract to a model
+       //initCitizensList();
 
-        CitizenDAO dao = new CitizenDAO();
-        //citizens = FXCollections.observableList(dao.readAll(0));
-
-        AvailableCitizens = new ListView<>();
-        AvailableCitizens.getSelectionModel().selectFirst();
-        GUIUtils.searchListener(txtFieldCitizensSearch, AvailableCitizens);
-
-       // lblCitizenName.textProperty().bindBidirectional(AvailableCitizens.getSelectionModel().getSelectedItem().getFirstname());
     }
+
+    private void initCitizensList(){
+        availableCitizens.setItems(model.getAllCitizenModels());
+
+        availableCitizens.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue != null){
+                model.setSelectedCitizen(newValue);
+                setDataToCitizen();
+            }
+        });
+    }
+
+    private void setDataToCitizen() {
+        lblAge.setText(model.getSelectedCitizen().getAge() + "");
+        lblCitizenName.setText(model.getSelectedCitizen().getFirstName() + " " + model.getSelectedCitizen().getLastName());
+        listViewStudentsForCitizen.setItems(model.getStudentsForCitizen());
+    }
+
+
+
+
 
     public void onRemoveStudentToCitizen(ActionEvent event) {
     }

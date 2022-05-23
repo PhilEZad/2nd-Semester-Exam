@@ -1,6 +1,7 @@
 package Application.GUI.Models.ControllerModels;
 
 import Application.BE.Category;
+import Application.BE.Citizen;
 import Application.BE.ContentEntry;
 import Application.BLL.TeacherDataManager;
 import Application.GUI.Models.CategoryEntryModel;
@@ -14,6 +15,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.TreeItem;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
@@ -36,7 +38,9 @@ public class CitizenTemplateControllerModel {
      * @return
      */
     public ObservableList<CitizenModel> getCitizenTemplates() {
-        ObservableList<CitizenModel> citizenTemplates = FXCollections.observableArrayList(teacherDataManager.getAllCitizenTemplates());
+        ObservableList<CitizenModel> citizenTemplates = FXCollections.observableArrayList();
+        List<Citizen> citizenList = teacherDataManager.getAllCitizenTemplates();
+        citizenList.forEach(citizen -> citizenTemplates.add(new CitizenModel(citizen)));
         return citizenTemplates;
     }
 

@@ -22,7 +22,7 @@
       <Button fx:id="btnDeleteCitizen" layoutX="345.0" layoutY="635.0" mnemonicParsing="false" onAction="#onDeleteCitizen" prefHeight="57.0" prefWidth="102.0" styleClass="panelBtnNoPadding" text="Slet borger" />
     </AnchorPane>
     <AnchorPane layoutX="14.0" layoutY="23.0" prefHeight="362.0" prefWidth="200.0" styleClass="panel30Deg" AnchorPane.bottomAnchor="26.600000000000023" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="23.0">
-        <ListView fx:id="AvailableCitizens" layoutX="18.0" layoutY="70.0" prefHeight="272.0" prefWidth="163.0" AnchorPane.bottomAnchor="18.399999999999977" AnchorPane.leftAnchor="18.0" AnchorPane.rightAnchor="16.80000000000001" AnchorPane.topAnchor="70.0" />
+        <ListView fx:id="availableCitizens" layoutX="18.0" layoutY="70.0" prefHeight="272.0" prefWidth="163.0" AnchorPane.bottomAnchor="18.399999999999977" AnchorPane.leftAnchor="18.0" AnchorPane.rightAnchor="16.80000000000001" AnchorPane.topAnchor="70.0" />
         <HBox layoutX="20.0" layoutY="26.0" prefHeight="26.0" prefWidth="163.0" AnchorPane.leftAnchor="16.0" AnchorPane.topAnchor="24.0">
             <children>
                 <TextField fx:id="txtFieldCitizensSearch" prefHeight="30.0" prefWidth="181.0" promptText="Search" styleClass="text-fieldBase" />

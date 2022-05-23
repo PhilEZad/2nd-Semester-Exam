@@ -21,6 +21,11 @@ public class StudentViewControllerModel {
         studentDataManager = new StudentDataManager();
     }
 
+
+    public void onAddObservation() {
+        //TODO
+    }
+
     public ObservableList<CitizenModel> getAllCitizens()
     {
         ObservableList<CitizenModel> citizens = FXCollections.observableArrayList();
