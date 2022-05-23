@@ -78,19 +78,19 @@ public class CitizenModel implements Cloneable
         model.setLastName(citizen.getLastname());
         model.setAge(citizen.getAge());
 
-        if (citizen.getGeneralInfo() != null)
+        if (citizen.getGeneralJournal() != null)
         {
-            model.setCoping(citizen.getGeneralInfo().getCoping());
-            model.setMotivation(citizen.getGeneralInfo().getMotivation());
-            model.setResources(citizen.getGeneralInfo().getResources());
-            model.setRoles(citizen.getGeneralInfo().getRoles());
-            model.setHabits(citizen.getGeneralInfo().getHabits());
-            model.setEduAndJob(citizen.getGeneralInfo().getEduAndJob());
-            model.setLifeStory(citizen.getGeneralInfo().getLifeStory());
-            model.setHealthInfo(citizen.getGeneralInfo().getHealthInfo());
-            model.setAssistiveDevices(citizen.getGeneralInfo().getAssistiveDevices());
-            model.setHomeLayout(citizen.getGeneralInfo().getHomeLayout());
-            model.setNetwork(citizen.getGeneralInfo().getNetwork());
+            model.setCoping(citizen.getGeneralJournal().getCoping());
+            model.setMotivation(citizen.getGeneralJournal().getMotivation());
+            model.setResources(citizen.getGeneralJournal().getResources());
+            model.setRoles(citizen.getGeneralJournal().getRoles());
+            model.setHabits(citizen.getGeneralJournal().getHabits());
+            model.setEduAndJob(citizen.getGeneralJournal().getEduAndJob());
+            model.setLifeStory(citizen.getGeneralJournal().getLifeStory());
+            model.setHealthInfo(citizen.getGeneralJournal().getHealthInfo());
+            model.setAssistiveDevices(citizen.getGeneralJournal().getAssistiveDevices());
+            model.setHomeLayout(citizen.getGeneralJournal().getHomeLayout());
+            model.setNetwork(citizen.getGeneralJournal().getNetwork());
         }
 
         for (ContentEntry entry : citizen.getFunctionalAbilities().values())

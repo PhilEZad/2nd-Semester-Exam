@@ -3,7 +3,9 @@ package Application.GUI.Controllers.dashboard;
 import Application.BE.Citizen;
 
 import Application.DAL.CitizenDAO;
+import Application.GUI.Models.AccountModel;
 import Application.GUI.Models.CitizenModel;
+import Application.GUI.Models.ControllerModels.CitizensControllerModel;
 import Application.Utility.GUIUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
