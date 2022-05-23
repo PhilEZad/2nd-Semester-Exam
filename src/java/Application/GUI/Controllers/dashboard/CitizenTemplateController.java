@@ -277,6 +277,11 @@ public class CitizenTemplateController implements Initializable {
 
     }
 
+    private void initTooltips()
+    {
+
+    }
+
 
     /**
      * Initializes the citizen templates list and its ChangeListener,
