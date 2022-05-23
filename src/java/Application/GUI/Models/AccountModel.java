@@ -13,7 +13,6 @@ import javafx.collections.ObservableList;
 
 public class AccountModel
 {
-
     private AdminDataManager adminDataManager = new AdminDataManager();
 
     private IntegerProperty id;
@@ -26,11 +25,10 @@ public class AccountModel
     private School school;
     private Account account;
 
-    ObservableList<Account> accounts;
+    ObservableList<Account> accountsList;
 
-    public AccountModel()
-    {
-
+    public AccountModel() {
+        accountsList = FXCollections.observableArrayList();
     }
 
     public AccountModel(Account account)
@@ -38,6 +36,9 @@ public class AccountModel
         this.id = new SimpleIntegerProperty();
         this.password = new SimpleStringProperty();
         this.accountName =  new SimpleStringProperty();
+        this.account = account;
+
+        this.userName = new SimpleStringProperty();
         this.firstName = new SimpleStringProperty();
         this.lastName = new SimpleStringProperty();
         this.email = new SimpleStringProperty();
@@ -48,6 +49,7 @@ public class AccountModel
         id.set(account.getId());
         password.set(account.getPassword());
         accountName.set(account.getUsername());
+        userName.set(account.getLogin());
         firstName.set(account.getFirstName());
         lastName.set(account.getLastName());
         email.set(account.getEmail());
@@ -98,6 +100,12 @@ public class AccountModel
     {
         this.accountName.set(accountName);
     }
+
+    public Account getAccount() { return account;}
+
+    public String getUserName() { return userName.getName();}
+
+    public void setUserName(String userName) { this.userName.set(userName);}
 
     public String getFirstName() {
         return firstName.get();
@@ -158,7 +166,7 @@ public class AccountModel
 
     public ObservableList<Account> getAccountList()
     {
-        return accounts;
+        return accountsList;
     }
 
     public void updateAccount(Account account)
@@ -166,7 +174,7 @@ public class AccountModel
         adminDataManager.updateAccount(account);
     }
 
-    public Account getAccount() {
+    public Account getAccount2() {
         return account;
     }
 
@@ -177,5 +185,12 @@ public class AccountModel
     @Override
     public String toString() {
         return firstName.get() + " " + lastName.get();
+        var account = adminDataManager.createAccount(username, password, firstName, surname, email, school, i);
+        accountsList.add(account);
+    }
+
+    public void update(Account account)
+    {
+        adminDataManager.updateAccount(account);
     }
 }

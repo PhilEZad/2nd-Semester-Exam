@@ -1,8 +1,8 @@
 package Application.GUI.Controllers.Popups;
 
 import Application.BE.Location;
-import Application.BE.School;
 import Application.GUI.Models.AccountModel;
+import Application.BE.School;
 import Application.GUI.Models.SchoolModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,7 +17,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.function.UnaryOperator;
 
-public class EditSchoolController implements Initializable {
+public class EditSchoolController implements Initializable 
+{
 
     @FXML Button btnCancel;
     @FXML Button btnSave;
@@ -36,12 +37,18 @@ public class EditSchoolController implements Initializable {
         txtSchoolName.setText(school.getName().get());
         txtSchoolZipCode.setText(Integer.toString(school.getZipCode().get()));
 
-
     }
+    
+    public EditSchoolController(SchoolModel school)
+    {
+        this.school = school;
+    }
+
 
     public void saveEdits(ActionEvent actionEvent)
     {
         school.update(new School(school.getId(), txtSchoolName.getText(), new Location(Integer.parseInt(txtSchoolZipCode.getText()), "")));
+        school.update(new School(school.getSchoolID(), txtSchoolName.getText(), Integer.parseInt(txtSchoolZipCode.getText()), ""));
         
         Stage stage = (Stage) btnSave.getScene().getWindow();
         stage.close();

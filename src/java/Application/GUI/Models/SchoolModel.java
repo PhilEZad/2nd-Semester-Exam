@@ -35,6 +35,7 @@ public class SchoolModel {
         city.setValue(school.getLocation().getCityName());
     }
 
+
     public SchoolModel() {
         schools = FXCollections.observableArrayList();
     }
@@ -53,6 +54,8 @@ public class SchoolModel {
     {
         this.id.set(id);
     }
+    
+    public int getSchoolID(){ return id.get();}
 
     public StringProperty getName(){
         return name;
@@ -73,6 +76,6 @@ public class SchoolModel {
 
     public void update(School school)
     {
-
+        DAO.editSchool(school);
     }
 }

@@ -25,8 +25,21 @@ public class AdminDataManager {
         schoolDAO = new SchoolDAO();
     }
 
-    // CREATE/READ/UPDATE/DELETE school
-    // read single / all
+    public Account createAccount(String username, String password, String firstName, String lastName, String email, School school, int auth) {
+        return (Account) accountDAO.create(new Account(-1, username, password, firstName, lastName, email, school, auth));
+    }
+
+    public Account getAccount(int id) {
+        return (Account) accountDAO.read(id);
+    }
+
+    public void updateAccount(Account student){
+        accountDAO.update(student);
+    }
+
+    public void deleteAccount(Account student){
+        accountDAO.delete(student.getId());
+    }
 
     public School createSchool(String schoolName, int zipCode)
     {
@@ -50,7 +63,7 @@ public class AdminDataManager {
         return schoolModelsList;
     }
 
-    public void updateSchool(School school)
+    public void editSchool(School school)
     {
         schoolDAO.update(school);
     }
@@ -116,4 +129,12 @@ public class AdminDataManager {
 
     // access to Teacher data operations
 
+    public void deleteSchool(School school)
+    {
+        schoolDAO.delete(school.getSchoolID());
+    }
+
+    public List<Account> getAllStudents2(){
+        return accountDAO.readAll();
+    }
 }
