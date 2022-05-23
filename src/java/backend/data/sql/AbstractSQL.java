@@ -1,13 +1,12 @@
 package backend.data.sql;
 
-import backend.data.source.SQLConnectionPool;
 import org.intellij.lang.annotations.Language;
 
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 public abstract class AbstractSQL<RETURN_TYPE, PARAM_TYPE>
 {
@@ -17,56 +16,22 @@ public abstract class AbstractSQL<RETURN_TYPE, PARAM_TYPE>
 
     private Boolean hasExecutedSuccessfully = null;
 
+
     /**
-     * @param input may be null
+     * Runs a callable task on a separate thread.
+     *
+     * @param in
+     * @return
+     * @throws Exception
      */
-    private void run(PARAM_TYPE input)
-    {
-        Connection conn = SQLConnectionPool.getInstance().checkOut();
-
-        try
-        {
-            PreparedStatement statement = conn.prepareStatement(getSQLStatement(), PreparedStatement.RETURN_GENERATED_KEYS);
-
-            this.return_value = execute(statement, input);
-
-            ResultSet generatedKeys = statement.getGeneratedKeys();
-            if (generatedKeys.next()) {
-                this.return_id = generatedKeys.getInt(1);
-            }
-
-            statement.close();
-            this.hasExecutedSuccessfully = true;
-        }
-        catch (Exception e)
-        {
-            this.LastException = e;
-            this.hasExecutedSuccessfully = false;
-        }
-        finally
-        {
-            SQLConnectionPool.getInstance().checkIn(conn);
-        }
+    public final RETURN_TYPE getResult(PARAM_TYPE in) throws Exception {
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        GetResultCaller caller = new GetResultCaller<RETURN_TYPE, PARAM_TYPE>(in, this);
+        Future<RETURN_TYPE> future = executor.submit(caller);
+        return future.get();
     }
 
-    public final RETURN_TYPE getResult(PARAM_TYPE in) {
-
-        if (this.hasExecutedSuccessfully == null)
-        {
-            this.run(in);
-        }
-
-        if (!this.hasExecutedSuccessfully)
-        {
-            // post error
-            System.err.println("exception occurred when running db query");
-            return null;
-        }
-
-        return return_value;
-    }
-
-    public final RETURN_TYPE getResult() {
+    public final RETURN_TYPE getResult() throws Exception {
         return this.getResult(null);
     }
 
@@ -75,7 +40,12 @@ public abstract class AbstractSQL<RETURN_TYPE, PARAM_TYPE>
         return return_id;
     }
 
-    protected abstract RETURN_TYPE execute(PreparedStatement statement, PARAM_TYPE input) throws SQLException;
+    public final void setReturn_id(long id)
+    {
+        return_id = id;
+    }
+
+    protected abstract RETURN_TYPE execute(PreparedStatement statement, PARAM_TYPE input) throws Exception;
 
     @Language("sql")
     protected abstract String getSQLStatement();
@@ -83,6 +53,10 @@ public abstract class AbstractSQL<RETURN_TYPE, PARAM_TYPE>
     protected final Exception getLastError() {
         return LastException;
     };
+
+    protected void setLastException(Exception e) {
+        this.LastException = e;
+    }
 
 
 }

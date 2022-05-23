@@ -13,7 +13,7 @@ import java.util.List;
 public class AccountSQL implements IDataAccessObject<User>
 {
     @Override
-    public List<User> getAll() {
+    public List<User> getAll() throws Exception {
         return new AbstractSQL<List<User>, Void>() {
 
             @Override
@@ -43,8 +43,7 @@ public class AccountSQL implements IDataAccessObject<User>
     }
 
     @Override
-    public User getByID(int id)
-    {
+    public User getByID(int id) throws Exception {
        return new AbstractSQL<User, Integer>() {
 
            @Override
@@ -70,7 +69,7 @@ public class AccountSQL implements IDataAccessObject<User>
     }
 
     @Override
-    public User create(User obj) {
+    public User create(User obj) throws Exception {
         return new AbstractSQL<User, User>(){
             @Override
             protected User execute(PreparedStatement statement, User input) throws SQLException {
@@ -110,12 +109,12 @@ public class AccountSQL implements IDataAccessObject<User>
     }
 
     @Override
-    public void remove(User obj) {
+    public void remove(User obj) throws Exception {
         this.removeByID(obj.getId());
     }
 
     @Override
-    public void removeByID(int id) {
+    public void removeByID(int id) throws Exception {
         new AbstractSQL<Void, Integer>() {
             @Override
             protected Void execute(PreparedStatement statement, Integer input) throws SQLException {
@@ -133,12 +132,12 @@ public class AccountSQL implements IDataAccessObject<User>
     }
 
     @Override
-    public void update(User obj) {
+    public void update(User obj) throws Exception {
         this.updateByID(obj.getId(), obj);
     }
 
     @Override
-    public void updateByID(int id, User obj) {
+    public void updateByID(int id, User obj) throws Exception {
         new AbstractSQL<Void, User>()
         {
             @Override
@@ -162,7 +161,7 @@ public class AccountSQL implements IDataAccessObject<User>
     }
 
     @Override
-    public User getByString(String username) {
+    public User getByString(String username) throws Exception {
         return new AbstractSQL<User, String>() {
 
             @Override

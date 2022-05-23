@@ -12,12 +12,11 @@ import java.util.List;
 public class CitizenSQL implements IDataAccessObject<Citizen>
 {
     @Override
-    public List<Citizen> getAll()
-    {
+    public List<Citizen> getAll() throws Exception {
         return new AbstractSQL<List<Citizen>, Void>()
         {
             @Override
-            protected List<Citizen> execute(PreparedStatement statement, Void input) throws SQLException
+            protected List<Citizen> execute(PreparedStatement statement, Void input) throws Exception
             {
                 List<Citizen> returnList = new ArrayList<>();
                 ResultSet result = statement.executeQuery();
@@ -48,11 +47,11 @@ public class CitizenSQL implements IDataAccessObject<Citizen>
     }
 
     @Override
-    public Citizen getByID(int id) {
+    public Citizen getByID(int id) throws Exception {
         return new AbstractSQL<Citizen, Integer>() {
 
             @Override
-            protected Citizen execute(PreparedStatement statement, Integer input) throws SQLException {
+            protected Citizen execute(PreparedStatement statement, Integer input) throws Exception {
                 statement.setInt(1, input);
                 ResultSet result = statement.executeQuery();
                 result.next();
@@ -77,7 +76,7 @@ public class CitizenSQL implements IDataAccessObject<Citizen>
     }
 
     @Override
-    public Citizen create(Citizen obj) {
+    public Citizen create(Citizen obj) throws Exception {
         return new AbstractSQL<Citizen, Citizen>() {
             // TODO: 22-05-2022  General Journal ????
             @Override
@@ -113,12 +112,12 @@ public class CitizenSQL implements IDataAccessObject<Citizen>
     }
 
     @Override
-    public void remove(Citizen obj) {
+    public void remove(Citizen obj) throws Exception {
         this.removeByID(obj.getId());
     }
 
     @Override
-    public void removeByID(int id) {
+    public void removeByID(int id) throws Exception {
         new AbstractSQL<Void, Integer>()
         {
             @Override
@@ -141,12 +140,12 @@ public class CitizenSQL implements IDataAccessObject<Citizen>
     }
 
     @Override
-    public void update(Citizen obj) {
+    public void update(Citizen obj) throws Exception {
         this.updateByID(obj.getId(), obj);
     }
 
     @Override
-    public void updateByID(int id, Citizen obj) {
+    public void updateByID(int id, Citizen obj) throws Exception {
         new AbstractSQL<Void, Citizen>() {
             @Override
             protected Void execute(PreparedStatement statement, Citizen input) throws SQLException {

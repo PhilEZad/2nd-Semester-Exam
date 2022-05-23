@@ -13,7 +13,7 @@ import java.util.List;
 public class SchoolSQL implements IDataAccessObject<School>
 {
     @Override
-    public List<School> getAll() {
+    public List<School> getAll() throws Exception {
         return new AbstractSQL<List<School>, Void>(){
             @Override
             protected List<School> execute(PreparedStatement statement, Void input) throws SQLException {
@@ -37,7 +37,7 @@ public class SchoolSQL implements IDataAccessObject<School>
 
 
     @Override
-    public School getByID(int id) {
+    public School getByID(int id) throws Exception {
         return new AbstractSQL<School, Integer>(){
             @Override
             protected School execute(PreparedStatement statement, Integer input) throws SQLException {
@@ -54,7 +54,7 @@ public class SchoolSQL implements IDataAccessObject<School>
     }
 
     @Override
-    public School create(School obj) {
+    public School create(School obj) throws Exception {
         return new AbstractSQL<School, School>() {
             @Override
             protected School execute(PreparedStatement statement, School input) throws SQLException {
@@ -82,12 +82,12 @@ public class SchoolSQL implements IDataAccessObject<School>
     }
 
     @Override
-    public void remove(School obj) {
+    public void remove(School obj) throws Exception {
         this.removeByID(obj.getId());
     }
 
     @Override
-    public void removeByID(int id) {
+    public void removeByID(int id) throws Exception {
         new AbstractSQL<Void, Integer>() {
 
             @Override
@@ -108,7 +108,7 @@ public class SchoolSQL implements IDataAccessObject<School>
     }
 
     @Override
-    public void update(School obj) {
+    public void update(School obj) throws Exception {
         new AbstractSQL<Void, School>() {
             @Override
             protected Void execute(PreparedStatement statement, School input) throws SQLException {
@@ -129,14 +129,14 @@ public class SchoolSQL implements IDataAccessObject<School>
     }
 
     @Override
-    public void updateByID(int id, School obj) {
+    public void updateByID(int id, School obj) throws Exception {
         var school = new School(obj);
         school.setId(id);
         this.update(school);
     }
 
     @Override
-    public School getByString(String name) {
+    public School getByString(String name) throws Exception {
         return new AbstractSQL<School, String>(){
             @Override
             protected School execute(PreparedStatement statement, String input) throws SQLException {

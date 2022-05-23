@@ -12,7 +12,7 @@ import java.util.List;
 public class JournalEntrySQL implements IDataAccessObject<Entry>
 {
     @Override
-    public Entry create(Entry obj) {
+    public Entry create(Entry obj) throws Exception {
         return new AbstractSQL<Entry, Entry>() {
             @Override
             protected Entry execute(PreparedStatement statement, Entry input) throws SQLException
@@ -52,12 +52,12 @@ public class JournalEntrySQL implements IDataAccessObject<Entry>
     }
 
     @Override
-    public void remove(Entry obj) {
+    public void remove(Entry obj) throws Exception {
         this.removeByID(obj.getId());
     }
 
     @Override
-    public void removeByID(int id) {
+    public void removeByID(int id) throws Exception {
         new AbstractSQL<Void, Integer>() {
             @Override
             protected Void execute(PreparedStatement statement, Integer input) throws SQLException
@@ -75,8 +75,7 @@ public class JournalEntrySQL implements IDataAccessObject<Entry>
     }
 
     @Override
-    public List<Entry> getAll()
-    {
+    public List<Entry> getAll() throws Exception {
         return new AbstractSQL<List<Entry>, Void>() {
             @Override
             protected List<Entry> execute(PreparedStatement statement, Void input) throws SQLException {
@@ -91,8 +90,7 @@ public class JournalEntrySQL implements IDataAccessObject<Entry>
     }
 
     @Override
-    public Entry getByID(int id)
-    {
+    public Entry getByID(int id) throws Exception {
         return new AbstractSQL<Entry, Integer>() {
             @Override
             protected Entry execute(PreparedStatement statement, Integer input) throws SQLException
@@ -133,7 +131,7 @@ public class JournalEntrySQL implements IDataAccessObject<Entry>
     }
 
     @Override
-    public void update(Entry obj) {
+    public void update(Entry obj) throws Exception {
         new AbstractSQL<Void, Entry>() {
             @Override
             protected Void execute(PreparedStatement statement, Entry input) throws SQLException {
@@ -168,7 +166,7 @@ public class JournalEntrySQL implements IDataAccessObject<Entry>
     }
 
     @Override
-    public void updateByID(int id, Entry obj) {
+    public void updateByID(int id, Entry obj) throws Exception {
         this.update(new Entry(obj, id));
     }
 }

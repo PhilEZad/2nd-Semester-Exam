@@ -12,8 +12,7 @@ import java.util.List;
 public class LocationSQL implements IDataAccessObject<Location>
 {
     @Override
-    public List<Location> getAll()
-    {
+    public List<Location> getAll() throws Exception {
         return new AbstractSQL<List<Location>, Void>() {
             @Override
             protected List<Location> execute(PreparedStatement statement, Void input) throws SQLException {
@@ -36,7 +35,7 @@ public class LocationSQL implements IDataAccessObject<Location>
     }
 
     @Override
-    public Location getByID(int id) {
+    public Location getByID(int id) throws Exception {
         return new AbstractSQL<Location, Integer>()
         {
             @Override
@@ -56,7 +55,7 @@ public class LocationSQL implements IDataAccessObject<Location>
     }
 
     @Override
-    public Location getByString(String city) {
+    public Location getByString(String city) throws Exception {
         return new AbstractSQL<Location, String>() {
             @Override
             protected Location execute(PreparedStatement statement, String input) throws SQLException {
