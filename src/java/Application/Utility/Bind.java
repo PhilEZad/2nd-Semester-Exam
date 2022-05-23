@@ -35,9 +35,15 @@ public class Bind {
 
     public static  <T> void twoWay(StringProperty lhs, StringProperty last, StringProperty current)
     {
+        if (lhs == null)
+            return;
+
         lhs.unbind();
-        lhs.unbindBidirectional(last);
-        lhs.bindBidirectional(current);
+
+        if (last != null)
+            lhs.unbindBidirectional(last);
+        if (current != null)
+            lhs.bindBidirectional(current);
     }
 
 
