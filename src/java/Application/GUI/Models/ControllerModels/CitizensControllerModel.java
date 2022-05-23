@@ -24,16 +24,18 @@ public class CitizensControllerModel {
     }
 
     public void removeStudentToCitizen() {
+        manager.unassignFromGroup();
     }
 
-    public void addStudentToCitizen() {
-
+    public AccountModel addStudentToCitizen(Account student) {
+        return new AccountModel(manager.addStudentToCitizen(CitizenModel.convert(selectedCitizen), student));
     }
 
 
     public CitizenModel getSelectedCitizen() {
         return selectedCitizen;
     }
+
 
     public void setSelectedCitizen(CitizenModel selectedCitizen) {
         this.selectedCitizen = selectedCitizen;
@@ -44,5 +46,9 @@ public class CitizensControllerModel {
         List<Account> accounts = manager.getGroupMembers();
         accounts.forEach(account -> {students.add(new AccountModel(account));});
         return students;
+    }
+
+    public void deleteCitizen(CitizenModel selectedItem) {
+        manager.deleteCitizen(CitizenModel.convert(selectedItem));
     }
 }

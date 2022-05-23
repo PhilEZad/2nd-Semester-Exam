@@ -285,4 +285,8 @@ public class TeacherDataManager
     public void deleteCitizenEntity(Citizen citizen) {
         citizenDAO.delete(citizen.getId());
     }
+
+    public Account addStudentToCitizen(Citizen convert, Account student) {
+        return null; //TODO
+    }
 }
