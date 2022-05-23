@@ -14,10 +14,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TreeItem;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Random;
+import java.util.*;
 
 public class CitizenTemplateControllerModel {
 
@@ -250,4 +247,22 @@ public class CitizenTemplateControllerModel {
         return baseData;
     }
 
+    public String getTooltipText(String item) {
+        Set<Category> categoriesFunc = selectedCitizenTemplateModel.getAllFuncCategories().keySet();
+        Set<Category> categoriesHealth = selectedCitizenTemplateModel.getAllHealthConditions().keySet();
+
+        Set<Category> allCats = new HashSet<>();
+        allCats.addAll(categoriesFunc);
+        allCats.addAll(categoriesHealth);
+
+        String description = "Beskrivelsen kunne ikke findes";
+
+        for (Category cat : allCats) {
+            if (cat.getName().equals(item)) {
+                return cat.getDescription();
+            }
+        }
+
+        return description;
+    }
 }
