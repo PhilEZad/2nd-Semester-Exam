@@ -4,20 +4,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-    public class Group {
+public class Group
+{
+    int id;
+    String groupName;
+    Citizen citizen;
 
-            List<Account> groupMembers = new ArrayList<Account>();
-            String groupName;
-            Citizen citizen;
-            int id;
-
-    public Group(List<Account> groupMembers, String groupName, int id) {
-        this.id = id;
-    }
+    List<Account> groupMembers = new ArrayList<>();
 
     public Group()
     {
 
+    }
+
+    public Group(int id, List<Account> groupMembers, String groupName) {
+        this.id = id;
+        this.groupMembers = groupMembers;
+        this.groupName = groupName;
     }
 
     public List<Account> getGroupMembers() {
@@ -27,7 +30,6 @@ import java.util.List;
     public String getGroupName() {
         return groupName;
     }
-
 
     public int getId() {
         return id;
@@ -44,7 +46,6 @@ import java.util.List;
     public void setGroupName(String groupName) {
         this.groupName = groupName;
     }
-
 
     public Citizen getCitizen() {
         return citizen;

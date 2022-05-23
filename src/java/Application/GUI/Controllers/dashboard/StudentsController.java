@@ -1,10 +1,15 @@
 package Application.GUI.Controllers.dashboard;
 
+import Application.BE.Account;
 import Application.BLL.TeacherDataManager;
 import Application.GUI.Models.AccountModel;
 import Application.GUI.Models.CitizenModel;
+import Application.GUI.Models.StudentModel;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
-import javafx.event.EventDispatchChain;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Side;
@@ -17,9 +22,14 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ListResourceBundle;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class StudentsController implements Initializable {
+
+    TeacherDataManager dataManger = new TeacherDataManager();
+
     public AnchorPane anchorPaneStudents;
     public ListView<AccountModel> listViewStudents;
     public TextField txtFieldStudentsSearch;
@@ -39,8 +49,37 @@ public class StudentsController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         initActionsMenu();
+        listViewStudents.setItems(initTableWithSearch());
+        listViewStudents.getSelectionModel().selectedItemProperty().addListener(studentSelectionChanged());
     }
 
+    private SortedList initTableWithSearch() {
+        FilteredList<AccountModel> filteredData = new FilteredList<>(dataManger.getAllStudents(), b -> true);
+
+        txtFieldStudentsSearch.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(user -> {
+
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                if (user.getFirstName().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true;
+                } else if (user.getLastName().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true;
+                } else if (user.getEmail().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true;
+                } else
+                    return false;
+            });
+        });
+
+        SortedList<AccountModel> sortedUsers = new SortedList<>(filteredData);
+
+        return sortedUsers;
+    }
 
     /**
      * Shows the context menu with the available actions for the administrating students
@@ -112,17 +151,99 @@ public class StudentsController implements Initializable {
         adminMenu.setAutoHide(true);
     }
 
-    private void onNewStudent() {
+    private void onNewStudent()
+    {
+
     }
 
-    private void onEditStudent() {
+    private void onEditStudent()
+    {
+        try
+        {
+            ResourceBundle resource = getResource(listViewStudents);
+            Stage popupMenuStudent = new Stage();
+            Parent rootStudent = FXMLLoader.load(getClass().getResource("/Views/Popups/EditAccountView.fxml"), resource);
+            popupMenuStudent.setTitle("Rediger Elev");
+            popupMenuStudent.setScene(new Scene(rootStudent));
+            popupMenuStudent.show();
+            popupMenuStudent.setOnHidden(event1 -> listViewStudents.setItems(initTableWithSearch()));
+        } catch (IOException e)
+        {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setHeaderText("Ingen elev valgt.");
+            alert.getDialogPane().getStylesheets().add(Objects.requireNonNull(getClass().getResource("/Styles/MainStylesheet.css")).toExternalForm());
+            alert.showAndWait();
+            e.printStackTrace();
+        }
     }
 
-    private void onDeleteStudent() {
+    private void onDeleteStudent2() {
         teacherDataManager.deleteStudent(listViewStudents.getSelectionModel().getSelectedItem().getAccount());
         listViewStudents.getItems().remove(listViewStudents.getSelectionModel().getSelectedItem());
     }
 
+    private void onDeleteStudent()
+    {
+        try {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setHeaderText("Slet " + listViewStudents.getSelectionModel().getSelectedItem().getFirstName() + " " + listViewStudents.getSelectionModel().getSelectedItem().getLastName() + "?");
+            alert.setContentText("Dette kan ikke fortrydes!");
+            alert.getDialogPane().getStylesheets().add(Objects.requireNonNull(getClass().getResource("/Styles/MainStylesheet.css")).toExternalForm());
+
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.get() == ButtonType.OK) {
+                dataManger.deleteStudent((listViewStudents.getSelectionModel().getSelectedItem().getAccount()));
+                listViewStudents.setItems(initTableWithSearch());
+            }
+        } catch (Exception e)
+        {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setHeaderText("Ingen elev valgt.");
+            alert.getDialogPane().getStylesheets().add(Objects.requireNonNull(getClass().getResource("/Styles/MainStylesheet.css")).toExternalForm());
+            alert.showAndWait();
+            e.printStackTrace();
+        }
+    }
+
+    private ResourceBundle getResource(ListView tableView) {
+        ResourceBundle resource = new ListResourceBundle() {
+            @Override
+            protected Object[][] getContents() {
+                return new Object[][]
+                        {
+                                {"selectedModel", tableView.getSelectionModel().getSelectedItem()},
+                        };
+            }
+        };
+        return resource;
+    }
+
+
+    // FIXME: 23-05-2022 Databinds
+    private ChangeListener<AccountModel> studentSelectionChanged()
+    {
+        return new ChangeListener<AccountModel>() {
+            @Override
+            public void changed(ObservableValue<? extends AccountModel> observable, AccountModel oldValue, AccountModel newValue)
+            {
+                updateSelectedItemBinds();
+            }
+        };
+    }
+
+    public void updateSelectedItemBinds()
+    {
+        var selected = this.listViewStudents.getSelectionModel().getSelectedItem();
+
+        if (selected == null)
+        {
+            return;
+        }
+
+        lblStudentsStudentName.setText(selected.getFirstName() + " " + selected.getLastName());
+        lblStudentEmail.setText(selected.getEmail());
+    }
 }
 
 

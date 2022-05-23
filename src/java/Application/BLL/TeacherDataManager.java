@@ -7,20 +7,22 @@ import Application.GUI.Models.CitizenModel;
 
 
 import java.util.ArrayList;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class TeacherDataManager
 {
-    TemplatePatternDAO accountDAO = new AccountDAO();
-    TemplatePatternDAO citizenDAO = new CitizenDAO();
-    TemplatePatternDAO citizenTemplateDAO = new CitizenDAO();
-    TemplatePatternDAO categoryDAO = new CategoryDAO();
-    TemplatePatternDAO groupDAO = new GroupDAO();
+    TemplatePatternDAO accountDAO;
+    TemplatePatternDAO citizenDAO;
+    TemplatePatternDAO citizenTemplateDAO;
+    TemplatePatternDAO categoryDAO;
+    GroupDAO groupDAO;
 
     public TeacherDataManager()
     {
+        citizenTemplateDAO = new CitizenDAO();
         accountDAO = new AccountDAO();
         citizenDAO = new CitizenDAO();
         categoryDAO = new CategoryDAO();
@@ -47,8 +49,7 @@ public class TeacherDataManager
      * @return
      */
 
-    public AccountModel getStudent(Account account)
-    {
+    public AccountModel getStudent(Account account) throws SQLException {
         AccountModel accountModel;
 
         if(account != null)
@@ -152,16 +153,9 @@ public class TeacherDataManager
         return citizenDAO.readAll();
     }
 
-    public Boolean deleteCitizen(Citizen citizen)
+    public void deleteCitizen(Citizen citizen)
     {
-        if(citizen != null)
-        {
-            citizenDAO.update(citizen.getId());
-            return true;
-        } else
-        {
-            return false;
-        }
+            citizenDAO.delete(citizen.getId());
     }
 
     // copy citizen (clone template - new ID)
@@ -175,8 +169,7 @@ public class TeacherDataManager
         return (Group) groupDAO.create(group);
     }
 
-    public Group getGroup(Group group)
-    {
+    public Group getGroup(Group group) throws SQLException {
         return (Group) groupDAO.read(group.getId());
     }
 

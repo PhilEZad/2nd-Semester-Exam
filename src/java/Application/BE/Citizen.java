@@ -15,8 +15,6 @@ public class Citizen implements Cloneable
     private int age;
     private int zipCode;
 
-    private GeneralJournal generalJournal;
-
     private HashMap<Category, ContentEntry> healthCategoryEntries;
 
     private HashMap<Category, ContentEntry> funcCategoryEntries;
@@ -35,42 +33,34 @@ public class Citizen implements Cloneable
     }
 
 
-    @SQLGetter(name = "cZipCode")
     public int getZipCode() {
         return zipCode;
     }
 
-    @SQLSetter(name = "cZipCode")
     public void setZipCode(int zipCode) {
         this.zipCode = zipCode;
     }
 
-    @SQLGetter(name = "cAge")
     public int getAge() {
         return age;
     }
 
-    @SQLGetter(name = "cFirstName")
     public String getFirstname() {
         return firstname;
     }
 
-    @SQLSetter(name = "cFirstName")
     public void setFirstname(String firstname) {
         this.firstname = firstname;
     }
 
-    @SQLGetter(name = "citizenId")
     public int getId() {
         return id;
     }
 
-    @SQLSetter(name = "citizenId")
     public void setId(int id) {
         this.id = id;
     }
 
-    @SQLGetter(name = "cSurname")
     public String getLastname() {
         return lastname;
     }
@@ -132,16 +122,6 @@ public class Citizen implements Cloneable
         healthCategoryEntries.put(entry.getCategory(), entry);
     }
 
-    public GeneralJournal getGeneralJournal() {
-        if (generalJournal == null) {
-            return new GeneralJournal(-1);
-        }
-        return generalJournal;
-    }
-
-    public void setGeneralJournal(GeneralJournal generalInfo){
-        this.generalJournal = generalInfo;
-    }
 
 
     @Override

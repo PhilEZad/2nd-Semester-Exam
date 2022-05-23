@@ -139,8 +139,8 @@ public class AccountDAO extends TemplatePatternDAO<Account> {
                         rs.getInt("AID"),
                         rs.getString("username"),
                         rs.getString("hashed_pwd"),
-                        rs.getString("firstName"),
-                        rs.getString("surname"),
+                        rs.getString("firstname"),
+                        rs.getString("lastname"),
                         rs.getString("email"),
                         school,
                         rs.getInt("privilegeLevel")

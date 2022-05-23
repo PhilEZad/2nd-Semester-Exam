@@ -119,7 +119,7 @@ public class AccountModel
         return lastName;
     }
 
-    public StringProperty getFullNameProperty(){return new SimpleStringProperty(firstName + " " + lastName);}
+    public StringProperty getFullNameProperty(){return new SimpleStringProperty(firstName.get() + " " + lastName.get());}
 
     public void setLastName(String lastName) {
         this.lastName.set(lastName);
@@ -172,5 +172,10 @@ public class AccountModel
 
     public void setAccount(Account account) {
         this.account = account;
+    }
+
+    @Override
+    public String toString() {
+        return firstName.get() + " " + lastName.get();
     }
 }

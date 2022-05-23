@@ -3,14 +3,21 @@ package Application.GUI.Controllers.dashboard;
 import Application.BE.Account;
 import Application.BE.Citizen;
 
+import Application.BLL.TeacherDataManager;
 import Application.DAL.CitizenDAO;
 import Application.GUI.Models.AccountModel;
 import Application.GUI.Models.CitizenModel;
 import Application.GUI.Models.ControllerModels.CitizensControllerModel;
 import Application.GUI.Models.SessionModel;
+import Application.GUI.Models.CitizenModel;
 import Application.Utility.GUIUtils;
+import javafx.beans.binding.Bindings;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -27,27 +34,22 @@ import java.util.ResourceBundle;
 
 public class CitizensController implements Initializable
 {
+    TeacherDataManager dataManager = new TeacherDataManager();
+
     public AnchorPane anchorPaneCitizensDashboard;
 
     public ListView<CitizenModel> availableCitizens;
     public ListView<AccountModel> listViewStudentsForCitizen;
+
 
     public Button btnRemoveStudentToCitizen;
     public Button btnAddStudentToCitizen;
     public TextField txtFieldCitizensSearch;
     public Label lblCitizenName;
     public Label lblAge;
-    public Button btnJournal;
 
 
     private CitizensControllerModel model = new CitizensControllerModel();
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources)
-    {
-       //initCitizensList();
-
-    }
 
     private void initCitizensList(){
         availableCitizens.setItems(model.getAllCitizenModels());
@@ -72,7 +74,8 @@ public class CitizensController implements Initializable
         listViewStudentsForCitizen.getItems().remove(listViewStudentsForCitizen.getSelectionModel().getSelectedItem());
     }
 
-    public void onAddStudentToCitizen(ActionEvent event) {
+    public void onAddStudentToCitizen(ActionEvent event) 
+    {
         Stage stage = new Stage();
         if (availableCitizens.getSelectionModel().getSelectedItem() != null && listViewStudentsForCitizen.getSelectionModel().getSelectedItem() != null) {
             Account selectedStudent = SessionModel.getCurrent();
@@ -107,6 +110,35 @@ public class CitizensController implements Initializable
             alert.showAndWait();
         }
         stage.setOnHiding(event1 -> model.addStudentToCitizen(SessionModel.getCurrent()));
+    }
+    
+    public Button btnJournal;
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources)
+    {
+        initTables();
+        initListeners();
+    }
+
+    public void initTables()
+    {
+        searchTable(txtFieldCitizensSearch, availableCitizens , dataManager.getAllCitizens());
+    }
+
+    public void initListeners()
+    {
+        availableCitizens.getSelectionModel().selectedItemProperty().addListener(citizenSelectionChanged());
+    }
+
+    public void onRemoveStudentToCitizen(ActionEvent event)
+    {
+
+    }
+
+    public void onAddStudentToCitizen(ActionEvent event)
+    {
+     //   dataManager.
     }
 
     public void onJournal(ActionEvent event) {
@@ -145,12 +177,69 @@ public class CitizensController implements Initializable
         }
     }
 
-    public void onDeleteCitizen(ActionEvent event) {
-
+    public void onDeleteCitizen2(ActionEvent event) {
 
         if (availableCitizens.getSelectionModel().getSelectedItem() != null) {
             model.deleteCitizen(availableCitizens.getSelectionModel().getSelectedItem());
             availableCitizens.getItems().remove(availableCitizens.getSelectionModel().getSelectedItem());
         }
+    }
+
+    public void onDeleteCitizen(ActionEvent event)
+    {
+        dataManager.deleteCitizen(availableCitizens.getSelectionModel().getSelectedItem().getBeCitizen());
+    }
+
+    private ChangeListener<CitizenModel> citizenSelectionChanged()
+    {
+        return new ChangeListener<CitizenModel>() {
+            @Override
+            public void changed(ObservableValue<? extends CitizenModel> observable, CitizenModel oldValue, CitizenModel newValue)
+            {
+                updatedSelectedItemBinds();
+            }
+        };
+    }
+
+    public void updatedSelectedItemBinds()
+    {
+        var selected = this.availableCitizens.getSelectionModel().getSelectedItem();
+
+        if (selected == null)
+        {
+            return;
+        }
+
+        lblCitizenName.setText(selected.getFirstName() + " " + selected.getLastName());
+        lblAge.setText(Integer.toString(selected.getAge()));
+    }
+
+    private SortedList<CitizenModel> searchTable(TextField searchField, ListView table, ObservableList searchList)
+    {
+        FilteredList<CitizenModel> filteredData = new FilteredList<>(searchList, b -> true);
+
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(user -> {
+
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                if (user.getFirstName().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true;
+                } else if (user.getLastName().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true;
+                } else
+                    return false;
+            });
+        });
+
+        SortedList<CitizenModel> sortedUsers = new SortedList<>(filteredData);
+
+        //sortedUsers.comparatorProperty().bind(table.comparatorProperty());
+
+        return sortedUsers;
     }
 }

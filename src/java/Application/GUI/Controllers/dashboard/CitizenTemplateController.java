@@ -309,7 +309,7 @@ public class CitizenTemplateController implements Initializable {
     }
 
     /**
-     * Creates a new blank citizen template.
+     * Creates a new blank citizen template.e
      */
     private void onNewCitizenTemplate() {
         listViewCitizenTemplates.getItems().add(model.newCitizenTemplate());
@@ -461,6 +461,21 @@ public class CitizenTemplateController implements Initializable {
     private void initTooltips()
     {
 
+    }
+    
+    /**
+     * Initializes the citizen templates list and its ChangeListener,
+     * which calls the setDataToCitizenTemplatesList() method when the selected citizenTemplate changes.
+     */
+    private void initCitizenTemplatesList() {
+        listViewCitizenTemplates.setItems(model.getCitizenTemplates());
+
+        listViewCitizenTemplates.getSelectionModel().select(0);
+
+        listViewCitizenTemplates.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            model.setSelectedCitizenTemplateModel((CitizenModel) newValue);
+            setDataToCitizenTemplateView();
+        });
     }
 
     /**

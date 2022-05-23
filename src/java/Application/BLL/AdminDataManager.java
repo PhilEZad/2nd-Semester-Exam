@@ -11,6 +11,7 @@ import Application.GUI.Models.SchoolModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public class AdminDataManager {
@@ -32,8 +33,7 @@ public class AdminDataManager {
         return (School) schoolDAO.create(new School(-1, schoolName, new Location(zipCode)));
     }
 
-    public School getSchool(int id)
-    {
+    public School getSchool(int id) throws SQLException {
         return (School) schoolDAO.read(id);
     }
 
@@ -68,8 +68,7 @@ public class AdminDataManager {
         return (Account) accountDAO.create(new Account(-1, username, password, firstName, lastName, email, school, auth));
     }
 
-    public Account getStudent(int id)
-    {
+    public Account getStudent(int id) throws SQLException {
         return (Account) accountDAO.read(id);
     }
 

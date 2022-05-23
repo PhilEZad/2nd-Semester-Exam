@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class CitizenDAO extends TemplatePatternDAO<Citizen>
@@ -223,7 +224,14 @@ public class CitizenDAO extends TemplatePatternDAO<Citizen>
 
     @Override
     public void delete(int id) {
-        String sql = """
+        String sql =
+                """
+                DELETE FROM [Group]
+                WHERE EXISTS (SELECT FK_Citizen FROM [Group] WHERE FK_Citizen = ?)
+                
+                DELETE FROM Content
+                WHERE EXISTS (SELECT FK_CitizenID FROM Content WHERE FK_CitizenID = ?)
+                
                 DELETE FROM Citizen
                 WHERE CID = ?
                 """;
@@ -233,6 +241,10 @@ public class CitizenDAO extends TemplatePatternDAO<Citizen>
         {
             PreparedStatement pstm = conn.prepareStatement(sql);
             pstm.setInt(1, id);
+            pstm.setInt(2, id);
+            pstm.setInt(3, id);
+
+            pstm.execute();
 
         } catch (Exception e)
         {
