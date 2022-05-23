@@ -94,10 +94,22 @@ public class CitizenDetailsViewController implements Initializable {
             String accountType = (String) bundle.getObject("accountType");
             if (accountType.equals("teacher")){
                 isTeacher = true;
-            }else {
+                setVisibleButton(true);
+            } else if (accountType.equals("observer")) {
                 isTeacher = false;
+                setVisibleButton(false);
+            } else {
+                isTeacher = false;
+                setVisibleButton(true);
             }
         }
+
+    }
+
+    private void setVisibleButton(boolean isVisible){
+        btnAddObservation.setVisible(isVisible);
+        btnEditObservation.setVisible(isVisible);
+        btnBackToDashboard.setVisible(isVisible);
     }
 
     /**

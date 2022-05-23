@@ -1,5 +1,6 @@
 package Application.GUI.Controllers.dashboard;
 
+import Application.BLL.TeacherDataManager;
 import Application.GUI.Models.AccountModel;
 import Application.GUI.Models.CitizenModel;
 import javafx.event.ActionEvent;
@@ -32,6 +33,7 @@ public class StudentsController implements Initializable {
 
     private ContextMenu adminMenu = new ContextMenu();
 
+    private TeacherDataManager teacherDataManager = new TeacherDataManager();
 
 
     @Override
@@ -90,6 +92,8 @@ public class StudentsController implements Initializable {
     }
 
     public void onRemoveCitizenToStudent(ActionEvent event) {
+        //teacherDataManager.
+        listViewCitizensForStudents.getItems().remove(listViewCitizensForStudents.getSelectionModel().getSelectedItem());
     }
 
 
@@ -115,6 +119,8 @@ public class StudentsController implements Initializable {
     }
 
     private void onDeleteStudent() {
+        teacherDataManager.deleteStudent(listViewStudents.getSelectionModel().getSelectedItem().getAccount());
+        listViewStudents.getItems().remove(listViewStudents.getSelectionModel().getSelectedItem());
     }
 
 }
