@@ -15,15 +15,15 @@ import java.util.Objects;
 
 public enum DashboardStateMachine {
 
-    HOME("/fxml/dashboard/component/HomeTab.fxml"),
+    HOME("/Views/dashboard/Default.fxml"),
 
-    CITIZEN("/fxml/dashboard/component/CitizenTab.fxml"),
+    CITIZEN("/Views/dashboard/Citizens.fxml"),
 
-    TEMPLATE("/Views/dashboard/component/TemplateTab.fxml"),
+    TEMPLATE("/Views/dashboard/CitizenTemplate.fxml"),
 
-    STUDENT("/fxml/dashboard/component/StudentTab.fxml"),
+    STUDENT("/Views/dashboard/Students.fxml"),
 
-    ADMIN("/fxml/dashboard/component/AdminTab.fxml"),
+    ADMIN("/Views/dashboard/AdminDashboard.fxml"),
 
             ;private final Parent _this;
 

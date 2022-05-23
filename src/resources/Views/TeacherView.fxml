@@ -8,7 +8,7 @@
 
 <BorderPane fx:id="scene" stylesheets="@../Styles/MainStylesheet.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Application.GUI.Controllers.TeacherAdminViewController">
    <center>
-      <StackPane prefHeight="891.0" prefWidth="938.0">
+      <StackPane fx:id="pane" prefHeight="891.0" prefWidth="938.0">
             <fx:include fx:id="anchorPaneDashboard" source="dashboard/Default.fxml"/>
             <fx:include fx:id="anchorPaneStudents" source="dashboard/Students.fxml"/>
             <fx:include fx:id="anchorPaneCitizens" source="dashboard/Citizens.fxml"/>

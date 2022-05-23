@@ -19,6 +19,8 @@ public class EditingTest {
     Cannot test classes which contain JavaFX components, such as the CategoryEntryModel. The test needs to
     use a JavaFX thread, for which the below rule is required.
      */
+
+    /*
     @Rule public JavaFXThreadingRule javafxRule = new JavaFXThreadingRule();
 
 
@@ -28,7 +30,7 @@ public class EditingTest {
     @Before
     public void setUp(){
         model = new CitizenTemplateControllerModel();
-/*
+
         //Citizen Template
         CitizenModel citizenTemplateModel = new CitizenModel("First Name", "Last Name", 90);
 
@@ -83,7 +85,6 @@ public class EditingTest {
 
         assertEquals(3, selected.getRelevantFunctionalAbilities().size());
 
- */
     }
 
 
@@ -102,4 +103,5 @@ public class EditingTest {
 
     }
 
+*/
 }
