@@ -4,12 +4,14 @@ import Application.BE.GeneralJournal;
 import Application.GUI.Models.*;
 import Application.GUI.Models.ControllerModels.CitizenTemplateControllerModel;
 import Application.Utility.Bind;
-import Application.Utility.DisableListViewSelectionMode;
 import Application.Utility.GUIUtils;
+
 
 import javafx.collections.FXCollections;
 
 import javafx.beans.binding.StringBinding;
+
+import javafx.beans.property.StringProperty;
 
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -26,6 +28,7 @@ import org.controlsfx.control.Notifications;
 
 import java.net.URL;
 import java.util.*;
+import java.util.function.Predicate;
 
 public class CitizenTemplateController implements Initializable {
 
@@ -108,9 +111,9 @@ public class CitizenTemplateController implements Initializable {
 
     private void twoWayBind()
     {
-        Bind.twoWay(this.txtFieldName.textProperty(), previousSelection.firstNameProperty(), currentSelection.firstNameProperty());
-        Bind.twoWay(this.txtFieldSurname.textProperty(), previousSelection.lastNameProperty(), currentSelection.lastNameProperty());
-        Bind.twoWay(this.txtFieldAge.textProperty(), previousSelection.ageProperty(), currentSelection.ageProperty(), new NumberStringConverter());
+        Bind.twoWay(this.txtFieldName.textProperty(), previousSelection == null ? null : previousSelection.firstNameProperty() , currentSelection.firstNameProperty());
+        Bind.twoWay(this.txtFieldSurname.textProperty(), previousSelection == null ? null : previousSelection.lastNameProperty(), currentSelection.lastNameProperty());
+        Bind.twoWay(this.txtFieldAge.textProperty(), previousSelection == null ? null : previousSelection.ageProperty(), currentSelection.ageProperty(), new NumberStringConverter());
     }
 
     private void oneWayBind()
@@ -120,8 +123,6 @@ public class CitizenTemplateController implements Initializable {
         Bind.oneWay(this.txtFieldAge.textProperty(), currentSelection.ageProperty().asString());
     }
 
-    MultipleSelectionModel<CitizenModel> selectionModelBackup;
-
     /**
      * Sets the tables and relevant columns to editable or not. The same applies to the combo boxes within the level columns.
      * Also changes the visible buttons deciding whether to start, save or abandon the edit.
@@ -130,24 +131,25 @@ public class CitizenTemplateController implements Initializable {
      */
     private void enableEditing(boolean editable)
     {
+
         if (!editable)
         {
             txtFieldCitizenTemplateSearch.setDisable(false);
-            listViewCitizenTemplates.setSelectionModel(selectionModelBackup);
             oneWayBind();
         }
         else
         {
             txtFieldCitizenTemplateSearch.setDisable(true);
-            listViewCitizenTemplates.setSelectionModel(new DisableListViewSelectionMode<CitizenModel>());
             twoWayBind();
         }
+
+        //ensures another citizen template is not selected while editing
+        listViewCitizenTemplates.setDisable(editable);
 
         //Allow the user to edit the name and age of the citizen template
         txtFieldName.setDisable(!editable);
         txtFieldSurname.setDisable(!editable);
         txtFieldAge.setDisable(!editable);
-
 
         //Only visible if not editable
         btnCitizenTemplateEditOn.setVisible(!editable);
@@ -157,21 +159,26 @@ public class CitizenTemplateController implements Initializable {
         btnCitizenTemplateEditCancel.setVisible(editable);
 
 
-
         treeTblViewFunc.setEditable(editable);
         treeTblViewHealth.setEditable(editable);
 
-        treeTblColumnFuncCategory.setEditable(false); //the category column is not editable
-        treeTblColumnFuncLevel.setEditable(editable); //the level column is editable
+        //the category columns is not editable
+        treeTblColumnFuncCategory.setEditable(false);
+        treeTblColumnHealthCategory.setEditable(false);
 
-        treeTblColumnHealthCategory.setEditable(false); //the category column is not editable
-        treeTblColumnHealthLevel.setEditable(editable); //the level column is editable
+        //the level columns is editable
+        treeTblColumnFuncLevel.setEditable(editable);
+        treeTblColumnHealthLevel.setEditable(editable);
 
         //Set all standard columns to editable, except the category column
         editableTreeTableColumns.forEach(col -> col.setEditable(editable));
 
         //Set all TextAreas to editable
         editableTextAreas.forEach(ta -> ta.setEditable(editable));
+
+        btnGenerateBaseData.setVisible(editable);
+
+
 
         //Set all ComboBoxes to editable
         for (CategoryEntryModel cat : GUIUtils.getTreeItemsFromRoot(treeTblViewFunc.getRoot())) {
@@ -195,22 +202,22 @@ public class CitizenTemplateController implements Initializable {
             }
         }
 
+
         btnGenerateBaseData.setVisible(editable);
 
         //ensures another citizen template is not selected while editing
         listViewCitizenTemplates.setDisable(editable);
 
 
-
-
     }
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    public void initialize(URL location, ResourceBundle resources)
+    {
+        txtFieldAge.setTextFormatter(new TextFormatter<>(new IntegerStringConverter(),0, GUIUtils.getIntegerFilter()));
+
         listViewCitizenTemplates.setCellFactory(new PersonCellFactory());
         listViewCitizenTemplates.setItems(model.getCitizenTemplates());
-
-        selectionModelBackup = listViewCitizenTemplates.getSelectionModel();
 
         listViewCitizenTemplates.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) ->
         {
@@ -224,7 +231,6 @@ public class CitizenTemplateController implements Initializable {
 
         enableEditing(false);
 
-
         initColumnList();
         initTextAreaList();
         setTreeTables();
@@ -235,7 +241,6 @@ public class CitizenTemplateController implements Initializable {
         initTextFields();
         filteredCitizenTemplates = GUIUtils.searchListener(txtFieldCitizenTemplateSearch, listViewCitizenTemplates);
         initActionsMenu();
-
 
         // TODO: 23-05-2022 BUG: destroys bindings and if in edit mode, we can't return to normal again.
         /// temp ? -> disable text-field while in edit-mode
@@ -332,7 +337,8 @@ public class CitizenTemplateController implements Initializable {
 
     }
 
-    private void setTreeTables() {/*
+    private void setTreeTables() {
+        /*
         //TODO: Proper table population
         // Set up the table
         CitizenModel citizenTemplateModel = new CitizenModel();
