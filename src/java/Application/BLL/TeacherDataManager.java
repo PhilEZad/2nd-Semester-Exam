@@ -7,6 +7,7 @@ import Application.GUI.Models.CitizenModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +18,7 @@ public class TeacherDataManager
     TemplatePatternDAO citizenDAO = new CitizenDAO();
     TemplatePatternDAO citizenTemplateDAO = new CitizenDAO();
     TemplatePatternDAO categoryDAO = new CategoryDAO();
-    TemplatePatternDAO groupDAO = new GroupDAO();
+    GroupDAO groupDAO = new GroupDAO();
 
     public TeacherDataManager()
     {
@@ -47,8 +48,7 @@ public class TeacherDataManager
      * @return
      */
 
-    public AccountModel getStudent(Account account)
-    {
+    public AccountModel getStudent(Account account) throws SQLException {
         AccountModel accountModel;
 
         if(account != null)
@@ -146,8 +146,7 @@ public class TeacherDataManager
         }
     }
 
-    public CitizenModel getCitizen(Citizen citizen)
-    {
+    public CitizenModel getCitizen(Citizen citizen) throws SQLException {
         CitizenModel citizenModel;
 
         if(citizen != null)
@@ -231,8 +230,7 @@ public class TeacherDataManager
         return (Group) groupDAO.create(group);
     }
 
-    public Group getGroup(Group group)
-    {
+    public Group getGroup(Group group) throws SQLException {
         return (Group) groupDAO.read(group.getId());
     }
 
@@ -264,19 +262,19 @@ public class TeacherDataManager
 
     // FIXME: 22-05-2022 Not correct list
     // get student(s) in a group (members)
-    public ObservableList<AccountModel> getGroupMembers()
-    {
-        List<Account> accountList = groupDAO.readAll();
-        ObservableList<AccountModel> returnList = FXCollections.observableArrayList();
-     for (Account account: accountList)
-        {
-            AccountModel accountModel = new AccountModel(
-                    account
-            );
-            returnList.add(accountModel);
-        }
-        return returnList;
-    }
+   // public ObservableList<AccountModel> getGroupMembers(Group group)
+  //  {
+  //      List<Account> accountList = groupDAO.readAll();
+  //      ObservableList<AccountModel> returnList = FXCollections.observableArrayList();
+  //   for (Account account: accountList)
+  //      {
+  //          AccountModel accountModel = new AccountModel(
+  //                  account
+  //          );
+  //          returnList.add(accountModel);
+  //      }
+  //      return returnList;
+  //  }
 
     // get all groups that contains a specific student
 

@@ -2,6 +2,7 @@ package Application.GUI.Controllers.dashboard;
 
 import Application.BE.Citizen;
 
+import Application.BLL.TeacherDataManager;
 import Application.DAL.CitizenDAO;
 import Application.Utility.GUIUtils;
 import javafx.collections.FXCollections;
@@ -16,9 +17,11 @@ import java.util.ResourceBundle;
 
 public class CitizensController implements Initializable
 {
+    TeacherDataManager dataManager = new TeacherDataManager();
+
     public AnchorPane anchorPaneCitizensDashboard;
 
-    public ListView<Citizen> AvailableCitizens;
+    public ListView<Citizen> availableCitizens;
     public ListView listViewStudentsForCitizen;
 
 
@@ -42,22 +45,28 @@ public class CitizensController implements Initializable
         CitizenDAO dao = new CitizenDAO();
         //citizens = FXCollections.observableList(dao.readAll(0));
 
-        AvailableCitizens = new ListView<>();
-        AvailableCitizens.getSelectionModel().selectFirst();
-        GUIUtils.searchListener(txtFieldCitizensSearch, AvailableCitizens);
+        availableCitizens = new ListView<>();
+        availableCitizens.getSelectionModel().selectFirst();
+        GUIUtils.searchListener(txtFieldCitizensSearch, availableCitizens);
 
        // lblCitizenName.textProperty().bindBidirectional(AvailableCitizens.getSelectionModel().getSelectedItem().getFirstname());
     }
 
-    public void onRemoveStudentToCitizen(ActionEvent event) {
+    public void onRemoveStudentToCitizen(ActionEvent event)
+    {
+
     }
 
-    public void onAddStudentToCitizen(ActionEvent event) {
+    public void onAddStudentToCitizen(ActionEvent event)
+    {
+     //   dataManager.
     }
 
     public void onJournal(ActionEvent event) {
     }
 
-    public void onDeleteCitizen(ActionEvent event) {
+    public void onDeleteCitizen(ActionEvent event)
+    {
+        dataManager.deleteCitizen(availableCitizens.getSelectionModel().getSelectedItem());
     }
 }

@@ -14,9 +14,6 @@ import java.util.List;
 
 public class GroupDAO extends TemplatePatternDAO<Group>
 {
-
-
-    CitizenDAO citizenDAO = new CitizenDAO();
     private long return_id = -1;
 
     @Override
@@ -122,35 +119,27 @@ public class GroupDAO extends TemplatePatternDAO<Group>
     }
 
     @Override
-    public Group read(int groupID) {
-        Group group = new Group();
+    public Group read(int groupID) throws SQLException {
         String sqlread = """
-                SELECT 
-                groupName, FK_Citizen
-                FROM [Group]
-                WHERE GID = ?,
+                SELECT * FROM [Group]
+                JOIN AccountGroup ON [Group].GID = AccountGroup.FK_GroupID
+                JOIN Account ON AccountGroup.FK_MemberID = Account.AID
+                WHERE GID = 5
                 """;
         Connection conn = DBConnectionPool.getInstance().checkOut();
-        try {
-            PreparedStatement psrg = conn.prepareStatement(sqlread);
-            psrg.setInt(1, groupID);
+        PreparedStatement psrg = conn.prepareStatement(sqlread);
+        psrg.setInt(1, groupID);
 
-            ResultSet rs = psrg.executeQuery();
-            while (rs.next())
-            {
-                String groupName = rs.getString("groupName");
-                int citizenID = rs.getInt("FK_Citizen");
-                Citizen citizen = citizenDAO.read(citizenID);
-                List<Account> members = readMembers(groupID);
-                group.setGroupName(groupName);
-                group.setId(groupID);
-                group.setGroupMembers(members);
-                group.setCitizen(citizen);
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        return group;
+
+
+        ResultSet rs = psrg.executeQuery();
+
+        rs.next();
+
+
+        return null;
+      //  return new Group(
+      //     );
     }
 
     private List<Account> readMembers(int groupID) {
@@ -219,12 +208,12 @@ public class GroupDAO extends TemplatePatternDAO<Group>
                 String groupName = rs.getString("groupName");
                 int citizenID = rs.getInt("FK_Citizen");
                 int GID = rs.getInt("GID");
-                Citizen citizen = citizenDAO.read(citizenID);
+                //Citizen citizen = citizenDAO.read(citizenID);
                 List<Account> members = readMembers(GID);
                 group.setGroupName(groupName);
                 group.setId(GID);
                 group.setGroupMembers(members);
-                group.setCitizen(citizen);
+               // group.setCitizen(citizen);
                 groups.add(group);
             }
         } catch (SQLException throwables) {

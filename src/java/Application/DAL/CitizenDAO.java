@@ -236,4 +236,10 @@ public class CitizenDAO extends TemplatePatternDAO<Citizen>
             e.printStackTrace();
         }
     }
+
+    public static void main(String[] args) {
+        CitizenDAO temptDAO = new CitizenDAO();
+
+        System.out.print(temptDAO.read(7).getFirstname());
+    }
 }

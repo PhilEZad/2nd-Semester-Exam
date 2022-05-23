@@ -11,8 +11,10 @@ import java.util.List;
             Citizen citizen;
             int id;
 
-    public Group(List<Account> groupMembers, String groupName, int id) {
+    public Group(int id, List<Account> groupMembers, String groupName) {
         this.id = id;
+        this.groupMembers = groupMembers;
+        this.groupName = groupName;
     }
 
     public Group()

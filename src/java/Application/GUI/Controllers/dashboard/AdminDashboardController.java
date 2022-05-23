@@ -1,10 +1,8 @@
 package Application.GUI.Controllers.dashboard;
 
-import Application.BE.Account;
 import Application.BLL.AdminDataManager;
 import Application.GUI.Models.AccountModel;
 import Application.GUI.Models.SchoolModel;
-import Application.GUI.Models.StudentModel;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
@@ -19,7 +17,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.rmi.server.ExportException;
 import java.util.ListResourceBundle;
 import java.util.Objects;
 import java.util.Optional;
@@ -272,7 +269,7 @@ public class AdminDashboardController implements Initializable {
     private SortedList<AccountModel> searchTable(TextField searchField, TableView table, ObservableList searchList)
     {
         FilteredList<AccountModel> filteredData = new FilteredList<>(searchList, b -> true);
-    
+
         searchField.textProperty().addListener((observable, oldValue, newValue) -> {
             filteredData.setPredicate(user -> {
 
