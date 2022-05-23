@@ -1,10 +1,15 @@
 package Application.Utility;
 
+import Application.GUI.Models.CitizenModel;
 import javafx.beans.binding.StringBinding;
 import javafx.beans.binding.StringExpression;
 import javafx.beans.property.Property;
 import javafx.beans.property.StringProperty;
 import javafx.util.StringConverter;
+
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 public class Bind {
     public static  <T> void oneWay(Property<T> lhs, Property<T> rhs)
@@ -34,6 +39,7 @@ public class Bind {
         lhs.unbindBidirectional(last);
         lhs.bindBidirectional(current);
     }
+
 
 
 }
