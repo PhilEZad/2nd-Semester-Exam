@@ -1,8 +1,12 @@
 package Application.GUI.Controllers.dashboard;
 
+import Application.BE.Account;
 import Application.BLL.TeacherDataManager;
 import Application.GUI.Models.AccountModel;
 import Application.GUI.Models.CitizenModel;
+import Application.GUI.Models.StudentModel;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
@@ -45,6 +49,7 @@ public class StudentsController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         initActionsMenu();
         listViewStudents.setItems(initTableWithSearch());
+        listViewStudents.getSelectionModel().selectedItemProperty().addListener(studentSelectionChanged());
     }
 
     private SortedList initTableWithSearch() {
@@ -206,6 +211,31 @@ public class StudentsController implements Initializable {
         return resource;
     }
 
+
+    // FIXME: 23-05-2022 Databinds
+    private ChangeListener<AccountModel> studentSelectionChanged()
+    {
+        return new ChangeListener<AccountModel>() {
+            @Override
+            public void changed(ObservableValue<? extends AccountModel> observable, AccountModel oldValue, AccountModel newValue)
+            {
+                updateSelectedItemBinds();
+            }
+        };
+    }
+
+    public void updateSelectedItemBinds()
+    {
+        var selected = this.listViewStudents.getSelectionModel().getSelectedItem();
+
+        if (selected == null)
+        {
+            return;
+        }
+
+        lblStudentsStudentName.setText(selected.getFirstName() + " " + selected.getLastName());
+        lblStudentEmail.setText(selected.getEmail());
+    }
 }
 
 

@@ -19,7 +19,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException
     {
-        Parent root = FXMLLoader.load(this.getClass().getResource("/views/AdminView.fxml"));
+        Parent root = FXMLLoader.load(this.getClass().getResource("/Views/AdminView.fxml"));
 
         primaryStage.setTitle("FS3 Simluations Platform");
 

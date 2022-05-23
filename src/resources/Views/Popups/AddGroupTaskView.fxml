@@ -3,16 +3,19 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="562.0" prefWidth="771.0" styleClass="panel30Deg" stylesheets="@../../Styles/MainStylesheet.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Application.GUI.Controllers.Popups.AddToTaskViewController">
+<AnchorPane prefHeight="562.0" prefWidth="771.0" styleClass="panel30Deg" stylesheets="@../../Styles/MainStylesheet.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Application.GUI.Controllers.Popups.AddToGroupViewController">
     <children>
       <BorderPane prefHeight="661.0" prefWidth="771.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <center>
@@ -69,12 +72,12 @@
                   </Button>
                   <HBox alignment="CENTER_LEFT" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="36.0" prefWidth="310.0">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-fieldBase" text="Klasse:" textAlignment="CENTER" wrappingWidth="50.244140625">
+                        <Label prefHeight="20.0" prefWidth="80.0" styleClass="panelLbl" text="Borger:">
                            <HBox.margin>
-                              <Insets left="50.0" right="10.0" />
+                              <Insets left="80.0" />
                            </HBox.margin>
-                        </Text>
-                        <ComboBox fx:id="comboBoxClasses" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="26.0" prefWidth="200.0" styleClass="customCombo-box">
+                        </Label>
+                        <ComboBox fx:id="comboBoxCitizen" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="26.0" prefWidth="200.0" styleClass="customCombo-box">
                            <HBox.margin>
                               <Insets />
                            </HBox.margin></ComboBox>
@@ -90,26 +93,23 @@
               </HBox>
          </top>
          <bottom>
-            <HBox prefHeight="39.0" prefWidth="767.0" BorderPane.alignment="CENTER">
+            <GridPane alignment="CENTER" prefHeight="51.0" prefWidth="738.0" BorderPane.alignment="CENTER">
+              <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="707.0" minWidth="0.0" prefWidth="30.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="707.0" minWidth="10.0" prefWidth="98.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="707.0" minWidth="10.0" prefWidth="553.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="378.0" minWidth="10.0" prefWidth="88.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
                <children>
-                    <Button fx:id="btnCancel" mnemonicParsing="false" onAction="#onCancel" styleClass="panelBtnNoPadding" text="Annullere">
-                     <HBox.margin>
-                        <Insets left="15.0" right="280.0" />
-                     </HBox.margin>
-                  </Button>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-fieldBase" text="Sag:">
-                     <HBox.margin>
-                        <Insets right="10.0" />
-                     </HBox.margin>
-                  </Text>
-                      <ComboBox fx:id="comboBoxCases" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="26.0" prefWidth="190.0" styleClass="customCombo-box" />
-                    <Button fx:id="btnSave" mnemonicParsing="false" onAction="#onSave" styleClass="panelBtnNoPadding" text="Gem">
-                     <HBox.margin>
-                        <Insets left="100.0" />
-                     </HBox.margin>
-                  </Button>
+                    <Button fx:id="btnSave" mnemonicParsing="false" onAction="#onSave" prefHeight="30.0" prefWidth="57.0" styleClass="panelBtnNoPadding" text="Gem" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                    <Button fx:id="btnCancel" mnemonicParsing="false" onAction="#onCancel" prefHeight="30.0" prefWidth="85.0" styleClass="panelBtnNoPadding" text="Annullere" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                </children>
-            </HBox>
+            </GridPane>
          </bottom>
       </BorderPane>
     </children>

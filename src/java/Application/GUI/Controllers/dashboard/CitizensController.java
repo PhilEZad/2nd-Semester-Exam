@@ -4,9 +4,17 @@ import Application.BE.Citizen;
 
 import Application.BLL.TeacherDataManager;
 import Application.DAL.CitizenDAO;
+import Application.GUI.Models.AccountModel;
+import Application.GUI.Models.CitizenModel;
+import Application.GUI.Models.CitizenModel;
 import Application.Utility.GUIUtils;
+import javafx.beans.binding.Bindings;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -21,35 +29,33 @@ public class CitizensController implements Initializable
 
     public AnchorPane anchorPaneCitizensDashboard;
 
-    public ListView<Citizen> availableCitizens;
+    public ListView<CitizenModel> availableCitizens;
     public ListView listViewStudentsForCitizen;
 
 
     public Button btnRemoveStudentToCitizen;
     public Button btnAddStudentToCitizen;
     public TextField txtFieldCitizensSearch;
-    public Button btnCitizensSearch;
     public Label lblCitizenName;
     public Label lblAge;
 
-    public Button btnGeneralInfo;
     public Button btnJournal;
-
-    private ObservableList<Citizen> citizens;
 
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
-        // TODO: 09-05-2022 abstract to a model
+        initTables();
+        initListeners();
+    }
 
-        CitizenDAO dao = new CitizenDAO();
-        //citizens = FXCollections.observableList(dao.readAll(0));
+    public void initTables()
+    {
+        searchTable(txtFieldCitizensSearch, availableCitizens , dataManager.getAllCitizens());
+    }
 
-        availableCitizens = new ListView<>();
-        availableCitizens.getSelectionModel().selectFirst();
-        GUIUtils.searchListener(txtFieldCitizensSearch, availableCitizens);
-
-       // lblCitizenName.textProperty().bindBidirectional(AvailableCitizens.getSelectionModel().getSelectedItem().getFirstname());
+    public void initListeners()
+    {
+        availableCitizens.getSelectionModel().selectedItemProperty().addListener(citizenSelectionChanged());
     }
 
     public void onRemoveStudentToCitizen(ActionEvent event)
@@ -67,6 +73,60 @@ public class CitizensController implements Initializable
 
     public void onDeleteCitizen(ActionEvent event)
     {
-        dataManager.deleteCitizen(availableCitizens.getSelectionModel().getSelectedItem());
+        dataManager.deleteCitizen(availableCitizens.getSelectionModel().getSelectedItem().getBeCitizen());
+
+    }
+
+    private ChangeListener<CitizenModel> citizenSelectionChanged()
+    {
+        return new ChangeListener<CitizenModel>() {
+            @Override
+            public void changed(ObservableValue<? extends CitizenModel> observable, CitizenModel oldValue, CitizenModel newValue)
+            {
+                updatedSelectedItemBinds();
+            }
+        };
+    }
+
+    public void updatedSelectedItemBinds()
+    {
+        var selected = this.availableCitizens.getSelectionModel().getSelectedItem();
+
+        if (selected == null)
+        {
+            return;
+        }
+
+        lblCitizenName.setText(selected.getFirstName() + " " + selected.getLastName());
+        lblAge.setText(Integer.toString(selected.getAge()));
+    }
+
+    private SortedList<CitizenModel> searchTable(TextField searchField, ListView table, ObservableList searchList)
+    {
+        FilteredList<CitizenModel> filteredData = new FilteredList<>(searchList, b -> true);
+
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(user -> {
+
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                if (user.getFirstName().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true;
+                } else if (user.getLastName().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true;
+                } else
+                    return false;
+            });
+        });
+
+        SortedList<CitizenModel> sortedUsers = new SortedList<>(filteredData);
+
+        //sortedUsers.comparatorProperty().bind(table.comparatorProperty());
+
+        return sortedUsers;
     }
 }

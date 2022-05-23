@@ -14,14 +14,15 @@ import java.util.Map;
 
 public class TeacherDataManager
 {
-    TemplatePatternDAO accountDAO = new AccountDAO();
-    TemplatePatternDAO citizenDAO = new CitizenDAO();
-    TemplatePatternDAO citizenTemplateDAO = new CitizenDAO();
-    TemplatePatternDAO categoryDAO = new CategoryDAO();
-    GroupDAO groupDAO = new GroupDAO();
+    TemplatePatternDAO accountDAO;
+    TemplatePatternDAO citizenDAO;
+    TemplatePatternDAO citizenTemplateDAO;
+    TemplatePatternDAO categoryDAO;
+    GroupDAO groupDAO;
 
     public TeacherDataManager()
     {
+        citizenTemplateDAO = new CitizenDAO();
         accountDAO = new AccountDAO();
         citizenDAO = new CitizenDAO();
         categoryDAO = new CategoryDAO();
@@ -207,16 +208,9 @@ public class TeacherDataManager
         return returnList;
     }
 
-    public Boolean deleteCitizen(Citizen citizen)
+    public void deleteCitizen(Citizen citizen)
     {
-        if(citizen != null)
-        {
-            citizenDAO.update(citizen.getId());
-            return true;
-        } else
-        {
-            return false;
-        }
+            citizenDAO.delete(citizen.getId());
     }
 
     // copy citizen (clone template - new ID)
@@ -310,10 +304,11 @@ public class TeacherDataManager
 
     public Citizen newCitizenTemplate() {
         //Template
-        Citizen newTemplate = new Citizen(-1);
+        //Citizen newTemplate = new Citizen(-1);
         //Generate blank category entries?
 
-        return (Citizen) citizenTemplateDAO.create(newTemplate);
+       // return (Citizen) citizenTemplateDAO.create(newTemplate);
+        return null;
     }
 
     public void deleteCitizenTemplate(Citizen template)

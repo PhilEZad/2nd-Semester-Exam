@@ -88,7 +88,7 @@ public class CitizenTemplateController implements Initializable {
         initCitizenTemplatesList();
         initActionsMenu();
         initTextFields();
-        GUIUtils.searchListener(txtFieldCitizenTemplateSearch, listViewCitizenTemplates);
+        //GUIUtils.searchListener(txtFieldCitizenTemplateSearch, listViewCitizenTemplates);
     }
 
     /**
@@ -132,7 +132,7 @@ public class CitizenTemplateController implements Initializable {
     }
 
     /**
-     * Creates a new blank citizen template.
+     * Creates a new blank citizen template.e
      */
     private void onNewCitizenTemplate() {
         listViewCitizenTemplates.getItems().add(model.newCitizenTemplate());
@@ -285,12 +285,12 @@ public class CitizenTemplateController implements Initializable {
     private void initCitizenTemplatesList() {
         listViewCitizenTemplates.setItems(model.getCitizenTemplates());
 
+        listViewCitizenTemplates.getSelectionModel().select(0);
+
         listViewCitizenTemplates.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             model.setSelectedCitizenTemplateModel((CitizenModel) newValue);
             setDataToCitizenTemplateView();
         });
-
-        listViewCitizenTemplates.getSelectionModel().select(0);
     }
 
 

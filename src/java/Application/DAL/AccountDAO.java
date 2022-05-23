@@ -128,20 +128,21 @@ public class AccountDAO extends TemplatePatternDAO<Account> {
 
             while (rs.next()) {
                 school = new School(
-                        rs.getInt("schoolId"),
+                        rs.getInt("SID"),
                         rs.getString("schoolName"),
-                        new Location(rs.getInt("zipCode"), rs.getString("cityName"))
+                        new Location(rs.getInt("Zip"),
+                                rs.getString("city"))
                 );
 
                 account = new Account(
-                        rs.getInt("accountId"),
-                        rs.getString("login"),
-                        rs.getString("password"),
-                        rs.getString("firstName"),
-                        rs.getString("surname"),
+                        rs.getInt("AID"),
+                        rs.getString("username"),
+                        rs.getString("hashed_pwd"),
+                        rs.getString("firstname"),
+                        rs.getString("lastname"),
                         rs.getString("email"),
                         school,
-                        rs.getInt("auth")
+                        rs.getInt("privilegeLevel")
                 );
             }
             pstmt.close();
