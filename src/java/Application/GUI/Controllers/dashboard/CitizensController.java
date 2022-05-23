@@ -42,7 +42,6 @@ public class CitizensController implements Initializable
 
     private CitizensControllerModel model = new CitizensControllerModel();
 
-
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
@@ -68,15 +67,46 @@ public class CitizensController implements Initializable
     }
 
 
-
-
-
     public void onRemoveStudentToCitizen(ActionEvent event) {
+        model.removeStudentToCitizen();
         listViewStudentsForCitizen.getItems().remove(listViewStudentsForCitizen.getSelectionModel().getSelectedItem());
-
     }
 
     public void onAddStudentToCitizen(ActionEvent event) {
+        Stage stage = new Stage();
+        if (availableCitizens.getSelectionModel().getSelectedItem() != null && listViewStudentsForCitizen.getSelectionModel().getSelectedItem() != null) {
+            Account selectedStudent = SessionModel.getCurrent();
+            CitizenModel selectedCitizenModel = availableCitizens.getSelectionModel().getSelectedItem();
+            Parent root = null;
+
+            try {
+                ResourceBundle resources = new ListResourceBundle()
+                {
+                    @Override
+                    protected Object[][] getContents()
+                    {
+                        return new Object[][]{  {"selectedCitizen", selectedCitizenModel}, {"accountType", "observer"}};
+                    }
+                };
+
+                root = FXMLLoader.load(getClass().getResource("/Views/Popups/AssignmentView.fxml"), resources);
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                stage.setTitle(selectedStudent.getFirstName() + " " + selectedStudent.getLastName() + " - " + selectedCitizenModel.getFirstName() + " " + selectedCitizenModel.getLastName());
+                stage.show();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Fejl");
+            alert.setHeaderText("Ingen valgt");
+            alert.setContentText("Vælg venligst en borger og en elev");
+            alert.showAndWait();
+        }
+        stage.setOnHiding(event1 -> model.addStudentToCitizen(SessionModel.getCurrent()));
     }
 
     public void onJournal(ActionEvent event) {
@@ -116,5 +146,11 @@ public class CitizensController implements Initializable
     }
 
     public void onDeleteCitizen(ActionEvent event) {
+
+
+        if (availableCitizens.getSelectionModel().getSelectedItem() != null) {
+            model.deleteCitizen(availableCitizens.getSelectionModel().getSelectedItem());
+            availableCitizens.getItems().remove(availableCitizens.getSelectionModel().getSelectedItem());
+        }
     }
 }

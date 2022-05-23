@@ -193,24 +193,29 @@ public class CitizenTemplateController implements Initializable {
 
 
         //Set all ComboBoxes to editable
-        for (CategoryEntryModel cat : GUIUtils.getTreeItemsFromRoot(treeTblViewFunc.getRoot())) {
-            ComboBox<FunctionalLevels> funcLevelComboBox = cat.getLevelFuncLevelComboBox();
-            ComboBox<FunctionalLevels> funcExConComboBox = cat.getExConFuncComboBox();
-            if (funcLevelComboBox != null) {
-                funcLevelComboBox.setDisable(!editable);
-            }
-            if (funcExConComboBox != null) {
-                funcExConComboBox.setDisable(!editable);
+        if (treeTblViewFunc.getRoot() != null) {
+            for (CategoryEntryModel cat : GUIUtils.getTreeItemsFromRoot(treeTblViewFunc.getRoot())) {
+                ComboBox<FunctionalLevels> funcLevelComboBox = cat.getLevelFuncLevelComboBox();
+                ComboBox<FunctionalLevels> funcExConComboBox = cat.getExConFuncComboBox();
+                if (funcLevelComboBox != null) {
+                    funcLevelComboBox.setDisable(!editable);
+                }
+                if (funcExConComboBox != null) {
+                    funcExConComboBox.setDisable(!editable);
+                }
             }
         }
-        for (CategoryEntryModel cat : GUIUtils.getTreeItemsFromRoot(treeTblViewHealth.getRoot())) {
-            ComboBox<HealthLevels> healthLevelComboBox = cat.getLevelHealthLevelComboBox();
-            ComboBox<HealthLevels> healthExConComboBox = cat.getExConHealthLevelComboBox();
-            if (healthLevelComboBox != null) {
-                healthLevelComboBox.setDisable(!editable);
-            }
-            if (healthExConComboBox != null) {
-                healthExConComboBox.setDisable(!editable);
+
+        if (treeTblViewFunc.getRoot() != null) {
+            for (CategoryEntryModel cat : GUIUtils.getTreeItemsFromRoot(treeTblViewHealth.getRoot())) {
+                ComboBox<HealthLevels> healthLevelComboBox = cat.getLevelHealthLevelComboBox();
+                ComboBox<HealthLevels> healthExConComboBox = cat.getExConHealthLevelComboBox();
+                if (healthLevelComboBox != null) {
+                    healthLevelComboBox.setDisable(!editable);
+                }
+                if (healthExConComboBox != null) {
+                    healthExConComboBox.setDisable(!editable);
+                }
             }
         }
 

@@ -39,7 +39,7 @@ public final class GUIUtils {
             ObservableList<TreeItem<CategoryEntryModel>> treeItems = root.getChildren(); //Get the children of the root
             for (TreeItem<CategoryEntryModel> treeItem : treeItems) { //For each child
                 if (treeItem != null) {
-                    if (treeItem.getChildren().size() > 0 && treeItem != null) { //If the child has children
+                    if (treeItem.getChildren().size() > 0) { //If the child has children
                         catList.addAll(getTreeItemsFromRoot(treeItem)); //Get the children of the child
                     } else {
                         CategoryEntryModel categoryEntryModel = treeItem.getValue(); //Get the value of the child
