@@ -28,14 +28,13 @@ public class TeacherAdminViewController implements Initializable
     @FXML public ToggleButton tglBtnStudents;
     @FXML public ToggleButton tglBtnCitizenTemplates;
     @FXML public ToggleButton tglBtnCitizens;
+    @FXML public BorderPane scene;
 
 
     private ToggleGroup toggleGroupViews;
     private StateMachine<ToggleButton> stateMachine = new StateMachine<>();
     private TeacherDataManager dataManager = new TeacherDataManager();
-
-
-    @FXML public BorderPane TeacherScene;
+    
 
     /**
      *  passed by reference through a resource bundle from the login controller
