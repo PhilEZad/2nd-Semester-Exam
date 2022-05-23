@@ -87,7 +87,10 @@ public class CategoryDAO extends TemplatePatternDAO<Category> {
 
             while (rs.next())
             {
-                categories.add(new Category(rs.getInt("CatID"), rs.getString("catName"), rs.getInt("ParentID")));
+                Category category = new Category(rs.getInt("CatID"), rs.getString("catName"), rs.getInt("ParentID");
+                category.setDescription(rs.getString("text"));
+                categories.add(category);
+
             }
 
             return categories;
