@@ -24,7 +24,7 @@ public class CitizensControllerModel {
     }
 
     public void removeStudentToCitizen() {
-        manager.unassignFromGroup();
+        //manager.unassignFromGroup();
     }
 
     public AccountModel addStudentToCitizen(Account student) {
