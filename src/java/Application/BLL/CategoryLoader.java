@@ -58,7 +58,6 @@ public class CategoryLoader
 
                 for (var Level2 : Level1.getChildren()) {
                     System.out.println("\t\t" + Level2.getName());
-                    System.out.println("\t\t\t" + Level2.getParent().getName());
                 }
             }
         }

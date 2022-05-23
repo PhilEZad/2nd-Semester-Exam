@@ -18,17 +18,17 @@ public class GeneralJournal
     public GeneralJournal()
     {
         this.id = -1;
-        this.coping = "";
-        this.motivation = "";
-        this.resources = "";
-        this.roles = "";
-        this.habits = "";
-        this.eduAndJob = "";
-        this.lifeStory = "";
-        this.healthInfo = "";
-        this.assistiveDevices = "";
-        this.homeLayout = "";
-        this.network = "";
+        this.coping = " ";
+        this.motivation = " ";
+        this.resources = " ";
+        this.roles = " ";
+        this.habits = " ";
+        this.eduAndJob = " ";
+        this.lifeStory = " ";
+        this.healthInfo = " ";
+        this.assistiveDevices = " ";
+        this.homeLayout = " ";
+        this.network = " ";
     }
 
     public GeneralJournal(int id)
@@ -40,6 +40,8 @@ public class GeneralJournal
   
     public GeneralJournal(int generalID, String coping, String motivation, String resources, String roles, String habits, String eduAndJob, String lifeStory, String healthInfo, String assistiveDevices, String homeLayout, String network) {
         this.id = generalID;
+        if (coping != null)
+            this.coping = " ";
         this.coping = coping;
         this.motivation = motivation;
         this.resources = resources;
@@ -59,7 +61,7 @@ public class GeneralJournal
 
     public void setCoping(String coping) {
         if (coping == null)
-            this.coping = "";
+            this.coping = " ";
         else this.coping = coping;
 
     }
@@ -70,7 +72,7 @@ public class GeneralJournal
 
     public void setMotivation(String motivation) {
         if (motivation == null)
-            this.motivation = "";
+            this.motivation = " ";
         else this.motivation = motivation;
     }
 
@@ -80,7 +82,7 @@ public class GeneralJournal
 
     public void setResources(String resources) {
         if (resources == null)
-            this.resources = "";
+            this.resources = " ";
         else this.resources = resources;
     }
 
@@ -90,7 +92,7 @@ public class GeneralJournal
 
     public void setRoles(String roles) {
         if (roles == null)
-            this.roles = "";
+            this.roles = " ";
         else this.roles = roles;
     }
 
@@ -100,7 +102,7 @@ public class GeneralJournal
 
     public void setHabits(String habits) {
         if (habits == null)
-            this.habits = "";
+            this.habits = " ";
         else this.habits = habits;
     }
 
@@ -110,7 +112,7 @@ public class GeneralJournal
 
     public void setEduAndJob(String eduAndJob) {
         if (eduAndJob == null)
-            this.eduAndJob = "";
+            this.eduAndJob = " ";
         else this.eduAndJob = eduAndJob;
     }
 
@@ -120,7 +122,7 @@ public class GeneralJournal
 
     public void setLifeStory(String lifeStory) {
         if (lifeStory == null)
-            this.lifeStory = "";
+            this.lifeStory = " ";
         else this.lifeStory = lifeStory;
     }
 
@@ -130,7 +132,7 @@ public class GeneralJournal
 
     public void setHealthInfo(String healthInfo) {
         if (healthInfo == null)
-            this.healthInfo = "";
+            this.healthInfo = " ";
         else this.healthInfo = healthInfo;
     }
 
@@ -140,7 +142,7 @@ public class GeneralJournal
 
     public void setAssistiveDevices(String assistiveDevices) {
         if (assistiveDevices == null)
-            this.assistiveDevices = "";
+            this.assistiveDevices = " ";
         else this.assistiveDevices = assistiveDevices;
     }
 
@@ -150,7 +152,7 @@ public class GeneralJournal
 
     public void setHomeLayout(String homeLayout) {
         if (homeLayout == null)
-            this.homeLayout = "";
+            this.homeLayout = " ";
         else this.homeLayout = homeLayout;
     }
 
@@ -160,7 +162,7 @@ public class GeneralJournal
 
     public void setNetwork(String network) {
         if (network == null)
-            this.network = "";
+            this.network = " ";
         else this.network = network;
     }
 

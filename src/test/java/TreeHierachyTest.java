@@ -22,9 +22,11 @@ public class TreeHierachyTest {
   Cannot test classes which contain JavaFX components, such as the CategoryModel. The test needs to
   use a JavaFX thread, for which the below rule is required.
    */
+
+    /*
     @Rule
     public JavaFXThreadingRule javafxRule = new JavaFXThreadingRule();
-/*
+
 
     private HashMap<Category, CategoryEntryModel> categoryEntryModelHashMap;
 
@@ -160,5 +162,5 @@ public class TreeHierachyTest {
         assertEquals("Condition A.1", subCategory.getValue().getCategoryName());
         assertEquals(0, subCategory.getChildren().size());
     }
-
+*/
 }

@@ -23,14 +23,6 @@ public class StudentViewControllerModel {
 
     public StudentViewControllerModel() {}
 
-    public void onStudentCitizensSearch() {
-        //TODO
-    }
-
-    public void onOpenJournal() {
-        //TODO
-    }
-
 
     public void onAddObservation() {
         //TODO

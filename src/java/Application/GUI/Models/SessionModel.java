@@ -47,6 +47,9 @@ public class SessionModel {
 
     public static School getSchool()
     {
+        if (school == null)
+            return new School();
+
         return school;
     }
 }

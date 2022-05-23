@@ -103,47 +103,50 @@ public class CitizenDAO extends TemplatePatternDAO<Citizen>
 
             ResultSet result = ptsm.executeQuery();
 
-            result.next();
+            //result.next();
 
-            Location location = new Location(
-                    result.getInt("FK_Zipcode"),
-                    result.getString("city")
-            );
+            if (result.next()) {
+                Location location = new Location(
+                        result.getInt("FK_Zipcode"),
+                        result.getString("city")
+                );
 
-            School school = new School(
-                    result.getInt("SID"),
-                    result.getString("schoolName"),
-                    location
-            );
+                School school = new School(
+                        result.getInt("SID"),
+                        result.getString("schoolName"),
+                        location
+                );
 
-            GeneralJournal journal = new GeneralJournal(
-                    result.getInt("InfoID"),
-                    result.getString("coping"),
-                    result.getString("motivation"),
-                    result.getString("resources"),
-                    result.getString("roles"),
-                    result.getString("habits"),
-                    result.getString("eduAndJob"),
-                    result.getString("lifestory"),
-                    result.getString("healthInfo"),
-                    result.getString("assistiveDevices"),
-                    result.getString("homelayout"),
-                    result.getString("network")
-            );
+                GeneralJournal journal = new GeneralJournal(
+                        result.getInt("InfoID"),
+                        result.getString("coping"),
+                        result.getString("motivation"),
+                        result.getString("resources"),
+                        result.getString("roles"),
+                        result.getString("habits"),
+                        result.getString("eduAndJob"),
+                        result.getString("lifestory"),
+                        result.getString("healthInfo"),
+                        result.getString("assistiveDevices"),
+                        result.getString("homelayout"),
+                        result.getString("network")
+                );
 
-            return new Citizen(
-                    result.getInt("CID"),
-                    journal,
-                    school,
-                    result.getString("firstName"),
-                    result.getString("lastName"),
-                    result.getInt("age")
-            );
+                return new Citizen(
+                        result.getInt("CID"),
+                        journal,
+                        school,
+                        result.getString("firstName"),
+                        result.getString("lastName"),
+                        result.getInt("age")
+                );
+            }
         } catch (Exception e)
         {
             e.printStackTrace();
             return null;
         }
+        return null;
     }
 
     @Override

@@ -417,9 +417,56 @@ public class CitizenTemplateController implements Initializable {
         treeTblColumnHealthExpectedCondition.setCellValueFactory(param -> param.getValue().getValue().getExConHealthComboBoxProperty());
         treeTblColumnHealthNote.setCellValueFactory(param -> param.getValue().getValue().noteProperty());
 
+        treeTblColumnHealthCategory.setCellFactory(new Callback<TreeTableColumn<CategoryEntryModel, String>, TreeTableCell<CategoryEntryModel, String>>() {
+            @Override
+            public TreeTableCell<CategoryEntryModel, String> call(TreeTableColumn<CategoryEntryModel, String> param) {
+                return new TreeTableCell<>() {
+                    @Override
+                    protected void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setText(null);
+                        } else {
+                            Label label = new Label(item);
+                            setGraphic(label);
+                            label.setTooltip(new Tooltip(model.getTooltipText(item)));
+                            //setText(item);
+                        }
+                    }
+                };
+
+            }
+        });
+
+
+        treeTblColumnFuncCategory.setCellFactory(new Callback<TreeTableColumn<CategoryEntryModel, String>, TreeTableCell<CategoryEntryModel, String>>() {
+            @Override
+            public TreeTableCell<CategoryEntryModel, String> call(TreeTableColumn<CategoryEntryModel, String> param) {
+                return new TreeTableCell<>() {
+                    @Override
+                    protected void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setText(null);
+                        } else {
+                            Label label = new Label(item);
+                            setGraphic(label);
+                            label.setTooltip(new Tooltip(model.getTooltipText(item)));
+                            //setText(item);
+                        }
+                    }
+                };
+
+            }
+        });
 
         //Use TextFieldTreeTableCell for the editable columns
         editableTreeTableColumns.forEach(col -> col.setCellFactory(TextFieldTreeTableCell.forTreeTableColumn()));
+
+    }
+
+    private void initTooltips()
+    {
 
     }
 

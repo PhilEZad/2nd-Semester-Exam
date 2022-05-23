@@ -17,9 +17,12 @@ public class Category {
 
     private CategoryType type;
 
+    private String description;
+
 
     public Category(String name) {
         this.name = name;
+        initType();
     }
 
     public Category(int id, String name, int parentID) {
@@ -104,4 +107,11 @@ public class Category {
         this.children.remove(child);
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

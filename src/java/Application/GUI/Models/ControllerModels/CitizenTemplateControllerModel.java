@@ -1,12 +1,11 @@
 package Application.GUI.Models.ControllerModels;
 
 import Application.BE.Category;
+import Application.BE.Citizen;
 import Application.BE.ContentEntry;
+import Application.BE.GeneralJournal;
 import Application.BLL.TeacherDataManager;
-import Application.GUI.Models.CategoryEntryModel;
-import Application.GUI.Models.CitizenModel;
-import Application.GUI.Models.FunctionalLevels;
-import Application.GUI.Models.HealthLevels;
+import Application.GUI.Models.*;
 import Application.Utility.GUIUtils;
 import com.github.javafaker.Faker;
 import javafx.collections.FXCollections;
@@ -60,12 +59,10 @@ public class CitizenTemplateControllerModel {
     }
 
     public TreeItem<CategoryEntryModel> getAllFuncCategoriesAsTreeItem() {
-        TreeItem<CategoryEntryModel> treeItem = new TreeItem<>(new CategoryEntryModel("All Functional Ability Categories"));
         return GUIUtils.mapToTreeItem(selectedCitizenTemplateModel.getAllFuncCategories());
     }
 
     public TreeItem<CategoryEntryModel> getAllHealthConditionsAsTreeItem() {
-        TreeItem<CategoryEntryModel> treeItem = new TreeItem<>(new CategoryEntryModel("All Health Categories"));
         return GUIUtils.mapToTreeItem(selectedCitizenTemplateModel.getAllHealthConditions());
     }
 
@@ -86,9 +83,10 @@ public class CitizenTemplateControllerModel {
      * @return
      */
     public CitizenModel newCitizenTemplate() {
-        CitizenModel CitizenTemplateModel = new CitizenModel();
+        GeneralJournal generalJournal = new GeneralJournal();
+        CitizenModel citizenTemplateModel = new CitizenModel(new Citizen(-1, generalJournal, SessionModel.getSchool(), "Ny Borger", "Skabelon", 0));
 
-        return CitizenTemplateModel;
+        return teacherDataManager.createCitizenTemplate(citizenTemplateModel);
     }
 
     /**
@@ -247,4 +245,22 @@ public class CitizenTemplateControllerModel {
         return baseData;
     }
 
+    public String getTooltipText(String item) {
+        Set<Category> categoriesFunc = selectedCitizenTemplateModel.getAllFuncCategories().keySet();
+        Set<Category> categoriesHealth = selectedCitizenTemplateModel.getAllHealthConditions().keySet();
+
+        Set<Category> allCats = new HashSet<>();
+        allCats.addAll(categoriesFunc);
+        allCats.addAll(categoriesHealth);
+
+        String description = "Beskrivelsen kunne ikke findes";
+
+        for (Category cat : allCats) {
+            if (cat.getName().equals(item)) {
+                return cat.getDescription();
+            }
+        }
+
+        return description;
+    }
 }

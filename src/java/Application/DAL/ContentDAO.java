@@ -58,6 +58,29 @@ public class ContentDAO extends TemplatePatternDAO<ContentEntry>
 
     @Override
     public void update(ContentEntry input) {
+        String sql = """
+                UPDATE JournalEntry SET assesment = ?, cause  = ?, implications = ?, currentStatus = ?, expectedStatus = ?, citizenGoals = ?, notes = ?, severity = ?
+                WHERE EID = ?
+                """;
+
+        Connection conn = DBConnectionPool.getInstance().checkOut();
+        try{
+            PreparedStatement psuc = conn.prepareStatement(sql);
+
+            psuc.setString(1, input.getAssessment());
+            psuc.setString(2,input.getCause());
+            psuc.setString(3,input.getImplications());
+            psuc.setInt(4,input.getCurrentStatus());
+            psuc.setInt(5,input.getExpectedStatus());
+            psuc.setString(6,input.getCitizenGoals());
+            psuc.setString(7,input.getNote());
+            psuc.setInt(8,input.getSeverity());
+
+            psuc.execute();
+            psuc.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
 
     }
 
