@@ -122,14 +122,14 @@ public class CitizenTemplateControllerModel {
     /**
      * Save all the edits to the citizen template to the DB.
      */
-    public void saveEditedCitizenTemplate() {
-        if (preEditCitizenTemplateModel != null) {
+    public void saveEditedCitizenTemplate(CitizenModel edited, CitizenModel original) {
+        if (original != null) {
 
             HashMap<Category, CategoryEntryModel> newHealthRoot = new HashMap<>();
-            newHealthRoot.putAll(selectedCitizenTemplateModel.getAllHealthConditions());
+            newHealthRoot.putAll(edited.getAllHealthConditions());
 
             HashMap<Category, CategoryEntryModel> newFuncRoot = new HashMap<>();
-            newFuncRoot.putAll(selectedCitizenTemplateModel.getAllFuncCategories());
+            newFuncRoot.putAll(edited.getAllFuncCategories());
 
             HashMap<Category, CategoryEntryModel> newRelevantHealthConditions = new HashMap<>();
             HashMap<Category, CategoryEntryModel> newRelevantFunctionalAbilities = new HashMap<>();
@@ -156,22 +156,22 @@ public class CitizenTemplateControllerModel {
                 }
             }
 
-            selectedCitizenTemplateModel.setRelevantHealthConditions(newRelevantHealthConditions); //Relevant health
-            selectedCitizenTemplateModel.setRelevantFunctionalAbilities(newRelevantFunctionalAbilities); //Relevant Functional
+            edited.setRelevantHealthConditions(newRelevantHealthConditions); //Relevant health
+            edited.setRelevantFunctionalAbilities(newRelevantFunctionalAbilities); //Relevant Functional
 
-            selectedCitizenTemplateModel.setNonRelevantHealthConditions(newNonRelevantHealthConditions); //Non-Relevant Health
-            selectedCitizenTemplateModel.setNonRelevantFunctionalAbilities(newNonRelevantFunctionalAbilities); //Non-Relevant Functional
+            edited.setNonRelevantHealthConditions(newNonRelevantHealthConditions); //Non-Relevant Health
+            edited.setNonRelevantFunctionalAbilities(newNonRelevantFunctionalAbilities); //Non-Relevant Functional
 
             HashMap<Category, CategoryEntryModel> allOldHealth = new HashMap<>();
-            allOldHealth.putAll(preEditCitizenTemplateModel.getAllHealthConditions());
+            allOldHealth.putAll(original.getAllHealthConditions());
             HashMap<Category, CategoryEntryModel> allOldFunc = new HashMap<>();
-            allOldFunc.putAll(preEditCitizenTemplateModel.getAllFuncCategories());
+            allOldFunc.putAll(original.getAllFuncCategories());
 
 
             HashMap<Category, CategoryEntryModel> dbWriteHealthConditions = new HashMap<>();
-            dbWriteHealthConditions.putAll(selectedCitizenTemplateModel.getAllHealthConditions());
+            dbWriteHealthConditions.putAll(edited.getAllHealthConditions());
             HashMap<Category, CategoryEntryModel> dbWriteFunctionalAbilities = new HashMap<>();
-            dbWriteFunctionalAbilities.putAll(selectedCitizenTemplateModel.getAllFuncCategories());
+            dbWriteFunctionalAbilities.putAll(edited.getAllFuncCategories());
 
 
             //List of changed health conditions. If no changes are made to the item, it will be removed from the list.
