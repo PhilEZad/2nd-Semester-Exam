@@ -1258,7 +1258,7 @@
     -fx-border-color: -fx-functionBase;
     -fx-border-width: 2;
     -fx-border-radius: 20;
-    -fx-text-fill: -fx-txtBase;
+    -fx-text-fill: -fx-txtFillLight;
 }
 
 .container-healthTable {
@@ -1266,7 +1266,7 @@
     -fx-border-color: -fx-healthBase;
     -fx-border-width: 2;
     -fx-border-radius: 20;
-    -fx-text-fill: -fx-txtBase;
+    -fx-text-fill: -fx-txtFillLight;
 }
 
 .healthLabel {

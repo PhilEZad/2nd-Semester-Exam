@@ -6,6 +6,10 @@ import Application.BE.School;
 import Application.DAL.AccountDAO;
 import Application.DAL.SchoolDAO;
 import Application.DAL.TemplatePatternDAO;
+import Application.GUI.Models.AccountModel;
+import Application.GUI.Models.SchoolModel;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.util.List;
 
@@ -33,9 +37,17 @@ public class AdminDataManager {
         return (School) schoolDAO.read(id);
     }
 
-    public List<School> getAllSchools()
+    public ObservableList<SchoolModel> getAllSchools()
     {
-        return schoolDAO.readAll();
+        List<School> schoolListBE = schoolDAO.readAll();
+        ObservableList<SchoolModel> schoolModelsList = FXCollections.observableArrayList();
+
+        for (School school : schoolListBE)
+        {
+            SchoolModel schoolModel = new SchoolModel(school);
+            schoolModelsList.add(schoolModel);
+        }
+        return schoolModelsList;
     }
 
     public void updateSchool(School school)
@@ -61,9 +73,36 @@ public class AdminDataManager {
         return (Account) accountDAO.read(id);
     }
 
-    public List<Account> getAllStudents()
+    public ObservableList<AccountModel> getAllTeachers()
     {
-        return accountDAO.readAll();
+        List<Account> accountListBE = accountDAO.readAll();
+        ObservableList<AccountModel> accountModelsList = FXCollections.observableArrayList();
+
+        for (Account account : accountListBE)
+        {
+            if (account.getAuthorization() == 1)
+            {
+                AccountModel accountModel = new AccountModel(account);
+                accountModelsList.add(accountModel);
+            }
+        }
+        return accountModelsList;
+    }
+
+    public ObservableList<AccountModel> getAllStudents()
+    {
+        List<Account> accountListBE = accountDAO.readAll();
+        ObservableList<AccountModel> accountModelsList = FXCollections.observableArrayList();
+
+        for (Account account : accountListBE)
+        {
+            if (account.getAuthorization() == 2)
+            {
+            AccountModel accountModel = new AccountModel(account);
+            accountModelsList.add(accountModel);
+            }
+        }
+        return accountModelsList;
     }
 
     public void updateAccount(Account account)

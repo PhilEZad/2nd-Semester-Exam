@@ -1,3 +1,23 @@
+* {
+    -fx-txtFillLight: #f5f5f5;
+    -fx-txtFillDark: #202020;
+    -fx-txtRedBlack: #592D2D;
+    -fx-bgBase: #f5f5f5;
+    -fx-panelBase: #b63939;
+    -fx-studentPanelBase: #3961b6;
+    -fx-studentPanelHighlights: #bfdbff;
+    -fx-studentPanelDarkHighlights: #2e4d9b;
+    -fx-panelHighlight: #FFBFBF;
+    -fx-panelDarkHighlight: #9b2e2e;
+    -fx-functionBase: #F5B91D;
+    -fx-funcBG: #FAF8EC;
+    -fx-healthBase: #5DD677;
+    -fx-healthBG: #EDFAEC;
+    -fx-oddRowFunc: #d2bc90;
+    -fx-oddRowHealth: #97d290;
+    -fx-tblBG: #d9d9d9;
+}
+
 .table-view{
     -fx-background-color: transparent;
     -fx-base: -fx-panelBase;
@@ -26,7 +46,7 @@
 
 .table-view .column-header .label {
 
-    -fx-text-fill: -fx-txtBase;
+    -fx-text-fill: -fx-txtFillLight;
     -fx-background-color: transparent;
     -fx-font-size: 14;
     -fx-font-family: "Roboto Medium"
@@ -38,7 +58,7 @@
 .table-view .table-cell{
     -fx-content-display: center;
     -fx-alignment: center;
-    -fx-text-fill: -fx-txtBase;
+    -fx-text-fill: -fx-txtFillLight;
     -fx-table-cell-border-color: transparent;
     -fx-font-family: Roboto;
 }
@@ -49,7 +69,7 @@
     -fx-background-insets: 0, 1 0 1 0;
     -fx-padding: 0.0em; /* 0 */
     -fx-table-cell-border-color: transparent;
-    -fx-border-color: -fx-txtBaseHover;
+    -fx-border-color: -fx-panelHighlight;
     -fx-border-width: 1 0 1 0;
     -fx-pref-height: 30;
     -fx-font-family: Roboto;
@@ -60,7 +80,7 @@
     -fx-background-color: transparent;
     -fx-background-insets: 0, 1 0 1 0;
     -fx-padding: 0.0em; /* 0 */
-    -fx-border-color: -fx-borderBase;
+    -fx-border-color: -fx-panelHighlight;
     -fx-border-width: 1 0 1 0;
     -fx-table-cell-border-color: transparent;
     -fx-font-family: Roboto;
@@ -69,22 +89,22 @@
 .table-row-cell:selected {
     -fx-content-display: center;
     -fx-background-color: -fx-bgBase;
-    -fx-border-color: -fx-accent1;
-    -fx-focus-color: -fx-accent1;
+    -fx-border-color: -fx-panelHighlight;
+    -fx-focus-color: -fx-panelHighlight;
     -fx-background-insets: 0 0 0 0;
     -fx-background-radius: 1;
 }
 
 .table-view:focused .table-row-cell:focused {
     -fx-content-display: center;
-    -fx-background-color: -fx-accent1;
+    -fx-background-color: -fx-panelHighlight;
     -fx-background-insets: 0 0 0 0;
     -fx-table-cell-border-color: transparent;
 }
 
 table-view:focused .table-row-cell:filled:focused:selected {
     -fx-content-display: center;
-    -fx-background-color: -fx-accent1;
+    -fx-background-color: -fx-panelHighlight;
     -fx-background-insets: 0 0 0 0;
     -fx-table-cell-border-color: transparent;
 }

@@ -1,6 +1,4 @@
 package Application.BE;
-import Application.DAL.TemplateMethod.Annotations.SQLColumn;
-import Application.DAL.TemplateMethod.Annotations.SQLTable;
 
 public class School {
 

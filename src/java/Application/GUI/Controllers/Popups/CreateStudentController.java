@@ -3,6 +3,7 @@ package Application.GUI.Controllers.Popups;
 import Application.BE.Location;
 import Application.BE.School;
 import Application.BLL.AdminDataManager;
+import Application.GUI.Models.AccountModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -40,7 +41,7 @@ public class CreateStudentController implements Initializable {
         // FIXME: 03/05/2022 -- Dummy School
         School school = new School(1, "Dummy School", new Location(0));
 
-        adminDataManager.createAccount(login, password, firstName, lastName, email, school, 0);
+        adminDataManager.createAccount(login, password, firstName, lastName, email, school, 2);
         //TODO: add getSchool() and implement salt for hashing
 
         ((Node) (event.getSource())).getScene().getWindow().hide();
@@ -49,4 +50,5 @@ public class CreateStudentController implements Initializable {
     public void onCancel(ActionEvent event) {
         ((Node) (event.getSource())).getScene().getWindow().hide();
     }
+
 }
