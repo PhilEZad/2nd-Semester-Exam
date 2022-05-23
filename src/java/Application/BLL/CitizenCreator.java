@@ -6,6 +6,7 @@ import Application.DAL.CitizenDAO;
 import Application.DAL.ContentDAO;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,13 +17,13 @@ public class CitizenCreator
 
     CitizenContentLinkDAO binder = new CitizenContentLinkDAO();
 
-    public Citizen create (Citizen citizen, List<ContentEntry> entries)
+    public Citizen create (Citizen citizen, HashMap<Category, ContentEntry> entries)
     {
         // create citizen in db
         var qualified = citizenDAO.create(citizen);
 
         // create all entries from list in db
-        for (var entry : entries)
+        for (var entry : entries.values())
         {
             entry.setId(contentDAO.create(entry).getId());
         }
@@ -31,8 +32,7 @@ public class CitizenCreator
         var binding = new CitizenContentBinding();
 
         binding.citizenID = qualified.getId();
-        binding.contentIDs = entries.stream().map(ContentEntry::getId).collect(Collectors.toList());
-
+        binding.contentIDs = entries.values().stream().map(entry -> entry.getId()).collect(Collectors.toList());
         // commit bind of one citizen and all entries
         binder.create(binding);
 
@@ -47,13 +47,14 @@ public class CitizenCreator
 
         Citizen citizen = new Citizen(0, new GeneralJournal(1), new School(1), "hello", "world", 1970);
 
-        List<ContentEntry> entries = new ArrayList<>();
-        var con1 = new ContentEntry(new Category(14, "Problemer med hukommelse", 0));
+        HashMap<Category, ContentEntry> entries = new HashMap<>();
 
-        con1.setCause("amnesia");
 
-        entries.add(con1);
+        var cat = new Category(14, "Problemer med hukommelse", 0);
+        var entry =  new ContentEntry(99, cat);
+        entry.setCause("amnesia");
 
+        entries.put(cat, entry);
 
         creator.create(citizen, entries);
     }

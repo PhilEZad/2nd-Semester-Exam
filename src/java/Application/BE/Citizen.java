@@ -102,21 +102,21 @@ public class Citizen implements Cloneable
         this.school = school;
     }
 
-    public void setContent(List<ContentEntry> content)
+    public void setContent(HashMap<Category, ContentEntry> content)
     {
         // populate lists (healthCategoryEntries, funcCategoryEntries)
     }
     
-    public void setFunctionalAbilities (List<ContentEntry> functionalAbilities) {
+    public void setFunctionalAbilities (HashMap<Category, ContentEntry> functionalAbilities) {
         funcCategoryEntries.clear();
-        for (ContentEntry entry : functionalAbilities) {
+        for (ContentEntry entry : functionalAbilities.values()) {
             funcCategoryEntries.put(entry.getCategory(), entry);
         };
     }
 
-    public void setHealthConditions (List <ContentEntry> healthConditions) {
+    public void setHealthConditions (HashMap<Category, ContentEntry> healthConditions) {
         healthCategoryEntries.clear();
-        for (ContentEntry entry : healthConditions) {
+        for (ContentEntry entry : healthConditions.values()) {
             healthCategoryEntries.put(entry.getCategory(), entry);
         };
     }

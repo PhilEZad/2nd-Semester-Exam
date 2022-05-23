@@ -7,16 +7,17 @@ import Application.GUI.Models.CitizenModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class TeacherDataManager
 {
-    TemplatePatternDAO accountDAO;
-    TemplatePatternDAO citizenDAO;
-    TemplatePatternDAO citizenTemplateDAO;
-    TemplatePatternDAO categoryDAO;
-    TemplatePatternDAO groupDAO;
+    TemplatePatternDAO accountDAO = new AccountDAO();
+    TemplatePatternDAO citizenDAO = new CitizenDAO();
+    TemplatePatternDAO citizenTemplateDAO = new CitizenDAO();
+    TemplatePatternDAO categoryDAO = new CategoryDAO();
+    TemplatePatternDAO groupDAO = new GroupDAO();
 
     public TeacherDataManager()
     {
@@ -331,7 +332,7 @@ public class TeacherDataManager
         return citizenModel;
     }
 
-    public void updateCitizenTemplate(Citizen template, List<ContentEntry> beHealthConditions, List<ContentEntry> beFunctionalAbilities)
+    public void updateCitizenTemplate(Citizen template, HashMap<Category, ContentEntry> beHealthConditions, HashMap<Category, ContentEntry> beFunctionalAbilities)
     {
         template.setContent(beHealthConditions);
         template.setHealthConditions(beHealthConditions);
