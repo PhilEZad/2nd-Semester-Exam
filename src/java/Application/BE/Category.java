@@ -22,6 +22,7 @@ public class Category {
 
     public Category(String name) {
         this.name = name;
+        initType();
     }
 
     public Category(int id, String name, int parentID) {

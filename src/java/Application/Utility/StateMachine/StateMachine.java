@@ -17,12 +17,12 @@ public class StateMachine<T>
     {
         var newState = states.get(key);
 
-        newState.enable();
-
         if (current != null)
         {
             current.disable();
         }
+
+        newState.enable();
 
         this.current = states.get(key);
     }

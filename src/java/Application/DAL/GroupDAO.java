@@ -168,15 +168,19 @@ public class GroupDAO extends TemplatePatternDAO<Group>
         Connection conn = DBConnectionPool.getInstance().checkOut();
 
         try {
-            PreparedStatement psds = conn.prepareStatement(sqlReadGroup);
+            /*PreparedStatement psds = conn.prepareStatement(sqlReadGroup);
 
             psds.setInt(1, groupID);
+            psds.setInt(2, groupID);
 
             psds.executeUpdate();
             psds.close();
 
+
+             */
             PreparedStatement psrg = conn.prepareStatement(sqlReadGroup);
             psrg.setInt(1, groupID);
+            psrg.setInt(2, groupID);
 
             ResultSet rs = psrg.executeQuery();
 
@@ -197,6 +201,8 @@ public class GroupDAO extends TemplatePatternDAO<Group>
                 School school = new School(SID, schoolName, city);
                 Account account = new Account(id, username, hashed_pwd, firstname, lastname, email, school, privilegeLevel);
                 members.add(account);
+
+                psrg.close();
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();

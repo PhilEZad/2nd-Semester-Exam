@@ -3,19 +3,26 @@ package Application.Utility.StateMachine;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 
+import java.io.IOException;
+
 public class State implements IState {
 
-    private final Pane viewPane;
+    private final BorderPane viewPane;
     private final ToggleButton menuButton;
+    private final String fxml;
 
-    public State(Pane viewPane, ToggleButton menuButton)
+    public State(BorderPane viewPane, String fxml, ToggleButton menuButton)
     {
         this.viewPane = viewPane;
         this.menuButton = menuButton;
+        this.fxml = fxml;
     }
 
     @Override
@@ -25,17 +32,25 @@ public class State implements IState {
 
     @Override
     public void disable() {
-        viewPane.setVisible(false);
-        menuButton.setDisable(false);
         Timeline timeline = new Timeline();
         timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(0.3), new KeyValue(viewPane.opacityProperty(), 0)));
         timeline.play();
+        menuButton.setDisable(false);
+        //viewPane.setVisible(false);
+        //menuButton.setDisable(false);
     }
 
     @Override
     public void enable() {
-        viewPane.toFront();
-        viewPane.setVisible(true);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
+        Parent root = null;
+        try {
+            root = loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        viewPane.setCenter(root);
         menuButton.setDisable(true);
         Timeline timeline = new Timeline();
         timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(0.3), new KeyValue(viewPane.opacityProperty(), 1)));

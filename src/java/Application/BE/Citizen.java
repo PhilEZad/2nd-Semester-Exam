@@ -4,7 +4,6 @@ import Application.DAL.TemplateMethod.Annotations.SQLGetter;
 import Application.DAL.TemplateMethod.Annotations.SQLSetter;
 
 import java.util.HashMap;
-import java.util.List;
 
 public class Citizen implements Cloneable
 {
@@ -21,12 +20,6 @@ public class Citizen implements Cloneable
     private HashMap<Category, ContentEntry> healthCategoryEntries;
 
     private HashMap<Category, ContentEntry> funcCategoryEntries;
-
-    public Citizen(int id)
-    {
-
-        this.id = id;
-    }
 
     public Citizen(int id, GeneralJournal journal, School school, String firstname, String lastname, int age)
     {
@@ -139,7 +132,7 @@ public class Citizen implements Cloneable
         healthCategoryEntries.put(entry.getCategory(), entry);
     }
 
-    public GeneralJournal getGeneralInfo () {
+    public GeneralJournal getGeneralJournal() {
         return generalJournal;
     }
 

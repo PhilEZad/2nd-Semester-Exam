@@ -1,13 +1,11 @@
 package Application.GUI.Controllers;
 
 
-import Application.BLL.TeacherDataManager;
-import Application.GUI.Controllers.dashboard.DefaultController;
 import Application.GUI.Models.AccountModel;
 
 import Application.Utility.StateMachine.DashboardStateMachine;
-import Application.Utility.StateMachine.State;
 
+import Application.Utility.StateMachine.State;
 import javafx.application.Platform;
 import Application.Utility.StateMachine.StateMachine;
 import javafx.fxml.FXML;
@@ -15,24 +13,20 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class TeacherAdminViewController implements Initializable
+public class TeacherViewController implements Initializable
 {
-    @FXML public AnchorPane anchorPaneDashboard;
-    @FXML public AnchorPane anchorPaneStudents;
-    @FXML public AnchorPane anchorPaneCitizenTemplate;
-    @FXML public AnchorPane anchorPaneCitizens;
-
     @FXML public ToggleButton tglBtnDashboard;
     @FXML public ToggleButton tglBtnStudents;
     @FXML public ToggleButton tglBtnCitizenTemplates;
     @FXML public ToggleButton tglBtnCitizens;
     @FXML public BorderPane scene;
-    @FXML public StackPane pane;
+    @FXML public Pane viewPane;
 
     private ToggleGroup toggleGroupViews;
     private StateMachine<ToggleButton> stateMachine = new StateMachine<>();
@@ -57,25 +51,15 @@ public class TeacherAdminViewController implements Initializable
         initViewStates();
 
         tglBtnDashboard.setSelected(true);
-        Platform.runLater(this::initVisible);
     }
 
 
     private void initViewStates()
     {
-
-        DashboardStateMachine.setTarget(pane);
-
-        DashboardStateMachine.HOME.setTransition(tglBtnDashboard.selectedProperty());
-        DashboardStateMachine.CITIZEN.setTransition(tglBtnCitizens.selectedProperty());
-        DashboardStateMachine.STUDENT.setTransition(tglBtnStudents.selectedProperty());
-        DashboardStateMachine.TEMPLATE.setTransition(tglBtnCitizenTemplates.selectedProperty());
-
-
-        //stateMachine.addState(tglBtnDashboard, new State(anchorPaneDashboard, tglBtnDashboard)); // Dashboard
-        //stateMachine.addState(tglBtnStudents, new State(anchorPaneStudents, tglBtnStudents)); // Students
-        //stateMachine.addState(tglBtnCitizenTemplates, new State(anchorPaneCitizenTemplate, tglBtnCitizenTemplates)); // Citizen Templates
-        //stateMachine.addState(tglBtnCitizens, new State(anchorPaneCitizens, tglBtnCitizens)); // Citizens
+       stateMachine.addState(tglBtnDashboard, new State(scene, "/Views/dashboard/Default.fxml", tglBtnDashboard)); // Dashboard
+       stateMachine.addState(tglBtnStudents, new State(scene,"/Views/dashboard/Students.fxml", tglBtnStudents)); // Students
+       stateMachine.addState(tglBtnCitizenTemplates, new State(scene, "/Views/dashboard/CitizenTemplate.fxml", tglBtnCitizenTemplates)); // Citizen Templates
+       stateMachine.addState(tglBtnCitizens, new State(scene,"/Views/dashboard/Citizens.fxml", tglBtnCitizens)); // Citizens
     }
 
     private void initToggleGroup()
@@ -88,25 +72,17 @@ public class TeacherAdminViewController implements Initializable
     }
 
     private void viewChangedListener()
-    {/*
+    {
         toggleGroupViews.selectedToggleProperty().addListener((observable, oldValue, newValue) ->
         {
             if(newValue != null)
             {
-                DashboardStateMachine.makeCurrent((ToggleButton) newValue);
+                stateMachine.change((ToggleButton) newValue);
             }
         });
-        */
+
     }
 
-
-    private void initVisible()
-    {
-        anchorPaneDashboard.setVisible(false);
-        anchorPaneStudents.setVisible(false);
-        anchorPaneCitizenTemplate.setVisible(false);
-        anchorPaneCitizens.setVisible(false);
-    }
 
 
 }

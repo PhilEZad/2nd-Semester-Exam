@@ -48,7 +48,7 @@ public class StudentViewController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         initTableViews();
         initListViewCitizens();
-        initTestData();
+        //initTestData();
         initBundle(resources);
         GUIUtils.searchListener(txtFieldCitizenSearch, listViewCitizens);
     }
@@ -61,9 +61,9 @@ public class StudentViewController implements Initializable {
 
     private void initTestData() {
         ObservableList<CitizenModel> citizens = FXCollections.observableArrayList();
-        citizens.add(new CitizenModel());
-        citizens.add(new CitizenModel());
         listViewCitizens.setItems(citizens);
+
+
     }
 
     private void initTableViews() {
@@ -75,10 +75,6 @@ public class StudentViewController implements Initializable {
         tblColumnStudentDashboardFuncNote.setCellValueFactory(cellData -> cellData.getValue().noteProperty());
 
         tblViewStudentDashboardHealth.setFixedCellSize(50);
-
-        tblViewStudentDashboardHealth.getItems().add(new CategoryEntryModel("Health", HealthLevels.RELEVANT.ordinal(), ""));
-
-        tblViewStudentDashboardFunc.getItems().add(new CategoryEntryModel("FUNCY", HealthLevels.RELEVANT.ordinal(), ""));
     }
 
     private void updateCitizenInfo(CitizenModel citizen) {

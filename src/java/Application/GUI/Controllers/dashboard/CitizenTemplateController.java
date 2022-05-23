@@ -4,15 +4,12 @@ import Application.BE.GeneralJournal;
 import Application.GUI.Models.*;
 import Application.GUI.Models.ControllerModels.CitizenTemplateControllerModel;
 import Application.Utility.GUIUtils;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.geometry.Side;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldTreeTableCell;
-import javafx.scene.control.skin.TableHeaderRow;
-import javafx.scene.control.skin.TableViewSkinBase;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Callback;
 import javafx.util.Duration;
@@ -86,7 +83,7 @@ public class CitizenTemplateController implements Initializable {
         initTreeTblColumnEdit();
 
 
-        initCitizenTemplatesList();
+        //initCitizenTemplatesList();
         initActionsMenu();
         initTextFields();
         GUIUtils.searchListener(txtFieldCitizenTemplateSearch, listViewCitizenTemplates);
@@ -364,7 +361,7 @@ public class CitizenTemplateController implements Initializable {
             treeTblViewHealth.setRoot(healthRoot);
             treeTblViewHealth.setShowRoot(false);
 
-            GeneralJournal journal = model.getSelectedCitizenTemplateModel().getBeCitizen().getGeneralInfo();
+            GeneralJournal journal = model.getSelectedCitizenTemplateModel().getBeCitizen().getGeneralJournal();
 
             //set the general information section to that of the selected citizen template
             txtAreaGenInfoCoping.setText(journal.getCoping());
@@ -484,17 +481,17 @@ public class CitizenTemplateController implements Initializable {
             }
 
 
-            selected.getBeCitizen().getGeneralInfo().setCoping(txtAreaGenInfoCoping.getText());
-            selected.getBeCitizen().getGeneralInfo().setMotivation(txtAreaGenInfoMotivation.getText());
-            selected.getBeCitizen().getGeneralInfo().setResources(txtAreaGenInfoResources.getText());
-            selected.getBeCitizen().getGeneralInfo().setRoles(txtAreaGenInfoRoles.getText());
-            selected.getBeCitizen().getGeneralInfo().setHabits(txtAreaGenInfoHabits.getText());
-            selected.getBeCitizen().getGeneralInfo().setEduAndJob(txtAreaGenInfoEduAndJob.getText());
-            selected.getBeCitizen().getGeneralInfo().setLifeStory(txtAreaGenInfoLifeStory.getText());
-            selected.getBeCitizen().getGeneralInfo().setHealthInfo(txtAreaGenInfoHealthInfo.getText());
-            selected.getBeCitizen().getGeneralInfo().setAssistiveDevices(txtAreaGenInfoAssistiveDevices.getText());
-            selected.getBeCitizen().getGeneralInfo().setHomeLayout(txtAreaGenInfoHomeLayout.getText());
-            selected.getBeCitizen().getGeneralInfo().setNetwork(txtAreaGenInfoNetwork.getText());
+            selected.getBeCitizen().getGeneralJournal().setCoping(txtAreaGenInfoCoping.getText());
+            selected.getBeCitizen().getGeneralJournal().setMotivation(txtAreaGenInfoMotivation.getText());
+            selected.getBeCitizen().getGeneralJournal().setResources(txtAreaGenInfoResources.getText());
+            selected.getBeCitizen().getGeneralJournal().setRoles(txtAreaGenInfoRoles.getText());
+            selected.getBeCitizen().getGeneralJournal().setHabits(txtAreaGenInfoHabits.getText());
+            selected.getBeCitizen().getGeneralJournal().setEduAndJob(txtAreaGenInfoEduAndJob.getText());
+            selected.getBeCitizen().getGeneralJournal().setLifeStory(txtAreaGenInfoLifeStory.getText());
+            selected.getBeCitizen().getGeneralJournal().setHealthInfo(txtAreaGenInfoHealthInfo.getText());
+            selected.getBeCitizen().getGeneralJournal().setAssistiveDevices(txtAreaGenInfoAssistiveDevices.getText());
+            selected.getBeCitizen().getGeneralJournal().setHomeLayout(txtAreaGenInfoHomeLayout.getText());
+            selected.getBeCitizen().getGeneralJournal().setNetwork(txtAreaGenInfoNetwork.getText());
 
 
             model.saveEditedCitizenTemplate();

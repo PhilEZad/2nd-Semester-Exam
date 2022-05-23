@@ -293,10 +293,10 @@ public class TeacherDataManager
 
     public Citizen newCitizenTemplate() {
         //Template
-        Citizen newTemplate = new Citizen(-1);
+        //Citizen newTemplate = new Citizen(-1);
         //Generate blank category entries?
 
-        return (Citizen) citizenTemplateDAO.create(newTemplate);
+        return (Citizen) citizenTemplateDAO.create(null);
     }
 
     public void deleteCitizenTemplate(Citizen template)

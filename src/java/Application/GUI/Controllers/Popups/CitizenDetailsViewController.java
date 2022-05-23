@@ -105,7 +105,7 @@ public class CitizenDetailsViewController implements Initializable {
             treeTblViewHealth.setRoot(model.getRelevantHealthCategoriesAsTreeItem());
             treeTblViewHealth.setShowRoot(false);
 
-            GeneralJournal journal = model.getSelectedCitizen().getBeCitizen().getGeneralInfo();
+            GeneralJournal journal = model.getSelectedCitizen().getBeCitizen().getGeneralJournal();
 
             //set the general information section to that of the selected citizen template
             txtAreaGenInfoCoping.setText(journal.getCoping());
