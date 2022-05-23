@@ -107,6 +107,10 @@ public class AdminDashboardController implements Initializable {
         popupMenuStudent.setOnHidden(event1 -> tblViewStudent.setItems(searchTable(txtFieldSearch, tblViewTeacher, dataManager.getAllStudents())));
         } catch (IOException e)
         {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setHeaderText("Ingen elev valgt.");
+            alert.getDialogPane().getStylesheets().add(Objects.requireNonNull(getClass().getResource("/Styles/MainStylesheet.css")).toExternalForm());
+            alert.showAndWait();
             e.printStackTrace();
         }
     }
@@ -127,6 +131,10 @@ public class AdminDashboardController implements Initializable {
             }
         } catch (Exception e)
         {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setHeaderText("Ingen elev valgt.");
+            alert.getDialogPane().getStylesheets().add(Objects.requireNonNull(getClass().getResource("/Styles/MainStylesheet.css")).toExternalForm());
+            alert.showAndWait();
             e.printStackTrace();
         }
     }
@@ -161,6 +169,10 @@ public class AdminDashboardController implements Initializable {
             popupMenuTeacher.setOnHidden(event1 -> tblViewTeacher.setItems(searchTable(txtFieldSearch, tblViewTeacher, dataManager.getAllTeachers())));
         } catch (IOException e)
         {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setHeaderText("Ingen lærer valgt.");
+            alert.getDialogPane().getStylesheets().add(Objects.requireNonNull(getClass().getResource("/Styles/MainStylesheet.css")).toExternalForm());
+            alert.showAndWait();
             e.printStackTrace();
         }
     }
@@ -185,6 +197,10 @@ public class AdminDashboardController implements Initializable {
 
         } catch (Exception e)
         {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setHeaderText("Ingen elev valgt.");
+            alert.getDialogPane().getStylesheets().add(Objects.requireNonNull(getClass().getResource("/Styles/MainStylesheet.css")).toExternalForm());
+            alert.showAndWait();
             e.printStackTrace();
         }
     }
@@ -218,6 +234,10 @@ public class AdminDashboardController implements Initializable {
             popupMenuSchool.setOnHidden(event1 -> tblViewSchool.setItems(dataManager.getAllSchools()));
         } catch (IOException e)
         {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setHeaderText("Ingen skole valgt.");
+            alert.getDialogPane().getStylesheets().add(Objects.requireNonNull(getClass().getResource("/Styles/MainStylesheet.css")).toExternalForm());
+            alert.showAndWait();
             e.printStackTrace();
         }
     }
@@ -241,6 +261,10 @@ public class AdminDashboardController implements Initializable {
             }
         } catch (Exception e)
         {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setHeaderText("Ingen elev valgt.");
+            alert.getDialogPane().getStylesheets().add(Objects.requireNonNull(getClass().getResource("/Styles/MainStylesheet.css")).toExternalForm());
+            alert.showAndWait();
             e.printStackTrace();
         }
     }
