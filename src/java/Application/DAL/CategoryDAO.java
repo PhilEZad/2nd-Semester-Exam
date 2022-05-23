@@ -27,12 +27,14 @@ public class CategoryDAO extends TemplatePatternDAO<Category> {
     public Category read(int id) {
 
         String sql = """
-                        SELECT CHILD.CatID, CHILD.catName, PARENT.CatID AS ParentID, PARENT.catName AS parentName 
-                        FROM dbo.Categories PARENT, dbo.Categories CHILD 
-                        WHERE PARENT.CatID = CHILD.FK_ParentCat AND CHILD.CatID = ?
-                        UNION SELECT NULLABLE.CatID, NULLABLE.catName, NULL, NULL
-                        FROM dbo.Categories AS NULLABLE 
-                        WHERE NULLABLE.FK_ParentCat IS NULL AND NULLABLE.CatID = ?
+                    SELECT CHILD.CatID, CHILD.catName, PARENT.CatID AS ParentID, PARENT.catName AS parentName, NULL as [text]
+                    FROM dbo.Categories PARENT, dbo.Categories CHILD\s
+                    WHERE PARENT.CatID = CHILD.FK_ParentCat AND CHILD.CatID = ?
+                                                                                  
+                    UNION SET NULLABLE.CatID, NULLABLE.catName, NULL, NULL, Tooltip.text
+                    FROM dbo.Categories AS NULLABLE\s
+                    JOIN Tooltip ON NULLABLE.FK_Description = Tooltip.ToolTipID
+                    WHERE NULLABLE.FK_ParentCat IS NULL AND NULLABLE.CatID = ?
                     """;
 
         Connection conn = DBConnectionPool.getInstance().checkOut();
@@ -46,7 +48,9 @@ public class CategoryDAO extends TemplatePatternDAO<Category> {
             ResultSet rs = psas.executeQuery();
             rs.next();
 
-            return new Category(rs.getInt("CatID"), rs.getString("catName"), rs.getInt("ParentID"));
+            Category category = new Category(rs.getInt("CatID"), rs.getString("catName"), rs.getInt("ParentID"));
+            category.setDescription(rs.getString("Tooltip.text"));
+            return category;
 
         } catch (Exception e)
         {
