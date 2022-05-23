@@ -82,6 +82,7 @@ public final class GUIUtils {
      * @param listView
      * @param <T>
      */
+
     public static <T> FilteredList<T> searchListener(TextField searchField, ListView<T> listView) {
         //Wrap ObservableList of UserInfo in a FilteredList.
         FilteredList<T> filteredData = new FilteredList<>(listView.getItems(), b -> true);

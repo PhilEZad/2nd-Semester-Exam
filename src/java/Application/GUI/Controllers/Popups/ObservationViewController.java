@@ -47,7 +47,9 @@ public class ObservationViewController implements Initializable {
     private Boolean isEditing = false;
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    public void initialize(URL location, ResourceBundle resources)
+    {
+
         initIsEditing(resources);
         initCitizenBundle(resources);
         initSelectionListener();

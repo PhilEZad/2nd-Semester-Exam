@@ -69,6 +69,19 @@ public class CitizenDetailsViewController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         initBundle(resources);
+
+        txtAreaGenInfoCoping.textProperty().bindBidirectional(model.selectedCitizenProperty().get().copingProperty());
+        txtAreaGenInfoMotivation.textProperty().bindBidirectional(model.selectedCitizenProperty().get().motivationProperty());
+        txtAreaGenInfoResources.textProperty().bindBidirectional(model.selectedCitizenProperty().get().resourcesProperty());
+        txtAreaGenInfoRoles.textProperty().bindBidirectional(model.selectedCitizenProperty().get().rolesProperty());
+        txtAreaGenInfoHabits.textProperty().bindBidirectional(model.selectedCitizenProperty().get().habitsProperty());
+        txtAreaGenInfoEduAndJob.textProperty().bindBidirectional(model.selectedCitizenProperty().get().eduAndJobProperty());
+        txtAreaGenInfoLifeStory.textProperty().bindBidirectional(model.selectedCitizenProperty().get().lifeStoryProperty());
+        txtAreaGenInfoHealthInfo.textProperty().bindBidirectional(model.selectedCitizenProperty().get().healthInfoProperty());
+        txtAreaGenInfoAssistiveDevices.textProperty().bindBidirectional(model.selectedCitizenProperty().get().assistiveDevicesProperty());
+        txtAreaGenInfoHomeLayout.textProperty().bindBidirectional(model.selectedCitizenProperty().get().homeLayoutProperty());
+        txtAreaGenInfoNetwork.textProperty().bindBidirectional(model.selectedCitizenProperty().get().networkProperty());
+
         setDataToCitizenTemplateView();
     }
 
@@ -105,7 +118,7 @@ public class CitizenDetailsViewController implements Initializable {
             treeTblViewHealth.setRoot(model.getRelevantHealthCategoriesAsTreeItem());
             treeTblViewHealth.setShowRoot(false);
 
-            GeneralJournal journal = model.getSelectedCitizen().getBeCitizen().getGeneralJournal();
+            GeneralJournal journal = CitizenModel.convert(model.getSelectedCitizen()).getJournal();
 
             //set the general information section to that of the selected citizen template
             txtAreaGenInfoCoping.setText(journal.getCoping());

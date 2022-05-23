@@ -32,13 +32,16 @@ public class CitizenTemplateControllerModel {
      * Get all the citizen templates from the DB and put them in a list.
      * @return
      */
-    public ObservableList<CitizenModel> getCitizenTemplates() {
-        ObservableList<CitizenModel> citizenTemplates = FXCollections.observableArrayList();
-        List<Citizen> citizenList = teacherDataManager.getAllCitizenTemplates();
-        for (Citizen citizen : citizenList) {
-            citizenTemplates.add(new CitizenModel(citizen));
+    public ObservableList<CitizenModel> getCitizenTemplates()
+    {
+        List<CitizenModel> citizenModels = new ArrayList<>();
+
+        for (var c : teacherDataManager.getAllCitizenTemplates())
+        {
+            citizenModels.add(CitizenModel.convert(c));
         }
-        return citizenTemplates;
+
+        return FXCollections.observableArrayList(citizenModels);
     }
 
     /**
@@ -81,7 +84,8 @@ public class CitizenTemplateControllerModel {
      */
     public CitizenModel newCitizenTemplate() {
         GeneralJournal generalJournal = new GeneralJournal();
-        CitizenModel citizenTemplateModel = new CitizenModel(new Citizen(-1, generalJournal, SessionModel.getSchool(), "Ny Borger", "Skabelon", 0));
+
+        CitizenModel citizenTemplateModel = CitizenModel.convert(new Citizen(-1, generalJournal, SessionModel.getSchool(), "Ny Borger", "Skabelon", 0));
 
         return teacherDataManager.createCitizenTemplate(citizenTemplateModel);
     }
@@ -90,19 +94,19 @@ public class CitizenTemplateControllerModel {
      * Delete the selected citizen template.
      **/
     public void deleteCitizenTemplate() {
-        teacherDataManager.deleteCitizenTemplate(selectedCitizenTemplateModel.getBeCitizen());
+        teacherDataManager.deleteCitizenTemplate(CitizenModel.convert(selectedCitizenTemplateModel));
     }
 
     /**
      * Creates a copy of the citizen template and writes it to the DB.
      */
-    public CitizenModel copyCitizenTemplate() {
+    public CitizenModel copyCitizenTemplate() 
+    {
+        // TODO: 23-05-2022 null check
         CitizenModel clone = null;
-        try {
-            clone = (CitizenModel) selectedCitizenTemplateModel.clone();
-        } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-        }
+
+        clone = (CitizenModel) selectedCitizenTemplateModel.clone();
+
         //teacherDataManager.copyTemplate(clone.getTemplate());
         return clone;
     }
@@ -112,11 +116,7 @@ public class CitizenTemplateControllerModel {
      * Creates a copy of the citizen template and stores it in the preEditCitizenTemplateModel variable for later user.
      */
     public void savePreEditState() {
-        try {
             this.preEditCitizenTemplateModel = (CitizenModel) selectedCitizenTemplateModel.clone();
-        } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-        }
     }
 
     /**
@@ -212,7 +212,7 @@ public class CitizenTemplateControllerModel {
                 beFuncConditions.put(cat, entry);
             }
 
-            teacherDataManager.updateCitizenTemplate(selectedCitizenTemplateModel.getBeCitizen(), beHealthConditions, beFuncConditions);
+            teacherDataManager.updateCitizenTemplate(CitizenModel.convert(selectedCitizenTemplateModel), beHealthConditions, beFuncConditions);
         }
     }
 
@@ -229,7 +229,7 @@ public class CitizenTemplateControllerModel {
 
 
     public void newCitizenEntity() {
-        teacherDataManager.newCitizenEntity(selectedCitizenTemplateModel.getBeCitizen());
+        teacherDataManager.newCitizenEntity(CitizenModel.convert(selectedCitizenTemplateModel));
     }
 
     /**

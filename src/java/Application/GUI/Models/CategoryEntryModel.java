@@ -77,6 +77,33 @@ public class CategoryEntryModel implements Comparable<CategoryEntryModel> {
 
     }
 
+    public CategoryEntryModel(String categoryName){
+        initProperties();
+        this.categoryName.set(categoryName);
+    }
+
+    public CategoryEntryModel(String categoryName, int level, String note) {
+        initProperties();
+        this.contentEntry = new ContentEntry(-1, new Category(categoryName), level);
+        this.categoryName.set(categoryName);
+        this.level.set(level);
+        assessment.set(" ");
+        cause.set(" ");
+        implications.set(" ");
+        citizenGoals.set(" ");
+        expectedCondition.set(0);
+        this.note.set(note);
+        this.type = contentEntry.getCategory().getType();
+        initBinds();
+
+        initLevelFuncAndLevelHealth();
+        initExConFuncAndLevelHealth();
+    }
+
+    public static ContentEntry convert(CategoryEntryModel categoryEntryModel) {
+        return null;
+    }
+
 
     /**
      * Initializes the property objects of this model.

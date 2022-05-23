@@ -127,11 +127,7 @@ public class TeacherDataManager
 
     public CitizenModel createCitizenTemplate (CitizenModel citizen)
     {
-        CitizenModel citizenModel = new CitizenModel
-                (
-                    (Citizen) citizenDAO.create(citizen)
-                );
-        return citizenModel;
+        return (CitizenModel) citizenDAO.create(CitizenModel.convert(citizen));
     }
 
     public Boolean updateCitizen (Citizen citizen)
@@ -148,30 +144,7 @@ public class TeacherDataManager
 
     public CitizenModel getCitizen(Citizen citizen)
     {
-        CitizenModel citizenModel;
-
-        if(citizen != null)
-        {
-            citizenModel = new CitizenModel(
-                    (Citizen) accountDAO.read(citizen.getId())
-            );
-
-            return citizenModel;
-
-        } else {
-            citizenModel = new CitizenModel(
-                    new Citizen(
-                            -1,
-                            new GeneralJournal(-1),
-                            new School(-1, " ",
-                                    new Location(-1, " ")),
-                            "Fejl",
-                            "Fejl",
-                            -1
-                    ));
-
-            return citizenModel;
-        }
+        return CitizenModel.convert((Citizen) accountDAO.read(citizen.getId()));
     }
 
     public List<Citizen> getAllCitizens()
@@ -267,8 +240,6 @@ public class TeacherDataManager
 
     public List<Citizen> getAllCitizenTemplates() {
         List<Citizen> citizenTemplates = citizenTemplateDAO.readAll();
-
-
         return citizenTemplates;
     }
 
@@ -287,11 +258,7 @@ public class TeacherDataManager
 
     public CitizenModel copyCitizenTemplate(Citizen template)
     {
-        CitizenModel citizenModel = new CitizenModel
-                (
-                        (Citizen) citizenDAO.create(template)
-                );
-        return citizenModel;
+       return CitizenModel.convert( (Citizen) citizenDAO.create(template));
     }
 
     public void updateCitizenTemplate(Citizen template, HashMap<Category, ContentEntry> beHealthConditions, HashMap<Category, ContentEntry> beFunctionalAbilities)

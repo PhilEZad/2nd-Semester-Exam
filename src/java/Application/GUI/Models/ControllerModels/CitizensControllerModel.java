@@ -19,7 +19,7 @@ public class CitizensControllerModel {
     public ObservableList<CitizenModel> getAllCitizenModels(){
         List<Citizen> citizenList = manager.getAllCitizens();
         ObservableList<CitizenModel> citizenModels = FXCollections.observableArrayList();
-        citizenList.forEach(citizen -> {citizenModels.add(new CitizenModel(citizen));});
+        citizenList.forEach(citizen -> {citizenModels.add(CitizenModel.convert(citizen));});
         return citizenModels;
     }
 
