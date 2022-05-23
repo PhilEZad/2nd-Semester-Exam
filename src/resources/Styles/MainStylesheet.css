@@ -1287,3 +1287,7 @@
     -fx-font-size: 14;
 }
 
+.adminHbox {
+    -fx-background-color: -fx-panelDarkHighlight;
+}
+
