@@ -85,8 +85,8 @@ public class StudentViewController implements Initializable {
         lblCitizenName.setText(citizen.getFirstName() + " " + citizen.getLastName());
         lblAge.setText(citizen.getAge() + "");
 
-        tblViewStudentDashboardHealth.setItems(model.getRelevantHealthCategoriesAsList());
-        tblViewStudentDashboardFunc.setItems(model.getRelevantFuncCategoriesAsList());
+        tblViewStudentDashboardHealth.getItems().setAll(model.getSelectedCitizen().getAllHealthConditions().values());
+        tblViewStudentDashboardFunc.getItems().setAll(model.getSelectedCitizen().getAllFuncCategories().values());
     }
 
     private void initListViewCitizens(){

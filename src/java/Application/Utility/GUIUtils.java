@@ -20,11 +20,9 @@ public final class GUIUtils {
     private static AccountModel selectedStudent;
     private static AccountModel selectedTeacher;
 
-
     private GUIUtils() {
         // Private constructor to prevent instantiation
     }
-
 
     /**
      * Utility method for unwrapping the CategoryEntryModel from a TreeItem.
@@ -80,7 +78,8 @@ public final class GUIUtils {
      * @param listView
      * @param <T>
      */
-    public static <T> void searchListener(TextField searchField, ListView<T> listView) {
+    public static <T> void searchListener(TextField searchField, ListView<T> listView)
+    {
         //Wrap ObservableList of UserInfo in a FilteredList.
         FilteredList<T> filteredData = new FilteredList<>(listView.getItems(), b -> true);
 

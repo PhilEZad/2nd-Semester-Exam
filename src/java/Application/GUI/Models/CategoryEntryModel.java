@@ -100,6 +100,10 @@ public class CategoryEntryModel implements Comparable<CategoryEntryModel> {
         initExConFuncAndLevelHealth();
     }
 
+    public static ContentEntry convert(CategoryEntryModel categoryEntryModel) {
+        return null;
+    }
+
 
     /**
      * Initializes the property objects of this model.
