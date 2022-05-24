@@ -5,12 +5,8 @@ import Application.BE.Citizen;
 import Application.BE.ContentEntry;
 import Application.BE.GeneralJournal;
 import javafx.beans.property.*;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.collections.ObservableMap;
 
 import java.util.HashMap;
-import java.util.Map;
 
 public class CitizenModel implements Cloneable
 {
@@ -31,10 +27,10 @@ public class CitizenModel implements Cloneable
     private final StringProperty homeLayout = new SimpleStringProperty();
     private final StringProperty network = new SimpleStringProperty();
 
-    private final ObjectProperty<ObservableMap<Category, CategoryEntryModel>> relevantFunctionalAbilities = new SimpleObjectProperty<>(FXCollections.emptyObservableMap());
-    private final ObjectProperty<ObservableMap<Category, CategoryEntryModel>> relevantHealthConditions = new SimpleObjectProperty<>(FXCollections.emptyObservableMap());
-    private final ObjectProperty<ObservableMap<Category, CategoryEntryModel>> nonRelevantFunctionalAbilities = new SimpleObjectProperty<>(FXCollections.emptyObservableMap());
-    private final ObjectProperty<ObservableMap<Category, CategoryEntryModel>> nonRelevantHealthConditions = new SimpleObjectProperty<>(FXCollections.emptyObservableMap());
+    private HashMap<Category, CategoryEntryModel> relevantFunctionalAbilities = new HashMap<>();
+    private HashMap<Category, CategoryEntryModel> relevantHealthConditions = new HashMap<>();
+    private HashMap<Category, CategoryEntryModel> nonRelevantFunctionalAbilities = new HashMap<>();
+    private HashMap<Category, CategoryEntryModel> nonRelevantHealthConditions = new HashMap<>();
 
 
     public static Citizen convert(CitizenModel model)
@@ -311,55 +307,55 @@ public class CitizenModel implements Cloneable
     }
 
 
-    public ObjectProperty<ObservableMap<Category, CategoryEntryModel>> relevantFunctionalAbilitiesProperty() {
+    public HashMap<Category, CategoryEntryModel> relevantFunctionalAbilitiesProperty() {
         return relevantFunctionalAbilities;
     }
 
-    public ObservableMap<Category, CategoryEntryModel> getRelevantFunctionalAbilities() {
-        return relevantFunctionalAbilitiesProperty().get();
+    public HashMap<Category, CategoryEntryModel> getRelevantFunctionalAbilities() {
+        return relevantFunctionalAbilitiesProperty();
     }
 
-    public void setRelevantFunctionalAbilities(Map<Category, CategoryEntryModel> map) {
-        relevantFunctionalAbilitiesProperty().set(FXCollections.observableMap(map));
+    public void setRelevantFunctionalAbilities(HashMap<Category, CategoryEntryModel> map) {
+        this.relevantFunctionalAbilities = map;
     }
 
 
-    public ObjectProperty<ObservableMap<Category, CategoryEntryModel>> relevantHealthConditionsProperty()
+    public HashMap<Category, CategoryEntryModel> relevantHealthConditionsProperty()
     {
         return relevantHealthConditions;
     }
 
-    public ObservableMap<Category, CategoryEntryModel> getRelevantHealthConditions() {
-        return relevantHealthConditionsProperty().getValue();
+    public HashMap<Category, CategoryEntryModel> getRelevantHealthConditions() {
+        return relevantHealthConditions;
     }
 
-    public void setRelevantHealthConditions(Map<Category, CategoryEntryModel> map) {
-        relevantHealthConditionsProperty().set(FXCollections.observableMap(map));
+    public void setRelevantHealthConditions(HashMap<Category, CategoryEntryModel> map) {
+        relevantHealthConditions = map;
     }
 
-    public ObjectProperty<ObservableMap<Category, CategoryEntryModel>> nonRelevantFunctionalAbilitiesProperty() {
+    public HashMap<Category, CategoryEntryModel> nonRelevantFunctionalAbilitiesProperty() {
         return nonRelevantFunctionalAbilities;
     }
 
-    public ObservableMap<Category, CategoryEntryModel> getNonRelevantFunctionalAbilities() {
-        return nonRelevantFunctionalAbilitiesProperty().getValue();
+    public HashMap<Category, CategoryEntryModel> getNonRelevantFunctionalAbilities() {
+        return nonRelevantFunctionalAbilities;
     }
 
-    public void setNonRelevantFunctionalAbilities(Map<Category, CategoryEntryModel> map) {
-        nonRelevantFunctionalAbilitiesProperty().set(FXCollections.observableMap(map));
+    public void setNonRelevantFunctionalAbilities(HashMap<Category, CategoryEntryModel> map) {
+        nonRelevantFunctionalAbilities = map;
     }
 
-    public ObjectProperty<ObservableMap<Category, CategoryEntryModel>> nonRelevantHealthConditionsProperty()
+    public HashMap<Category, CategoryEntryModel> nonRelevantHealthConditionsProperty()
     {
         return nonRelevantHealthConditions;
     }
 
-    public ObservableMap<Category, CategoryEntryModel> getNonRelevantHealthConditions() {
-        return nonRelevantHealthConditionsProperty().get();
+    public HashMap<Category, CategoryEntryModel> getNonRelevantHealthConditions() {
+        return nonRelevantHealthConditions;
     }
 
-    public void setNonRelevantHealthConditions(Map<Category, CategoryEntryModel> map) {
-        nonRelevantHealthConditionsProperty().set(FXCollections.observableMap(map));
+    public void setNonRelevantHealthConditions(HashMap<Category, CategoryEntryModel> map) {
+        this.nonRelevantHealthConditions = map;
     }
 
 
@@ -367,8 +363,8 @@ public class CitizenModel implements Cloneable
     {
         HashMap<Category, CategoryEntryModel> allFuncCategories = new HashMap<>();
 
-        allFuncCategories.putAll(nonRelevantFunctionalAbilities.get());
-        allFuncCategories.putAll(relevantFunctionalAbilities.get());
+        allFuncCategories.putAll(nonRelevantFunctionalAbilities);
+        allFuncCategories.putAll(relevantFunctionalAbilities);
 
         return allFuncCategories;
     }
@@ -377,8 +373,8 @@ public class CitizenModel implements Cloneable
     {
         HashMap<Category, CategoryEntryModel> allHealthConditions = new HashMap<>();
 
-        allHealthConditions.putAll(nonRelevantHealthConditions.get());
-        allHealthConditions.putAll(relevantHealthConditions.get());
+        allHealthConditions.putAll(nonRelevantHealthConditions);
+        allHealthConditions.putAll(relevantHealthConditions);
 
         return allHealthConditions;
     }

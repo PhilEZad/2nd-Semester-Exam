@@ -12,58 +12,38 @@ public class CategoryLoader
 {
     CategoryDAO categoryDAO = new CategoryDAO();
 
-    private void getImmediateChildren(Category root, List<Category> completeList)
-    {
-        for (var category : completeList)
-        {
-
-            if (category.getParentID() == root.getId())
-            {
+    private void getImmediateChildren(Category root, List<Category> completeList) {
+        for (var category : completeList) {
+            if (category.getParentID() == root.getId()) {
                 root.getChildren().add(category);
                 category.setParent(root);
             }
         }
     }
 
-    public Category load()
-    {
+    public Category load() {
         /// flat set of all categories.
-        var allCategories =  categoryDAO.readAll();
-
+        var allCategories = categoryDAO.readAll();
         Category content = new Category("root");
-
-        for (var element : allCategories)
-        {
-            if (element.getParentID() <= 0)
-            {
+        for (var element : allCategories) {
+            if (element.getParentID() <= 0) {
                 content.getChildren().add(element);
-                element.setParent(content);
             }
-
             getImmediateChildren(element, allCategories);
         }
-
         return content;
     }
 
-
     public HashMap<String, HashMap<Category, ContentEntry>> loadContent()
     {
-        var allCategories =  categoryDAO.readAll();
-
+        var allCategories = categoryDAO.readAll();
         Category content = new Category("root");
-
-        for (var element : allCategories)
-        {
-            if (element.getParentID() <= 0)
-            {
+        for (var element : allCategories) {
+            if (element.getParentID() <= 0) {
                 content.getChildren().add(element);
-                element.setParent(content);
             }
-
             getImmediateChildren(element, allCategories);
         }
-
 
         HashMap<String, HashMap<Category, ContentEntry>> returnMap = new HashMap<>();
 

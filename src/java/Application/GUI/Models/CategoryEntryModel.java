@@ -182,8 +182,13 @@ public class CategoryEntryModel implements Comparable<CategoryEntryModel> {
                 levelHealthComboBox.get().setValue(HealthLevels.NOT_RELEVANT);
                 exConHealthComboBox.get().setValue(HealthLevels.NOT_RELEVANT);
             }
-           levelHealthComboBox.get().setValue(HealthLevels.values()[level.get()]);
-           exConHealthComboBox.get().setValue(HealthLevels.values()[expectedCondition.get()]);
+            else {
+                levelHealthComboBox.get().setValue(HealthLevels.values()[level.get()]);
+                if (expectedCondition.get() == 9 || expectedCondition.get() == -1){
+                    exConHealthComboBox.get().setValue(HealthLevels.NOT_RELEVANT);
+                }
+                else exConHealthComboBox.get().setValue(HealthLevels.values()[expectedCondition.get()]);
+            }
         }
     }
 

@@ -191,7 +191,7 @@ public final class GUIUtils {
             }
 
             private static TreeItem<CategoryEntryModel> sortTreeItem(TreeItem<CategoryEntryModel> treeItem) {
-                if (treeItem.getChildren().size() > 0) {
+                if (treeItem.getChildren().size() > 0 && treeItem != null && treeItem.getValue() != null) {
                     treeItem.getChildren().sort(Comparator.comparing(o -> o.getValue().getCategoryName()));
                     for (TreeItem<CategoryEntryModel> child : treeItem.getChildren()) {
                         sortTreeItem(child);
