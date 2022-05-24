@@ -28,11 +28,11 @@ public class CategoryDAO extends TemplatePatternDAO<Category> {
 
         String sql = """
                     SELECT CHILD.CatID, CHILD.catName, PARENT.CatID AS ParentID, PARENT.catName AS parentName, NULL as [text]
-                    FROM dbo.Categories PARENT, dbo.Categories CHILD\s
+                    FROM dbo.Categories PARENT, dbo.Categories CHILD
                     WHERE PARENT.CatID = CHILD.FK_ParentCat AND CHILD.CatID = ?
                                                                                   
-                    UNION SET NULLABLE.CatID, NULLABLE.catName, NULL, NULL, Tooltip.text
-                    FROM dbo.Categories AS NULLABLE\s
+                    UNION SELECT NULLABLE.CatID, NULLABLE.catName, NULL, NULL, Tooltip.text
+                    FROM dbo.Categories AS NULLABLE
                     JOIN Tooltip ON NULLABLE.FK_Description = Tooltip.ToolTipID
                     WHERE NULLABLE.FK_ParentCat IS NULL AND NULLABLE.CatID = ?
                     """;
@@ -49,7 +49,7 @@ public class CategoryDAO extends TemplatePatternDAO<Category> {
             rs.next();
 
             Category category = new Category(rs.getInt("CatID"), rs.getString("catName"), rs.getInt("ParentID"));
-            category.setDescription(rs.getString("Tooltip.text"));
+            category.setDescription(rs.getString("text"));
             return category;
 
         } catch (Exception e)
@@ -67,15 +67,11 @@ public class CategoryDAO extends TemplatePatternDAO<Category> {
         List<Category> categories = new ArrayList<>();
 
         String sql = """
-                     SELECT CHILD.CatID, CHILD.catName, PARENT.CatID AS ParentID, PARENT.catName AS parentName, text
-                     FROM dbo.Categories PARENT, dbo.Categories CHILD\s
-                     JOIN ToolTip ON FK_Description = ToolTip.ToolTipID
-                     WHERE PARENT.CatID = CHILD.FK_ParentCat\s
-                     
-                     UNION SELECT NULLABLE.CatID, NULLABLE.catName, NULL, NULL, NULL
-                     FROM dbo.Categories AS NULLABLE\s
-                     WHERE NULLABLE.FK_ParentCat IS NULL
-                     
+                        SELECT CHILD.CatID, CHILD.catName, PARENT.CatID AS ParentID, PARENT.catName AS parentName
+                        FROM dbo.Categories PARENT, dbo.Categories CHILD
+                        WHERE PARENT.CatID = CHILD.FK_ParentCat
+                        UNION SELECT NULLABLE.CatID, NULLABLE.catName, NULL, NULL
+                        FROM dbo.Categories AS NULLABLE WHERE NULLABLE.FK_ParentCat IS NULL
                      """;
 
         Connection conn = DBConnectionPool.getInstance().checkOut();
@@ -83,12 +79,13 @@ public class CategoryDAO extends TemplatePatternDAO<Category> {
         try {
             PreparedStatement psas = conn.prepareStatement(sql);
 
+
             ResultSet rs = psas.executeQuery();
 
             while (rs.next())
             {
                 Category category = new Category(rs.getInt("CatID"), rs.getString("catName"), rs.getInt("ParentID"));
-                category.setDescription(rs.getString("text"));
+               // category.setDescription(rs.getString("text"));
                 categories.add(category);
             }
 
