@@ -185,7 +185,7 @@ public class TeacherDataManager
     {
         List<Citizen> citizenList = citizenDAO.readAll();
 
-        for (Citizen citizen : citizenList)
+        for (Citizen citizen : citizenList.stream().toList())
         {
             if (citizen.getTemplate() == 0)
             {

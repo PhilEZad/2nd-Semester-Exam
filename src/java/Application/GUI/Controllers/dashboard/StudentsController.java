@@ -2,6 +2,7 @@ package Application.GUI.Controllers.dashboard;
 
 import Application.BE.Account;
 import Application.BLL.TeacherDataManager;
+import Application.DAL.GroupAssignment;
 import Application.GUI.Models.AccountModel;
 import Application.GUI.Models.CitizenModel;
 import Application.GUI.Models.StudentModel;
@@ -23,6 +24,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.*;
 
 public class StudentsController implements Initializable {
@@ -219,6 +221,11 @@ public class StudentsController implements Initializable {
             public void changed(ObservableValue<? extends AccountModel> observable, AccountModel oldValue, AccountModel newValue)
             {
                 updateSelectedItemBinds();
+               //try {
+               //    //System.out.println((new GroupAssignment().read(newValue)));
+               //} catch (SQLException e) {
+               //    throw new RuntimeException(e);
+               //}
             }
         };
     }
@@ -231,6 +238,12 @@ public class StudentsController implements Initializable {
         {
             return;
         }
+
+        //try {
+        //    this.listViewCitizensForStudents.setItems(FXCollections.observableArrayList(new GroupAssignment().read(selected)));
+        //} catch (SQLException e) {
+        //    throw new RuntimeException(e);
+        //}
 
         lblStudentsStudentName.setText(selected.getFirstName() + " " + selected.getLastName());
         lblStudentEmail.setText(selected.getEmail());

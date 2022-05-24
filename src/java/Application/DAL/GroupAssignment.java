@@ -1,10 +1,9 @@
 package Application.DAL;
 
-import Application.BE.Account;
-import Application.BE.Group;
-import Application.BE.Location;
-import Application.BE.School;
+import Application.BE.*;
 import Application.DAL.DBConnector.DBConnectionPool;
+import Application.GUI.Models.AccountModel;
+import Application.GUI.Models.CitizenModel;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -36,26 +35,53 @@ public class GroupAssignment
         ptsm.executeBatch();
     }
 
-    public Group read(int group) throws SQLException
+    public List<CitizenModel> read(AccountModel id) throws SQLException
     {
         String sql = """
-                SELECT * FROM AccountGroup
-                JOIN Account ON AccountGroup.FK_MemberID = Account.AID
-                JOIN School ON Account.FK_AccountSchool = School.SID
-                JOIN Zipcode ON School.FK_Zipcode = Zipcode.Zip
-                WHERE FK_GroupID = ?
-                """;
+                    
+                    """;
 
         Connection conn = DBConnectionPool.getInstance().checkOut();
 
         PreparedStatement ptsm = conn.prepareStatement(sql);
-        ptsm.setInt(1, group);
+        ptsm.setInt(1, id.getId());
 
         ResultSet resultSet = ptsm.executeQuery();
-
+        List<CitizenModel> accounts = new ArrayList<>();
         while (resultSet.next())
         {
-            Account account = new Account(
+            accounts.add(new CitizenModel( new Citizen(
+                    resultSet.getInt("CID"),
+                    new GeneralJournal(), // TODO: 24-05-2022
+                    new School(1, "EASV", new Location(6700, "Esbjerg")),
+                    resultSet.getString("firstname"),
+                    resultSet.getString("lastname"),
+                    resultSet.getInt("age"),
+                    resultSet.getInt("template")
+            )));
+        }
+        return accounts;
+    }
+
+    public List<AccountModel> read(CitizenModel id) throws SQLException
+    {
+        String sql = """
+                    SELECT * FROM [Group]
+                    JOIN AccountGroup ON AccountGroup.FK_GroupID = FK_GroupID
+                    JOIN Account ON AccountGroup.FK_MemberID = Account.AID
+                    WHERE [Group].FK_Citizen = ?
+                    """;
+
+        Connection conn = DBConnectionPool.getInstance().checkOut();
+
+        PreparedStatement ptsm = conn.prepareStatement(sql);
+        ptsm.setInt(1, id.getBeCitizen().getId());
+
+        ResultSet resultSet = ptsm.executeQuery();
+        List<AccountModel> accounts = new ArrayList<>();
+        while (resultSet.next())
+        {
+            accounts.add(new AccountModel( new Account(
                     resultSet.getInt("AID"),
                     resultSet.getString("username"),
                     resultSet.getString("hashed_pwd"),
@@ -63,20 +89,20 @@ public class GroupAssignment
                     resultSet.getString("lastname"),
                     resultSet.getString("email"),
                     new School(
-                            resultSet.getInt("SID"),
-                            resultSet.getString("schoolName"),
+                            1,
+                            "EASV",
                             new Location(
-                                    resultSet.getInt("Zip"),
-                                    resultSet.getString("city")
+                                    6700,
+                                    "Esbjerg"
                             )
-
                     ),
-                    resultSet.getInt("privilegeLevel")
-            );
-        }
 
-        return null;
+                    resultSet.getInt("privilegeLevel")
+            )));
+        }
+        return accounts;
     }
+
 
     public List<Group> readAll() throws SQLException
     {

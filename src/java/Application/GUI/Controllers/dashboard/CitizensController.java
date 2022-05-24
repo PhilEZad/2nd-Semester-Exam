@@ -4,6 +4,7 @@ import Application.BE.Citizen;
 
 import Application.BLL.TeacherDataManager;
 import Application.DAL.CitizenDAO;
+import Application.DAL.GroupAssignment;
 import Application.GUI.Models.AccountModel;
 import Application.GUI.Models.CitizenModel;
 import Application.GUI.Models.CitizenModel;
@@ -21,6 +22,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -31,7 +33,7 @@ public class CitizensController implements Initializable
     public AnchorPane anchorPaneCitizensDashboard;
 
     public ListView<CitizenModel> availableCitizens;
-    public ListView listViewStudentsForCitizen;
+    public ListView<AccountModel> listViewStudentsForCitizen;
 
 
     public Button btnRemoveStudentToCitizen;
@@ -47,6 +49,8 @@ public class CitizensController implements Initializable
     {
         initTables();
         initListeners();
+
+
     }
 
     public void initTables()
@@ -85,6 +89,7 @@ public class CitizensController implements Initializable
             public void changed(ObservableValue<? extends CitizenModel> observable, CitizenModel oldValue, CitizenModel newValue)
             {
                 updatedSelectedItemBinds();
+
             }
         };
     }
@@ -96,6 +101,12 @@ public class CitizensController implements Initializable
         if (selected == null)
         {
             return;
+        }
+
+        try {
+            this.listViewStudentsForCitizen.setItems(FXCollections.observableArrayList(new GroupAssignment().read(availableCitizens.getSelectionModel().getSelectedItem())));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
 
         lblCitizenName.setText(selected.getFirstName() + " " + selected.getLastName());
