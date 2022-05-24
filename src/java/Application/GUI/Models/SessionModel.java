@@ -36,7 +36,7 @@ public class SessionModel {
     public boolean authenticate(String username, String password)
     {
         account = accountManager.authenticate(username, generateAccessToken(username, password));
-
+        school = account.getSchool();
         return account != null;
     }
 

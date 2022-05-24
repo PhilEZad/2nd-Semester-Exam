@@ -1,6 +1,8 @@
 package Application.GUI.Controllers.dashboard;
 
+import Application.BE.Citizen;
 import Application.BE.GeneralJournal;
+import Application.DAL.GeneralDAO;
 import Application.GUI.Models.*;
 import Application.GUI.Models.ControllerModels.CitizenTemplateControllerModel;
 import Application.Utility.Bind;
@@ -224,8 +226,6 @@ public class CitizenTemplateController implements Initializable {
 
         //ensures another citizen template is not selected while editing
         listViewCitizenTemplates.setDisable(editable);
-
-
     }
 
     @Override
@@ -257,7 +257,7 @@ public class CitizenTemplateController implements Initializable {
 
         initActionsMenu();
         initTextFields();
-        filteredCitizenTemplates = GUIUtils.searchListener(txtFieldCitizenTemplateSearch, listViewCitizenTemplates);
+       // filteredCitizenTemplates = GUIUtils.searchListener(txtFieldCitizenTemplateSearch, listViewCitizenTemplates);
         initActionsMenu();
 
         // TODO: 23-05-2022 BUG: destroys bindings and if in edit mode, we can't return to normal again.
@@ -310,7 +310,10 @@ public class CitizenTemplateController implements Initializable {
     /**
      * Creates a new blank citizen template.
      */
-    private void onNewCitizenTemplate() {
+    private void onNewCitizenTemplate()
+    {
+
+
         listViewCitizenTemplates.getItems().add(model.newCitizenTemplate());
         TableView tableView = new TableView();
     }

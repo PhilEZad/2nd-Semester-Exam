@@ -1,10 +1,9 @@
 package Application.GUI.Models.ControllerModels;
 
-import Application.BE.Category;
-import Application.BE.Citizen;
-import Application.BE.ContentEntry;
-import Application.BE.GeneralJournal;
+import Application.BE.*;
 import Application.BLL.TeacherDataManager;
+import Application.DAL.CitizenDAO;
+import Application.DAL.GeneralDAO;
 import Application.GUI.Models.*;
 import Application.Utility.GUIUtils;
 import com.github.javafaker.Faker;
@@ -82,12 +81,11 @@ public class CitizenTemplateControllerModel {
      * Returns the instance for it to be added to the list in the GUI.
      * @return
      */
-    public CitizenModel newCitizenTemplate() {
-        GeneralJournal generalJournal = new GeneralJournal();
-
-        CitizenModel citizenTemplateModel = CitizenModel.convert(new Citizen(-1, generalJournal, SessionModel.getSchool(), "Ny Borger", "Skabelon", 0));
-
-        return teacherDataManager.createCitizenTemplate(citizenTemplateModel);
+    public CitizenModel newCitizenTemplate()
+    {
+        var journal = new GeneralDAO().create(new GeneralJournal());
+        var citizen = new CitizenDAO().create(new Citizen(-1, journal, SessionModel.getSchool(), "Ny Borger", "Skabelon", 0));
+        return CitizenModel.convert(citizen);
     }
 
     /**
