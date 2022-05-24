@@ -1,6 +1,7 @@
 package Application.GUI.Controllers.dashboard;
 
-import Application.BE.GeneralJournal;
+import Application.BE.*;
+import Application.BLL.CategoryLoader;
 import Application.GUI.Models.*;
 import Application.GUI.Models.ControllerModels.CitizenTemplateControllerModel;
 import Application.Utility.Bind;
@@ -123,16 +124,16 @@ public class CitizenTemplateController implements Initializable {
 
     private void twoWayBind()
     {
-        Bind.twoWay(this.txtFieldName.textProperty(), previousSelection == null ? null : previousSelection.firstNameProperty() , currentSelection.firstNameProperty());
-        Bind.twoWay(this.txtFieldSurname.textProperty(), previousSelection == null ? null : previousSelection.lastNameProperty(), currentSelection.lastNameProperty());
-        Bind.twoWay(this.txtFieldAge.textProperty(), previousSelection == null ? null : previousSelection.ageProperty(), currentSelection.ageProperty(), new NumberStringConverter());
+        //Bind.twoWay(this.txtFieldName.textProperty(), previousSelection == null ? null : previousSelection.firstNameProperty() , currentSelection.firstNameProperty());
+        //Bind.twoWay(this.txtFieldSurname.textProperty(), previousSelection == null ? null : previousSelection.lastNameProperty(), currentSelection.lastNameProperty());
+        //Bind.twoWay(this.txtFieldAge.textProperty(), previousSelection == null ? null : previousSelection.ageProperty(), currentSelection.ageProperty(), new NumberStringConverter());
     }
 
     private void oneWayBind()
     {
-        Bind.oneWay(this.txtFieldName.textProperty(), currentSelection.firstNameProperty());
-        Bind.oneWay(this.txtFieldSurname.textProperty(), currentSelection.lastNameProperty());
-        Bind.oneWay(this.txtFieldAge.textProperty(), currentSelection.ageProperty().asString());
+        //Bind.oneWay(this.txtFieldName.textProperty(), currentSelection.firstNameProperty());
+        //Bind.oneWay(this.txtFieldSurname.textProperty(), currentSelection.lastNameProperty());
+        //Bind.oneWay(this.txtFieldAge.textProperty(), currentSelection.ageProperty().asString());
     }
 
     /**
@@ -240,6 +241,8 @@ public class CitizenTemplateController implements Initializable {
         {
             previousSelection = oldValue;
             currentSelection = newValue;
+            model.setSelectedCitizenTemplateModel(newValue);
+            setDataToCitizenTemplateView();
 
             oneWayBind();
         });
@@ -257,7 +260,7 @@ public class CitizenTemplateController implements Initializable {
 
         initActionsMenu();
         initTextFields();
-        filteredCitizenTemplates = GUIUtils.searchListener(txtFieldCitizenTemplateSearch, listViewCitizenTemplates);
+        //filteredCitizenTemplates = GUIUtils.searchListener(txtFieldCitizenTemplateSearch, listViewCitizenTemplates);
         initActionsMenu();
 
         // TODO: 23-05-2022 BUG: destroys bindings and if in edit mode, we can't return to normal again.
@@ -301,10 +304,10 @@ public class CitizenTemplateController implements Initializable {
         MenuItem deleteCitizenTemplate = new MenuItem("Slet Skabelon");
         deleteCitizenTemplate.setOnAction(event -> onDeleteCitizenTemplate());
 
-        // MenuItem newCitizenEntity = new MenuItem("Ny Borger Fra Skabelon");
-        // deleteCitizenTemplate.setOnAction(event -> onNewCitizenEntity());
+        MenuItem newCitizenEntity = new MenuItem("Ny Borger Fra Skabelon");
+        deleteCitizenTemplate.setOnAction(event -> onNewCitizenEntity());
 
-        actionsMenu = new ContextMenu(newCitizenTemplate, copyCitizenTemplate, deleteCitizenTemplate); //, newCitizenEntity);
+        actionsMenu = new ContextMenu(newCitizenTemplate, copyCitizenTemplate, deleteCitizenTemplate, newCitizenEntity);
         actionsMenu.setAutoHide(true);
     }
 
@@ -360,27 +363,19 @@ public class CitizenTemplateController implements Initializable {
 
         //TODO: Proper table population
         // Set up the table
-/*
-        ObservableList<TreeItem<CategoryEntryModel>> funcTree = FXCollections.observableArrayList();
-        ObservableList<TreeItem<CategoryEntryModel>> healthTree = FXCollections.observableArrayList();
 
-        TreeItem<CategoryEntryModel> funcRoot = new TreeItem<>(new CategoryEntryModel("Functional Abilities"));
-        TreeItem<CategoryEntryModel> healthRoot = new TreeItem<>(new CategoryEntryModel("Health Conditions"));
+        HashMap<String, HashMap<Category, ContentEntry>> comboMap = new CategoryLoader().loadContent();
+        HashMap<Category, ContentEntry> healthMap = comboMap.get("health");
+        HashMap<Category, ContentEntry> funcMap = comboMap.get("func");
 
-        treeTblViewFunc.setRoot(funcRoot);
-        treeTblViewHealth.setRoot(healthRoot);
+        GeneralJournal generalJournal = new GeneralJournal(-1);
+        School school = new School(-1);
+        Citizen citizen = new Citizen(-1, generalJournal, school, "Henrik", "Larsen", 78);
+        citizen.setHealthConditions(healthMap);
+        citizen.setFunctionalAbilities(funcMap);
 
-        for (CategoryEntryModel categoryEntryModel : currentSelection.getAllFuncCategories().values()) {
-            funcTree.add(new TreeItem<>(categoryEntryModel));
-        }
+        CitizenModel citizenModel = CitizenModel.convert(citizen);
 
-        for (CategoryEntryModel categoryEntryModel : currentSelection.getAllHealthConditions().values()) {
-            healthTree.add(new TreeItem<>(categoryEntryModel));
-        }
-
-        funcRoot.getChildren().addAll(funcTree);
-        healthRoot.getChildren().addAll(healthTree);
-        */
 
     }
 
@@ -476,13 +471,13 @@ public class CitizenTemplateController implements Initializable {
 
             //set the functional abilities TreeTableView to the values of the selected citizen template
             TreeItem<CategoryEntryModel> funcRoot = new TreeItem<>();
-            funcRoot.getChildren().addAll(model.getRelevantFuncCategoriesAsTreeItem());
+            funcRoot.getChildren().addAll(model.getRelevantFuncCategoriesAsTreeItem(currentSelection));
             treeTblViewFunc.setRoot(funcRoot);
             treeTblViewFunc.setShowRoot(false);
 
             //set the health categories to the health categories of the selected citizen template
             TreeItem<CategoryEntryModel> healthRoot = new TreeItem<>();
-            healthRoot.getChildren().addAll(model.getRelevantHealthCategoriesAsTreeItem());
+            healthRoot.getChildren().addAll(model.getRelevantHealthCategoriesAsTreeItem(currentSelection));
             treeTblViewHealth.setRoot(healthRoot);
             treeTblViewHealth.setShowRoot(false);
 
@@ -575,8 +570,8 @@ public class CitizenTemplateController implements Initializable {
      * @param event
      */
     public void onEditOn(ActionEvent event) {
-        treeTblViewFunc.setRoot(model.getAllFuncCategoriesAsTreeItem());
-        treeTblViewHealth.setRoot(model.getAllHealthConditionsAsTreeItem());
+        treeTblViewFunc.setRoot(model.getAllFuncCategoriesAsTreeItem(currentSelection));
+        treeTblViewHealth.setRoot(model.getAllHealthConditionsAsTreeItem(currentSelection));
 
         citizenBackup = currentSelection.clone();
         enableEditing(true);
@@ -597,14 +592,14 @@ public class CitizenTemplateController implements Initializable {
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {
-            CitizenModel selected = model.getSelectedCitizenTemplateModel();
-            if (selected.getFirstName() != txtFieldName.getText() && !txtFieldName.getText().isEmpty()) {
+            CitizenModel selected = currentSelection;
+            if (!txtFieldName.getText().isEmpty()) {
                 selected.setFirstName(txtFieldName.getText());
             }
-            if (selected.getLastName() != txtFieldSurname.getText() && !txtFieldSurname.getText().isEmpty()) {
+            if (!txtFieldSurname.getText().isEmpty()) {
                 selected.setLastName(txtFieldSurname.getText());
             }
-            if (selected.getAge() != Integer.parseInt(txtFieldAge.getText()) && !txtFieldAge.getText().isEmpty()) {
+            if (!txtFieldAge.getText().isEmpty()) {
                 selected.setAge(Integer.parseInt(txtFieldAge.getText()));
             }
 
@@ -624,8 +619,8 @@ public class CitizenTemplateController implements Initializable {
 
             model.saveEditedCitizenTemplate(currentSelection, citizenBackup);
 
-            treeTblViewFunc.setRoot(model.getRelevantFuncCategoriesAsTreeItem());
-            treeTblViewHealth.setRoot(model.getRelevantHealthCategoriesAsTreeItem());
+            treeTblViewFunc.setRoot(model.getRelevantFuncCategoriesAsTreeItem(selected));
+            treeTblViewHealth.setRoot(model.getRelevantHealthCategoriesAsTreeItem(selected));
             enableEditing(false);
         }
     }

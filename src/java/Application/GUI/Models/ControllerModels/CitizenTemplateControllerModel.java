@@ -1,9 +1,7 @@
 package Application.GUI.Models.ControllerModels;
 
-import Application.BE.Category;
-import Application.BE.Citizen;
-import Application.BE.ContentEntry;
-import Application.BE.GeneralJournal;
+import Application.BE.*;
+import Application.BLL.CategoryLoader;
 import Application.BLL.TeacherDataManager;
 import Application.GUI.Models.*;
 import Application.Utility.GUIUtils;
@@ -34,6 +32,11 @@ public class CitizenTemplateControllerModel {
      */
     public ObservableList<CitizenModel> getCitizenTemplates()
     {
+        ObservableList<CitizenModel> citizenModelsTemp = FXCollections.observableArrayList();
+        citizenModelsTemp.add(temp());
+        return citizenModelsTemp;
+
+/*
         List<CitizenModel> citizenModels = new ArrayList<>();
 
         for (var c : teacherDataManager.getAllCitizenTemplates())
@@ -41,7 +44,26 @@ public class CitizenTemplateControllerModel {
             citizenModels.add(CitizenModel.convert(c));
         }
 
+
         return FXCollections.observableArrayList(citizenModels);
+
+ */
+    }
+
+    private CitizenModel temp()
+    {
+        HashMap<String, HashMap<Category, ContentEntry>> comboMap = new CategoryLoader().loadContent();
+        HashMap<Category, ContentEntry> healthMap = comboMap.get("health");
+        HashMap<Category, ContentEntry> funcMap = comboMap.get("func");
+
+        GeneralJournal generalJournal = new GeneralJournal(-1);
+        School school = new School(-1);
+        Citizen citizen = new Citizen(-1, generalJournal, school, "Henrik", "Larsen", 78);
+        citizen.setHealthConditions(healthMap);
+        citizen.setFunctionalAbilities(funcMap);
+
+        CitizenModel citizenModel = CitizenModel.convert(citizen);
+        return citizenModel;
     }
 
     /**
@@ -58,21 +80,21 @@ public class CitizenTemplateControllerModel {
         return selectedCitizenTemplateModel;
     }
 
-    public TreeItem<CategoryEntryModel> getAllFuncCategoriesAsTreeItem() {
-        return GUIUtils.mapToTreeItem(selectedCitizenTemplateModel.getAllFuncCategories());
+    public TreeItem<CategoryEntryModel> getAllFuncCategoriesAsTreeItem(CitizenModel citizenModel) {
+        return GUIUtils.mapToTreeItem(citizenModel.getAllFuncCategories());
     }
 
-    public TreeItem<CategoryEntryModel> getAllHealthConditionsAsTreeItem() {
-        return GUIUtils.mapToTreeItem(selectedCitizenTemplateModel.getAllHealthConditions());
+    public TreeItem<CategoryEntryModel> getAllHealthConditionsAsTreeItem(CitizenModel citizenModel) {
+        return GUIUtils.mapToTreeItem(citizenModel.getAllHealthConditions());
     }
 
 
-    public TreeItem<CategoryEntryModel> getRelevantFuncCategoriesAsTreeItem() {
-        return GUIUtils.mapToTreeItem(selectedCitizenTemplateModel.getRelevantFunctionalAbilities());
+    public TreeItem<CategoryEntryModel> getRelevantFuncCategoriesAsTreeItem(CitizenModel citizenModel) {
+        return GUIUtils.mapToTreeItem(citizenModel.getRelevantFunctionalAbilities());
     }
 
-    public TreeItem<CategoryEntryModel> getRelevantHealthCategoriesAsTreeItem() {
-        return GUIUtils.mapToTreeItem(selectedCitizenTemplateModel.getRelevantHealthConditions());
+    public TreeItem<CategoryEntryModel> getRelevantHealthCategoriesAsTreeItem(CitizenModel citizenModel) {
+        return GUIUtils.mapToTreeItem(citizenModel.getRelevantHealthConditions());
     }
 
 
@@ -212,7 +234,7 @@ public class CitizenTemplateControllerModel {
                 beFuncConditions.put(cat, entry);
             }
 
-            teacherDataManager.updateCitizenTemplate(CitizenModel.convert(selectedCitizenTemplateModel), beHealthConditions, beFuncConditions);
+            teacherDataManager.updateCitizenTemplate(CitizenModel.convert(edited), beHealthConditions, beFuncConditions);
         }
     }
 

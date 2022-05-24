@@ -1,9 +1,11 @@
 package Application.BLL;
 
 import Application.BE.Category;
+import Application.BE.CategoryType;
+import Application.BE.ContentEntry;
 import Application.DAL.CategoryDAO;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class CategoryLoader
@@ -42,6 +44,46 @@ public class CategoryLoader
         }
 
         return content;
+    }
+
+
+    public HashMap<String, HashMap<Category, ContentEntry>> loadContent()
+    {
+        var allCategories =  categoryDAO.readAll();
+
+        Category content = new Category("root");
+
+        for (var element : allCategories)
+        {
+            if (element.getParentID() <= 0)
+            {
+                content.getChildren().add(element);
+                element.setParent(content);
+            }
+
+            getImmediateChildren(element, allCategories);
+        }
+
+
+        HashMap<String, HashMap<Category, ContentEntry>> returnMap = new HashMap<>();
+
+
+        HashMap<Category, ContentEntry> healthMap = new HashMap<>();
+        HashMap<Category, ContentEntry> funcMap = new HashMap<>();
+
+
+        for (var cat : content.getChildren())
+        {
+            if (cat.getType().equals(CategoryType.FUNCTIONAL_ABILITY))
+            funcMap.put(cat, new ContentEntry(cat.getId(), cat, 9));
+            else if (cat.getType().equals(CategoryType.HEALTH_CONDITION))
+            healthMap.put(cat, new ContentEntry(cat.getId(), cat, 0));
+        }
+
+        returnMap.put("health", healthMap);
+        returnMap.put("func", funcMap);
+
+        return returnMap;
     }
 
     public static void main(String[] args) {
