@@ -34,11 +34,21 @@ public class ContentEntry {
         initRelevance();
     }
 
-    public ContentEntry(int id, Category category) {
+    public ContentEntry(int id, Category category, int level, String assessment, String cause, String implications, int expectedStatus, String citizenGoals, String note)
+    {
         this.id = id;
         this.category = category;
-        this.currentStatus = -1;
+        this.currentStatus = level;
 
+        this.assessment = assessment;
+        this.cause = cause;
+        this.implications = implications;
+        this.expectedStatus = expectedStatus;
+
+        this.citizenGoals = citizenGoals;
+        this.note = note;
+
+        initRelevance();
     }
 
 
