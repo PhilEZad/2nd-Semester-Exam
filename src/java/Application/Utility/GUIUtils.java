@@ -2,7 +2,6 @@ package Application.Utility;
 
 
 import Application.BE.Category;
-import Application.BLL.CategoryLoader;
 import Application.GUI.Models.AccountModel;
 import Application.GUI.Models.CategoryEntryModel;
 import javafx.beans.value.ChangeListener;
@@ -10,8 +9,10 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
-import javafx.scene.control.*;
-import javafx.util.Callback;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
+import javafx.scene.control.TreeItem;
 
 import java.util.*;
 import java.util.function.UnaryOperator;
@@ -20,8 +21,6 @@ public final class GUIUtils {
 
     private static AccountModel selectedStudent;
     private static AccountModel selectedTeacher;
-
-    private static Category categories = new CategoryLoader().load();
 
     private GUIUtils() {
         // Private constructor to prevent instantiation
@@ -200,8 +199,6 @@ public final class GUIUtils {
                 }
                 return treeItem;
             }
-
-
 }
 
 

@@ -300,10 +300,11 @@ public class CitizenTemplateController implements Initializable {
         copyCitizenTemplate.setOnAction(event -> onCopyCitizenTemplate());
         MenuItem deleteCitizenTemplate = new MenuItem("Slet Skabelon");
         deleteCitizenTemplate.setOnAction(event -> onDeleteCitizenTemplate());
-        MenuItem newCitizenEntity = new MenuItem("Ny Borger Fra Skabelon");
-        newCitizenEntity.setOnAction(event -> onNewCitizenEntity());
 
-        actionsMenu = new ContextMenu(newCitizenTemplate, copyCitizenTemplate, deleteCitizenTemplate, newCitizenEntity);
+        // MenuItem newCitizenEntity = new MenuItem("Ny Borger Fra Skabelon");
+        // deleteCitizenTemplate.setOnAction(event -> onNewCitizenEntity());
+
+        actionsMenu = new ContextMenu(newCitizenTemplate, copyCitizenTemplate, deleteCitizenTemplate); //, newCitizenEntity);
         actionsMenu.setAutoHide(true);
     }
 
@@ -312,7 +313,6 @@ public class CitizenTemplateController implements Initializable {
      */
     private void onNewCitizenTemplate() {
         listViewCitizenTemplates.getItems().add(model.newCitizenTemplate());
-        TableView tableView = new TableView();
     }
 
     /**
@@ -353,6 +353,7 @@ public class CitizenTemplateController implements Initializable {
             notifications.text("Borger kunne ikke oprettes");
             notifications.showError();
         }
+
     }
 
     private void setTreeTables() {
