@@ -87,6 +87,9 @@ public class AssignedCitizensDAO implements IDatabaseActions<Pair<Account, List<
 
                 /**
                  * param: 1 - CitizenID | 2 -
+                 *
+                 * todo: REPORT: use implSpec in report
+                 * @implSpec should be a stored procedure (reason: Ahead-Of-Time compilation & network traffic)
                  * */
                 //@Override
                 protected String _getSQLStatement() {
