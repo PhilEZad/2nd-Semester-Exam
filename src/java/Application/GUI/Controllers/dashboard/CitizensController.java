@@ -108,35 +108,6 @@ public class CitizensController implements Initializable
         lblAge.setText(Integer.toString(selected.getAge()));
     }
 
-    private SortedList<CitizenModel> searchTable(TextField searchField, ListView table, ObservableList searchList)
-    {
-        FilteredList<CitizenModel> filteredData = new FilteredList<>(searchList, b -> true);
-
-        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
-            filteredData.setPredicate(user -> {
-
-                if (newValue == null || newValue.isEmpty()) {
-                    return true;
-                }
-
-                String lowerCaseFilter = newValue.toLowerCase();
-
-                if (user.getFirstName().toLowerCase().indexOf(lowerCaseFilter) != -1) {
-                    return true;
-                } else if (user.getLastName().toLowerCase().indexOf(lowerCaseFilter) != -1) {
-                    return true;
-                } else
-                    return false;
-            });
-        });
-
-        SortedList<CitizenModel> sortedUsers = new SortedList<>(filteredData);
-
-        //sortedUsers.comparatorProperty().bind(table.itemsProperty()comparatorProperty());
-
-        return sortedUsers;
-    }
-
     private ObservableList<CitizenModel> listToObservable(List<Citizen> list)
     {
         ObservableList<CitizenModel> citizenModelObservableList = FXCollections.observableArrayList();
