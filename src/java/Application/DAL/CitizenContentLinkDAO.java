@@ -1,13 +1,10 @@
 package Application.DAL;
 
 import Application.BE.CitizenContentBinding;
-import Application.BE.Location;
-import Application.BE.School;
 import Application.DAL.DBConnector.DBConnectionPool;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 

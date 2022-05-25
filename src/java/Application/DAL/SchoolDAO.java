@@ -1,10 +1,8 @@
 package Application.DAL;
 
 
-import Application.BE.Location;
 import Application.BE.School;
 import Application.DAL.DBConnector.DBConnectionPool;
-import com.microsoft.sqlserver.jdbc.SQLServerException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

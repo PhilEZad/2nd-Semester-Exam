@@ -1,61 +1,33 @@
 package Application.BLL;
 
 
-import Application.BE.Account;
 import Application.BE.Citizen;
-import Application.BE.ContentEntry;
-import Application.BE.Group;
-import Application.DAL.CitizenDAO;
-import Application.DAL.GroupDAO;
-import Application.GUI.Models.CitizenModel;
-import Application.GUI.Models.SessionModel;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
-import java.util.ArrayList;
+import java.sql.SQLException;
 import java.util.List;
 
 public class StudentDataManager {
 
-    public StudentDataManager() {
+    public StudentDataManager()
+    {
 
     }
 
-    public List<Group> getAssignedGroups(int studentID)
+    public List<Citizen> getAllCitizens() throws SQLException
     {
-        GroupDAO dao = new GroupDAO();
-
-        return dao.readAll().stream().filter(group -> group.getGroupMembers().contains(studentID)).toList();
+        return null;
     }
 
-
-    // update assigned citizen
-        // add observation
-            // journal entry!!! CRUD
-
-    public List<Citizen> getAssignedCitizens(int studentID)
+    public void updateCitizen(Citizen citizen) throws IllegalArgumentException, SQLException
     {
-        var groups = getAssignedGroups(studentID);
-
-        CitizenDAO dao = new CitizenDAO();
-
-        List<Citizen> citizens = new ArrayList<>();
-
-        for (var group : groups)
+        if (citizen != null)
         {
-            citizens.add(dao.read(group.getCitizen().getId()));
+            citizenDAO.updateCitizen();
+        } else
+        {
+            throws new IllegalArgumentException("");
         }
-
-        return citizens;
     }
 
-    public static void main(String[] args) {
-        StudentDataManager manager = new StudentDataManager();
 
-        manager.getAssignedCitizens(1);
-
-    }
-
-    public void updateObservation(Citizen selectedCitizen, ContentEntry value) {
-    }
 }

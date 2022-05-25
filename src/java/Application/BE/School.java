@@ -2,39 +2,25 @@ package Application.BE;
 
 public class School {
 
-    private int schoolID;
+    private int id;
     private String schoolName;
-    private Location location;
+    private String cityName;
+    private int zipCode;
 
-    public School()
+    public School(int id, String schoolName, int zipCode, String cityName)
     {
-        this.schoolID = -1;
-        this.schoolName = "";
-        this.location = new Location();
-    }
-
-    public School(int id)
-    {
-        this();
-
-        this.schoolID = id;
-    }
-
-    public School(int schoolID, String schoolName, Location location)
-    {
-        this.schoolID = schoolID;
+        this.id = id;
         this.schoolName = schoolName;
-        this.location = location;
+        this.zipCode = zipCode;
+        this.cityName = cityName;
     }
 
-
-
-    public int getSchoolID() {
-        return schoolID;
+    public int getId() {
+        return id;
     }
 
-    public void setSchoolID(int schoolID) {
-        this.schoolID = schoolID;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getSchoolName() {
@@ -45,12 +31,19 @@ public class School {
         this.schoolName = schoolName;
     }
 
-
-    public Location getLocation() {
-        return location;
+    public String getCityName() {
+        return cityName;
     }
 
-    public void setLocation(Location location) {
-        this.location = location;
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
+    }
+
+    public int getZipCode() {
+        return zipCode;
+    }
+
+    public void setZipCode(int zipCode) {
+        this.zipCode = zipCode;
     }
 }

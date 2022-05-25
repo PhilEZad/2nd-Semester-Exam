@@ -1,8 +1,6 @@
 package Application.GUI.Controllers.Popups;
 
-import Application.BE.Location;
 import Application.BE.School;
-import Application.GUI.Models.AccountModel;
 import Application.GUI.Models.SchoolModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

@@ -1,10 +1,5 @@
 package Application.BE;
 
-import Application.DAL.TemplateMethod.Annotations.SQLColumn;
-import Application.DAL.TemplateMethod.Annotations.SQLGetter;
-import Application.DAL.TemplateMethod.Annotations.SQLSetter;
-import Application.DAL.TemplateMethod.Annotations.SQLTable;
-
 public class Account {
 
     private int id;
@@ -14,9 +9,10 @@ public class Account {
     private String lastName;
     private String email;
     private School school;
-    private int authorization;
+    private Boolean isTeacher;
+    private Boolean isAdmin;
 
-    public Account(int id, String login, String password, String firstName, String lastName, String email, School school, int authorization) {
+    public Account(int id, String login, String password, String firstName, String lastName, String email, School school, Boolean isTeacher, Boolean isAdmin) {
         this.id = id;
         this.username = login;
         this.password = password;
@@ -24,7 +20,8 @@ public class Account {
         this.lastName = lastName;
         this.email = email;
         this.school = school;
-        this.authorization = authorization;
+        this.isTeacher = isTeacher;
+        this.isAdmin = isAdmin;
     }
 
     public int getId() {
@@ -51,11 +48,6 @@ public class Account {
         this.lastName = lastName;
     }
 
-    public String getFullName()
-    {
-        return this.firstName + " " + this.lastName;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -72,14 +64,25 @@ public class Account {
 
     public String getUsername(){return username;}
 
-    public void setAuthorization(int authorization){ this.authorization = authorization;}
-
-    public int getAuthorization(){ return authorization;}
-
     public void setSchool(School school){this.school = school;}
 
     public School getSchool(){return school;}
 
+    public Boolean getIsTeacher() {
+        return isTeacher;
+    }
+
+    public void setIsTeacher(Boolean teacher) {
+        isTeacher = teacher;
+    }
+
+    public Boolean getIsAdmin() {
+        return isAdmin;
+    }
+
+    public void setIsAdmin(Boolean admin) {
+        isAdmin = admin;
+    }
 
     @Override
     public String toString() {

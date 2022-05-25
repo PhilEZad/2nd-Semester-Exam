@@ -1,119 +1,162 @@
 package Application.BLL;
 
 import Application.BE.Account;
-import Application.BE.Location;
 import Application.BE.School;
-import Application.DAL.AccountDAO;
-import Application.DAL.SchoolDAO;
-import Application.DAL.TemplatePatternDAO;
-import Application.GUI.Models.AccountModel;
-import Application.GUI.Models.SchoolModel;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
+import java.nio.file.AccessDeniedException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
-public class AdminDataManager {
+public class AdminDataManager extends TeacherDataManager {
 
-    private TemplatePatternDAO accountDAO;
-    private TemplatePatternDAO schoolDAO;
-
-
-    public AdminDataManager() {
-        accountDAO = new AccountDAO();
-        schoolDAO = new SchoolDAO();
-    }
-
-    // CREATE/READ/UPDATE/DELETE school
-    // read single / all
-
-    public School createSchool(String schoolName, int zipCode)
+    public AdminDataManager()
     {
-        return (School) schoolDAO.create(new School(-1, schoolName, new Location(zipCode)));
+
     }
 
-    public School getSchool(int id) throws SQLException {
-        return (School) schoolDAO.read(id);
-    }
-
-    public ObservableList<SchoolModel> getAllSchools()
+    public Account createTeacher(Account account) throws IllegalArgumentException, SQLException
     {
-        List<School> schoolListBE = schoolDAO.readAll();
-        ObservableList<SchoolModel> schoolModelsList = FXCollections.observableArrayList();
-
-        for (School school : schoolListBE)
+        if (account != null)
         {
-            SchoolModel schoolModel = new SchoolModel(school);
-            schoolModelsList.add(schoolModel);
+            account.setIsAdmin(false);
+            account.setIsTeacher(true);
+            return accountDAO.createAccount(account);
+        } else
+        {
+            throw new IllegalArgumentException();
         }
-        return schoolModelsList;
     }
 
-    public void updateSchool(School school)
+    public List<Account> getAllTeachers() throws SQLException
     {
-        schoolDAO.update(school);
-    }
+        List<Account> accountList = accountDAO.getAllAccounts();
+        List<Account> teacherList = new ArrayList<>();
 
-    public void deleteSchool(int id)
-    {
-        schoolDAO.delete(id);
-    }
-
-    // CREATE/READ/UPDATE/DELETE teacher
-        // read one / all
-
-    public Account createAccount(String username, String password, String firstName, String lastName, String email, School school, int auth)
-    {
-        return (Account) accountDAO.create(new Account(-1, username, password, firstName, lastName, email, school, auth));
-    }
-
-    public Account getStudent(int id) throws SQLException {
-        return (Account) accountDAO.read(id);
-    }
-
-    public ObservableList<AccountModel> getAllTeachers()
-    {
-        List<Account> accountListBE = accountDAO.readAll();
-        ObservableList<AccountModel> accountModelsList = FXCollections.observableArrayList();
-
-        for (Account account : accountListBE)
+        for (Account account: accountList)
         {
-            if (account.getAuthorization() == 1)
+            if (account.getIsTeacher())
             {
-                AccountModel accountModel = new AccountModel(account);
-                accountModelsList.add(accountModel);
+                teacherList.add(account);
             }
         }
-        return accountModelsList;
+
+        return teacherList;
     }
 
-    public ObservableList<AccountModel> getAllStudents()
+    public Account updateTeacher(Account account) throws AccessDeniedException, SQLException
     {
-        List<Account> accountListBE = accountDAO.readAll();
-        ObservableList<AccountModel> accountModelsList = FXCollections.observableArrayList();
-
-        for (Account account : accountListBE)
+        if (account.getIsTeacher())
         {
-            if (account.getAuthorization() == 2)
+            accountDAO.updateAccount(account);
+        } else
+        {
+            throw new AccessDeniedException("");
+        }
+
+    }
+
+    public int deleteTeacher(Account account) throws IllegalArgumentException, SQLException
+    {
+        if (account.getIsTeacher())
+        {
+            account.deleteAccount(account.getId());
+        } else
+        {
+            throw new IllegalArgumentException("");
+        }
+
+    }
+
+    public School createSchool(School school) throws IllegalArgumentException, SQLException
+    {
+        if (school != null)
+        {
+            return schoolDO.createSchool(school);
+        } else
+        {
+            throw new IllegalArgumentException("");
+        }
+    }
+
+    public List<School> getAllSchools() throws SQLException
+    {
+        return schoolDAO.getAllSchools();
+    }
+
+    public void updateSchool(School school) throws IllegalArgumentException, SQLException
+    {
+        if (school != null)
+        {
+            schoolDAO.updateSchool(school);
+        } else
+        {
+            throw new IllegalArgumentException("");
+        }
+
+    }
+
+    public void deleteSchool(School school) throws IllegalArgumentException, SQLException
+    {
+        if (school != null)
+        {
+            schoolDAO.deleteSchool(school.getId());
+        } else
+        {
+            throw new IllegalArgumentException("");
+        }
+    }
+
+    public Account createAdmin(Account account) throws IllegalArgumentException, SQLException
+    {
+        if (account != null)
+        {
+            account.setIsTeacher(false);
+            account.setIsAdmin(true);
+            accountDAO.createAccount(account);
+        } else
+        {
+            throw new IllegalArgumentException("");
+        }
+    }
+
+    public List<Account> getAllAdmins() throws SQLException
+    {
+        List<Account> accountList = accountDAO.getAllAccounts();
+        List<Account> adminList = new ArrayList<>();
+
+        for (Account account: accountList)
+        {
+            if (account.getIsAdmin())
             {
-            AccountModel accountModel = new AccountModel(account);
-            accountModelsList.add(accountModel);
+                adminList.add(account);
             }
         }
-        return accountModelsList;
+
+        return admintList;
     }
 
-    public void updateAccount(Account account)
+    public void updateAdmin(Account account) throws IllegalAccessException, SQLException
     {
-        accountDAO.update(account);
+        if (account.getIsAdmin())
+        {
+            account.updateAccount(account.getId()){
+        } else
+        {
+            throw new IllegalAccessException("");
+        }
+        }
+
     }
 
-    public void deleteAccount(int id)
+    public void deleteAdmin(Account account) throws AccessDeniedException, SQLException
     {
-        accountDAO.delete(id);
+        if (account.getIsAdmin())
+        {
+            accountDAO.deleteAccount(account.getId());
+        } else
+        {
+            throw new AccessDeniedException("");
+        }
     }
-
-    // access to Teacher data operations
-
 }

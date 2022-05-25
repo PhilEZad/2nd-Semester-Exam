@@ -2,10 +2,8 @@ package Application.GUI.Controllers.dashboard;
 
 import Application.BE.Account;
 import Application.BLL.TeacherDataManager;
-import Application.DAL.GroupAssignment;
 import Application.GUI.Models.AccountModel;
 import Application.GUI.Models.CitizenModel;
-import Application.GUI.Models.StudentModel;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -24,7 +22,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.*;
 
 public class StudentsController implements Initializable {

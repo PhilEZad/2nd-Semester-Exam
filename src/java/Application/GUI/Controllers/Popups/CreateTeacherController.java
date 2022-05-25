@@ -1,6 +1,5 @@
 package Application.GUI.Controllers.Popups;
 
-import Application.BE.Location;
 import Application.BE.School;
 import Application.BLL.AdminDataManager;
 import javafx.event.ActionEvent;

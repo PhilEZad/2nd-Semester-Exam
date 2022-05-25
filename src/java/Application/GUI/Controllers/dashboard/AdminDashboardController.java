@@ -3,6 +3,7 @@ package Application.GUI.Controllers.dashboard;
 import Application.BLL.AdminDataManager;
 import Application.GUI.Models.AccountModel;
 import Application.GUI.Models.SchoolModel;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
@@ -69,9 +70,9 @@ public class AdminDashboardController implements Initializable {
 
     private void populateTableViews()
     {
-        tblViewTeacher.setItems(searchTable(txtFieldSearch, tblViewTeacher, dataManager.getAllTeachers()));
-        tblViewStudent.setItems(searchTable(txtFieldSearch, tblViewTeacher, dataManager.getAllStudents()));
-        tblViewSchool.setItems(dataManager.getAllSchools());
+        tblViewTeacher.setItems(searchTable(txtFieldSearch, tblViewTeacher, FXCollections.observableArrayList(dataManager.getAllTeachers())));
+        tblViewStudent.setItems(searchTable(txtFieldSearch, tblViewStudent, FXCollections.observableArrayList(dataManager.getAllStudents()));
+        tblViewSchool.setItems(FXCollections.observableArrayList(dataManager.getAllSchools()));
     }
 
 
@@ -123,7 +124,7 @@ public class AdminDashboardController implements Initializable {
             Optional<ButtonType> result = alert.showAndWait();
 
             if (result.get() == ButtonType.OK) {
-                dataManager.deleteAccount(tblViewStudent.getSelectionModel().getSelectedItem().getId());
+                dataManager.deleteStudent(tblViewStudent.getSelectionModel().getSelectedItem().getId());
                 tblViewStudent.setItems(searchTable(txtFieldSearch, tblViewTeacher, dataManager.getAllStudents()));
             }
         } catch (Exception e)

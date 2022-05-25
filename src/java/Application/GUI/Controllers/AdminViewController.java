@@ -4,6 +4,7 @@ import Application.BE.Account;
 import Application.BLL.AdminDataManager;
 import Application.GUI.Models.AccountModel;
 import Application.GUI.Models.SchoolModel;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
@@ -79,8 +80,8 @@ public class AdminViewController implements Initializable {
 
     private void populateTableViews()
     {
-        tblViewTeacher.setItems(searchTable(txtFieldSearch, tblViewTeacher, daoAdmin.getAllTeachers()));
-        tblViewStudent.setItems(searchTable(txtFieldSearch, tblViewTeacher, daoAdmin.getAllStudents()));
+        tblViewTeacher.setItems(searchTable(txtFieldSearch, tblViewTeacher, FXCollections.observableArrayList(daoAdmin.getAllTeachers()));
+        tblViewStudent.setItems(searchTable(txtFieldSearch, tblViewTeacher, FXCollections.observableArrayList(daoAdmin.getAllStudents()));
         tblViewSchool.setItems(daoAdmin.getAllSchools());
     }
 

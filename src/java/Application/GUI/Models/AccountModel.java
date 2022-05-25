@@ -13,25 +13,14 @@ import javafx.collections.ObservableList;
 
 public class AccountModel
 {
-
-    private AdminDataManager adminDataManager = new AdminDataManager();
-
     private IntegerProperty id;
     private StringProperty password;
     private StringProperty accountName;
     private StringProperty firstName;
     private StringProperty lastName;
     private StringProperty email;
-    private IntegerProperty authorization;
     private School school;
     private Account account;
-
-    ObservableList<Account> accounts;
-
-    public AccountModel()
-    {
-
-    }
 
     public AccountModel(Account account)
     {
@@ -41,7 +30,6 @@ public class AccountModel
         this.firstName = new SimpleStringProperty();
         this.lastName = new SimpleStringProperty();
         this.email = new SimpleStringProperty();
-        this.authorization = new SimpleIntegerProperty();
         this.school = account.getSchool();
         this.account = account;
 
@@ -51,7 +39,6 @@ public class AccountModel
         firstName.set(account.getFirstName());
         lastName.set(account.getLastName());
         email.set(account.getEmail());
-        authorization.set(account.getAuthorization());
     }
 
     public int getId()
@@ -137,34 +124,9 @@ public class AccountModel
         this.email.set(email);
     }
 
-    public int getAuthorization()
-    {
-        return authorization.get();
-    }
-
-    public IntegerProperty authorizationProperty()
-    {
-        return authorization;
-    }
-
-    public void setAuthorization(int authorization)
-    {
-        this.authorization.set(authorization);
-    }
-
     public School getSchool(){return school;}
 
     public void setSchool(School school){this.school = school;}
-
-    public ObservableList<Account> getAccountList()
-    {
-        return accounts;
-    }
-
-    public void updateAccount(Account account)
-    {
-        adminDataManager.updateAccount(account);
-    }
 
     public Account getAccount() {
         return account;
