@@ -219,7 +219,7 @@ public class StudentsController implements Initializable {
             {
                 updateSelectedItemBinds();
                //try {
-               //    //System.out.println((new GroupAssignment().read(newValue)));
+               //    //System.out.println((new AssignedCitizenDAO().read(newValue)));
                //} catch (SQLException e) {
                //    throw new RuntimeException(e);
                //}
@@ -237,7 +237,7 @@ public class StudentsController implements Initializable {
         }
 
         //try {
-        //    this.listViewCitizensForStudents.setItems(FXCollections.observableArrayList(new GroupAssignment().read(selected)));
+        //    this.listViewCitizensForStudents.setItems(FXCollections.observableArrayList(new AssignedCitizenDAO().read(selected)));
         //} catch (SQLException e) {
         //    throw new RuntimeException(e);
         //}

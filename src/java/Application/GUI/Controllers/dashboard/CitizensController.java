@@ -3,13 +3,8 @@ package Application.GUI.Controllers.dashboard;
 import Application.BE.Citizen;
 
 import Application.BLL.TeacherDataManager;
-import Application.DAL.CitizenDAO;
-import Application.DAL.GroupAssignment;
 import Application.GUI.Models.AccountModel;
 import Application.GUI.Models.CitizenModel;
-import Application.GUI.Models.CitizenModel;
-import Application.Utility.GUIUtils;
-import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -104,7 +99,7 @@ public class CitizensController implements Initializable
         }
 
         try {
-            this.listViewStudentsForCitizen.setItems(FXCollections.observableArrayList(new GroupAssignment().read(availableCitizens.getSelectionModel().getSelectedItem())));
+            this.listViewStudentsForCitizen.setItems(FXCollections.observableArrayList(new AssignedCitizenDAO().read(availableCitizens.getSelectionModel().getSelectedItem())));
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
