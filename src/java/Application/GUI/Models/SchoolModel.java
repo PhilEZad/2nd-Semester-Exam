@@ -12,6 +12,7 @@ public class SchoolModel {
     private StringProperty name;
     private IntegerProperty zipCode;
     private StringProperty city;
+    private School schoolBE;
 
     public SchoolModel(School school)
     {
@@ -20,10 +21,13 @@ public class SchoolModel {
         this.zipCode = new SimpleIntegerProperty();
         this.city = new SimpleStringProperty();
 
-        id.set(school.getId());
+        this.schoolBE = school;
+
+        id.set(school.getID());
         name.setValue(school.getSchoolName());
         zipCode.setValue(school.getZipCode());
         city.setValue(school.getCityName());
+
     }
 
     public int getId()
@@ -52,4 +56,8 @@ public class SchoolModel {
     public StringProperty getCity(){
         return city;
     }
+
+    public School getSchool () { return schoolBE;}
+
+    public void setSchoolBE (School school) {this.schoolBE = school;}
 }
