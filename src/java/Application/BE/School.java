@@ -1,11 +1,13 @@
 package Application.BE;
 
-public class School {
+public class School implements IUniqueIdentifier<Integer>
+{
 
     private int id;
     private String schoolName;
-    private String cityName;
+
     private int zipCode;
+    private String cityName;
 
     public School(int id, String schoolName, int zipCode, String cityName)
     {
@@ -15,12 +17,14 @@ public class School {
         this.cityName = cityName;
     }
 
-    public int getId() {
-        return id;
+    @Override
+    public Integer getID() {
+        return this.id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    @Override
+    public void setID(Integer id) {
+        this.id = id == null ? -1 : id;
     }
 
     public String getSchoolName() {

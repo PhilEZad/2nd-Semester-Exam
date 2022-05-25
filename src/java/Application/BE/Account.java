@@ -1,7 +1,7 @@
 package Application.BE;
 
-public class Account {
-
+public class Account implements IUniqueIdentifier<Integer>
+{
     private int id;
     private String username;
     private String password;
@@ -9,8 +9,11 @@ public class Account {
     private String lastName;
     private String email;
     private School school;
+
     private Boolean isTeacher;
     private Boolean isAdmin;
+
+    private Boolean isStudent;
 
     public Account(int id, String login, String password, String firstName, String lastName, String email, School school, Boolean isTeacher, Boolean isAdmin) {
         this.id = id;
@@ -22,15 +25,19 @@ public class Account {
         this.school = school;
         this.isTeacher = isTeacher;
         this.isAdmin = isAdmin;
+        this.isStudent = !isAdmin && !isTeacher;
     }
 
-    public int getId() {
-        return id;
+    @Override
+    public Integer getID() {
+        return this.id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    @Override
+    public void setID(Integer id) {
+        this.id = id == null ? -1 : id;
     }
+
 
     public String getFirstName() {
         return firstName;
@@ -87,5 +94,18 @@ public class Account {
     @Override
     public String toString() {
         return firstName + " " + lastName;
+    }
+
+    public int getAuthLevel()
+    {
+        return this.getIsAdmin() ? 0x10 : this.getIsTeacher() ? 0x01 : 0x00;
+    }
+
+    public Boolean getStudent() {
+        return isStudent;
+    }
+
+    public void setStudent(Boolean student) {
+        isStudent = student;
     }
 }

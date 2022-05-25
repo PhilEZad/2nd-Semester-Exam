@@ -1,7 +1,7 @@
 package Application.GUI.Models;
 
 import Application.BE.Category;
-import Application.BE.ContentEntry;
+import Application.BE.FunctionalEntry;
 import Application.BE.CategoryType;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
@@ -33,11 +33,11 @@ public class CategoryEntryModel implements Comparable<CategoryEntryModel> {
     private ObjectProperty<HealthLevels> exConHealth;
     private StringProperty note;
     private CategoryType type;
-    private ContentEntry contentEntry;
+    private FunctionalEntry contentEntry;
 
 
 
-    public CategoryEntryModel(ContentEntry contentEntry) {
+    public CategoryEntryModel(FunctionalEntry contentEntry) {
         this.contentEntry = contentEntry;
         this.id = contentEntry.getId();
 
@@ -84,7 +84,7 @@ public class CategoryEntryModel implements Comparable<CategoryEntryModel> {
 
     public CategoryEntryModel(String categoryName, int level, String note) {
         initProperties();
-        this.contentEntry = new ContentEntry(-1, new Category(categoryName), level);
+        this.contentEntry = new FunctionalEntry(-1, new Category(categoryName), level);
         this.categoryName.set(categoryName);
         this.level.set(level);
         assessment.set(" ");
@@ -543,11 +543,11 @@ public class CategoryEntryModel implements Comparable<CategoryEntryModel> {
         this.type = type;
     }
 
-    public ContentEntry getContentEntry() {
+    public FunctionalEntry getContentEntry() {
         return contentEntry;
     }
 
-    public void setContentEntry(ContentEntry contentEntry) {
+    public void setContentEntry(FunctionalEntry contentEntry) {
         this.contentEntry = contentEntry;
     }
 

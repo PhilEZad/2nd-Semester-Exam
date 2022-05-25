@@ -22,12 +22,12 @@ public class CitizenDAO implements IDatabaseActions<Citizen>
         Connection conn = DBConnectionPool.getInstance().checkOut();
         try {
             PreparedStatement pstmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
-            pstmt.setInt(1, input.getJournal().getId());
-            pstmt.setInt(2, input.getSchool().getSchoolID());
+            pstmt.setInt(1, input.getJournal().getID());
+            pstmt.setInt(2, input.getSchool().getID());
             pstmt.setString(3, input.getFirstname());
             pstmt.setString(4, input.getLastname());
             pstmt.setInt(5, input.getAge());
-            pstmt.setInt(6, input.getTemplate());
+            pstmt.setBoolean(6, input.getTemplate());
 
             pstmt.executeUpdate();
 
@@ -71,8 +71,8 @@ public class CitizenDAO implements IDatabaseActions<Citizen>
         try
         {
             PreparedStatement ptsm = conn.prepareStatement(sql);
-            ptsm.setInt(1, input.getJournal().getId());
-            ptsm.setInt(2, input.getSchool().getSchoolID());
+            ptsm.setInt(1, input.getJournal().getID());
+            ptsm.setInt(2, input.getSchool().getID());
             ptsm.setString(3, input.getFirstname());
             ptsm.setString(4, input.getLastname());
             ptsm.setInt(5, input.getAge());

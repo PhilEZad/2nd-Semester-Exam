@@ -1,7 +1,7 @@
 package Application.GUI.Models.ControllerModels;
 
 import Application.BE.Category;
-import Application.BE.ContentEntry;
+import Application.BE.FunctionalEntry;
 import Application.BLL.TeacherDataManager;
 import Application.GUI.Models.CategoryEntryModel;
 import Application.GUI.Models.CitizenModel;
@@ -200,15 +200,15 @@ public class CitizenTemplateControllerModel {
             }
 
             //Unwrap BE
-            HashMap<Category, ContentEntry> beHealthConditions = new HashMap<>();
+            HashMap<Category, FunctionalEntry> beHealthConditions = new HashMap<>();
             for (Category cat : dbWriteHealthConditions.keySet()) {
-                ContentEntry entry = dbWriteHealthConditions.get(cat).getContentEntry();
+                FunctionalEntry entry = dbWriteHealthConditions.get(cat).getContentEntry();
                 beHealthConditions.put(cat, entry);
             }
 
-            HashMap<Category, ContentEntry> beFuncConditions = new HashMap<>();
+            HashMap<Category, FunctionalEntry> beFuncConditions = new HashMap<>();
             for (Category cat : dbWriteFunctionalAbilities.keySet()) {
-                ContentEntry entry = dbWriteFunctionalAbilities.get(cat).getContentEntry();
+                FunctionalEntry entry = dbWriteFunctionalAbilities.get(cat).getContentEntry();
                 beFuncConditions.put(cat, entry);
             }
 

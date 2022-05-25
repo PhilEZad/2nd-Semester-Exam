@@ -24,7 +24,7 @@ public class SchoolDAO implements IDatabaseActions<School>
             PreparedStatement pstmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
             pstmt.setString(1,input.getSchoolName());
-            pstmt.setInt(2, input.getLocation().getZipCode());
+            pstmt.setInt(2, input.getZipCode());
             pstmt.execute();
 
             int id = -1;
@@ -36,7 +36,7 @@ public class SchoolDAO implements IDatabaseActions<School>
 
             pstmt.close();
 
-            return new School(id, input.getSchoolName(), new Location(input.getLocation().getZipCode()));
+            return new School(id, input.getSchoolName(), input.getZipCode(), input.getCityName());
 
         }
         catch (SQLException throwable)
@@ -59,8 +59,8 @@ public class SchoolDAO implements IDatabaseActions<School>
             PreparedStatement psus = conn.prepareStatement(sql);
 
             psus.setString(1, input.getSchoolName());
-            psus.setInt(2, input.getLocation().getZipCode());
-            psus.setInt(3, input.getSchoolID());
+            psus.setInt(2, input.getZipCode());
+            psus.setInt(3, input.getID();
             psus.executeUpdate();
             psus.close();
         } catch (SQLException throwable) {
@@ -92,10 +92,8 @@ public class SchoolDAO implements IDatabaseActions<School>
                         new School(
                                 rs.getInt("SID"),
                                 rs.getString("schoolName"),
-                                new Location(
-                                        rs.getInt("Zip"),
-                                        rs.getString("city")
-                                )
+                                rs.getInt("Zip"),
+                                rs.getString("city")
                         )
                 );
             }

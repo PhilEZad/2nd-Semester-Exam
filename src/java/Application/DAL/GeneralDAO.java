@@ -91,7 +91,7 @@ public class GeneralDAO implements IDatabaseActions<GeneralJournal> {
             ptsm.setString(9, input.getAssistiveDevices());
             ptsm.setString(10, input.getHomeLayout());
             ptsm.setString(11, input.getNetwork());
-            ptsm.setInt(12, input.getId());
+            ptsm.setInt(12, input.getID());
 
             ptsm.executeUpdate();
 

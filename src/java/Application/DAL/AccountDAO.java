@@ -4,6 +4,8 @@ import Application.BE.Account;
 import Application.BE.School;
 import Application.DAL.DBConnector.DBConnectionPool;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -33,29 +35,19 @@ public class AccountDAO implements IDatabaseActions<Account> {
             pstmt.setString(3, input.getFirstName());
             pstmt.setString(4, input.getLastName());
             pstmt.setString(5, input.getEmail());
-            pstmt.setInt(6, input.getSchool().getSchoolID());
-            pstmt.setInt(7, input.getAuthorization());
+            pstmt.setInt(6, input.getSchool().getID());
+            pstmt.setObject(7, input.getAuthLevel());
 
             pstmt.execute();
 
-            int id = -1;
-
             ResultSet generatedKeys = pstmt.getGeneratedKeys();
             if (generatedKeys.next()) {
-                id = generatedKeys.getInt(1);
+                input.setID(generatedKeys.getInt(1));
             }
 
             pstmt.close();
-            return new Account(
-                    id,
-                    input.getUsername(),
-                    input.getPassword(),
-                    input.getFirstName(),
-                    input.getLastName(),
-                    input.getEmail(),
-                    input.getSchool(),
-                    input.getAuthorization()
-            );
+
+            return input;
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -75,7 +67,7 @@ public class AccountDAO implements IDatabaseActions<Account> {
     public void delete(int accountid){
         String sql = """
                     DELETE FROM AccountGroup
-                    WHERE EXISTS (SELECT * FROM AccountGroup WHERE FK_MemberID = =)
+                    WHERE EXISTS (SELECT * FROM AccountGroup WHERE FK_MemberID = ?)
                     DELETE FROM account
                     WHERE AID = ?
                     """;
@@ -129,8 +121,8 @@ public class AccountDAO implements IDatabaseActions<Account> {
                 school = new School(
                         rs.getInt("SID"),
                         rs.getString("schoolName"),
-                        new Location(rs.getInt("Zip"),
-                                rs.getString("city"))
+                        rs.getInt("Zip"),
+                        rs.getString("city")
                 );
 
                 account = new Account(
@@ -141,7 +133,8 @@ public class AccountDAO implements IDatabaseActions<Account> {
                         rs.getString("lastname"),
                         rs.getString("email"),
                         school,
-                        rs.getInt("privilegeLevel")
+                        rs.getByte("accountType") == 0x01,
+                        rs.getByte("accountType") == 0x10);
                 );
             }
             pstmt.close();
@@ -182,7 +175,7 @@ public class AccountDAO implements IDatabaseActions<Account> {
                 School school = new School(
                         rs.getInt("SID"),
                         rs.getString("schoolName"),
-                        new Location(rs.getInt("Zip"), rs.getString("city"))
+                        rs.getInt("Zip"), rs.getString("city")
                 );
 
                 Account student = new Account(
@@ -193,7 +186,8 @@ public class AccountDAO implements IDatabaseActions<Account> {
                         rs.getString("lastname"),
                         rs.getString("email"),
                         school,
-                        rs.getInt("privilegeLevel"));
+                        rs.getByte("accountType") == 0x01,
+                        rs.getByte("accountType") == 0x10);
 
                 studentsList.add(student);
             }
@@ -230,7 +224,7 @@ public class AccountDAO implements IDatabaseActions<Account> {
             pstmt.setString(1, account.getFirstName());
             pstmt.setString(2, account.getLastName());
             pstmt.setString(3, account.getEmail());
-            pstmt.setInt(4, account.getId());
+            pstmt.setInt(4, account.getID());
 
             pstmt.executeUpdate();
 

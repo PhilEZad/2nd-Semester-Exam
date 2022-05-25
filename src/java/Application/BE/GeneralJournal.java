@@ -1,6 +1,6 @@
 package Application.BE;
 
-public class GeneralJournal
+public class GeneralJournal implements IUniqueIdentifier<Integer>
 {
     private int id;
     private String coping;
@@ -31,13 +31,6 @@ public class GeneralJournal
         this.network = "";
     }
 
-    public GeneralJournal(int id)
-    {
-        this();
-
-        this.id = id;
-    }
-  
     public GeneralJournal(int generalID, String coping, String motivation, String resources, String roles, String habits, String eduAndJob, String lifeStory, String healthInfo, String assistiveDevices, String homeLayout, String network) {
         this.id = generalID;
         this.coping = coping;
@@ -164,11 +157,13 @@ public class GeneralJournal
         else this.network = network;
     }
 
-    public int getId() {
-        return id;
+    @Override
+    public Integer getID() {
+        return this.id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    @Override
+    public void setID(Integer id) {
+        this.id = id == null ? -1 : id;
     }
 }

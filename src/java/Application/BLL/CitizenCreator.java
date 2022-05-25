@@ -5,9 +5,7 @@ import Application.DAL.CitizenContentLinkDAO;
 import Application.DAL.CitizenDAO;
 import Application.DAL.ContentDAO;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.stream.Collectors;
 
 public class CitizenCreator
@@ -17,7 +15,7 @@ public class CitizenCreator
 
     CitizenContentLinkDAO binder = new CitizenContentLinkDAO();
 
-    public Citizen create (Citizen citizen, HashMap<Category, ContentEntry> entries)
+    public Citizen create (Citizen citizen, HashMap<Category, FunctionalEntry> entries)
     {
         // create citizen in db
         var qualified = citizenDAO.create(citizen);
@@ -47,11 +45,11 @@ public class CitizenCreator
 //
     //    Citizen citizen = new Citizen(0, new GeneralJournal(1), new School(1), "hello", "world", 1970);
 //
-    //    HashMap<Category, ContentEntry> entries = new HashMap<>();
+    //    HashMap<Category, FunctionalEntry> entries = new HashMap<>();
 //
 //
     //    var cat = new Category(14, "Problemer med hukommelse", 0);
-    //    var entry =  new ContentEntry(99, cat);
+    //    var entry =  new FunctionalEntry(99, cat);
     //    entry.setCause("amnesia");
 //
     //    entries.put(cat, entry);

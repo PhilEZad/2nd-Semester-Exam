@@ -2,11 +2,9 @@ package Application.GUI.Models;
 
 import Application.BE.Category;
 import Application.BE.Citizen;
-import Application.BE.ContentEntry;
+import Application.BE.FunctionalEntry;
 import Application.BE.GeneralJournal;
 import javafx.beans.property.*;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -152,7 +150,7 @@ public class CitizenModel implements Cloneable{
 
 
     private void initFunctionalAbilities() {
-        for (ContentEntry entry : beCitizen.getFunctionalAbilities().values()) {
+        for (FunctionalEntry entry : beCitizen.getFunctionalAbilities().values()) {
             Category category = entry.getCategory();
             CategoryEntryModel model = new CategoryEntryModel(entry);
             if (entry.getRelevant()) {
@@ -165,7 +163,7 @@ public class CitizenModel implements Cloneable{
     }
 
     private void initHealthConditions() {
-        for (ContentEntry entry : beCitizen.getFunctionalAbilities().values()) {
+        for (FunctionalEntry entry : beCitizen.getFunctionalAbilities().values()) {
             Category category = entry.getCategory();
             CategoryEntryModel model = new CategoryEntryModel(entry);
             if (entry.getRelevant()) {
