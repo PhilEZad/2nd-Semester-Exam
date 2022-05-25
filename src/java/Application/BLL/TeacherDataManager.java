@@ -69,7 +69,7 @@ public class TeacherDataManager extends StudentDataManager
     {
         if (!account.getIsAdmin() && !account.getIsTeacher())
         {
-            accountDAO.deleteAccount(account.getId());
+            accountDAO.deleteAccount(account.getID());
         } else
         {
             throw new IllegalArgumentException("");
@@ -83,14 +83,17 @@ public class TeacherDataManager extends StudentDataManager
             citizen.create
         }
 
+        // TODO: 25-05-2022 return default
+        return citizen; 
     }
 
     public void deleteCitizen(Citizen citizen) throws IllegalArgumentException, SQLException
     {
         if (citizen != null)
         {
-            citizenDAO.deleteCitizen(citizen.getId());
-        } else
+            citizenDAO.deleteCitizen(citizen.getID());
+        }
+        else
         {
             throw new IllegalArgumentException("");
         }
@@ -101,14 +104,16 @@ public class TeacherDataManager extends StudentDataManager
     {
         if (student != null && citizen != null)
         {
-            throws new IllegalArgumentException("");
-        } else
+            throw new IllegalArgumentException("");
+        }
+        else
         {
             if (!student.getIsTeacher() && !student.getIsAdmin())
             {
                 // FIXME: 25/05/2022 Use correct method from DAO
-                assignedCitizenDAO.someDAOmethoc(student.getId(), citizen.getId());
-            } else
+                assignedCitizenDAO.someDAOmethoc(student.getID(), citizen.getID());
+            }
+            else
             {
                 throw new AccessDeniedException("");
             }
@@ -119,14 +124,16 @@ public class TeacherDataManager extends StudentDataManager
     {
         if (student != null && citizen != null)
         {
-            throws new IllegalArgumentException("");
-        } else
+            throw new IllegalArgumentException("");
+        }
+        else
         {
             if (!student.getIsTeacher() && !student.getIsAdmin())
             {
                 // FIXME: 25/05/2022 Use correct method from DAO
-                assignedCitizenDAO.someDAOmethod(student.getId(), citizen.getId());
-            } else
+                assignedCitizenDAO.someDAOmethod(student.getID(), citizen.getID());
+            }
+            else
             {
                 throw new AccessDeniedException("");
             }

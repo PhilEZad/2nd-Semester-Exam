@@ -22,12 +22,11 @@ public class StudentDataManager {
     {
         if (citizen != null)
         {
-            citizenDAO.updateCitizen();
-        } else
+               citizenDAO.updateCitizen();
+        }
+        else
         {
-            throws new IllegalArgumentException("");
+            throw new IllegalArgumentException("");
         }
     }
-
-
 }

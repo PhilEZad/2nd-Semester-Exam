@@ -27,8 +27,8 @@ public class GroupAssignment
 
         for (Account account : group.getGroupMembers())
         {
-            ptsm.setInt(1, account.getId());
-            ptsm.setInt(2, group.getId());
+            ptsm.setInt(1, account.getID());
+            ptsm.setInt(2, group.ge());
             ptsm.addBatch();
 
         }
@@ -53,11 +53,11 @@ public class GroupAssignment
             accounts.add(new CitizenModel( new Citizen(
                     resultSet.getInt("CID"),
                     new GeneralJournal(), // TODO: 24-05-2022
-                    new School(1, "EASV", new Location(6700, "Esbjerg")),
+                    new School(1, "EASV", 6700, "Esbjerg"),
                     resultSet.getString("firstname"),
                     resultSet.getString("lastname"),
                     resultSet.getInt("age"),
-                    resultSet.getInt("template")
+                    resultSet.getBoolean("isTemplate")
             )));
         }
         return accounts;
@@ -75,7 +75,7 @@ public class GroupAssignment
         Connection conn = DBConnectionPool.getInstance().checkOut();
 
         PreparedStatement ptsm = conn.prepareStatement(sql);
-        ptsm.setInt(1, id.getBeCitizen().getId());
+        ptsm.setInt(1, id.getBeCitizen().getID());
 
         ResultSet resultSet = ptsm.executeQuery();
         List<AccountModel> accounts = new ArrayList<>();
@@ -88,17 +88,10 @@ public class GroupAssignment
                     resultSet.getString("firstname"),
                     resultSet.getString("lastname"),
                     resultSet.getString("email"),
-                    new School(
-                            1,
-                            "EASV",
-                            new Location(
-                                    6700,
-                                    "Esbjerg"
-                            )
-                    ),
-
-                    resultSet.getInt("privilegeLevel")
-            )));
+                    new School(1, "EASV", 6700,  "Esbjerg"),
+                    resultSet.getByte("accountType") == 0x01,
+                    resultSet.getByte("accountType") == 0x10)
+            ));
         }
         return accounts;
     }
@@ -123,10 +116,7 @@ public class GroupAssignment
 
         while (resultSet.next())
         {
-            Group newGroup = new Group(
 
-
-            );
 
             returnList.add(newGroup);
         }

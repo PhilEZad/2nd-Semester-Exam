@@ -107,15 +107,11 @@ public class CitizenDAO implements IDatabaseActions<Citizen>
 
             result.next();
 
-            Location location = new Location(
-                    result.getInt("FK_Zipcode"),
-                    result.getString("city")
-            );
-
             School school = new School(
                     result.getInt("SID"),
                     result.getString("schoolName"),
-                    location
+                    result.getInt("FK_Zipcode"),
+                    result.getString("city")
             );
 
             GeneralJournal journal = new GeneralJournal(
@@ -140,7 +136,7 @@ public class CitizenDAO implements IDatabaseActions<Citizen>
                     result.getString("firstName"),
                     result.getString("lastName"),
                     result.getInt("age"),
-                    result.getInt("template")
+                    result.getBoolean("isTemplate")
             );
         } catch (Exception e)
         {
@@ -169,15 +165,11 @@ public class CitizenDAO implements IDatabaseActions<Citizen>
 
             while (result.next()) {
 
-                Location location = new Location(
-                        result.getInt("FK_Zipcode"),
-                        result.getString("city")
-                );
-
                 School school = new School(
                         result.getInt("SID"),
                         result.getString("schoolName"),
-                        location
+                        result.getInt("FK_Zipcode"),
+                        result.getString("city")
                 );
 
                 GeneralJournal journal = new GeneralJournal(
@@ -202,7 +194,7 @@ public class CitizenDAO implements IDatabaseActions<Citizen>
                         result.getString("firstName"),
                         result.getString("lastName"),
                         result.getInt("age"),
-                        result.getInt("template")
+                        result.getBoolean("IsTemplate")
                 );
 
                 returnList.add(citizen);

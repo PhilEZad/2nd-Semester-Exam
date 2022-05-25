@@ -23,14 +23,14 @@ public class CitizenCreator
         // create all entries from list in db
         for (var entry : entries.values())
         {
-            entry.setId(contentDAO.create(entry).getId());
+            entry.setID(contentDAO.create(entry).getID());
         }
 
         // setup binding
         var binding = new CitizenContentBinding();
 
-        binding.citizenID = qualified.getId();
-        binding.contentIDs = entries.values().stream().map(entry -> entry.getId()).collect(Collectors.toList());
+        binding.citizenID = qualified.getID();
+        binding.contentIDs = entries.values().stream().map(FunctionalEntry::getID).collect(Collectors.toList());
         // commit bind of one citizen and all entries
         binder.create(binding);
 

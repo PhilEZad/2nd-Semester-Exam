@@ -20,7 +20,6 @@ public class ContentMapper
         {
             case HEALTH_CONDITION -> getHealthContent(entries);
             case FUNCTIONAL_ABILITY -> getFunctionalContent(entries);
-            case GENERAL_INFORMATION -> getGeneralContent(entries);
             default -> getAllContent(entries);
         };
     }
