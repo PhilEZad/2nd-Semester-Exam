@@ -22,6 +22,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.*;
 
 public class StudentsController implements Initializable {
@@ -249,17 +250,26 @@ public class StudentsController implements Initializable {
     private ObservableList<AccountModel> studentList()
     {
         ObservableList<AccountModel> returnList = FXCollections.observableArrayList();
-        List<Account> accountList = dataManger.getAllStudents();
+        List<Account> accountList;
 
-        for (Account account : accountList)
+        try
         {
-            if (account.getAuthorization() == 2)
-            {
+            accountList = dataManger.getAllStudents();
+
+            for (Account account : accountList) {
                 AccountModel accountModel = new AccountModel(account);
                 returnList.add(accountModel);
             }
+            return returnList;
+        } catch (SQLException sqlException)
+        {
+            sqlException.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setHeaderText("Database fejl.");
+            alert.getDialogPane().getStylesheets().add(Objects.requireNonNull(getClass().getResource("/Styles/MainStylesheet.css")).toExternalForm());
+            alert.showAndWait();
+            return returnList;
         }
-        return returnList;
     }
 }
 
