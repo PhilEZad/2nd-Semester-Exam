@@ -1,7 +1,6 @@
 package Application.BLL;
 
 import Application.BE.*;
-import Application.DAL.CitizenContentLinkDAO;
 import Application.DAL.CitizenDAO;
 import Application.DAL.ContentDAO;
 

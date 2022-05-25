@@ -9,6 +9,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
@@ -18,7 +20,7 @@ public abstract class AbstractDAO<RETURN_TYPE>
 
 
     private final AtomicReference<RETURN_TYPE> return_value = new AtomicReference<>();
-    private final AtomicInteger return_id = new AtomicInteger();
+    private final List<Integer> return_ids = new ArrayList<>();
 
     private Exception LastException ;
     private final AtomicBoolean hasExecutedSuccessfully = new AtomicBoolean(false);
@@ -37,8 +39,8 @@ public abstract class AbstractDAO<RETURN_TYPE>
             this.return_value.set(newVal);
 
             ResultSet generatedKeys = statement.getGeneratedKeys();
-            if (generatedKeys.next()) {
-                this.return_id.set(generatedKeys.getInt(1));
+            while (generatedKeys.next()) {
+                this.return_ids.add(generatedKeys.getInt(1));
             }
 
             statement.close();
@@ -84,7 +86,12 @@ public abstract class AbstractDAO<RETURN_TYPE>
             return null;
         }
 
-        return new Pair<>(return_id.getAcquire(), return_value.getAcquire());
+        return new Pair<>(return_ids.stream().findFirst().orElse(-1), return_value.getAcquire());
+    }
+
+    public final List<Integer> getAllReturnedIDs()
+    {
+        return this.return_ids;
     }
 
     protected abstract RETURN_TYPE execute(PreparedStatement statement) throws SQLException;
