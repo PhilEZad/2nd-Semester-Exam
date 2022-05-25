@@ -1,6 +1,7 @@
 package Application.GUI.Controllers.dashboard;
 
 import Application.BE.Account;
+import Application.BE.School;
 import Application.BLL.AdminDataManager;
 import Application.GUI.Models.AccountModel;
 import Application.GUI.Models.SchoolModel;
@@ -100,9 +101,6 @@ public class AdminDashboardController implements Initializable {
         } catch (IOException e)
         {
             e.printStackTrace();
-        } catch (SQLException sqlException)
-        {
-
         }
     }
 
@@ -229,7 +227,7 @@ public class AdminDashboardController implements Initializable {
             popupMenu.setTitle("Ny Skole");
             popupMenu.setScene(new Scene(root));
             popupMenu.show();
-            popupMenu.setOnHidden(event1 -> tblViewSchool.setItems(dataManager.getAllSchools()));
+            popupMenu.setOnHidden(event1 -> tblViewSchool.setItems(getObservableSchools()));
         } catch (IOException e)
         {
             e.printStackTrace();
@@ -244,7 +242,7 @@ public class AdminDashboardController implements Initializable {
             popupMenuSchool.setTitle("Rediger Skole");
             popupMenuSchool.setScene(new Scene(rootSchool));
             popupMenuSchool.show();
-            popupMenuSchool.setOnHidden(event1 -> tblViewSchool.setItems(dataManager.getAllSchools()));
+            popupMenuSchool.setOnHidden(event1 -> tblViewSchool.setItems(getObservableSchools()));
         } catch (IOException e)
         {
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -270,7 +268,7 @@ public class AdminDashboardController implements Initializable {
             if (result.get() == ButtonType.OK)
             {
                 dataManager.deleteSchool(tblViewSchool.getSelectionModel().getSelectedItem().getSchool());
-                tblViewSchool.setItems(dataManager.getAllSchools());
+                tblViewSchool.setItems(getObservableSchools());
             }
         } catch (Exception e)
         {
@@ -370,5 +368,34 @@ public class AdminDashboardController implements Initializable {
                 e.printStackTrace();
                 return studentList;
             }
+    }
+
+    private ObservableList<SchoolModel> getObservableSchools()
+    {
+        ObservableList<SchoolModel> schoolModelList = FXCollections.observableArrayList();
+
+        List<School> schoolList;
+
+        try
+        {
+            schoolList = dataManager.getAllSchools();
+
+            for (School school : schoolList)
+            {
+                SchoolModel schoolModel = new SchoolModel(school);
+                schoolModelList.add(schoolModel);
+            }
+
+            return schoolModelList;
+
+        } catch (SQLException e)
+        {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setHeaderText("Database fejl.");
+            alert.getDialogPane().getStylesheets().add(Objects.requireNonNull(getClass().getResource("/Styles/MainStylesheet.css")).toExternalForm());
+            alert.showAndWait();
+            e.printStackTrace();
+            return schoolModelList;
+        }
     }
 }
