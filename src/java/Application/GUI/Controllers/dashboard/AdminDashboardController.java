@@ -1,5 +1,6 @@
 package Application.GUI.Controllers.dashboard;
 
+import Application.BE.Account;
 import Application.BLL.AdminDataManager;
 import Application.GUI.Models.AccountModel;
 import Application.GUI.Models.SchoolModel;
@@ -18,10 +19,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ListResourceBundle;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.sql.SQLException;
+import java.util.*;
 
 public class AdminDashboardController implements Initializable {
 
@@ -43,12 +42,23 @@ public class AdminDashboardController implements Initializable {
     @FXML public TableColumn<SchoolModel, String> tblClmSchoolCity;
 
 
+    ObservableList<AccountModel> studentList;
+    ObservableList<AccountModel> teacherList;
+    ObservableList<AccountModel> adminList;
+    ObservableList<SchoolModel> schoolList;
 
     AdminDataManager dataManager = new AdminDataManager();
 
+    public AdminDashboardController()
+    {
+        studentList = accountToModels(dataManager.getAllStudents());
+        teacherList = accountToModels(dataManager.getAllTeachers());
+        adminList = accountToModels(dataManager.getAllAdmins());
+    }
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    public void initialize(URL location, ResourceBundle resources)
+    {
         initTableViews();
         populateTableViews();
     }
@@ -70,9 +80,14 @@ public class AdminDashboardController implements Initializable {
 
     private void populateTableViews()
     {
-        tblViewTeacher.setItems(searchTable(txtFieldSearch, tblViewTeacher, FXCollections.observableArrayList(dataManager.getAllTeachers())));
-        tblViewStudent.setItems(searchTable(txtFieldSearch, tblViewStudent, FXCollections.observableArrayList(dataManager.getAllStudents()));
-        tblViewSchool.setItems(FXCollections.observableArrayList(dataManager.getAllSchools()));
+        try {
+        tblViewTeacher.setItems(searchTable(txtFieldSearch, tblViewTeacher, accountToModels(dataManager.getAllTeachers())));
+        tblViewStudent.setItems(searchTable(txtFieldSearch, tblViewStudent, accountToModels(dataManager.getAllStudents())));
+        tblViewSchool.setItems(schoolList);
+        } catch (SQLException sqlException)
+        {
+
+        }
     }
 
 
@@ -85,24 +100,37 @@ public class AdminDashboardController implements Initializable {
             popupMenu.setTitle("Ny Elev");
             popupMenu.setScene(new Scene(root));
             popupMenu.show();
-            popupMenu.setOnHidden(event1 -> tblViewStudent.setItems(searchTable(txtFieldSearch, tblViewTeacher, dataManager.getAllStudents())));
+            popupMenu.setOnHidden(event1 -> tblViewStudent.setItems(searchTable(txtFieldSearch, tblViewTeacher, accountToModels(dataManager.getAllStudents()))));
         } catch (IOException e)
         {
             e.printStackTrace();
+        } catch (SQLException sqlException)
+        {
+
         }
     }
 
     public void onEditStudent(ActionEvent event)
     {
-        try
-        {
-        ResourceBundle resource = getResource(tblViewStudent);
-        Stage popupMenuStudent = new Stage();
-        Parent rootStudent = FXMLLoader.load(getClass().getResource("/Views/Popups/EditAccountView.fxml"), resource);
-        popupMenuStudent.setTitle("Rediger Elev");
-        popupMenuStudent.setScene(new Scene(rootStudent));
-        popupMenuStudent.show();
-        popupMenuStudent.setOnHidden(event1 -> tblViewStudent.setItems(searchTable(txtFieldSearch, tblViewTeacher, dataManager.getAllStudents())));
+        try {
+            ResourceBundle resource = getResource(tblViewStudent);
+            Stage popupMenuStudent = new Stage();
+            Parent rootStudent = FXMLLoader.load(getClass().getResource("/Views/Popups/EditAccountView.fxml"), resource);
+            popupMenuStudent.setTitle("Rediger Elev");
+            popupMenuStudent.setScene(new Scene(rootStudent));
+            popupMenuStudent.show();
+            popupMenuStudent.setOnHidden(event1 -> {
+                try {
+                    tblViewStudent.setItems(searchTable(txtFieldSearch, tblViewTeacher, accountToModels(dataManager.getAllStudents())));
+                } catch (SQLException e)
+                {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setHeaderText("Fejl i database.");
+                    alert.getDialogPane().getStylesheets().add(Objects.requireNonNull(getClass().getResource("/Styles/MainStylesheet.css")).toExternalForm());
+                    alert.showAndWait();
+                    e.printStackTrace();
+                }
+            });
         } catch (IOException e)
         {
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -124,7 +152,7 @@ public class AdminDashboardController implements Initializable {
             Optional<ButtonType> result = alert.showAndWait();
 
             if (result.get() == ButtonType.OK) {
-                dataManager.deleteStudent(tblViewStudent.getSelectionModel().getSelectedItem().getId());
+                dataManager.deleteStudent(tblViewStudent.getSelectionModel().getSelectedItem().getAccount());
                 tblViewStudent.setItems(searchTable(txtFieldSearch, tblViewTeacher, dataManager.getAllStudents()));
             }
         } catch (Exception e)
@@ -313,5 +341,21 @@ public class AdminDashboardController implements Initializable {
             }
         };
         return resource;
+    }
+
+    private ObservableList<AccountModel> accountToModels(List<Account> accountList)
+    {
+        ObservableList<AccountModel> accountModelObservableList = FXCollections.observableArrayList();
+
+        for (Account account : accountList)
+        {
+            if (account != null)
+            {
+                AccountModel accountModel = new AccountModel(account);
+                accountModelObservableList.add(accountModel);
+            }
+        }
+
+        return accountModelObservableList;
     }
 }
