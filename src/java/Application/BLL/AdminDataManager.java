@@ -8,7 +8,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AdminDataManager extends TeacherDataManager {
+public class AdminDataManager extends TeacherDataManager
+{
 
     public AdminDataManager()
     {
@@ -60,7 +61,7 @@ public class AdminDataManager extends TeacherDataManager {
     {
         if (account.getIsTeacher())
         {
-            account.deleteAccount(account.getId());
+            account.deleteAccount(account.getID());
         } else
         {
             throw new IllegalArgumentException("");
@@ -100,7 +101,7 @@ public class AdminDataManager extends TeacherDataManager {
     {
         if (school != null)
         {
-            schoolDAO.deleteSchool(school.getId());
+            schoolDAO.deleteSchool(school.getID());
         } else
         {
             throw new IllegalArgumentException("");
@@ -114,7 +115,8 @@ public class AdminDataManager extends TeacherDataManager {
             account.setIsTeacher(false);
             account.setIsAdmin(true);
             accountDAO.createAccount(account);
-        } else
+        }
+        else
         {
             throw new IllegalArgumentException("");
         }
@@ -140,21 +142,21 @@ public class AdminDataManager extends TeacherDataManager {
     {
         if (account.getIsAdmin())
         {
-            account.updateAccount(account.getId()){
-        } else
+            account.updateAccount(account.getID());
+        }
+        else
         {
             throw new IllegalAccessException("");
         }
-        }
-
     }
 
     public void deleteAdmin(Account account) throws AccessDeniedException, SQLException
     {
         if (account.getIsAdmin())
         {
-            accountDAO.deleteAccount(account.getId());
-        } else
+            accountDAO.deleteAccount(account.getID());
+        }
+        else
         {
             throw new AccessDeniedException("");
         }
