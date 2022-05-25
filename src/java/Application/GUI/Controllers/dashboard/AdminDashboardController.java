@@ -45,6 +45,13 @@ public class AdminDashboardController implements Initializable {
 
     AdminDataManager dataManager = new AdminDataManager();
 
+    enum ListType
+    {
+        TEACHER,
+        STUDENT,
+        ADMIN
+    }
+
     public AdminDashboardController()
     {
 
@@ -74,8 +81,8 @@ public class AdminDashboardController implements Initializable {
 
     private void populateTableViews()
     {
-        tblViewTeacher.setItems(searchTable(txtFieldSearch, tblViewTeacher, getObservableList("teacher")));
-        tblViewStudent.setItems(searchTable(txtFieldSearch, tblViewStudent, getObservableList("student")));
+        tblViewTeacher.setItems(searchTable(txtFieldSearch, tblViewTeacher, getObservableList(ListType.TEACHER)));
+        tblViewStudent.setItems(searchTable(txtFieldSearch, tblViewStudent, getObservableList(ListType.STUDENT)));
         tblViewSchool.setItems(schoolList);
     }
 
@@ -89,7 +96,7 @@ public class AdminDashboardController implements Initializable {
             popupMenu.setTitle("Ny Elev");
             popupMenu.setScene(new Scene(root));
             popupMenu.show();
-            popupMenu.setOnHidden(event1 -> tblViewStudent.setItems(searchTable(txtFieldSearch, tblViewTeacher, getObservableList("student"))));
+            popupMenu.setOnHidden(event1 -> tblViewStudent.setItems(searchTable(txtFieldSearch, tblViewTeacher, getObservableList(ListType.STUDENT))));
         } catch (IOException e)
         {
             e.printStackTrace();
@@ -109,7 +116,7 @@ public class AdminDashboardController implements Initializable {
             popupMenuStudent.setScene(new Scene(rootStudent));
             popupMenuStudent.show();
             popupMenuStudent.setOnHidden(event1 -> {
-                tblViewStudent.setItems(searchTable(txtFieldSearch, tblViewTeacher, getObservableList("student")));
+                tblViewStudent.setItems(searchTable(txtFieldSearch, tblViewTeacher, getObservableList(ListType.STUDENT)));
             });
         } catch (IOException e)
         {
@@ -133,7 +140,7 @@ public class AdminDashboardController implements Initializable {
 
             if (result.get() == ButtonType.OK) {
                 dataManager.deleteStudent(tblViewStudent.getSelectionModel().getSelectedItem().getAccount());
-                tblViewStudent.setItems(searchTable(txtFieldSearch, tblViewTeacher, getObservableList("teacher")));
+                tblViewStudent.setItems(searchTable(txtFieldSearch, tblViewTeacher, getObservableList(ListType.TEACHER)));
             }
         } catch (Exception e)
         {
@@ -156,7 +163,7 @@ public class AdminDashboardController implements Initializable {
             popupMenu.setTitle("Ny Lærer");
             popupMenu.setScene(new Scene(root));
             popupMenu.show();
-            popupMenu.setOnHidden(event1 -> tblViewTeacher.setItems(searchTable(txtFieldSearch, tblViewTeacher, getObservableList("teacher"))));
+            popupMenu.setOnHidden(event1 -> tblViewTeacher.setItems(searchTable(txtFieldSearch, tblViewTeacher, getObservableList(ListType.TEACHER))));
         } catch (IOException e)
         {
             e.printStackTrace();
@@ -172,7 +179,7 @@ public class AdminDashboardController implements Initializable {
             popupMenuTeacher.setTitle("Rediger Lærer");
             popupMenuTeacher.setScene(new Scene(rootTeacher));
             popupMenuTeacher.show();
-            popupMenuTeacher.setOnHidden(event1 -> tblViewTeacher.setItems(searchTable(txtFieldSearch, tblViewTeacher, getObservableList("teacher"))));
+            popupMenuTeacher.setOnHidden(event1 -> tblViewTeacher.setItems(searchTable(txtFieldSearch, tblViewTeacher, getObservableList(ListType.TEACHER))));
         } catch (IOException e)
         {
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -198,7 +205,7 @@ public class AdminDashboardController implements Initializable {
             if (result.get() == ButtonType.OK)
             {
                 dataManager.deleteTeacher(tblViewTeacher.getSelectionModel().getSelectedItem().getAccount());
-                tblViewTeacher.setItems(searchTable(txtFieldSearch, tblViewTeacher, getObservableList("teacher")));
+                tblViewTeacher.setItems(searchTable(txtFieldSearch, tblViewTeacher, getObservableList(ListType.TEACHER)));
             }
 
         } catch (Exception e)
@@ -323,7 +330,7 @@ public class AdminDashboardController implements Initializable {
         return resource;
     }
 
-    private ObservableList<AccountModel> getObservableList(String listType)
+    private ObservableList<AccountModel> getObservableList(ListType listType)
     {
         ObservableList<AccountModel> studentList = FXCollections.observableArrayList();
 
@@ -333,13 +340,13 @@ public class AdminDashboardController implements Initializable {
         {
             switch (listType)
             {
-                case "student":
+                case STUDENT:
                     accountList = dataManager.getAllStudents();
                     break;
-                case "teacher":
+                case TEACHER:
                     accountList = dataManager.getAllTeachers();
                     break;
-                case "admin":
+                case ADMIN:
                     accountList = dataManager.getAllAdmins();
                     break;
                 default:

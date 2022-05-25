@@ -1,19 +1,14 @@
 package Application.BLL;
 
 import Application.BE.*;
-import Application.DAL.*;
-import Application.GUI.Models.AccountModel;
-import Application.GUI.Models.CitizenModel;
 
 import java.nio.file.AccessDeniedException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class TeacherDataManager extends StudentDataManager
 {
-
 
     public TeacherDataManager()
     {
