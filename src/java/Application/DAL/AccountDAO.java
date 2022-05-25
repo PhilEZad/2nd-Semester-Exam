@@ -3,9 +3,8 @@ package Application.DAL;
 import Application.BE.Account;
 import Application.BE.School;
 import Application.DAL.DBConnector.DBConnectionPool;
+import Application.DAL.TemplateMethod.AbstractDAO;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -21,74 +20,64 @@ public class AccountDAO implements IDatabaseActions<Account> {
      * @return
      */
     @Override
-    public Account create(Account input) {
-        String sql = """
-                    INSERT INTO Account (username, hashed_pwd, firstName, lastname, email, FK_AccountSchool, privilegeLevel) 
-                    VALUES (?, ?, ?, ?, ?, ?, ?)
-                    """;
-
-        Connection conn = DBConnectionPool.getInstance().checkOut();
-        try {
-            PreparedStatement pstmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
-            pstmt.setObject(1, input.getUsername());
-            pstmt.setString(2, input.getPassword());
-            pstmt.setString(3, input.getFirstName());
-            pstmt.setString(4, input.getLastName());
-            pstmt.setString(5, input.getEmail());
-            pstmt.setInt(6, input.getSchool().getID());
-            pstmt.setObject(7, input.getAuthLevel());
-
-            pstmt.execute();
-
-            ResultSet generatedKeys = pstmt.getGeneratedKeys();
-            if (generatedKeys.next()) {
-                input.setID(generatedKeys.getInt(1));
+    public Account create(Account input)
+    {
+        var dao = new AbstractDAO<Account>()
+        {
+            @Override
+            protected Account execute(PreparedStatement statement) throws SQLException
+            {
+                AbstractDAO.setPlaceholders(statement, input.getUsername(), input.getPassword(), input.getFirstName(), input.getLastName(), input.getEmail(), input.getSchool().getID(), input.getAuthLevel());
+                statement.execute();
+                return input;
             }
 
-            pstmt.close();
+            @Override
+            protected String getSQLStatement() {
+                return """
+                        INSERT INTO Account (username, password, firstName, lastname, email, FK_aSchool, accountType) 
+                        VALUES (?, ?, ?, ?, ?, ?, ?)
+                        """;
+            }
+        };
 
-            return input;
+        dao.start();
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
-        finally {
-            DBConnectionPool.getInstance().checkIn(conn);
-        }
+        if (dao.isSuccessful())
+            input.setID(dao.getResult().getKey());
+
+        return input;
     }
 
 
     /**
      * Deletes a specific account based on account entity given.
-     * @param accountid
+     * @param accountID
      */
     @Override
-    public void delete(int accountid){
-        String sql = """
-                    DELETE FROM AccountGroup
-                    WHERE EXISTS (SELECT * FROM AccountGroup WHERE FK_MemberID = ?)
-                    DELETE FROM account
-                    WHERE AID = ?
-                    """;
+    public void delete(int accountID)
+    {
+        var dao = new AbstractDAO<>() {
+            @Override
+            protected Account execute(PreparedStatement statement) throws SQLException
+            {
+                AbstractDAO.setPlaceholders(statement, accountID, accountID);
+                statement.executeUpdate();
+                return null;
+            }
 
-        Connection conn = DBConnectionPool.getInstance().checkOut();
-        try {
-            PreparedStatement pstmt = conn.prepareStatement(sql);
+            @Override
+            protected String getSQLStatement() {
+                return """
+                        DELETE FROM AssignedCitizen
+                        WHERE EXISTS (SELECT * FROM AssignedCitizen WHERE FK_AID = ?)
+                        DELETE FROM account
+                        WHERE AID = ?
+                        """;
+            }
+        };
 
-            pstmt.setInt(1, accountid);
-            pstmt.setInt(2, accountid);
-
-            pstmt.executeUpdate();
-
-            pstmt.close();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        finally {
-            DBConnectionPool.getInstance().checkIn(conn);
-        }
+        dao.start();
     }
 
     /**
@@ -97,35 +86,26 @@ public class AccountDAO implements IDatabaseActions<Account> {
      * @return
      */
     @Override
-    public Account read(int accountID){
-        String sql = """
-                    SELECT * FROM Account
-                    JOIN School ON Account.FK_AccountSchool = School.SID
-                    JOIN zipCode ON School.FK_Zipcode = zipCode.Zip
-                    WHERE AID = ?
-                    """;
+    public Account read(int accountID)
+    {
+        var dao = new AbstractDAO<Account>()
+        {
+            @Override
+            protected Account execute(PreparedStatement statement) throws SQLException
+            {
+                AbstractDAO.setPlaceholders(statement, accountID);
+                ResultSet rs = statement.executeQuery();
 
-        School school = null;
-        Account account = null;
+                rs.next();
 
-        Connection conn = DBConnectionPool.getInstance().checkOut();
-        try {
-
-            PreparedStatement pstmt = conn.prepareStatement(sql);
-
-            pstmt.setInt(1, accountID);
-
-            ResultSet rs = pstmt.executeQuery();
-
-            while (rs.next()) {
-                school = new School(
+                var school = new School(
                         rs.getInt("SID"),
                         rs.getString("schoolName"),
                         rs.getInt("Zip"),
                         rs.getString("city")
                 );
 
-                account = new Account(
+                return new Account(
                         rs.getInt("AID"),
                         rs.getString("username"),
                         rs.getString("hashed_pwd"),
@@ -135,18 +115,22 @@ public class AccountDAO implements IDatabaseActions<Account> {
                         school,
                         rs.getByte("accountType") == 0x01,
                         rs.getByte("accountType") == 0x10);
-                );
             }
-            pstmt.close();
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        finally {
-            DBConnectionPool.getInstance().checkIn(conn);
-        }
+            @Override
+            protected String getSQLStatement() {
+                return """
+                        SELECT * FROM Account
+                        JOIN School ON Account.FK_aSchool = School.SID
+                        JOIN zipCode ON School.FK_Zipcode = zipCode.Zip
+                        WHERE AID = ?
+                        """;
+            }
+        };
 
-        return account;
+        dao.start();
+
+        return dao.getResult().getValue();
     }
 
 
@@ -155,30 +139,107 @@ public class AccountDAO implements IDatabaseActions<Account> {
      * @return
      */
     @Override
-    public List<Account> readAll() {
-        String sql = """
-                    SELECT * FROM Account
-                    JOIN School ON Account.FK_AccountSchool = School.SID
-                    JOIN ZipCode ON School.FK_Zipcode = ZipCode.Zip
-                    """;
-        List<Account> studentsList = new ArrayList<>();
-
-        Connection conn = DBConnectionPool.getInstance().checkOut();
-        try
+    public List<Account> readAll()
+    {
+        var dao = new AbstractDAO<List<Account>>()
         {
-            PreparedStatement pstmt = conn.prepareStatement(sql);
+            @Override
+            protected List<Account> execute(PreparedStatement statement) throws SQLException
+            {
+                var result = new ArrayList<Account>();
+                ResultSet rs = statement.executeQuery();
 
-            ResultSet rs = pstmt.executeQuery();
+                while (rs.next()) {
 
-            while (rs.next()) {
+                    School school = new School(
+                            rs.getInt("SID"),
+                            rs.getString("schoolName"),
+                            rs.getInt("Zip"), rs.getString("city")
+                    );
 
-                School school = new School(
+                    Account student = new Account(
+                            rs.getInt("AID"),
+                            rs.getString("username"),
+                            rs.getString("hashed_pwd"),
+                            rs.getString("firstname"),
+                            rs.getString("lastname"),
+                            rs.getString("email"),
+                            school,
+                            rs.getByte("accountType") == 0x01,
+                            rs.getByte("accountType") == 0x10);
+
+                    result.add(student);
+                }
+
+                return result;
+            }
+
+            @Override
+            protected String getSQLStatement() {
+                return """
+                        SELECT * FROM Account
+                        JOIN School ON Account.FK_aSchool = School.SID
+                        JOIN zipCode ON School.FK_Zipcode = zipCode.Zip
+                        WHERE AID = ?
+                        """;
+            }
+        };
+
+        dao.start();
+
+        return dao.getResult().getValue();
+    }
+
+    /**
+     * Updates accounts using an account entity.
+     * @param input
+     */
+    @Override
+    public void update(Account input)
+    {
+        var dao = new AbstractDAO<Account>()
+        {
+            @Override
+            protected Account execute(PreparedStatement statement) throws SQLException
+            {
+                AbstractDAO.setPlaceholders(statement, input.getFirstName(), input.getLastName(), input.getEmail(), input.getID());
+                statement.executeUpdate();
+                return input;
+            }
+
+            @Override
+            protected String getSQLStatement() {
+                return """
+                        UPDATE Account
+                        SET firstName = ?, lastname = ?, email = ? 
+                        WHERE AID = ?
+                        """;
+            }
+        };
+
+        dao.start();
+    }
+
+    public Account read(String username)
+    {
+        var dao = new AbstractDAO<Account>()
+        {
+            @Override
+            protected Account execute(PreparedStatement statement) throws SQLException
+            {
+                AbstractDAO.setPlaceholders(statement, username);
+                ResultSet rs = statement.executeQuery();
+
+                rs.next();
+
+                var school = new School(
                         rs.getInt("SID"),
                         rs.getString("schoolName"),
-                        rs.getInt("Zip"), rs.getString("city")
+                        rs.getInt("Zip"),
+                        rs.getString("city")
                 );
 
-                Account student = new Account(
+                return new Account(
                         rs.getInt("AID"),
                         rs.getString("username"),
                         rs.getString("hashed_pwd"),
@@ -188,58 +249,21 @@ public class AccountDAO implements IDatabaseActions<Account> {
                         school,
                         rs.getByte("accountType") == 0x01,
                         rs.getByte("accountType") == 0x10);
-
-                studentsList.add(student);
             }
 
-            pstmt.close();
+            @Override
+            protected String getSQLStatement() {
+                return """
+                        SELECT * FROM Account
+                        JOIN School ON Account.FK_aSchool = School.SID
+                        JOIN zipCode ON School.FK_Zipcode = zipCode.Zip
+                        WHERE username = ?
+                        """;
+            }
+        };
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        finally {
-            DBConnectionPool.getInstance().checkIn(conn);
-        }
+        dao.start();
 
-        return studentsList;
-    }
-
-    /**
-     * Updates accounts using an account entity.
-     * @param input
-     */
-    @Override
-    public void update(Account input) {
-        String sql = """
-                     UPDATE Account
-                     SET firstName = ?, lastname = ?, email = ? 
-                     WHERE AID = ?
-                     """;
-
-        Account account = input;
-        Connection conn = DBConnectionPool.getInstance().checkOut();
-        try {
-            PreparedStatement pstmt = conn.prepareStatement(sql);
-
-            pstmt.setString(1, account.getFirstName());
-            pstmt.setString(2, account.getLastName());
-            pstmt.setString(3, account.getEmail());
-            pstmt.setInt(4, account.getID());
-
-            pstmt.executeUpdate();
-
-            pstmt.close();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        finally {
-            DBConnectionPool.getInstance().checkIn(conn);
-        }
-    }
-
-    public Account read(String username)
-    {
-        return null;
+        return dao.getResult().getValue();
     }
 }

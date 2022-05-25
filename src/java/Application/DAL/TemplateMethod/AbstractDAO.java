@@ -2,6 +2,7 @@ package Application.DAL.TemplateMethod;
 
 import Application.BE.IUniqueIdentifier;
 import Application.DAL.DBConnector.DBConnectionPool;
+import javafx.util.Pair;
 import org.intellij.lang.annotations.Language;
 
 import java.sql.Connection;
@@ -14,17 +15,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public abstract class AbstractDAO<RETURN_TYPE>
 {
-    public class Tuple
-    {
-        RETURN_TYPE value;
-        long id;
 
-        public Tuple(long id, RETURN_TYPE value)
-        {
-            this.id = id;
-            this.value = value;
-        }
-    }
 
     private final AtomicReference<RETURN_TYPE> return_value = new AtomicReference<>();
     private final AtomicInteger return_id = new AtomicInteger();
@@ -84,7 +75,7 @@ public abstract class AbstractDAO<RETURN_TYPE>
         }
     }
 
-    public final Tuple getResult()
+    public final Pair<Integer, RETURN_TYPE> getResult()
     {
         if (!this.hasExecutedSuccessfully.get())
         {
@@ -93,7 +84,7 @@ public abstract class AbstractDAO<RETURN_TYPE>
             return null;
         }
 
-        return new Tuple(return_id.getAcquire(), return_value.getAcquire());
+        return new Pair<>(return_id.getAcquire(), return_value.getAcquire());
     }
 
     protected abstract RETURN_TYPE execute(PreparedStatement statement) throws SQLException;
