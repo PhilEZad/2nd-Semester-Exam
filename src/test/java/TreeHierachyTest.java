@@ -1,19 +1,3 @@
-import Application.BE.Category;
-import Application.BE.ContentEntry;
-import Application.GUI.Models.CategoryEntryModel;
-import Application.Utility.GUIUtils;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.scene.control.TreeItem;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
@@ -108,34 +92,34 @@ public class TreeHierachyTest {
         subD4.setParent(superD);
 
         //Create ContentEntrys from Categories in a list
-        List<ContentEntry> categoryEntries = new ArrayList<>();
-        categoryEntries.add(new ContentEntry(-1, superA, -1));
-        categoryEntries.add(new ContentEntry(-1, subA1, -1));
-        categoryEntries.add(new ContentEntry(-1, subA2, -1));
-        categoryEntries.add(new ContentEntry(-1, subA3, -1));
-        categoryEntries.add(new ContentEntry(-1, subA4, -1));
+        List<FunctionalEntry> categoryEntries = new ArrayList<>();
+        categoryEntries.add(new FunctionalEntry(-1, superA, -1));
+        categoryEntries.add(new FunctionalEntry(-1, subA1, -1));
+        categoryEntries.add(new FunctionalEntry(-1, subA2, -1));
+        categoryEntries.add(new FunctionalEntry(-1, subA3, -1));
+        categoryEntries.add(new FunctionalEntry(-1, subA4, -1));
 
-        categoryEntries.add(new ContentEntry(-1, superB, -1));
-        categoryEntries.add(new ContentEntry(-1, subB1, -1));
-        categoryEntries.add(new ContentEntry(-1, subB2, -1));
-        categoryEntries.add(new ContentEntry(-1, subB3, -1));
-        categoryEntries.add(new ContentEntry(-1, subB4, -1));
+        categoryEntries.add(new FunctionalEntry(-1, superB, -1));
+        categoryEntries.add(new FunctionalEntry(-1, subB1, -1));
+        categoryEntries.add(new FunctionalEntry(-1, subB2, -1));
+        categoryEntries.add(new FunctionalEntry(-1, subB3, -1));
+        categoryEntries.add(new FunctionalEntry(-1, subB4, -1));
 
-        categoryEntries.add(new ContentEntry(-1, superC, -1));
-        categoryEntries.add(new ContentEntry(-1, subC1, -1));
-        categoryEntries.add(new ContentEntry(-1, subC2, -1));
-        categoryEntries.add(new ContentEntry(-1, subC3, -1));
-        categoryEntries.add(new ContentEntry(-1, subC4, -1));
+        categoryEntries.add(new FunctionalEntry(-1, superC, -1));
+        categoryEntries.add(new FunctionalEntry(-1, subC1, -1));
+        categoryEntries.add(new FunctionalEntry(-1, subC2, -1));
+        categoryEntries.add(new FunctionalEntry(-1, subC3, -1));
+        categoryEntries.add(new FunctionalEntry(-1, subC4, -1));
 
-        categoryEntries.add(new ContentEntry(-1, superD, -1));
-        categoryEntries.add(new ContentEntry(-1, subD1, -1));
-        categoryEntries.add(new ContentEntry(-1, subD2, -1));
-        categoryEntries.add(new ContentEntry(-1, subD3, -1));
-        categoryEntries.add(new ContentEntry(-1, subD4, -1));
+        categoryEntries.add(new FunctionalEntry(-1, superD, -1));
+        categoryEntries.add(new FunctionalEntry(-1, subD1, -1));
+        categoryEntries.add(new FunctionalEntry(-1, subD2, -1));
+        categoryEntries.add(new FunctionalEntry(-1, subD3, -1));
+        categoryEntries.add(new FunctionalEntry(-1, subD4, -1));
 
-        //Create CategoryEntryModels from the ContentEntry list and put the in a map with the category as key
-        categoryEntryModelHashMap.put(superSuperCategory, new CategoryEntryModel(new ContentEntry(-1, superSuperCategory, -1)));
-        for (ContentEntry contentEntry : categoryEntries) {
+        //Create CategoryEntryModels from the FunctionalEntry list and put the in a map with the category as key
+        categoryEntryModelHashMap.put(superSuperCategory, new CategoryEntryModel(new FunctionalEntry(-1, superSuperCategory, -1)));
+        for (FunctionalEntry contentEntry : categoryEntries) {
             categoryEntryModelHashMap.put(contentEntry.getCategory(), new CategoryEntryModel(contentEntry));
         }
 

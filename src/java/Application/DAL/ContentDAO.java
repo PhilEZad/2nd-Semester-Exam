@@ -1,6 +1,6 @@
 package Application.DAL;
 
-import Application.BE.ContentEntry;
+import Application.BE.FunctionalEntry;
 import Application.DAL.DBConnector.DBConnectionPool;
 
 import java.sql.Connection;
@@ -9,10 +9,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-public class ContentDAO implements IDatabaseActions<ContentEntry>
+public class ContentDAO implements IDatabaseActions<FunctionalEntry>
 {
     @Override
-    public ContentEntry create(ContentEntry input) {
+    public FunctionalEntry create(FunctionalEntry input) {
         String sql = """
                     INSERT INTO JournalEntry (FK_Category, assessment, cause, implications, currentStatus, expectedStatus, citizenGoals, notes, severity) 
                     VALUES (?, ?, ?, ?, ?, ?, ? ,?, ?)
@@ -23,7 +23,7 @@ public class ContentDAO implements IDatabaseActions<ContentEntry>
             PreparedStatement pstmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
 
-            pstmt.setInt(1, input.getCategory().getId());
+            pstmt.setInt(1, input.getCategory().getID());
             pstmt.setString(2, input.getAssessment());
             pstmt.setString(3, input.getCause());
             pstmt.setString(4, input.getImplications());
@@ -42,7 +42,7 @@ public class ContentDAO implements IDatabaseActions<ContentEntry>
                 id = generatedKeys.getInt(1);
             }
 
-            input.setId(id);
+            input.setID(id);
             pstmt.close();
             return input;
 
@@ -56,17 +56,17 @@ public class ContentDAO implements IDatabaseActions<ContentEntry>
     }
 
     @Override
-    public void update(ContentEntry input) {
+    public void update(FunctionalEntry input) {
 
     }
 
     @Override
-    public ContentEntry read(int id) {
+    public FunctionalEntry read(int id) {
         return null;
     }
 
     @Override
-    public List<ContentEntry> readAll() {
+    public List<FunctionalEntry> readAll() {
         return null;
     }
 

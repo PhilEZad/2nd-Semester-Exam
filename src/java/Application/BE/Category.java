@@ -3,7 +3,7 @@ package Application.BE;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Category {
+public class Category implements IUniqueIdentifier<Integer> {
 
     private Integer id = null;
 
@@ -29,14 +29,16 @@ public class Category {
         initType();
     }
 
-    private void initType() {
-        if (this.parent != null) {
+    private void initType()
+    {
+        if (this.parent != null)
+        {
             this.type = this.parent.getType();
         }
-        else switch (this.name) {
+        else switch (this.name)
+        {
             case "Helbredstilstande" -> this.type = CategoryType.HEALTH_CONDITION;
             case "Funktionsevnetilstande" -> this.type = CategoryType.FUNCTIONAL_ABILITY;
-            case "Generelle Oplysninger" -> this.type = CategoryType.GENERAL_INFORMATION;
             default -> this.type = CategoryType.UNKNOWN;
         }
     }
@@ -50,16 +52,14 @@ public class Category {
         this.type = isHealthCondition;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public Integer getIntegerID(){
+    @Override
+    public Integer getID() {
         return this.id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    @Override
+    public void setID(Integer id) {
+        this.id = id == null ? -1 : id;
     }
 
     public String getName() {

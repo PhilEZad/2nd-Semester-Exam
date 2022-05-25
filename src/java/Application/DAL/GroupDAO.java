@@ -1,6 +1,5 @@
 package Application.DAL;
 
-import Application.BE.Group;
 import Application.DAL.DBConnector.DBConnectionPool;
 
 import java.sql.Connection;

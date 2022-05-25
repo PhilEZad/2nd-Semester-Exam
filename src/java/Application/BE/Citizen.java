@@ -1,27 +1,25 @@
 package Application.BE;
 
-import Application.DAL.TemplateMethod.Annotations.SQLGetter;
-import Application.DAL.TemplateMethod.Annotations.SQLSetter;
-
 import java.util.HashMap;
-import java.util.List;
 
-public class Citizen implements Cloneable
+public class Citizen implements Cloneable, IUniqueIdentifier<Integer>
 {
     private int id;
-    private GeneralJournal journal;
     private School school;
     private String firstname;
     private String lastname;
     private int age;
+    private boolean isTemplate;
+
+    private GeneralJournal journal;
     private int zipCode;
-    private int template;
 
-    private HashMap<Category, ContentEntry> healthCategoryEntries;
+    private HashMap<Category, FunctionalEntry> healthCategoryEntries;
 
-    private HashMap<Category, ContentEntry> funcCategoryEntries;
+    private HashMap<Category, FunctionalEntry> funcCategoryEntries;
 
-    public Citizen(int id, GeneralJournal journal, School school, String firstname, String lastname, int age, int template)
+
+    public Citizen(int id, GeneralJournal journal, School school, String firstname, String lastname, int age, boolean template)
     {
         this.id = id;
         this.journal = journal;
@@ -29,12 +27,21 @@ public class Citizen implements Cloneable
         this.firstname = firstname;
         this.lastname = lastname;
         this.age = age;
-        this.template = template;
+        this.isTemplate = template;
 
         funcCategoryEntries = new HashMap<>();
         healthCategoryEntries = new HashMap<>();
     }
 
+    @Override
+    public Integer getID() {
+        return this.id;
+    }
+
+    @Override
+    public void setID(Integer id) {
+        this.id = id == null ? -1 : id;
+    }
 
     public int getZipCode() {
         return zipCode;
@@ -56,13 +63,6 @@ public class Citizen implements Cloneable
         this.firstname = firstname;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getLastname() {
         return lastname;
@@ -88,39 +88,39 @@ public class Citizen implements Cloneable
         this.school = school;
     }
 
-    public void setContent(HashMap<Category, ContentEntry> content)
+    public void setContent(HashMap<Category, FunctionalEntry> content)
     {
         // populate lists (healthCategoryEntries, funcCategoryEntries)
     }
     
-    public void setFunctionalAbilities (HashMap<Category, ContentEntry> functionalAbilities) {
+    public void setFunctionalAbilities (HashMap<Category, FunctionalEntry> functionalAbilities) {
         funcCategoryEntries.clear();
-        for (ContentEntry entry : functionalAbilities.values()) {
+        for (FunctionalEntry entry : functionalAbilities.values()) {
             funcCategoryEntries.put(entry.getCategory(), entry);
         };
     }
 
-    public void setHealthConditions (HashMap<Category, ContentEntry> healthConditions) {
+    public void setHealthConditions (HashMap<Category, FunctionalEntry> healthConditions) {
         healthCategoryEntries.clear();
-        for (ContentEntry entry : healthConditions.values()) {
+        for (FunctionalEntry entry : healthConditions.values()) {
             healthCategoryEntries.put(entry.getCategory(), entry);
         };
     }
 
-    public HashMap<Category, ContentEntry> getFunctionalAbilities() {
+    public HashMap<Category, FunctionalEntry> getFunctionalAbilities() {
         return funcCategoryEntries;
     }
 
-    public HashMap<Category, ContentEntry> getHealthConditions() {
+    public HashMap<Category, FunctionalEntry> getHealthConditions() {
         return healthCategoryEntries;
     }
 
-    public void addFunctionalAbility (ContentEntry entry)
+    public void addFunctionalAbility (FunctionalEntry entry)
     {
         funcCategoryEntries.put(entry.getCategory(), entry);
     }
 
-    public void addHealthConditions (ContentEntry entry)
+    public void addHealthConditions (FunctionalEntry entry)
     {
         healthCategoryEntries.put(entry.getCategory(), entry);
     }
@@ -139,15 +139,17 @@ public class Citizen implements Cloneable
         return super.clone();
     }
 
-    public int getTemplate()
+    public boolean getTemplate()
     {
-        return template;
+        return isTemplate;
     }
 
-    public void setTemplate(int template)
+    public void setTemplate(boolean template)
     {
-        this.template = template;
+        this.isTemplate = template;
     }
+
+
 }
 
 

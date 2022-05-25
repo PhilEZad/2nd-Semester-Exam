@@ -1,32 +1,32 @@
 package Application.BE;
 
-public class ContentEntry {
-
-    private Category category = null;
+public class FunctionalEntry implements IUniqueIdentifier<Integer> {
 
     private Integer id = 0;
+    private Category category = null;
 
     private String assessment = "";
     private String cause = "";
     private String implications = "";
+    private String citizenGoals = "";
+    private String note = "";
+
     private Integer currentStatus = 0;
     private Integer expectedStatus = 0;
 
-    private String citizenGoals = "";
-    private String note = "";
 
     private boolean relevant;
     private Integer severity = null;
 
 
-    public ContentEntry(Category category)
+    public FunctionalEntry(Category category)
     {
-        this.id = category.getId();
+        this.id = category.getID();
         this.category = category;
         initRelevance();
     }
 
-    public ContentEntry(int id, Category category, int level) {
+    public FunctionalEntry(int id, Category category, int level) {
         this.id = id;
         this.category = category;
         this.currentStatus = level;
@@ -34,7 +34,7 @@ public class ContentEntry {
         initRelevance();
     }
 
-    public ContentEntry(int id, Category category, int level, String assessment, String cause, String implications, int expectedStatus, String citizenGoals, String note)
+    public FunctionalEntry(int id, Category category, int level, String assessment, String cause, String implications, int expectedStatus, String citizenGoals, String note)
     {
         this.id = id;
         this.category = category;
@@ -52,12 +52,14 @@ public class ContentEntry {
     }
 
 
-    public int getId() {
-        return id;
+    @Override
+    public Integer getID() {
+        return this.id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    @Override
+    public void setID(Integer id) {
+        this.id = id == null ? -1 : id;
     }
 
     public Category getCategory() {
@@ -137,28 +139,17 @@ public class ContentEntry {
         return relevant;
     }
 
-    private void initRelevance() {
+    private void initRelevance()
+    {
         if (this.currentStatus == -1)
+        {
             this.relevant = false;
-        else switch (getCategory().getType()){
-            case FUNCTIONAL_ABILITY -> {
-                if (this.currentStatus != 9) {
-                    setRelevant(true);
-                }
-                else {
-                    setRelevant(false);
-                }
-            }
-            case HEALTH_CONDITION -> {
-                if (this.currentStatus != 0) {
-                    setRelevant(true);
-                }
-                else {
-                    setRelevant(false);
-                }
-            }
-            case GENERAL_INFORMATION -> setRelevant(true);
-            }
+        }
+        else switch (getCategory().getType())
+        {
+            case FUNCTIONAL_ABILITY -> setRelevant(this.currentStatus != 9);
+            case HEALTH_CONDITION -> setRelevant(this.currentStatus != 0);
+        }
     }
 
     public int getSeverity() {
