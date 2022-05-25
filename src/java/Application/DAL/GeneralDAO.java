@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GeneralDAO extends TemplatePatternDAO<GeneralJournal> {
+public class GeneralDAO implements IDatabaseActions<GeneralJournal> {
     @Override
     public GeneralJournal create(GeneralJournal input) {
         String sql = """

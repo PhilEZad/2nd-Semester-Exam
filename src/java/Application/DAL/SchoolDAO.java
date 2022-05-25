@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SchoolDAO extends TemplatePatternDAO<School>
+public class SchoolDAO implements IDatabaseActions<School>
 {
     @Override
     public School create(School input) {

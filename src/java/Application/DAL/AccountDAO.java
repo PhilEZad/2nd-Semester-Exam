@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AccountDAO extends TemplatePatternDAO<Account> {
+public class AccountDAO implements IDatabaseActions<Account> {
 
     /**
      * Creates an account from account entity given.
@@ -28,7 +28,7 @@ public class AccountDAO extends TemplatePatternDAO<Account> {
         Connection conn = DBConnectionPool.getInstance().checkOut();
         try {
             PreparedStatement pstmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
-            pstmt.setString(1, input.getUsername());
+            pstmt.setObject(1, input.getUsername());
             pstmt.setString(2, input.getPassword());
             pstmt.setString(3, input.getFirstName());
             pstmt.setString(4, input.getLastName());
@@ -36,7 +36,7 @@ public class AccountDAO extends TemplatePatternDAO<Account> {
             pstmt.setInt(6, input.getSchool().getSchoolID());
             pstmt.setInt(7, input.getAuthorization());
 
-            pstmt.executeUpdate();
+            pstmt.execute();
 
             int id = -1;
 

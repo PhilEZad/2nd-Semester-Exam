@@ -1,8 +1,6 @@
 package Application.DAL;
 
 import Application.BE.Category;
-import Application.BE.Citizen;
-import Application.BE.Group;
 import Application.DAL.DBConnector.DBConnectionPool;
 
 import java.sql.Connection;
@@ -11,7 +9,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CategoryDAO extends TemplatePatternDAO<Category> {
+public class CategoryDAO implements IDatabaseActions<Category> {
     @Override
     public Category create(Category input) {
         System.err.println("illegal");

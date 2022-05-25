@@ -1,6 +1,5 @@
 package Application.DAL;
 
-import Application.BE.Account;
 import Application.BE.Group;
 import Application.DAL.DBConnector.DBConnectionPool;
 
@@ -11,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GroupDAO extends TemplatePatternDAO<Group>
+public class GroupDAO implements IDatabaseActions<Group>
 {
 
     @Override

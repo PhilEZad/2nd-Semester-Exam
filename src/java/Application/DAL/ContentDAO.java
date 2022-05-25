@@ -1,6 +1,5 @@
 package Application.DAL;
 
-import Application.BE.Citizen;
 import Application.BE.ContentEntry;
 import Application.DAL.DBConnector.DBConnectionPool;
 
@@ -10,7 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-public class ContentDAO extends TemplatePatternDAO<ContentEntry>
+public class ContentDAO implements IDatabaseActions<ContentEntry>
 {
     @Override
     public ContentEntry create(ContentEntry input) {

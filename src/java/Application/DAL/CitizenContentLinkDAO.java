@@ -8,7 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
-public class CitizenContentLinkDAO extends TemplatePatternDAO<CitizenContentBinding>
+public class CitizenContentLinkDAO implements IDatabaseActions<CitizenContentBinding>
 {
 
     private void singleBind(int citizenID, int contentID)
