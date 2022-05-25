@@ -15,7 +15,7 @@ public class CategoryLoader
         for (var category : completeList)
         {
 
-            if (category.getParentID() == root.getId())
+            if (category.getParentID() == root.getID())
             {
                 root.getChildren().add(category);
                 category.setParent(root);
