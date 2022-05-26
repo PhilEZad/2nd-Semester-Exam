@@ -43,8 +43,6 @@ public class CitizensController implements Initializable
     {
         initTables();
         initListeners();
-
-
     }
 
     public void initTables()
