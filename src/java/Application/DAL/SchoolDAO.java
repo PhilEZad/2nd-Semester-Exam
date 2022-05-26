@@ -2,7 +2,9 @@ package Application.DAL;
 
 import Application.BE.School;
 import Application.DAL.DBConnector.DBConnectionPool;
+import Application.DAL.TemplateMethod.AbstractDAO;
 import Application.DAL.TemplateMethod.IDatabaseActions;
+import Application.DAL.util.ResultSetHelpers;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,119 +16,135 @@ import java.util.List;
 public class SchoolDAO implements IDatabaseActions<School>
 {
     @Override
-    public School create(School input) {
-        String sql = "INSERT INTO School (schoolName, FK_Zipcode) VALUES (?, ?)";
+    public School create(School input)
+    {
+        var dao = new AbstractDAO<Void>() {
+            @Override
+            protected Void execute(PreparedStatement statement) throws SQLException {
 
-        Connection conn = DBConnectionPool.getInstance().checkOut();
+                setPlaceholders(statement, input.getSchoolName(), input.getZipCode());
+                statement.executeUpdate();
 
-        try
-        {
-            PreparedStatement pstmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
-
-            pstmt.setString(1,input.getSchoolName());
-            pstmt.setInt(2, input.getZipCode());
-            pstmt.execute();
-
-            int id = -1;
-
-            ResultSet generatedKeys = pstmt.getGeneratedKeys();
-            if (generatedKeys.next()) {
-                id = generatedKeys.getInt(1);
+                return null;
             }
 
-            pstmt.close();
+            @Override
+            protected String getSQLStatement() {
+                return """
+                        INSERT INTO School (schoolName, FK_Zipcode) VALUES (?, ?)
+                        """;
+            }
+        };
 
-            return new School(id, input.getSchoolName(), input.getZipCode(), input.getCityName());
+        dao.start();
+        input.setID(dao.getResult().getKey());
+        return input;
+    }
 
-        }
-        catch (SQLException throwable)
+    @Override
+    public void update(School input)
+    {
+        var dao = new AbstractDAO<Void>()
         {
-            throwable.printStackTrace();
-            return null;
-        }
-        finally
-        {
-            DBConnectionPool.getInstance().checkIn(conn);
-        }
-    }
+            @Override
+            protected Void execute(PreparedStatement statement) throws SQLException {
 
-    @Override
-    public void update(School input) {
-        String sql = "UPDATE school SET schoolName =  ?, FK_Zipcode = ? WHERE SID = ?";
-
-        Connection conn = DBConnectionPool.getInstance().checkOut();
-        try {
-            PreparedStatement psus = conn.prepareStatement(sql);
-
-            psus.setString(1, input.getSchoolName());
-            psus.setInt(2, input.getZipCode());
-            psus.setInt(3, input.getID());
-            psus.executeUpdate();
-            psus.close();
-        } catch (SQLException throwable) {
-            throwable.printStackTrace();
-        } finally {
-            DBConnectionPool.getInstance().checkIn(conn);
-        }
-    }
-
-    @Override
-    public School read(int id) {
-        return null;
-    }
-
-    @Override
-    public List<School> readAll() {
-        String sqlRead = "SELECT * FROM school JOIN Zipcode ON school.FK_Zipcode = ZipCode.Zip";
-
-        List<School> schoolList = new ArrayList<>();
-
-        Connection conn = DBConnectionPool.getInstance().checkOut();
-        try {
-            PreparedStatement psas = conn.prepareStatement(sqlRead);
-
-            ResultSet rs = psas.executeQuery();
-
-            while (rs.next()) {
-                schoolList.add(
-                        new School(
-                                rs.getInt("SID"),
-                                rs.getString("schoolName"),
-                                rs.getInt("Zip"),
-                                rs.getString("city")
-                        )
-                );
+                setPlaceholders(statement, input.getSchoolName(), input.getZipCode(), input.getID());
+                statement.executeUpdate();
+                return null;
             }
 
-            return schoolList;
-        } catch (Exception e)
-        {
-            e.printStackTrace();
-            return null;
-        }
-        finally {
-            DBConnectionPool.getInstance().checkIn(conn);
-        }
+            @Override
+            protected String getSQLStatement() {
+                return """
+                        UPDATE school SET schoolName =  ?, FK_Zipcode = ? WHERE SID = ?
+                        """;
+            }
+        };
+
+        dao.start();
+    }
+
+    @Override
+    public School read(int id)
+    {
+        var dao = new AbstractDAO<School>(){
+
+            @Override
+            protected School execute(PreparedStatement statement) throws SQLException {
+
+                ResultSet rs = statement.executeQuery();
+                setPlaceholders(statement, id);
+                rs.next();
+                return ResultSetHelpers.buildSchool(rs);
+            }
+
+            @Override
+            protected String getSQLStatement() {
+                return """
+                        SELECT * FROM School
+                        JOIN Zipcode on Zipcode.Zip = School.FK_Zipcode
+                        WHERE SID = ?
+                        """;
+            }
+        };
+
+        dao.start();
+        return dao.getResult().getValue();
+    }
+
+    @Override
+    public List<School> readAll()
+    {
+        var dao = new AbstractDAO<List<School>>(){
+
+            @Override
+            protected List<School> execute(PreparedStatement statement) throws SQLException
+            {
+                List<School> results = new ArrayList<>();
+                ResultSet rs = statement.executeQuery();
+                while (rs.next()) {
+                    results.add(ResultSetHelpers.buildSchool(rs));
+                }
+                return results;
+            }
+
+            @Override
+            protected String getSQLStatement() {
+                return """
+                        SELECT * FROM School
+                        JOIN Zipcode on Zipcode.Zip = School.FK_Zipcode
+                        """;
+            }
+        };
+
+        dao.start();
+        return dao.getResult().getValue();
     }
 
     @Override
     public void delete(int id)
     {
-        String sql = "DELETE FROM School WHERE SID = ?";
+        var dao = new AbstractDAO<Void>()
+        {
+            @Override
+            protected Void execute(PreparedStatement statement) throws SQLException
+            {
+                setPlaceholders(statement, id);
+                statement.executeUpdate();
+                return null;
+            }
 
-        Connection conn = DBConnectionPool.getInstance().checkOut();
+            // TODO: 26-05-2022 delete relations
+            @Override
+            protected String getSQLStatement() {
+                return """
+                        DELETE FROM School WHERE SID = ?
+                        """;
+            }
+        };
 
-        try {
-            PreparedStatement psds = conn.prepareStatement(sql);
+        dao.start();
 
-            psds.setInt(1, id);
-
-            psds.executeUpdate();
-            psds.close();
-        } catch (SQLException throwable) {
-            throwable.printStackTrace();
-        } finally {
-            DBConnectionPool.getInstance().checkIn(conn);
-        }
     }
 }
