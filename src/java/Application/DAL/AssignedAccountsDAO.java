@@ -2,136 +2,280 @@ package Application.DAL;
 
 import Application.BE.Account;
 import Application.BE.Citizen;
+import Application.BE.GeneralJournal;
+import Application.BE.School;
+import Application.DAL.TemplateMethod.AbstractDAO;
 import javafx.util.Pair;
 
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class AssignedAccountsDAO implements IDatabaseActions<Pair<Citizen, List<Account>>>
 {
 
-        @Override
-        public Pair<Citizen, List<Account>> create(Pair<Citizen, List<Account>> input)
-        {
-            return null;
-        }
+    @Override
+    public Pair<Citizen, List<Account>> create(Pair<Citizen, List<Account>> input)
+    {
+        var dao = new AbstractDAO<Pair<Citizen, List<Account>>>() {
 
-        @Override
-        public void update(Pair<Citizen, List<Account>> input)
-        {
-
-        }
-
-        /**
-         * @param id is taken from the account, and all citizens assigned will be returned
-         * */
-        @Override
-        public Pair<Citizen, List<Account>> read(int id) throws SQLException
-        {
-            return null;
-        }
-
-        /**
-         * @param id is taken from the account, and all citizens assigned will be removed (only the reference)
-         * */
-        @Override
-        public void delete(int id) {
-
-        }
-
-
-
-        public List<CitizenModel> read(AccountModel id) throws SQLException
-        {
-            String sql = """                                                                                                             
-                                                                                                                                     
-                    """;
-
-            Connection conn = DBConnectionPool.getInstance().checkOut();
-
-            PreparedStatement ptsm = conn.prepareStatement(sql);
-            ptsm.setInt(1, id.getId());
-
-            ResultSet resultSet = ptsm.executeQuery();
-            List<CitizenModel> accounts = new ArrayList<>();
-            while (resultSet.next())
+            @Override
+            protected Pair<Citizen, List<Account>> execute(PreparedStatement statement) throws SQLException
             {
-                accounts.add(new CitizenModel( new Citizen(
-                        resultSet.getInt("CID"),
-                        new GeneralJournal(), // TODO: 24-05-2022
-                        new School(1, "EASV", 6700, "Esbjerg"),
-                        resultSet.getString("firstname"),
-                        resultSet.getString("lastname"),
-                        resultSet.getInt("age"),
-                        resultSet.getBoolean("isTemplate")
-                )));
-            }
-            return accounts;
-        }
+                for (Account account : input.getValue())
+                {
+                    AbstractDAO.setPlaceholders(statement, account.getID(), input.getKey());
+                    statement.addBatch();
 
-        public List<AccountModel> read(CitizenModel id) throws SQLException
-        {
-            String sql = """                                                                                                             
-                    SELECT * FROM [Group]                                                                                            
-                    JOIN AccountGroup ON AccountGroup.FK_GroupID = FK_GroupID                                                        
-                    JOIN Account ON AccountGroup.FK_MemberID = Account.AID                                                           
-                    WHERE [Group].FK_Citizen = ?                                                                                     
-                    """;
-
-            Connection conn = DBConnectionPool.getInstance().checkOut();
-
-            PreparedStatement ptsm = conn.prepareStatement(sql);
-            ptsm.setInt(1, id.getBeCitizen().getID());
-
-            ResultSet resultSet = ptsm.executeQuery();
-            List<AccountModel> accounts = new ArrayList<>();
-            while (resultSet.next())
-            {
-                accounts.add(new AccountModel( new Account(
-                        resultSet.getInt("AID"),
-                        resultSet.getString("username"),
-                        resultSet.getString("hashed_pwd"),
-                        resultSet.getString("firstname"),
-                        resultSet.getString("lastname"),
-                        resultSet.getString("email"),
-                        new School(1, "EASV", 6700,  "Esbjerg"),
-                        resultSet.getByte("accountType") == 0x01,
-                        resultSet.getByte("accountType") == 0x10)
-                ));
-            }
-            return accounts;
-        }
-
-
-
-
-        public List<Group> readAll() throws SQLException
-        {
-            List<Group> returnList = new ArrayList<>();
-
-            String sql = """                                                                                                             
-                SELECT * FROM AccountGroup                                                                                           
-                JOIN Account ON AccountGroup.FK_MemberID = Account.AID                                                               
-                JOIN School ON Account.FK_AccountSchool = School.SID                                                                 
-                JOIN Zipcode ON School.FK_Zipcode = Zipcode.Zip                                                                      
-                """;
-
-            Connection conn = DBConnectionPool.getInstance().checkOut();
-
-            PreparedStatement ptsm = conn.prepareStatement(sql);
-
-            ResultSet resultSet = ptsm.executeQuery();
-
-            while (resultSet.next())
-            {
-
-
-                returnList.add(newGroup);
+                }
+                statement.executeBatch();
+                return null;
             }
 
-            return returnList;
+            @Override
+            protected String getSQLStatement() {
+                return """
+                            INSERT INTO AssignedCitizen (FK_AID, FK_CID)
+                            VALUES (?, ?)
+                            """;
+            }
+        };
+
+        dao.start();
+
+        // TODO: 25-05-2022 ?? create test to see whether or not the sizes always match (maybe some edge case)
+        var ids = dao.getAllReturnedIDs();
+        for (int i = 0; i < Math.min(input.getValue().size(), ids.size()); i++)
+        {
+            input.getValue().get(i).setID(ids.get(i));
         }
 
+        return input;
+    }
+
+    @Override
+    public void update(Pair<Citizen, List<Account>> input)
+    {
+        var dao = new AbstractDAO<Pair<Citizen, List<Account>>>() {
+
+            @Override
+            protected Pair<Citizen, List<Account>> execute(PreparedStatement statement) throws SQLException {
+                for (Account account : input.getValue()) {
+                    AbstractDAO.setPlaceholders(statement, account.getID(), input.getKey(), account.getID(), input.getKey());
+                    statement.addBatch();
+
+                }
+                statement.executeBatch();
+                return null;
+            }
+
+            @Override
+            protected String getSQLStatement() {
+
+                // if current is in sql
+                    // do nothing
+                // if not in sql
+                    // add to sql
+                // if in sql but not in list - removed in application
+                    // remove from database (ignored)
+
+                return """
+                            IF NOT EXISTS(SELECT * FROM AssignedCitizen WHERE FK_AID = ? AND FK_CID = ?) -- current is not in sql
+                            BEGIN
+                            	INSERT INTO AssignedCitizen (FK_AID, FK_CID) VALUES (?, ?)
+                            END
+                            """;
+            }
+        };
+
+        dao.start();
 
     }
+
+    /**
+     *
+     * @param id is taken from the citizen, and all accounts assigned will be returned
+     * */
+    @Override
+    public Pair<Citizen, List<Account>> read(int id) throws SQLException
+    {
+        var dao = new AbstractDAO<List<Account>>() {
+            @Override
+            protected List<Account> execute(PreparedStatement statement) throws SQLException
+            {
+                var accounts = new ArrayList<Account>();
+
+                setPlaceholders(statement, id);
+
+                var rs = statement.executeQuery();
+
+                while (rs.next())
+                {
+                    accounts.add(new Account(
+                            rs.getInt("AID"),
+                            rs.getString("username"),
+                            rs.getString("password"),
+                            rs.getString("firstname"),
+                            rs.getString("lastname"),
+                            rs.getString("email"),
+                            new School (
+                                    rs.getInt("SID"),
+                                    rs.getString("schoolName"),
+                                    rs.getInt("Zip"),
+                                    rs.getString("city")
+                            ),
+                            rs.getByte("accountType") == 0x01,
+                            rs.getByte("accountType") == 0x10
+                    ));
+                }
+
+                return accounts;
+            }
+
+            @Override
+            protected String getSQLStatement() {
+                return """
+                            SELECT * FROM Citizen
+                            JOIN AssignedCitizen on Citizen.CID = AssignedCitizen.FK_CID
+                            JOIN School on Citizen.FK_cSchool = School.SID
+                            JOIN Zipcode on School.FK_Zipcode = Zipcode.Zip
+                            JOIN GeneralJournal on Citizen.CID = GeneralJournal.FK_Citizen
+                            WHERE AssignedCitizen.FK_CID = ?
+                            """;
+            }
+        };
+
+        dao.start();
+
+        return new Pair<>(new Citizen(id), dao.getResult().getValue());
+    }
+
+    @Override
+    public List<Pair<Citizen, List<Account>>> readAll()
+    {
+        var dao = new AbstractDAO<List<Pair<Citizen, List<Account>>>>()
+        {
+            @Override
+            protected List<Pair<Citizen, List<Account>>> execute(PreparedStatement statement) throws SQLException
+            {
+                var result = new ArrayList<Pair<Citizen, List<Account>>>();
+                var rs = statement.executeQuery();
+
+                while (rs.next())
+                {
+                    var citizenID = rs.getInt("CID");
+
+                    var account =  new Account(
+                            rs.getInt("AID"),
+                            rs.getString("username"),
+                            rs.getString("password"),
+                            rs.getString("firstname"),
+                            rs.getString("lastname"),
+                            rs.getString("email"),
+                            new School (
+                                    rs.getInt("SID"),
+                                    rs.getString("schoolName"),
+                                    rs.getInt("Zip"),
+                                    rs.getString("city")
+                            ),
+                            rs.getByte("accountType") == 0x01,
+                            rs.getByte("accountType") == 0x10
+                    );
+
+                    // construct citizen regardless
+
+
+                    var currentCitizenInList = result.stream().filter(accountListPair -> accountListPair.getKey().getID() == citizenID).findFirst();;
+
+                    if (currentCitizenInList.isPresent())
+                    {
+                        // it is in the list so add citizen to that list // maybe a copy is made ??? todo: test
+                        result.get(result.indexOf(currentCitizenInList.get())).getValue().add(account);
+                    }
+                    else
+                    {
+                        // construct citizen here because this is where we need it.
+                        var citizen = new Citizen(
+                                rs.getInt("CID"),
+                                new GeneralJournal(
+                                        rs.getInt("GID"),
+                                        rs.getString("coping"),
+                                        rs.getString( "motivation"),
+                                        rs.getString("resources"),
+                                        rs.getString("roles"),
+                                        rs.getString("habits"),
+                                        rs.getString("eduAndJob"),
+                                        rs.getString("lifeStory"),
+                                        rs.getString("healthInfo"),
+                                        rs.getString("assistiveDevices"),
+                                        rs.getString("homeLayout"),
+                                        rs.getString("network")
+                                ),
+                                new School(
+                                        rs.getInt("SID"),
+                                        rs.getString("schoolName"),
+                                        rs.getInt("Zip"),
+                                        rs.getString("city")
+                                ),
+                                rs.getString("firstname"),
+                                rs.getString("lastname"),
+                                rs.getInt("age"),
+                                rs.getBoolean("isTemplate")
+                        );
+
+                        // add account and citizen to list;
+                        result.add(new Pair<>(citizen, List.of(account)));
+                    }
+                }
+
+                return result;
+            }
+
+            @Override
+            protected String getSQLStatement() {
+                return """
+                            SELECT * FROM AssignedCitizen
+                            JOIN Account on AssignedCitizen.FK_AID = Account.AID
+                            JOIN Citizen on Citizen.CID = AssignedCitizen.FK_CID
+                            JOIN School on School.SID = Account.FK_aSchool AND Citizen.FK_cSchool = School.SID
+                            JOIN zipCode ON School.FK_Zipcode = zipCode.Zip
+                            """;
+            }
+        };
+
+        dao.start();;
+
+        return dao.getResult().getValue();
+    }
+
+    /**
+     * @param id is taken from the citizen, and all accounts assigned will be removed (only the reference)
+     * */
+    @Override
+    public void delete(int id)
+    {
+        var dao = new AbstractDAO<>() {
+
+            @Override
+            protected Object execute(PreparedStatement statement) throws SQLException
+            {
+                AbstractDAO.setPlaceholders(statement, id);
+                statement.executeUpdate();
+                return null;
+            }
+
+            @Override
+            protected String getSQLStatement() {
+                return """
+                            DELETE FROM AssignedCitizen
+                            WHERE FK_CID = ?
+                            """;
+            }
+        };
+
+        dao.start();
+    }
+
+}
 

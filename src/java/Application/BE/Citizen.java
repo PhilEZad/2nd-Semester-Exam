@@ -21,7 +21,7 @@ public class Citizen implements Cloneable, IUniqueIdentifier<Integer>
 
     public Citizen(int id, GeneralJournal journal, School school, String firstname, String lastname, int age, boolean template)
     {
-        this.id = id;
+        this(id);
         this.journal = journal;
         this.school = school;
         this.firstname = firstname;
@@ -31,6 +31,11 @@ public class Citizen implements Cloneable, IUniqueIdentifier<Integer>
 
         funcCategoryEntries = new HashMap<>();
         healthCategoryEntries = new HashMap<>();
+    }
+
+    public Citizen(int id)
+    {
+        this.id = id;
     }
 
     @Override
