@@ -4,6 +4,7 @@ import Application.BE.Account;
 import Application.BLL.TeacherDataManager;
 import Application.GUI.Models.AccountModel;
 import Application.GUI.Models.CitizenModel;
+import Application.Utility.GUIUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -11,14 +12,11 @@ import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -125,16 +123,22 @@ public class AddToGroupViewController implements Initializable {
     private ObservableList<AccountModel> studentList()
     {
         ObservableList<AccountModel> returnList = FXCollections.observableArrayList();
-        List<Account> accountList = dataManager.getAllStudents();
 
-        for (Account account : accountList)
-        {
-            if (account.getAuthorization() == 2)
-            {
-                AccountModel accountModel = new AccountModel(account);
-                returnList.add(accountModel);
+        try {
+            List<Account> accountList = dataManager.getAllStudents();
+
+            for (Account account : accountList) {
+                if (!account.getIsTeacher() && !account.getIsAdmin()) {
+                    AccountModel accountModel = new AccountModel(account);
+                    returnList.add(accountModel);
+                }
             }
+            return returnList;
+        } catch (SQLException sqlException)
+        {
+            GUIUtils.alertCall(Alert.AlertType.WARNING, "Database fejl.");
+            sqlException.printStackTrace();
+            return returnList;
         }
-        return returnList;
     }
 }
