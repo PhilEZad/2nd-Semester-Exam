@@ -54,7 +54,7 @@ public class EditAccountController implements Initializable {
                 txtFieldLastName.getText(),
                 txtFieldEmail.getText(),
                 account.getSchool(),
-                account.getAuthorization()
+                account.
         ));
 
         Stage stage = (Stage) btnSaveStudent.getScene().getWindow();

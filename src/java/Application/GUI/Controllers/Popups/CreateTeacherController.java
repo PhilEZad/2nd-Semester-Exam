@@ -1,11 +1,16 @@
 package Application.GUI.Controllers.Popups;
 
+import Application.BE.Account;
 import Application.BE.School;
 import Application.BLL.AdminDataManager;
+import Application.Utility.GUIUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
+
+import java.sql.SQLException;
 
 public class CreateTeacherController
 {
@@ -22,17 +27,25 @@ public class CreateTeacherController
     {
 
         // FIXME: 03/05/2022 -- Dummy School
-        School school = new School(1, "Dummy School", new Location(6800, "Varde"));
-
-        accountDAO.createAccount(
-                txtFieldUsername.getText(),
-                txtFieldPassword.getText(),
-                txtFieldFirstName.getText(),
-                txtFieldLastName.getText(),
-                txtFieldEmail.getText(),
-                school,
-                1
-        );
+        School school = new School(1, "Dummy School", 6800, "Varde");
+        try {
+            accountDAO.createTeacher(new Account(
+                            -1,
+                            txtFieldUsername.getText(),
+                            txtFieldPassword.getText(),
+                            txtFieldFirstName.getText(),
+                            txtFieldLastName.getText(),
+                            txtFieldEmail.getText(),
+                            school,
+                            true,
+                            false
+                    )
+            );
+        } catch (SQLException sqlException)
+        {
+            GUIUtils.alertCall(Alert.AlertType.WARNING, "Database fejl.");
+            sqlException.printStackTrace();
+        }
         ((Node) (actionEvent.getSource())).getScene().getWindow().hide();
     }
 
