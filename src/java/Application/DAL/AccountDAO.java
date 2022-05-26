@@ -108,7 +108,7 @@ public class AccountDAO implements IDatabaseActions<Account> {
                 return new Account(
                         rs.getInt("AID"),
                         rs.getString("username"),
-                        rs.getString("hashed_pwd"),
+                        rs.getString("password"),
                         rs.getString("firstname"),
                         rs.getString("lastname"),
                         rs.getString("email"),
@@ -242,7 +242,7 @@ public class AccountDAO implements IDatabaseActions<Account> {
                 return new Account(
                         rs.getInt("AID"),
                         rs.getString("username"),
-                        rs.getString("hashed_pwd"),
+                        rs.getString("password"),
                         rs.getString("firstname"),
                         rs.getString("lastname"),
                         rs.getString("email"),

@@ -2,6 +2,7 @@ package Application.DAL;
 
 import Application.BE.*;
 import Application.DAL.DBConnector.DBConnectionPool;
+import Application.DAL.TemplateMethod.AbstractDAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,234 +14,174 @@ import java.util.List;
 public class CitizenDAO implements IDatabaseActions<Citizen>
 {
     @Override
-    public Citizen create(Citizen input) {
-        String sql = """
-                    INSERT INTO Citizen (FK_Info, FK_SchoolOwner, firstName, lastName, age, template) 
-                    VALUES (?, ?, ?, ?, ?, ?)
-                    """;
+    public Citizen create(Citizen input)
+    {
+        var dao = new AbstractDAO<Citizen>(){
 
-        Connection conn = DBConnectionPool.getInstance().checkOut();
-        try {
-            PreparedStatement pstmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
-            pstmt.setInt(1, input.getJournal().getID());
-            pstmt.setInt(2, input.getSchool().getID());
-            pstmt.setString(3, input.getFirstname());
-            pstmt.setString(4, input.getLastname());
-            pstmt.setInt(5, input.getAge());
-            pstmt.setBoolean(6, input.getTemplate());
+            @Override
+            protected Citizen execute(PreparedStatement statement) throws SQLException {
 
-            pstmt.executeUpdate();
+                setPlaceholders(statement,
+                        input.getFirstname(),
+                        input.getLastname(),
+                        input.getAge(),
+                        input.getSchool().getID(),
+                        input.getTemplate()
+                );
 
-            int id = -1;
-
-            ResultSet generatedKeys = pstmt.getGeneratedKeys();
-            if (generatedKeys.next()) {
-                id = generatedKeys.getInt(1);
+                statement.executeUpdate();
+                return input;
             }
 
-            pstmt.close();
-            return new Citizen(
-                    id,
-                    input.getJournal(),
-                    input.getSchool(),
-                    input.getFirstname(),
-                    input.getLastname(),
-                    input.getAge(),
-                    input.getTemplate()
-            );
+            @Override
+            protected String getSQLStatement() {
+                return """
+                INSERT INTO Citizen (firstName, lastName, age, FK_cSchool, isTemplate) 
+                VALUES (?, ?, ?, ?, ?)
+                """;
+            }
+        };
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
-        finally {
-            DBConnectionPool.getInstance().checkIn(conn);
-        }
+        dao.start();
+        input.setID(dao.getResult().getKey());
+        return input;
     }
 
     @Override
     public void update(Citizen input)
     {
-        String sql = """
-                UPDATE Citizen
-                SET FK_Info = ?, FK_SchoolOwner = ?, firstName = ?, lastName = ?, age = ?
-                WHERE CID = ?
-                """;
-
-        Connection conn = DBConnectionPool.getInstance().checkOut();
-        try
+        var dao = new AbstractDAO<Void>()
         {
-            PreparedStatement ptsm = conn.prepareStatement(sql);
-            ptsm.setInt(1, input.getJournal().getID());
-            ptsm.setInt(2, input.getSchool().getID());
-            ptsm.setString(3, input.getFirstname());
-            ptsm.setString(4, input.getLastname());
-            ptsm.setInt(5, input.getAge());
+            @Override
+            protected Void execute(PreparedStatement statement) throws SQLException {
+                setPlaceholders(statement,
+                        input.getFirstname(),
+                        input.getLastname(),
+                        input.getAge(),
+                        input.getSchool().getID(),
+                        input.getID()
+                );
 
-            ptsm.executeUpdate();
+                statement.executeUpdate();
 
-        } catch (Exception e)
-        {
-            e.printStackTrace();
-        }
+                return null;
+            }
 
+            @Override
+            protected String getSQLStatement() {
+                return """
+                        UPDATE Citizen
+                        SET firstName = ?, lastName = ?, age = ?, FK_cSchool = ?
+                        WHERE CID = ?
+                        """;
+            }
+        };
+
+        dao.start();
     }
 
     @Override
     public Citizen read(int id)
     {
-        String sql = """
-                    SELECT * FROM Citizen
-                    JOIN School ON School.SID = Citizen.FK_SchoolOwner
-                    JOIN GeneralInfo ON GeneralInfo.InfoID = Citizen.FK_Info
-                    JOIN Zipcode ON Zipcode.zip = School.FK_Zipcode
-                    WHERE CID = ?
-                    """;
-
-        Connection conn = DBConnectionPool.getInstance().checkOut();
-        try
+        var dao = new AbstractDAO<Citizen>()
         {
-            PreparedStatement ptsm = conn.prepareStatement(sql);
-            ptsm.setInt(1, id);
+            @Override
+            protected Citizen execute(PreparedStatement statement) throws SQLException
+            {
+                setPlaceholders(statement, id);
+                ResultSet result = statement.executeQuery();
+                result.next();
 
-            ResultSet result = ptsm.executeQuery();
+                return ResultSetHelpers.buildCitizen(result);
+            }
 
-            result.next();
+            @Override
+            protected String getSQLStatement() {
+                return """
+                        SELECT * FROM Citizen
+                        JOIN School ON School.SID = Citizen.FK_cSchool
+                        JOIN GeneralJournal GJ on Citizen.CID = GJ.FK_Citizen
+                        JOIN Zipcode ON Zipcode.zip = School.FK_Zipcode
+                        WHERE CID = ?
+                        """;
+            }
+        };
 
-            School school = new School(
-                    result.getInt("SID"),
-                    result.getString("schoolName"),
-                    result.getInt("FK_Zipcode"),
-                    result.getString("city")
-            );
+        dao.start();
 
-            GeneralJournal journal = new GeneralJournal(
-                    result.getInt("InfoID"),
-                    result.getString("coping"),
-                    result.getString("motivation"),
-                    result.getString("resources"),
-                    result.getString("roles"),
-                    result.getString("habits"),
-                    result.getString("eduAndJob"),
-                    result.getString("lifestory"),
-                    result.getString("healthInfo"),
-                    result.getString("assistiveDevices"),
-                    result.getString("homelayout"),
-                    result.getString("network")
-            );
-
-            return new Citizen(
-                    result.getInt("CID"),
-                    journal,
-                    school,
-                    result.getString("firstName"),
-                    result.getString("lastName"),
-                    result.getInt("age"),
-                    result.getBoolean("isTemplate")
-            );
-        } catch (Exception e)
-        {
-            e.printStackTrace();
-            return null;
-        }
+        return dao.getResult().getValue();
     }
 
     @Override
     public List<Citizen> readAll()
     {
-        List<Citizen> returnList = new ArrayList<>();
-
-        String sql = """
-                    SELECT * FROM Citizen
-                    JOIN School ON School.SID = Citizen.FK_SchoolOwner
-                    JOIN GeneralInfo ON GeneralInfo.InfoID = Citizen.FK_Info
-                    JOIN Zipcode ON Zipcode.zip = School.FK_Zipcode
-                    """;
-
-        Connection conn = DBConnectionPool.getInstance().checkOut();
-        try {
-
-            PreparedStatement pstmt = conn.prepareStatement(sql);
-            ResultSet result = pstmt.executeQuery();
-
-            while (result.next()) {
-
-                School school = new School(
-                        result.getInt("SID"),
-                        result.getString("schoolName"),
-                        result.getInt("FK_Zipcode"),
-                        result.getString("city")
-                );
-
-                GeneralJournal journal = new GeneralJournal(
-                        result.getInt("InfoID"),
-                        result.getString("coping"),
-                        result.getString("motivation"),
-                        result.getString("resources"),
-                        result.getString("roles"),
-                        result.getString("habits"),
-                        result.getString("eduAndJob"),
-                        result.getString("lifestory"),
-                        result.getString("healthInfo"),
-                        result.getString("assistiveDevices"),
-                        result.getString("homelayout"),
-                        result.getString("network")
-                );
-
-                Citizen citizen = new Citizen(
-                        result.getInt("CID"),
-                        journal,
-                        school,
-                        result.getString("firstName"),
-                        result.getString("lastName"),
-                        result.getInt("age"),
-                        result.getBoolean("IsTemplate")
-                );
-
-                returnList.add(citizen);
-
-            }
-            pstmt.close();
-
-            return returnList;
-
-        } catch (SQLException e)
+        var dao = new AbstractDAO<List<Citizen>>()
         {
-            e.printStackTrace();
-            return returnList;
-        }
-        finally {
-            DBConnectionPool.getInstance().checkIn(conn);
-        }
+            @Override
+            protected List<Citizen> execute(PreparedStatement statement) throws SQLException {
+                ResultSet result = statement.executeQuery();
+                List<Citizen> citizens = new ArrayList<>();
+
+                while (result.next()) {
+
+                    citizens.add(ResultSetHelpers.buildCitizen(result));
+                }
+
+                return citizens;
+            }
+
+            @Override
+            protected String getSQLStatement() {
+                return """
+                        SELECT * FROM Citizen
+                        JOIN School ON School.SID = Citizen.FK_cSchool
+                        JOIN GeneralJournal GJ on Citizen.CID = GJ.FK_Citizen
+                        JOIN Zipcode ON Zipcode.zip = School.FK_Zipcode
+                        """;
+            }
+        };
+
+        dao.start();
+
+        return dao.getResult().getValue();
     }
 
     @Override
-    public void delete(int id) {
-        String sql =
-                """
-                DELETE FROM [Group]
-                WHERE EXISTS (SELECT FK_Citizen FROM [Group] WHERE FK_Citizen = ?)
-                
-                DELETE FROM Content
-                WHERE EXISTS (SELECT FK_CitizenID FROM Content WHERE FK_CitizenID = ?)
-                
-                DELETE FROM Citizen
-                WHERE CID = ?
-                """;
-
-        Connection conn = DBConnectionPool.getInstance().checkOut();
-        try
+    public void delete(int id)
+    {
+        var dao = new AbstractDAO<Void>()
         {
-            PreparedStatement pstm = conn.prepareStatement(sql);
-            pstm.setInt(1, id);
-            pstm.setInt(2, id);
-            pstm.setInt(3, id);
+            @Override
+            protected Void execute(PreparedStatement statement) throws SQLException
+            {
+                setPlaceholders(statement, id);
+                statement.executeUpdate();
+                return null;
+            }
 
-            pstm.execute();
+            @Override
+            protected String getSQLStatement() {
+                return """
+                        DECLARE @citizenID INT = ?;
+                        
+                        DELETE FROM AssignedCitizen -- remove all account <-> citizen relations
+                        WHERE AssignedCitizen.FK_CID = @citizenID
+                        
+                        DELETE FROM GeneralJournal  -- remove general information
+                        WHERE GeneralJournal.FK_Citizen = @citizenID
+                        
+                        DELETE FROM FunctionalEntry  -- remove all functional entries that has been edited
+                        WHERE FunctionalEntry.FK_Citizen = @citizenID
+                        
+                        DELETE FROM HealthEntry -- remove health entries
+                        WHERE HealthEntry.FK_Citizen = @citizenID
+                        
+                        DELETE FROM Citizen -- finally destroy the citizen
+                        WHERE CID = @citizenID
+                        """;
+            }
+        };
 
-        } catch (Exception e)
-        {
-            e.printStackTrace();
-        }
+        dao.start();
     }
 }

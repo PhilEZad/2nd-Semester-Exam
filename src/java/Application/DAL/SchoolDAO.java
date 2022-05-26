@@ -60,7 +60,7 @@ public class SchoolDAO implements IDatabaseActions<School>
 
             psus.setString(1, input.getSchoolName());
             psus.setInt(2, input.getZipCode());
-            psus.setInt(3, input.getID();
+            psus.setInt(3, input.getID());
             psus.executeUpdate();
             psus.close();
         } catch (SQLException throwable) {
