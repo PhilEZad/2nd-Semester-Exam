@@ -2,8 +2,6 @@ package Application.DAL;
 
 import Application.BE.Account;
 import Application.BE.Citizen;
-import Application.BE.GeneralJournal;
-import Application.BE.School;
 import Application.DAL.TemplateMethod.AbstractDAO;
 import Application.DAL.TemplateMethod.IDatabaseActions;
 import Application.DAL.util.ResultSetHelpers;
@@ -156,7 +154,7 @@ public class AssignedAccountsDAO implements IDatabaseActions<Pair<Citizen, List<
                     // construct account regardless
                     var account = ResultSetHelpers.buildAccount(rs);
 
-                    var currentCitizenInList = result.stream().filter(accountListPair -> accountListPair.getKey().getID() == citizenID).findFirst();;
+                    var currentCitizenInList = result.stream().filter(accountListPair -> accountListPair.getKey().getID() == citizenID).findFirst();
 
                     if (currentCitizenInList.isPresent())
                     {
@@ -188,7 +186,7 @@ public class AssignedAccountsDAO implements IDatabaseActions<Pair<Citizen, List<
             }
         };
 
-        dao.start();;
+        dao.start();
 
         return dao.getResult().getValue();
     }

@@ -9,46 +9,40 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="246.0" prefWidth="433.0" styleClass="panel30Deg" stylesheets="@../../Styles/MainStylesheet.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Application.GUI.Controllers.Popups.EditSchoolController">
-   <children>
-      <BorderPane prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <center>
+<AnchorPane prefHeight="246.0" prefWidth="433.0" styleClass="panel30Deg" stylesheets="@../../Styles/MainStylesheet.css"
+            xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="Application.GUI.Controllers.Popups.EditSchoolController">
+    <BorderPane prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <center>
             <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
-               <children>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                     <children>
-                        <Label styleClass="smallPanelLblNormal" text="Institutionsnavn:" />
-                        <TextField fx:id="txtSchoolName" prefHeight="19.0" prefWidth="173.0" styleClass="text-fieldBase" />
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                     <children>
-                        <Label styleClass="smallPanelLblNormal" text="Postnummer" />
-                        <TextField fx:id="txtSchoolZipCode" styleClass="text-fieldBase" />
-                     </children>
-                  </HBox>
-               </children>
+                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                    <Label styleClass="smallPanelLblNormal" text="Institutionsnavn:"/>
+                    <TextField fx:id="txtSchoolName" prefHeight="19.0" prefWidth="173.0"
+                               styleClass="text-fieldBase"/>
+                </HBox>
+                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                    <Label styleClass="smallPanelLblNormal" text="Postnummer"/>
+                    <TextField fx:id="txtSchoolZipCode" styleClass="text-fieldBase"/>
+                </HBox>
             </VBox>
-         </center>
-         <bottom>
+        </center>
+        <bottom>
             <HBox alignment="CENTER" prefHeight="59.0" prefWidth="463.0" BorderPane.alignment="CENTER">
-               <children>
-                  <Button fx:id="btnCancel" mnemonicParsing="false" onAction="#cancelEdits" styleClass="panelBtn" text="Annullere">
-                     <HBox.margin>
-                        <Insets right="250.0" />
-                     </HBox.margin>
-                  </Button>
-                  <Button fx:id="btnSave" mnemonicParsing="false" onAction="#saveEdits" styleClass="panelBtn" stylesheets="@../../Styles/MainStylesheet.css" text="Gem" />
-               </children>
+                <Button fx:id="btnCancel" mnemonicParsing="false" onAction="#cancelEdits" styleClass="panelBtn"
+                        text="Annullere">
+                    <HBox.margin>
+                        <Insets right="250.0"/>
+                    </HBox.margin>
+                </Button>
+                <Button fx:id="btnSave" mnemonicParsing="false" onAction="#saveEdits" styleClass="panelBtn"
+                        stylesheets="@../../Styles/MainStylesheet.css" text="Gem"/>
             </HBox>
-         </bottom>
-         <top>
+        </bottom>
+        <top>
             <HBox alignment="CENTER" prefHeight="34.0" prefWidth="429.0" BorderPane.alignment="CENTER">
-               <children>
-                  <Label styleClass="panelLbl" text="Rediger Skole" />
-               </children>
+                <Label styleClass="panelLbl" text="Rediger Skole"/>
             </HBox>
-         </top>
-      </BorderPane>
-   </children>
+        </top>
+    </BorderPane>
 </AnchorPane>

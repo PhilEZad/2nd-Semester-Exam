@@ -26,7 +26,6 @@ public final class GUIUtils {
     /**
      * Utility method for unwrapping the CategoryEntryModel from a TreeItem.
      *
-     * @param root
      * @return a list of CategoryEntryModels present in the TreeItem root.
      */
     public static List<CategoryEntryModel> getTreeItemsFromRoot(TreeItem<CategoryEntryModel> root) {
@@ -44,28 +43,26 @@ public final class GUIUtils {
 
             }
         });
-        thread.run();
+        thread.start();
         return catList;
     }
 
 
     /**
-     * And interger TextFormatter to only allow numbers to be entered.
+     * And integer TextFormatter to only allow numbers to be entered.
      *
-     * @return
      */
     public static UnaryOperator<TextFormatter.Change> getIntegerFilter() {
-        UnaryOperator<TextFormatter.Change> integerFilter = change -> {
+
+        return change -> {
             String newText = change.getControlNewText();
             //if (newText.matches("-?([1-9][0-9]*)?")) {
-            if (newText.matches("-?([1-9][0-9]*)?")) {
+            if (newText.matches("-?([1-9]\\d*)?")) {
 
                 return change;
             }
             return null;
         };
-
-        return integerFilter;
     }
 
     /**
@@ -73,9 +70,6 @@ public final class GUIUtils {
      * The list of items is filtered based on the text in the text field.
      * Items are automatically updated by a listener on the ListViews itemsProperty.
      *
-     * @param searchField
-     * @param listView
-     * @param <T>
      */
     public static <T> void searchListener(TextField searchField, ListView<T> listView) {
         //Wrap ObservableList of UserInfo in a FilteredList.
@@ -88,22 +82,18 @@ public final class GUIUtils {
         });
 
         //Sets the filter predict when filter changes.
-        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
-            filteredData.setPredicate(data -> {
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> filteredData.setPredicate(data -> {
 
-                //If filter is empty, display all accounts.
-                if (newValue == null || newValue.isEmpty()) {
-                    return true;
-                }
+            //If filter is empty, display all accounts.
+            if (newValue == null || newValue.isEmpty()) {
+                return true;
+            }
 
-                //Compare Account name with filter text.
-                String lowerCaseFilter = newValue.toLowerCase();
+            //Compare Account name with filter text.
+            String lowerCaseFilter = newValue.toLowerCase();
 
-                if (data.toString().toLowerCase().indexOf(lowerCaseFilter) != -1) {
-                    return true;
-                } else return false;
-            });
-        });
+            return data.toString().toLowerCase().contains(lowerCaseFilter);
+        }));
 
         SortedList<T> sortedUsers = new SortedList<>(filteredData);
 
@@ -124,7 +114,7 @@ public final class GUIUtils {
         TreeItem<CategoryEntryModel> returnRoot = null;
         if (rootCategory != null) {
             returnRoot = getChildrenToTreeItem(map, treeRoot, rootCategory.getChildren());
-            returnRoot = sortTreeItem(returnRoot);
+            sortTreeItem(returnRoot);
         }
 
         return returnRoot;

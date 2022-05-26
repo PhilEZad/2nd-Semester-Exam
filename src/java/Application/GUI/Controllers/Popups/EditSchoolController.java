@@ -28,7 +28,7 @@ public class EditSchoolController implements Initializable {
 
     SchoolModel school;
 
-    AdminDataManager dataManager;
+    final AdminDataManager dataManager;
 
     public EditSchoolController()
     {
@@ -40,7 +40,7 @@ public class EditSchoolController implements Initializable {
     {
         initBundle(resources);
 
-        txtSchoolZipCode.setTextFormatter(new TextFormatter<Integer>(new IntegerStringConverter(), 0, integerFilter()));
+        txtSchoolZipCode.setTextFormatter(new TextFormatter<>(new IntegerStringConverter(), 0, integerFilter()));
 
         txtSchoolName.setText(school.getName().get());
         txtSchoolZipCode.setText(Integer.toString(school.getZipCode().get()));
@@ -70,24 +70,21 @@ public class EditSchoolController implements Initializable {
     }
 
     private UnaryOperator<TextFormatter.Change> integerFilter(){
-        UnaryOperator<TextFormatter.Change> integerFilter = change -> {
+
+        return change -> {
             String newText = change.getControlNewText();
 
-            if (newText.matches("[0-9]+")) {
+            if (newText.matches("\\d+")) {
 
                 return change;
             }
             return null;
         };
-
-        return integerFilter;
     }
 
     private void initBundle(ResourceBundle resource)
     {
-        if (!(resource.getObject("selectedModel") == null))
-        {
-            school = (SchoolModel) resource.getObject("selectedModel");
-        }
+        resource.getObject("selectedModel");
+        school = (SchoolModel) resource.getObject("selectedModel");
     }
 }

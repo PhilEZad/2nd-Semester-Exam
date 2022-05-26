@@ -31,7 +31,7 @@ public class EditAccountController implements Initializable {
     @FXML public Button btnSaveStudent;
     @FXML public Button btnCancel;
 
-    AdminDataManager dataManager = new AdminDataManager();
+    final AdminDataManager dataManager = new AdminDataManager();
 
     AccountModel account;
 
@@ -43,7 +43,7 @@ public class EditAccountController implements Initializable {
         if (account.getIsTeacher())
         {
             lblHeaderTitle.setText("Rediger Lærer");
-        };
+        }
 
         txtFieldUsername.setText(account.getAccountName());
         txtFieldFirstName.setText(account.getFirstName());
@@ -101,9 +101,6 @@ public class EditAccountController implements Initializable {
 
     private void initBundle(ResourceBundle resource)
     {
-        if (!(resource.getObject("selectedModel") == null))
-        {
-            account = (AccountModel) resource.getObject("selectedModel");
-        }
+        account = (AccountModel) resource.getObject("selectedModel");
     }
 }

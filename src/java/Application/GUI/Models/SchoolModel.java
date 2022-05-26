@@ -8,10 +8,10 @@ import javafx.beans.property.StringProperty;
 
 public class SchoolModel {
 
-    private IntegerProperty id;
-    private StringProperty name;
-    private IntegerProperty zipCode;
-    private StringProperty city;
+    private final IntegerProperty id;
+    private final StringProperty name;
+    private final IntegerProperty zipCode;
+    private final StringProperty city;
     private School schoolBE;
 
     public SchoolModel(School school)

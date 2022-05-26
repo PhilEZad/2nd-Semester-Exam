@@ -1,10 +1,8 @@
 package Application.DAL.TemplateMethod;
 
-import Application.BE.IUniqueIdentifier;
 import Application.DAL.DBConnector.DBConnectionPool;
 import javafx.util.Pair;
 import org.intellij.lang.annotations.Language;
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.Connection;
@@ -14,7 +12,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
 public abstract class AbstractDAO<RETURN_TYPE>
@@ -104,7 +101,7 @@ public abstract class AbstractDAO<RETURN_TYPE>
     public final boolean hasFinished() { return this.hasFinished.get(); }
     public final boolean hasStarted() { return this.hasStarted.get(); }
     public final boolean isSuccessful() { return this.hasExecutedSuccessfully.get(); }
-    protected final Exception getLastError() { return LastException; };
+    protected final Exception getLastError() { return LastException; }
 
     public boolean hasValue() {
         return this.return_value.getAcquire() != null;

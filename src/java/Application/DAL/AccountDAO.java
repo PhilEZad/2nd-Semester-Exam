@@ -1,7 +1,6 @@
 package Application.DAL;
 
 import Application.BE.Account;
-import Application.BE.School;
 import Application.DAL.TemplateMethod.AbstractDAO;
 import Application.DAL.TemplateMethod.IDatabaseActions;
 import Application.DAL.util.ResultSetHelpers;
@@ -16,8 +15,6 @@ public class AccountDAO implements IDatabaseActions<Account> {
 
     /**
      * Creates an account from account entity given.
-     * @param input
-     * @return
      */
     @Override
     public Account create(Account input)
@@ -35,7 +32,7 @@ public class AccountDAO implements IDatabaseActions<Account> {
             @Override
             protected String getSQLStatement() {
                 return """
-                        INSERT INTO Account (username, password, firstName, lastname, email, FK_aSchool, accountType) 
+                        INSERT INTO Account (username, password, firstName, lastname, email, FK_aSchool, accountType)
                         VALUES (?, ?, ?, ?, ?, ?, ?)
                         """;
             }
@@ -52,7 +49,6 @@ public class AccountDAO implements IDatabaseActions<Account> {
 
     /**
      * Deletes a specific account based on account entity given.
-     * @param accountID
      */
     @Override
     public void delete(int accountID)
@@ -82,8 +78,6 @@ public class AccountDAO implements IDatabaseActions<Account> {
 
     /**
      * Returns a specific account based on account entity id given.
-     * @param accountID
-     * @return
      */
     @Override
     public Account read(int accountID)
@@ -118,7 +112,6 @@ public class AccountDAO implements IDatabaseActions<Account> {
 
     /**
      * Returns a list of all accounts.
-     * @return
      */
     @Override
     public List<Account> readAll()
@@ -156,7 +149,6 @@ public class AccountDAO implements IDatabaseActions<Account> {
 
     /**
      * Updates accounts using an account entity.
-     * @param input
      */
     @Override
     public void update(Account input)

@@ -3,7 +3,6 @@ package Application.GUI.Controllers;
 import Application.BE.Account;
 import Application.BE.School;
 import Application.BLL.AdminDataManager;
-import Application.GUI.Controllers.dashboard.AdminDashboardController;
 import Application.GUI.Models.AccountModel;
 import Application.GUI.Models.SchoolModel;
 import Application.Utility.GUIUtils;
@@ -19,7 +18,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import org.controlsfx.control.spreadsheet.SpreadsheetCellType;
 
 import java.io.IOException;
 import java.net.URL;
@@ -28,7 +26,7 @@ import java.util.*;
 
 public class AdminViewController implements Initializable {
 
-    AdminDataManager dataManager;
+    final AdminDataManager dataManager;
 
     @FXML TextField txtFieldSearch;
 
@@ -102,7 +100,7 @@ public class AdminViewController implements Initializable {
         Stage popupMenu = new Stage();
 
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/views/Popups/CreateStudentView.fxml"));
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/views/Popups/CreateStudentView.fxml")));
             popupMenu.setTitle("Ny Elev");
             popupMenu.setScene(new Scene(root));
             popupMenu.show();
@@ -118,7 +116,7 @@ public class AdminViewController implements Initializable {
         Stage popupMenu = new Stage();
         try
         {
-            Parent root = FXMLLoader.load(getClass().getResource("/views/Popups/CreateTeacherView.fxml"));
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/views/Popups/CreateTeacherView.fxml")));
             popupMenu.setTitle("Ny Lærer");
             popupMenu.setScene(new Scene(root));
             popupMenu.show();
@@ -134,7 +132,7 @@ public class AdminViewController implements Initializable {
         Stage popupMenu = new Stage();
 
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/views/Popups/CreateStudentView.fxml"));
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/views/Popups/CreateStudentView.fxml")));
             popupMenu.setTitle("Ny Elev");
             popupMenu.setScene(new Scene(root));
             popupMenu.show();
@@ -154,7 +152,7 @@ public class AdminViewController implements Initializable {
             if (tabViewTeacher.isSelected()) {
                 resource = getResource(tblViewTeacher);
                 Stage popupMenuTeacher = new Stage();
-                Parent rootTeacher = FXMLLoader.load(getClass().getResource("/views/Popups/EditAccountView.fxml"), resource);
+                Parent rootTeacher = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/views/Popups/EditAccountView.fxml")), resource);
                 popupMenuTeacher.setTitle("Rediger Lærer");
                 popupMenuTeacher.setScene(new Scene(rootTeacher));
                 popupMenuTeacher.show();
@@ -162,7 +160,7 @@ public class AdminViewController implements Initializable {
             } else if (tabViewStudent.isSelected()) {
                 resource = getResource(tblViewStudent);
                 Stage popupMenuStudent = new Stage();
-                Parent rootStudent = FXMLLoader.load(getClass().getResource("/Views/Popups/EditAccountView.fxml"), resource);
+                Parent rootStudent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Views/Popups/EditAccountView.fxml")), resource);
                 popupMenuStudent.setTitle("Rediger Elev");
                 popupMenuStudent.setScene(new Scene(rootStudent));
                 popupMenuStudent.show();
@@ -170,7 +168,7 @@ public class AdminViewController implements Initializable {
             } else if (tabViewSchool.isSelected()) {
                 resource = getResource(tblViewSchool);
                 Stage popupMenuSchool = new Stage();
-                Parent rootSchool = FXMLLoader.load(getClass().getResource("/views/Popups/EditSchoolView.fxml"), resource);
+                Parent rootSchool = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/views/Popups/EditSchoolView.fxml")), resource);
                 popupMenuSchool.setTitle("Rediger Skole");
                 popupMenuSchool.setScene(new Scene(rootSchool));
                 popupMenuSchool.show();
@@ -255,29 +253,23 @@ public class AdminViewController implements Initializable {
     {
         FilteredList<AccountModel> filteredData = new FilteredList<>(searchList, b -> true);
 
-        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
-            filteredData.setPredicate(user -> {
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> filteredData.setPredicate(user -> {
 
-                if (newValue == null || newValue.isEmpty())
-                {
-                    return true;
-                }
+            if (newValue == null || newValue.isEmpty())
+            {
+                return true;
+            }
 
-                String lowerCaseFilter = newValue.toLowerCase();
+            String lowerCaseFilter = newValue.toLowerCase();
 
-                if (user.getFirstName().toLowerCase().indexOf(lowerCaseFilter) != -1)
-                {
-                    return true;
-                } else if(user.getLastName().toLowerCase().indexOf(lowerCaseFilter) != -1)
-                {
-                    return true;
-                }else if (user.getEmail().toLowerCase().indexOf(lowerCaseFilter) != -1)
-                {
-                    return true;
-                } else
-                    return false;
-            });
-        });
+            if (user.getFirstName().toLowerCase().contains(lowerCaseFilter))
+            {
+                return true;
+            } else if(user.getLastName().toLowerCase().contains(lowerCaseFilter))
+            {
+                return true;
+            }else return user.getEmail().toLowerCase().contains(lowerCaseFilter);
+        }));
 
         SortedList<AccountModel> sortedUsers = new SortedList<>(filteredData);
 
@@ -294,20 +286,12 @@ public class AdminViewController implements Initializable {
 
         try
         {
-            switch (listType)
-            {
-                case STUDENT:
-                    accountList = dataManager.getAllStudents();
-                    break;
-                case TEACHER:
-                    accountList = dataManager.getAllTeachers();
-                    break;
-                case ADMIN:
-                    accountList = dataManager.getAllAdmins();
-                    break;
-                default:
-                    throw new IllegalStateException("Unexpected value: " + listType);
-            }
+            accountList = switch (listType) {
+                case STUDENT -> dataManager.getAllStudents();
+                case TEACHER -> dataManager.getAllTeachers();
+                case ADMIN -> dataManager.getAllAdmins();
+                default -> throw new IllegalStateException("Unexpected value: " + listType);
+            };
 
             for (Account account : accountList)
             {
@@ -352,7 +336,7 @@ public class AdminViewController implements Initializable {
     }
 
     private ResourceBundle getResource(TableView tableView) {
-        ResourceBundle resource = new ListResourceBundle() {
+        return new ListResourceBundle() {
             @Override
             protected Object[][] getContents() {
                 return new Object[][]
@@ -361,6 +345,5 @@ public class AdminViewController implements Initializable {
                         };
             }
         };
-        return resource;
     }
 }

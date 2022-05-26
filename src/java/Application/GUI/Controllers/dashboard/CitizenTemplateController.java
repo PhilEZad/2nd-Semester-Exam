@@ -103,7 +103,6 @@ public class CitizenTemplateController implements Initializable {
     /**
      * Shows the context menu with the available actions for the selected citizen template
      * right above the clicked button.
-     * @param event
      */
     public void onActions(ActionEvent event) {
         double offsetX = -15;
@@ -285,7 +284,7 @@ public class CitizenTemplateController implements Initializable {
         listViewCitizenTemplates.getSelectionModel().select(0);
 
         listViewCitizenTemplates.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            model.setSelectedCitizenTemplateModel((CitizenModel) newValue);
+            model.setSelectedCitizenTemplateModel(newValue);
             setDataToCitizenTemplateView();
         });
     }
@@ -336,7 +335,6 @@ public class CitizenTemplateController implements Initializable {
      * Sets the tables and relevant columns to editable or not. The same applies to the combo boxes within the level columns.
      * Also changes the visible buttons deciding whether to start, save or abandon the edit.
      *
-     * @param editable
      */
     private void setEditable(boolean editable) {
         treeTblViewFunc.setEditable(editable);
@@ -396,7 +394,6 @@ public class CitizenTemplateController implements Initializable {
      * Calls the model to save the pre-edit state of the citizen template.
      * Sets the root of the tree tables to the have every category for
      * health conditions and functional abilities respectively.
-     * @param event
      */
     public void onEditOn(ActionEvent event) {
         model.savePreEditState();
@@ -411,7 +408,6 @@ public class CitizenTemplateController implements Initializable {
      * If the user clicks yes, the model is called to save the changes.
      * Changes made to the base data and general info are applied directly to the citizen template.
      * A new root is set to the tree tables containing all relevant categories after the edit, and the edit mode is turned off.
-     * @param event
      */
     public void onEditDone(ActionEvent event) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -422,10 +418,10 @@ public class CitizenTemplateController implements Initializable {
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {
             CitizenModel selected = model.getSelectedCitizenTemplateModel();
-            if (selected.getFirstName() != txtFieldName.getText() && !txtFieldName.getText().isEmpty()) {
+            if (!Objects.equals(selected.getFirstName(), txtFieldName.getText()) && !txtFieldName.getText().isEmpty()) {
                 selected.setFirstName(txtFieldName.getText());
             }
-            if (selected.getLastName() != txtFieldSurname.getText() && !txtFieldSurname.getText().isEmpty()) {
+            if (!Objects.equals(selected.getLastName(), txtFieldSurname.getText()) && !txtFieldSurname.getText().isEmpty()) {
                 selected.setLastName(txtFieldSurname.getText());
             }
             if (selected.getAge() != Integer.parseInt(txtFieldAge.getText()) && !txtFieldAge.getText().isEmpty()) {
@@ -457,7 +453,6 @@ public class CitizenTemplateController implements Initializable {
     /**
      * Cancels the edit mode and returns the citizen template to its pre-edit state by replacing the
      * object present at the index of the selected citizen with the clone made before the edit was started.
-     * @param event
      */
     public void onEditCancel(ActionEvent event) {
         ObservableList<CitizenModel> templateModelObservableList = listViewCitizenTemplates.getItems();
@@ -498,8 +493,6 @@ public class CitizenTemplateController implements Initializable {
 
     /**
      * Small utility method for getting the item from the edit events made from the onEditCommit and onEditCancel methods.
-     * @param editEvent
-     * @return
      */
     private CategoryEntryModel getItemFromEditEvent(TreeTableColumn.CellEditEvent<CategoryEntryModel, String> editEvent) {
         TreeItem<CategoryEntryModel> treeItem = editEvent.getTreeTablePosition().getTreeItem();

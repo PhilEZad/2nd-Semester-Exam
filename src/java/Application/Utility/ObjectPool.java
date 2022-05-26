@@ -1,7 +1,6 @@
 package Application.Utility;
 
 import java.util.Enumeration;
-import java.util.Hashtable;
 import java.util.concurrent.ConcurrentHashMap;
 
 
@@ -23,7 +22,6 @@ public abstract class ObjectPool<T> {
 
     /**
      * Add an object to the pool.
-     * @return
      */
     protected abstract T create();
 
@@ -34,13 +32,11 @@ public abstract class ObjectPool<T> {
 
     /**
      * Remove an object from the pool.
-     * @param o
      */
     public abstract void expire(T o);
 
     /**
      * Borrow an object from the pool.
-     * @return
      */
     public synchronized T checkOut() {
         long now = System.currentTimeMillis();
@@ -76,7 +72,6 @@ public abstract class ObjectPool<T> {
 
     /**
      * Return an object to the pool.
-     * @param t
      */
     public synchronized void checkIn(T t) {
         locked.remove(t);

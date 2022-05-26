@@ -12,130 +12,131 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" styleClass="background" stylesheets="@../../Styles/MainStylesheet.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Application.GUI.Controllers.dashboard.AdminDashboardController">
-    <children>
-      <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <center>
-              <TabPane prefHeight="339.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE">
-                  <tabs>
-                      <Tab text="Elever">
-                          <content>
-                              <BorderPane>
-                           <center>
-                                      <TableView fx:id="tblViewStudent" stylesheets="@../../Styles/AdminTableViewStylesheet.css" BorderPane.alignment="CENTER">
-                                          <columns>
-                                              <TableColumn fx:id="tblClmStudentFirstName" prefWidth="151.0" text="Fornavn" />
-                                              <TableColumn fx:id="tblClmStudentLastName" prefWidth="151.0" text="Efternavn" />
-                                              <TableColumn fx:id="tblClmStudentEmail" prefWidth="219.0" text="Email" />
-                                          </columns>
-                                      </TableView>
-                           </center>
-                           <right>
-                              <VBox BorderPane.alignment="CENTER">
-                                 <children>
-                                              <Button mnemonicParsing="false" onAction="#onNewStudent" prefHeight="40.0" prefWidth="115.0" styleClass="backgroundButton" text="Opret Ny Elev">
-                                       <VBox.margin>
-                                          <Insets top="50.0" />
-                                       </VBox.margin>
-                                    </Button>
-                                              <Button mnemonicParsing="false" onAction="#onEditStudent" prefWidth="115.0" styleClass="backgroundButton" text="Rediger Elev">
-                                       <VBox.margin>
-                                          <Insets top="30.0" />
-                                       </VBox.margin>
-                                    </Button>
-                                              <Button mnemonicParsing="false" onAction="#onDeleteStudent" prefWidth="115.0" styleClass="backgroundButton" text="Slet Elev">
-                                       <VBox.margin>
-                                          <Insets top="30.0" />
-                                       </VBox.margin>
-                                    </Button>
-                                 </children>
-                              </VBox>
-                           </right>
-                              </BorderPane>
-                          </content>
-                      </Tab>
-                      <Tab text="Lærere">
-                          <content>
-                              <BorderPane>
-                                  <center>
-                                      <TableView fx:id="tblViewTeacher" prefHeight="200.0" prefWidth="200.0" stylesheets="@../../Styles/AdminTableViewStylesheet.css">
-                                          <columns>
-                                              <TableColumn fx:id="tblClmTeacherFirstName" prefWidth="151.0" text="Fornavn" />
-                                              <TableColumn fx:id="tblClmTeacherLastName" prefWidth="138.0" text="Efternavn" />
-                                              <TableColumn fx:id="tblClmTeacherEmail" minWidth="0.0" prefWidth="213.0" text="Email" />
-                                          </columns>
-                                      </TableView>
-                                  </center>
-                           <right>
-                              <VBox BorderPane.alignment="CENTER">
-                                 <children>
-                                              <Button mnemonicParsing="false" onAction="#onNewTeacher" prefHeight="40.0" prefWidth="127.0" styleClass="backgroundButton" text="Opret Ny Lærer">
-                                       <VBox.margin>
-                                          <Insets top="50.0" />
-                                       </VBox.margin>
-                                    </Button>
-                                              <Button mnemonicParsing="false" onAction="#onEditTeacher" prefWidth="127.0" styleClass="backgroundButton" text="Rediger Lærer">
-                                       <VBox.margin>
-                                          <Insets top="30.0" />
-                                       </VBox.margin>
-                                    </Button>
-                                              <Button mnemonicParsing="false" onAction="#onDeleteTeacher" prefWidth="127.0" styleClass="backgroundButton" text="Slet Lærer">
-                                       <VBox.margin>
-                                          <Insets top="30.0" />
-                                       </VBox.margin>
-                                    </Button>
-                                 </children>
-                              </VBox>
-                           </right>
-                              </BorderPane>
-                          </content>
-                      </Tab>
-                      <Tab text="Skoler">
-                          <content>
-                              <BorderPane>
-                                  <center>
-                                      <TableView fx:id="tblViewSchool" prefHeight="200.0" prefWidth="200.0" stylesheets="@../../Styles/AdminTableViewStylesheet.css">
-                                          <columns>
-                                              <TableColumn fx:id="tblClmSchoolName" prefWidth="188.0" text="Navn" />
-                                              <TableColumn fx:id="tblClmSchoolZipCode" prefWidth="95.0" text="Post Nr." />
-                                              <TableColumn fx:id="tblClmSchoolCity" prefWidth="183.0" text="By" />
-                                          </columns>
-                                      </TableView>
-                                  </center>
-                           <right>
-                              <VBox BorderPane.alignment="CENTER">
-                                 <children>
-                                              <Button mnemonicParsing="false" onAction="#onNewSchool" prefHeight="40.0" prefWidth="126.0" styleClass="backgroundButton" text="Opret Ny Skole">
-                                       <VBox.margin>
-                                          <Insets top="50.0" />
-                                       </VBox.margin>
-                                    </Button>
-                                              <Button mnemonicParsing="false" onAction="#onEditSchool" prefWidth="126.0" styleClass="backgroundButton" text="Rediger Skole">
-                                       <VBox.margin>
-                                          <Insets top="30.0" />
-                                       </VBox.margin>
-                                    </Button>
-                                              <Button mnemonicParsing="false" onAction="#onDeleteSchool" prefWidth="126.0" styleClass="backgroundButton" text="Slet Skole">
-                                       <VBox.margin>
-                                          <Insets top="30.0" />
-                                       </VBox.margin>
-                                    </Button>
-                                 </children>
-                              </VBox>
-                           </right>
-                              </BorderPane>
-                          </content>
-                      </Tab>
-                  </tabs>
-              </TabPane>
-         </center>
-         <top>
+<AnchorPane prefHeight="400.0" prefWidth="600.0" styleClass="background" stylesheets="@../../Styles/MainStylesheet.css"
+            xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="Application.GUI.Controllers.dashboard.AdminDashboardController">
+    <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                AnchorPane.topAnchor="0.0">
+        <center>
+            <TabPane prefHeight="339.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE">
+                <Tab text="Elever">
+                    <BorderPane>
+                        <center>
+                            <TableView fx:id="tblViewStudent"
+                                       stylesheets="@../../Styles/AdminTableViewStylesheet.css"
+                                       BorderPane.alignment="CENTER">
+                                <columns>
+                                    <TableColumn fx:id="tblClmStudentFirstName" prefWidth="151.0" text="Fornavn"/>
+                                    <TableColumn fx:id="tblClmStudentLastName" prefWidth="151.0"
+                                                 text="Efternavn"/>
+                                    <TableColumn fx:id="tblClmStudentEmail" prefWidth="219.0" text="Email"/>
+                                </columns>
+                            </TableView>
+                        </center>
+                        <right>
+                            <VBox BorderPane.alignment="CENTER">
+                                <Button mnemonicParsing="false" onAction="#onNewStudent" prefHeight="40.0"
+                                        prefWidth="115.0" styleClass="backgroundButton" text="Opret Ny Elev">
+                                    <VBox.margin>
+                                        <Insets top="50.0"/>
+                                    </VBox.margin>
+                                </Button>
+                                <Button mnemonicParsing="false" onAction="#onEditStudent" prefWidth="115.0"
+                                        styleClass="backgroundButton" text="Rediger Elev">
+                                    <VBox.margin>
+                                        <Insets top="30.0"/>
+                                    </VBox.margin>
+                                </Button>
+                                <Button mnemonicParsing="false" onAction="#onDeleteStudent" prefWidth="115.0"
+                                        styleClass="backgroundButton" text="Slet Elev">
+                                    <VBox.margin>
+                                        <Insets top="30.0"/>
+                                    </VBox.margin>
+                                </Button>
+                            </VBox>
+                        </right>
+                    </BorderPane>
+                </Tab>
+                <Tab text="Lærere">
+                    <BorderPane>
+                        <center>
+                            <TableView fx:id="tblViewTeacher" prefHeight="200.0" prefWidth="200.0"
+                                       stylesheets="@../../Styles/AdminTableViewStylesheet.css">
+                                <columns>
+                                    <TableColumn fx:id="tblClmTeacherFirstName" prefWidth="151.0" text="Fornavn"/>
+                                    <TableColumn fx:id="tblClmTeacherLastName" prefWidth="138.0"
+                                                 text="Efternavn"/>
+                                    <TableColumn fx:id="tblClmTeacherEmail" minWidth="0.0" prefWidth="213.0"
+                                                 text="Email"/>
+                                </columns>
+                            </TableView>
+                        </center>
+                        <right>
+                            <VBox BorderPane.alignment="CENTER">
+                                <Button mnemonicParsing="false" onAction="#onNewTeacher" prefHeight="40.0"
+                                        prefWidth="127.0" styleClass="backgroundButton" text="Opret Ny Lærer">
+                                    <VBox.margin>
+                                        <Insets top="50.0"/>
+                                    </VBox.margin>
+                                </Button>
+                                <Button mnemonicParsing="false" onAction="#onEditTeacher" prefWidth="127.0"
+                                        styleClass="backgroundButton" text="Rediger Lærer">
+                                    <VBox.margin>
+                                        <Insets top="30.0"/>
+                                    </VBox.margin>
+                                </Button>
+                                <Button mnemonicParsing="false" onAction="#onDeleteTeacher" prefWidth="127.0"
+                                        styleClass="backgroundButton" text="Slet Lærer">
+                                    <VBox.margin>
+                                        <Insets top="30.0"/>
+                                    </VBox.margin>
+                                </Button>
+                            </VBox>
+                        </right>
+                    </BorderPane>
+                </Tab>
+                <Tab text="Skoler">
+                    <BorderPane>
+                        <center>
+                            <TableView fx:id="tblViewSchool" prefHeight="200.0" prefWidth="200.0"
+                                       stylesheets="@../../Styles/AdminTableViewStylesheet.css">
+                                <columns>
+                                    <TableColumn fx:id="tblClmSchoolName" prefWidth="188.0" text="Navn"/>
+                                    <TableColumn fx:id="tblClmSchoolZipCode" prefWidth="95.0" text="Post Nr."/>
+                                    <TableColumn fx:id="tblClmSchoolCity" prefWidth="183.0" text="By"/>
+                                </columns>
+                            </TableView>
+                        </center>
+                        <right>
+                            <VBox BorderPane.alignment="CENTER">
+                                <Button mnemonicParsing="false" onAction="#onNewSchool" prefHeight="40.0"
+                                        prefWidth="126.0" styleClass="backgroundButton" text="Opret Ny Skole">
+                                    <VBox.margin>
+                                        <Insets top="50.0"/>
+                                    </VBox.margin>
+                                </Button>
+                                <Button mnemonicParsing="false" onAction="#onEditSchool" prefWidth="126.0"
+                                        styleClass="backgroundButton" text="Rediger Skole">
+                                    <VBox.margin>
+                                        <Insets top="30.0"/>
+                                    </VBox.margin>
+                                </Button>
+                                <Button mnemonicParsing="false" onAction="#onDeleteSchool" prefWidth="126.0"
+                                        styleClass="backgroundButton" text="Slet Skole">
+                                    <VBox.margin>
+                                        <Insets top="30.0"/>
+                                    </VBox.margin>
+                                </Button>
+                            </VBox>
+                        </right>
+                    </BorderPane>
+                </Tab>
+            </TabPane>
+        </center>
+        <top>
             <HBox prefHeight="20.0" prefWidth="600.0" styleClass="adminHbox" BorderPane.alignment="CENTER">
-               <children>
-                  <TextField fx:id="txtFieldSearch" prefHeight="26.0" prefWidth="317.0" />
-               </children>
+                <TextField fx:id="txtFieldSearch" prefHeight="26.0" prefWidth="317.0"/>
             </HBox>
-         </top>
-      </BorderPane>
-    </children>
+        </top>
+    </BorderPane>
 </AnchorPane>

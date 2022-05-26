@@ -36,7 +36,7 @@ public class CitizenDAO implements IDatabaseActions<Citizen>
             @Override
             protected String getSQLStatement() {
                 return """
-                INSERT INTO Citizen (firstName, lastName, age, FK_cSchool, isTemplate) 
+                INSERT INTO Citizen (firstName, lastName, age, FK_cSchool, isTemplate)
                 VALUES (?, ?, ?, ?, ?)
                 """;
             }

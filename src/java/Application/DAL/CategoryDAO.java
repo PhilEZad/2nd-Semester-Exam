@@ -20,7 +20,7 @@ public class CategoryDAO implements IDatabaseActions<Category>
             @Override
             protected Category execute(PreparedStatement statement) throws SQLException
             {
-                AbstractDAO.setPlaceholders(statement, input.getName(), input.getParentID(), null, null);
+                AbstractDAO.setPlaceholders(statement, input.getID(), input.getName(), input.getParentID(), null, null);
                 statement.execute();
                 return input;
             }
@@ -28,8 +28,8 @@ public class CategoryDAO implements IDatabaseActions<Category>
             @Override
             protected String getSQLStatement() {
                 return """
-                        INSERT INTO Categories (categoryName, FK_ParentCat, FK_Description, FK_Guide) 
-                        VALUES (?, ?, ?, ?)
+                        INSERT INTO Categories (CatID, categoryName, FK_ParentCat, FK_Description, FK_Guide)
+                        VALUES (?, ?, ?, ?, ?)
                         """;
             }
         };
@@ -87,11 +87,11 @@ public class CategoryDAO implements IDatabaseActions<Category>
             @Override
             protected String getSQLStatement() {
                 return """
-                        SELECT CHILD.CatID, CHILD.categoryName, PARENT.CatID AS ParentID, PARENT.categoryName AS parentName 
-                        FROM dbo.Categories PARENT, dbo.Categories CHILD 
+                        SELECT CHILD.CatID, CHILD.categoryName, PARENT.CatID AS ParentID, PARENT.categoryName AS parentName
+                        FROM dbo.Categories PARENT, dbo.Categories CHILD
                         WHERE PARENT.CatID = CHILD.FK_ParentCat AND CHILD.CatID = ?
                         UNION SELECT NULLABLE.CatID, NULLABLE.categoryName, NULL, NULL
-                        FROM dbo.Categories AS NULLABLE 
+                        FROM dbo.Categories AS NULLABLE
                         WHERE NULLABLE.CatID = ?
                         """;
             }
@@ -125,8 +125,8 @@ public class CategoryDAO implements IDatabaseActions<Category>
             @Override
             protected String getSQLStatement() {
                 return """
-                        SELECT CHILD.CatID, CHILD.categoryName, PARENT.CatID AS ParentID, PARENT.categoryName AS parentName 
-                        FROM dbo.Categories PARENT, dbo.Categories CHILD 
+                        SELECT CHILD.CatID, CHILD.categoryName, PARENT.CatID AS ParentID, PARENT.categoryName AS parentName
+                        FROM dbo.Categories PARENT, dbo.Categories CHILD
                         WHERE PARENT.CatID = CHILD.FK_ParentCat
                         """;
             }

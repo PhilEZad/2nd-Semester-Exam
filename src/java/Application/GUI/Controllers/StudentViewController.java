@@ -21,6 +21,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ListResourceBundle;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class StudentViewController implements Initializable {
@@ -54,7 +55,8 @@ public class StudentViewController implements Initializable {
     }
 
     private void initBundle(ResourceBundle bundle) {
-        if (bundle != null && bundle.getObject("selectedCitizen") != null){
+        if (bundle != null) {
+            bundle.getObject("selectedCitizen");
             listViewCitizens.getSelectionModel().select((CitizenModel) bundle.getObject("selectedCitizen"));
         }
     }
@@ -115,7 +117,7 @@ public class StudentViewController implements Initializable {
                 }
             };
 
-            root = FXMLLoader.load(getClass().getResource("/Views/Popups/CitizenDetailsView.fxml"), resources);
+            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Views/Popups/CitizenDetailsView.fxml")), resources);
             Scene scene = new Scene(root);
             stage.setScene(scene);
 

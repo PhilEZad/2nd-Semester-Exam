@@ -1,12 +1,8 @@
 package Application.GUI.view;
 
-import Application.BE.Category;
-import Application.GUI.Models.CategoryEntryModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TreeItem;
-
-import java.util.List;
 
 public class TreeStructure<T> extends TreeItem<T>
 {

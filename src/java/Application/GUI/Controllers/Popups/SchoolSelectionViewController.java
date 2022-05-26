@@ -1,6 +1,5 @@
 package Application.GUI.Controllers.Popups;
 
-import Application.GUI.Models.AccountModel;
 import Application.GUI.Models.SchoolModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,7 +14,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ListResourceBundle;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class SchoolSelectionViewController implements Initializable {
@@ -61,7 +60,7 @@ public class SchoolSelectionViewController implements Initializable {
         Parent root = null;
 
         try {
-                root = FXMLLoader.load(getClass().getResource("/Views/StudentView.fxml"));
+                root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Views/StudentView.fxml")));
                 Scene scene = new Scene(root);
                 stage.setScene(scene);
         }

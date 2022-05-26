@@ -2,23 +2,20 @@ package Application.GUI.Models;
 
 import Application.BE.Account;
 import Application.BE.School;
-import Application.BLL.AdminDataManager;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
 
 public class AccountModel
 {
-    private IntegerProperty id;
-    private StringProperty password;
-    private StringProperty accountName;
-    private StringProperty firstName;
-    private StringProperty lastName;
-    private StringProperty email;
+    private final IntegerProperty id;
+    private final StringProperty password;
+    private final StringProperty accountName;
+    private final StringProperty firstName;
+    private final StringProperty lastName;
+    private final StringProperty email;
     private School school;
     private Account account;
     private Boolean isTeacher;

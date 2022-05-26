@@ -59,28 +59,25 @@ public class ObservationViewController implements Initializable {
     }
 
     private void initCitizenBundle(ResourceBundle bundle) {
-        if (bundle.getObject("selectedCitizen") != null){
-            model.setSelectedCitizen((CitizenModel) bundle.getObject("selectedCitizen"));
-        }
+        bundle.getObject("selectedCitizen");
+        model.setSelectedCitizen((CitizenModel) bundle.getObject("selectedCitizen"));
     }
 
     private void goToCategory(ResourceBundle bundle){
-        if (bundle.getObject("selectedCategoryEntryModel") != null){
-            selectedCategoryEntryModel = (TreeItem<CategoryEntryModel>) bundle.getObject("selectedCategoryEntryModel");
-            if (selectedCategoryEntryModel.getValue().getType() == CategoryType.FUNCTIONAL_ABILITY){
-                tabPaneContainer.getSelectionModel().select(tabFunc);
-            }
-            else if (selectedCategoryEntryModel.getValue().getType() == CategoryType.HEALTH_CONDITION){
-                tabPaneContainer.getSelectionModel().select(tabHealth);
-                treeTableViewHealth.getSelectionModel().select(selectedCategoryEntryModel);
-            }
+        bundle.getObject("selectedCategoryEntryModel");
+        selectedCategoryEntryModel = (TreeItem<CategoryEntryModel>) bundle.getObject("selectedCategoryEntryModel");
+        if (selectedCategoryEntryModel.getValue().getType() == CategoryType.FUNCTIONAL_ABILITY){
+            tabPaneContainer.getSelectionModel().select(tabFunc);
+        }
+        else if (selectedCategoryEntryModel.getValue().getType() == CategoryType.HEALTH_CONDITION){
+            tabPaneContainer.getSelectionModel().select(tabHealth);
+            treeTableViewHealth.getSelectionModel().select(selectedCategoryEntryModel);
         }
     }
 
     private void initIsEditing(ResourceBundle bundle){
-        if (bundle.getObject("isEditing") != null){
-            isEditing = (Boolean) bundle.getObject("isEditing");
-        }
+        bundle.getObject("isEditing");
+        isEditing = (Boolean) bundle.getObject("isEditing");
     }
 
     private void initAutoFillListener(){

@@ -106,6 +106,7 @@ public class TeacherDataManager extends StudentDataManager
         }
         else
         {
+            assert student != null;
             if (!student.getIsTeacher() && !student.getIsAdmin())
             {
                 // FIXME: 25/05/2022 Use correct method from DAO
@@ -126,6 +127,7 @@ public class TeacherDataManager extends StudentDataManager
         }
         else
         {
+            assert student != null;
             if (!student.getIsTeacher() && !student.getIsAdmin())
             {
                 // FIXME: 25/05/2022 Use correct method from DAO

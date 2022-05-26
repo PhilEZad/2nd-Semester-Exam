@@ -7,7 +7,6 @@ import Application.GUI.Models.AccountModel;
 import Application.GUI.Models.CitizenModel;
 import Application.Utility.GUIUtils;
 import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -22,7 +21,7 @@ import java.util.ResourceBundle;
 
 public class CitizensController implements Initializable
 {
-    TeacherDataManager dataManager = new TeacherDataManager();
+    final TeacherDataManager dataManager = new TeacherDataManager();
 
     public AnchorPane anchorPaneCitizensDashboard;
 
@@ -86,14 +85,7 @@ public class CitizensController implements Initializable
 
     private ChangeListener<CitizenModel> citizenSelectionChanged()
     {
-        return new ChangeListener<CitizenModel>() {
-            @Override
-            public void changed(ObservableValue<? extends CitizenModel> observable, CitizenModel oldValue, CitizenModel newValue)
-            {
-                updatedSelectedItemBinds();
-
-            }
-        };
+        return (observable, oldValue, newValue) -> updatedSelectedItemBinds();
     }
 
     public void updatedSelectedItemBinds()

@@ -6,8 +6,8 @@ public enum ExpectedConditionLevels {
     DECREASES(1, "Mindskes"),
     REMAINS_UNCHANGED(2, "Forbliver Uændret");
 
-    int level;
-    String description;
+    final int level;
+    final String description;
 
     ExpectedConditionLevels(int level, String description) {
         this.level = level;

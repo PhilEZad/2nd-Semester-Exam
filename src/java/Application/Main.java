@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Objects;
 
 
 public class Main extends Application {
@@ -19,7 +20,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException
     {
-        Parent root = FXMLLoader.load(this.getClass().getResource("/Views/AdminView.fxml"));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(this.getClass().getResource("/Views/AdminView.fxml")));
 
         primaryStage.setTitle("FS3 Simluations Platform");
 

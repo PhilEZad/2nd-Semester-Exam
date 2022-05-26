@@ -23,21 +23,19 @@
     </AnchorPane>
     <AnchorPane layoutX="14.0" layoutY="23.0" prefHeight="362.0" prefWidth="200.0" styleClass="panel30Deg" AnchorPane.bottomAnchor="26.600000000000023" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="23.0">
         <ListView fx:id="availableCitizens" layoutX="18.0" layoutY="70.0" prefHeight="272.0" prefWidth="163.0" AnchorPane.bottomAnchor="18.399999999999977" AnchorPane.leftAnchor="18.0" AnchorPane.rightAnchor="16.80000000000001" AnchorPane.topAnchor="70.0" />
-        <HBox layoutX="20.0" layoutY="26.0" prefHeight="26.0" prefWidth="163.0" AnchorPane.leftAnchor="16.0" AnchorPane.topAnchor="24.0">
-            <children>
-                <TextField fx:id="txtFieldCitizensSearch" prefHeight="30.0" prefWidth="181.0" promptText="Search" styleClass="text-fieldBase" />
-            </children>
+        <HBox layoutX="20.0" layoutY="26.0" prefHeight="26.0" prefWidth="163.0" AnchorPane.leftAnchor="16.0"
+              AnchorPane.topAnchor="24.0">
+            <TextField fx:id="txtFieldCitizensSearch" prefHeight="30.0" prefWidth="181.0" promptText="Search"
+                       styleClass="text-fieldBase"/>
         </HBox>
     </AnchorPane>
     <AnchorPane layoutX="230.0" layoutY="23.0" prefHeight="90.0" prefWidth="474.0" styleClass="panel30Deg" AnchorPane.leftAnchor="230.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="23.0">
         <Button fx:id="btnJournal" layoutX="358.0" layoutY="17.0" mnemonicParsing="false" onAction="#onJournal" prefHeight="57.0" prefWidth="102.0" styleClass="panelBtnNoPadding" text="Oplysninger" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="15.0" />
          <Label fx:id="lblCitizenName" layoutX="20.0" layoutY="14.0" styleClass="nameLbl" text="Rasmus Scherning Sandbæk" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="19.0" />
-      <HBox layoutX="29.0" layoutY="50.0" AnchorPane.leftAnchor="29.0" AnchorPane.topAnchor="55.0">
-         <children>
-                <Label styleClass="smallPanelLblBold" text="Alder:   " />
-                <Label fx:id="lblAge" styleClass="smallPanelLblNormal" text="Label" />
-         </children>
-      </HBox>
+        <HBox layoutX="29.0" layoutY="50.0" AnchorPane.leftAnchor="29.0" AnchorPane.topAnchor="55.0">
+            <Label styleClass="smallPanelLblBold" text="Alder:   "/>
+            <Label fx:id="lblAge" styleClass="smallPanelLblNormal" text="Label"/>
+        </HBox>
     </AnchorPane>
    <stylesheets>
       <URL value="@../../Styles/MainStylesheet.css" />

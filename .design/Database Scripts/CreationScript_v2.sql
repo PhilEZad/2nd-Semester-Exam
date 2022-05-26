@@ -43,7 +43,7 @@ CREATE TABLE GeneralInfo(
 	InfoID int IDENTITY(1,1) NOT NULL,
 	coping nvarchar(50) NULL,
 	motivation nvarchar(50) NULL,
-	resourses nvarchar(50) NULL,
+	resources nvarchar(50) NULL,
 	roles nvarchar(50) NULL,
 	habits nvarchar(50) NULL,
 	eduAndJob nvarchar(50) NULL,

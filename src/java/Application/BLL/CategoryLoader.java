@@ -3,12 +3,11 @@ package Application.BLL;
 import Application.BE.Category;
 import Application.DAL.CategoryDAO;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CategoryLoader
 {
-    CategoryDAO categoryDAO = new CategoryDAO();
+    final CategoryDAO categoryDAO = new CategoryDAO();
 
     private void getImmediateChildren(Category root, List<Category> completeList)
     {

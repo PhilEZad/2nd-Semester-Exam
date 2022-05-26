@@ -2,9 +2,7 @@ package Application.BE;
 
 import com.c05mic.generictree.Tree;
 
-import java.util.Comparator;
 import java.util.HashMap;
-import java.util.TreeMap;
 
 public class Citizen implements Cloneable, IUniqueIdentifier<Integer>
 {

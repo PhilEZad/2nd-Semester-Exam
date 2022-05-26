@@ -5,8 +5,8 @@ public enum HealthLevels {
     POSSIBLE_RELEVANT(1, "Mulig relevans"),
     RELEVANT(2, "Relevant");
 
-    int level;
-    String description;
+    final int level;
+    final String description;
 
     HealthLevels(int level, String description) {
         this.level = level;

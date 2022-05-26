@@ -45,7 +45,7 @@ public class AdminDashboardController implements Initializable {
 
     ObservableList<SchoolModel> schoolList;
 
-    AdminDataManager dataManager = new AdminDataManager();
+    final AdminDataManager dataManager = new AdminDataManager();
 
     enum ListType
     {
@@ -94,7 +94,7 @@ public class AdminDashboardController implements Initializable {
         Stage popupMenu = new Stage();
 
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/views/Popups/CreateStudentView.fxml"));
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/views/Popups/CreateStudentView.fxml")));
             popupMenu.setTitle("Ny Elev");
             popupMenu.setScene(new Scene(root));
             popupMenu.show();
@@ -111,13 +111,11 @@ public class AdminDashboardController implements Initializable {
         try {
             ResourceBundle resource = getResource(tblViewStudent);
             Stage popupMenuStudent = new Stage();
-            Parent rootStudent = FXMLLoader.load(getClass().getResource("/Views/Popups/EditAccountView.fxml"), resource);
+            Parent rootStudent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Views/Popups/EditAccountView.fxml")), resource);
             popupMenuStudent.setTitle("Rediger Elev");
             popupMenuStudent.setScene(new Scene(rootStudent));
             popupMenuStudent.show();
-            popupMenuStudent.setOnHidden(event1 -> {
-                tblViewStudent.setItems(searchTable(txtFieldSearch, tblViewTeacher, getObservableList(ListType.STUDENT)));
-            });
+            popupMenuStudent.setOnHidden(event1 -> tblViewStudent.setItems(searchTable(txtFieldSearch, tblViewTeacher, getObservableList(ListType.STUDENT))));
         } catch (IOException ioException)
         {
             GUIUtils.alertCall(Alert.AlertType.WARNING, "Stylesheet ikke fundet.");
@@ -153,7 +151,7 @@ public class AdminDashboardController implements Initializable {
         Stage popupMenu = new Stage();
         try
         {
-            Parent root = FXMLLoader.load(getClass().getResource("/views/Popups/CreateTeacherView.fxml"));
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/views/Popups/CreateTeacherView.fxml")));
             popupMenu.setTitle("Ny Lærer");
             popupMenu.setScene(new Scene(root));
             popupMenu.show();
@@ -170,7 +168,7 @@ public class AdminDashboardController implements Initializable {
         try {
             resource = getResource(tblViewTeacher);
             Stage popupMenuTeacher = new Stage();
-            Parent rootTeacher = FXMLLoader.load(getClass().getResource("/views/Popups/EditAccountView.fxml"), resource);
+            Parent rootTeacher = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/views/Popups/EditAccountView.fxml")), resource);
             popupMenuTeacher.setTitle("Rediger Lærer");
             popupMenuTeacher.setScene(new Scene(rootTeacher));
             popupMenuTeacher.show();
@@ -221,7 +219,7 @@ public class AdminDashboardController implements Initializable {
         Stage popupMenu = new Stage();
 
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/views/Popups/CreateSchoolView.fxml"));
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/views/Popups/CreateSchoolView.fxml")));
             popupMenu.setTitle("Ny Skole");
             popupMenu.setScene(new Scene(root));
             popupMenu.show();
@@ -237,7 +235,7 @@ public class AdminDashboardController implements Initializable {
         try {
             ResourceBundle resource = getResource(tblViewSchool);
             Stage popupMenuSchool = new Stage();
-            Parent rootSchool = FXMLLoader.load(getClass().getResource("/views/Popups/EditSchoolView.fxml"), resource);
+            Parent rootSchool = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/views/Popups/EditSchoolView.fxml")), resource);
             popupMenuSchool.setTitle("Rediger Skole");
             popupMenuSchool.setScene(new Scene(rootSchool));
             popupMenuSchool.show();
@@ -285,29 +283,23 @@ public class AdminDashboardController implements Initializable {
     {
         FilteredList<AccountModel> filteredData = new FilteredList<>(searchList, b -> true);
 
-        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
-            filteredData.setPredicate(user -> {
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> filteredData.setPredicate(user -> {
 
-                if (newValue == null || newValue.isEmpty())
-                {
-                    return true;
-                }
+            if (newValue == null || newValue.isEmpty())
+            {
+                return true;
+            }
 
-                String lowerCaseFilter = newValue.toLowerCase();
+            String lowerCaseFilter = newValue.toLowerCase();
 
-                if (user.getFirstName().toLowerCase().indexOf(lowerCaseFilter) != -1)
-                {
-                    return true;
-                } else if(user.getLastName().toLowerCase().indexOf(lowerCaseFilter) != -1)
-                {
-                    return true;
-                }else if (user.getEmail().toLowerCase().indexOf(lowerCaseFilter) != -1)
-                {
-                    return true;
-                } else
-                    return false;
-            });
-        });
+            if (user.getFirstName().toLowerCase().contains(lowerCaseFilter))
+            {
+                return true;
+            } else if(user.getLastName().toLowerCase().contains(lowerCaseFilter))
+            {
+                return true;
+            }else return user.getEmail().toLowerCase().contains(lowerCaseFilter);
+        }));
 
         SortedList<AccountModel> sortedUsers = new SortedList<>(filteredData);
 
@@ -317,7 +309,7 @@ public class AdminDashboardController implements Initializable {
     }
 
     private ResourceBundle getResource(TableView tableView) {
-        ResourceBundle resource = new ListResourceBundle() {
+        return new ListResourceBundle() {
             @Override
             protected Object[][] getContents() {
                 return new Object[][]
@@ -326,7 +318,6 @@ public class AdminDashboardController implements Initializable {
                         };
             }
         };
-        return resource;
     }
 
     private ObservableList<AccountModel> getObservableList(ListType listType)
@@ -337,20 +328,12 @@ public class AdminDashboardController implements Initializable {
 
         try
         {
-            switch (listType)
-            {
-                case STUDENT:
-                    accountList = dataManager.getAllStudents();
-                    break;
-                case TEACHER:
-                    accountList = dataManager.getAllTeachers();
-                    break;
-                case ADMIN:
-                    accountList = dataManager.getAllAdmins();
-                    break;
-                default:
-                    throw new IllegalStateException("Unexpected value: " + listType);
-            }
+            accountList = switch (listType) {
+                case STUDENT -> dataManager.getAllStudents();
+                case TEACHER -> dataManager.getAllTeachers();
+                case ADMIN -> dataManager.getAllAdmins();
+                default -> throw new IllegalStateException("Unexpected value: " + listType);
+            };
 
             for (Account account : accountList)
             {

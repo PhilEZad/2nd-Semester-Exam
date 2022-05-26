@@ -39,7 +39,7 @@ public class DBConnectionPool extends ObjectPool<Connection> {
     public void expire(Connection o) {
         try {
             o.close();
-        } catch (SQLException e) {
+        } catch (SQLException ignored) {
         }
     }
 
@@ -48,7 +48,7 @@ public class DBConnectionPool extends ObjectPool<Connection> {
      * Thread-safe lazy initialization is achieved without explicit synchronization.
      * the variable INSTANCE is wrapped in an inner class, utilizing the class loader to do synchronization.
      * The class loader guarantees to complete all static initialization before it grants access to the class.
-     * This implementation lazy initializes the INSTANCE by calling LoadSingleton.INSTANCE
+     * This implementation lazy initializes the INSTANCE by calling <c>LoadSingleton.INSTANCE</c>
      * when first accessed inside getInstance() method.
      */
     private static class LoadSingleton {

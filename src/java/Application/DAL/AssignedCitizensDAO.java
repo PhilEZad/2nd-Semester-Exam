@@ -2,8 +2,6 @@ package Application.DAL;
 
 import Application.BE.Account;
 import Application.BE.Citizen;
-import Application.BE.GeneralJournal;
-import Application.BE.School;
 import Application.DAL.TemplateMethod.AbstractDAO;
 import Application.DAL.TemplateMethod.IDatabaseActions;
 import Application.DAL.util.ResultSetHelpers;
@@ -97,7 +95,7 @@ public class AssignedCitizensDAO implements IDatabaseActions<Pair<Account, List<
                  * @implSpec should be a stored procedure (reason: Ahead-Of-Time compilation & network traffic)
                  * */
                 //@Override
-                protected String _getSQLStatement() {
+                private String _getSQLStatement() {
                     return """
                            DECLARE @SQL_CurrentCID int
                            DECLARE @hasCitizen BIT = FALSE
@@ -195,7 +193,7 @@ public class AssignedCitizensDAO implements IDatabaseActions<Pair<Account, List<
                         // construct citizen regardless
                         var citizen = ResultSetHelpers.buildCitizen(rs);
 
-                        var currentAccountInList = result.stream().filter(accountListPair -> accountListPair.getKey().getID() == accountID).findFirst();;
+                        var currentAccountInList = result.stream().filter(accountListPair -> accountListPair.getKey().getID() == accountID).findFirst();
 
                         if (currentAccountInList.isPresent())
                         {
@@ -227,7 +225,7 @@ public class AssignedCitizensDAO implements IDatabaseActions<Pair<Account, List<
                 }
             };
 
-            dao.start();;
+            dao.start();
 
             return dao.getResult().getValue();
         }

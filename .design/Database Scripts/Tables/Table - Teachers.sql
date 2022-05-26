@@ -8,5 +8,5 @@ CREATE TABLE teachers (
 	salt VARCHAR(50),
 	school int,
 	PRIMARY KEY (id),
-	FOREIGN KEY (school) REFERENCES school (id) 
+	FOREIGN KEY (school) REFERENCES school (SID)
 	)

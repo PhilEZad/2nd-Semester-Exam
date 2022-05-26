@@ -10,9 +10,9 @@ import java.util.stream.Collectors;
 
 public class CitizenManager
 {
-    FunctionalAbilityDAO functionalAbilityDAO = new FunctionalAbilityDAO();
+    final FunctionalAbilityDAO functionalAbilityDAO = new FunctionalAbilityDAO();
 
-    CitizenDAO citizenDAO = new CitizenDAO();
+    final CitizenDAO citizenDAO = new CitizenDAO();
 
     //CitizenContentLinkDAO binder = new CitizenContentLinkDAO();
 
@@ -62,8 +62,9 @@ public class CitizenManager
 
         binding.citizenID = qualified.getID();
         binding.contentIDs = entries.values().stream().map(FunctionalEntry::getID).collect(Collectors.toList());
-        // commit bind of one citizen and all entries
-        //binder.create(binding);
+        // commit bind of one citizen and all the entries
+
+        // binder.create(binding);
 
         // make it available to the citizen object instance
         qualified.setContent(entries);

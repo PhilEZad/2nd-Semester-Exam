@@ -185,11 +185,10 @@ public class CategoryEntryModel implements Comparable<CategoryEntryModel> {
 
     /**
      * A custom list cell for the combo box, allowing for the image to be displayed
-     * @return
      */
     private ListCell<FunctionalLevels> comboBoxImageCell() {
-        return new ListCell<FunctionalLevels>() {
-            ImageView imageView = new ImageView();
+        return new ListCell<>() {
+            final ImageView imageView = new ImageView();
 
             @Override
             public void updateItem(FunctionalLevels level, boolean empty) {
@@ -210,7 +209,7 @@ public class CategoryEntryModel implements Comparable<CategoryEntryModel> {
      * A custom list cell for the combo box, allowing for the health description to be displayed
      **/
     private ListCell<HealthLevels> comboBoxHealthDescCell() {
-        return new ListCell<HealthLevels>() {
+        return new ListCell<>() {
             @Override
             public void updateItem(HealthLevels level, boolean empty) {
                 super.updateItem(level, empty);
@@ -227,25 +226,17 @@ public class CategoryEntryModel implements Comparable<CategoryEntryModel> {
      * Sets the level of this category entry entity to the value of the selected item in the combo box
      */
     private void onFuncLevelChanged(){
-        levelFuncComboBox.get().selectionModelProperty().get().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            setLevel(newValue.level);
-        });
+        levelFuncComboBox.get().selectionModelProperty().get().selectedItemProperty().addListener((observable, oldValue, newValue) -> setLevel(newValue.level));
 
-        exConFuncComboBox.get().selectionModelProperty().get().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            setExpectedCondition(newValue.level);
-        });
+        exConFuncComboBox.get().selectionModelProperty().get().selectedItemProperty().addListener((observable, oldValue, newValue) -> setExpectedCondition(newValue.level));
     }
 
     /**
      * Sets the level of this category entry entity to the value of the selected item in the combo box
      **/
     private void onHealthLevelChanged(){
-        levelHealthComboBox.get().selectionModelProperty().get().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            setLevel(newValue.level);
-        });
-        exConHealthComboBox.get().selectionModelProperty().get().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            setExpectedCondition(newValue.level);
-        });
+        levelHealthComboBox.get().selectionModelProperty().get().selectedItemProperty().addListener((observable, oldValue, newValue) -> setLevel(newValue.level));
+        exConHealthComboBox.get().selectionModelProperty().get().selectedItemProperty().addListener((observable, oldValue, newValue) -> setExpectedCondition(newValue.level));
     }
 
     public ComboBox<FunctionalLevels> getLevelFuncLevelComboBox(){
@@ -324,7 +315,7 @@ public class CategoryEntryModel implements Comparable<CategoryEntryModel> {
        imageView.setFitWidth(60);
        imageView.setFitHeight(50);
 
-        return new SimpleObjectProperty<ImageView>(imageView);
+        return new SimpleObjectProperty<>(imageView);
     }
 
     public void setLevelFunc(FunctionalLevels levelFunc) {
@@ -353,7 +344,7 @@ public class CategoryEntryModel implements Comparable<CategoryEntryModel> {
         imageView.setFitWidth(60);
         imageView.setFitHeight(50);
 
-        return new SimpleObjectProperty<ImageView>(imageView);
+        return new SimpleObjectProperty<>(imageView);
     }
 
     public void setExConFunc(FunctionalLevels exConFunc) {
@@ -422,10 +413,7 @@ public class CategoryEntryModel implements Comparable<CategoryEntryModel> {
         if (this.type == CategoryType.FUNCTIONAL_ABILITY && level.get() == FunctionalLevels.LEVEL_9.level ||
                 this.type == CategoryType.FUNCTIONAL_ABILITY && level.get() == FunctionalLevels.LEVEL_9.ordinal())
             return false;
-        if (this.type == CategoryType.HEALTH_CONDITION && level.get() == 0)
-            return false;
-
-        return true;
+        return this.type != CategoryType.HEALTH_CONDITION || level.get() != 0;
     }
 
     public String getAssessment() {

@@ -138,9 +138,8 @@
     -fx-text-alignment: center;
 }
 
-.
-
-.table-row-cell:odd{
+.,
+.table-row-cell:odd {
     -fx-background-color: transparent;
     -fx-font-size: 10pt;
     -fx-wrap-text: true;

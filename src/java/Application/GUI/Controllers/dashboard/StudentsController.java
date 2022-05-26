@@ -6,7 +6,6 @@ import Application.GUI.Models.AccountModel;
 import Application.GUI.Models.CitizenModel;
 import Application.Utility.GUIUtils;
 import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -55,34 +54,26 @@ public class StudentsController implements Initializable {
     private SortedList initTableWithSearch() {
         FilteredList<AccountModel> filteredData = new FilteredList<>(studentList(), b -> true);
 
-        txtFieldStudentsSearch.textProperty().addListener((observable, oldValue, newValue) -> {
-            filteredData.setPredicate(user -> {
+        txtFieldStudentsSearch.textProperty().addListener((observable, oldValue, newValue) -> filteredData.setPredicate(user -> {
 
-                if (newValue == null || newValue.isEmpty()) {
-                    return true;
-                }
+            if (newValue == null || newValue.isEmpty()) {
+                return true;
+            }
 
-                String lowerCaseFilter = newValue.toLowerCase();
+            String lowerCaseFilter = newValue.toLowerCase();
 
-                if (user.getFirstName().toLowerCase().indexOf(lowerCaseFilter) != -1) {
-                    return true;
-                } else if (user.getLastName().toLowerCase().indexOf(lowerCaseFilter) != -1) {
-                    return true;
-                } else if (user.getEmail().toLowerCase().indexOf(lowerCaseFilter) != -1) {
-                    return true;
-                } else
-                    return false;
-            });
-        });
+            if (user.getFirstName().toLowerCase().contains(lowerCaseFilter)) {
+                return true;
+            } else if (user.getLastName().toLowerCase().contains(lowerCaseFilter)) {
+                return true;
+            } else return user.getEmail().toLowerCase().contains(lowerCaseFilter);
+        }));
 
-        SortedList<AccountModel> sortedUsers = new SortedList<>(filteredData);
-
-        return sortedUsers;
+        return new SortedList<>(filteredData);
     }
 
     /**
      * Shows the context menu with the available actions for the administrating students
-     * @param event
      */
     public void onStudentAdmin(ActionEvent event) {
         double offsetX = -15;
@@ -107,7 +98,7 @@ public class StudentsController implements Initializable {
                     }
                 };
 
-                root = FXMLLoader.load(getClass().getResource("/Views/Popups/CitizenDetailsView.fxml"), resources);
+                root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Views/Popups/CitizenDetailsView.fxml")), resources);
                 Scene scene = new Scene(root);
                 stage.setScene(scene);
                 stage.setTitle(selectedStudent.getFirstName() + " " + selectedStudent.getLastName() + " - " + selectedCitizenModel.getFirstName() + " " + selectedCitizenModel.getLastName());
@@ -159,7 +150,7 @@ public class StudentsController implements Initializable {
         {
             ResourceBundle resource = getResource(listViewStudents);
             Stage popupMenuStudent = new Stage();
-            Parent rootStudent = FXMLLoader.load(getClass().getResource("/Views/Popups/EditAccountView.fxml"), resource);
+            Parent rootStudent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Views/Popups/EditAccountView.fxml")), resource);
             popupMenuStudent.setTitle("Rediger Elev");
             popupMenuStudent.setScene(new Scene(rootStudent));
             popupMenuStudent.show();
@@ -201,7 +192,7 @@ public class StudentsController implements Initializable {
     }
 
     private ResourceBundle getResource(ListView tableView) {
-        ResourceBundle resource = new ListResourceBundle() {
+        return new ListResourceBundle() {
             @Override
             protected Object[][] getContents() {
                 return new Object[][]
@@ -210,24 +201,19 @@ public class StudentsController implements Initializable {
                         };
             }
         };
-        return resource;
     }
 
 
     // FIXME: 23-05-2022 Databinds
     private ChangeListener<AccountModel> studentSelectionChanged()
     {
-        return new ChangeListener<AccountModel>() {
-            @Override
-            public void changed(ObservableValue<? extends AccountModel> observable, AccountModel oldValue, AccountModel newValue)
-            {
-                updateSelectedItemBinds();
-               //try {
-               //    //System.out.println((new AssignedCitizenDAO().read(newValue)));
-               //} catch (SQLException e) {
-               //    throw new RuntimeException(e);
-               //}
-            }
+        return (observable, oldValue, newValue) -> {
+            updateSelectedItemBinds();
+           //try {
+           //    //System.out.println((new AssignedCitizenDAO().read(newValue)));
+           //} catch (SQLException e) {
+           //    throw new RuntimeException(e);
+           //}
         };
     }
 

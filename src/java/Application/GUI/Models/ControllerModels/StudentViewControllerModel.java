@@ -2,7 +2,6 @@ package Application.GUI.Models.ControllerModels;
 
 import Application.BE.Category;
 import Application.BE.Citizen;
-import Application.BLL.StudentDataManager;
 import Application.GUI.Models.*;
 import Application.Utility.GUIUtils;
 import javafx.collections.FXCollections;
@@ -10,15 +9,13 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.TreeItem;
 
 import java.util.HashMap;
-import java.util.Map;
 
 public class StudentViewControllerModel {
 
     private CitizenModel selectedCitizen;
-    private StudentDataManager studentDataManager;
 
     public StudentViewControllerModel() {
-        studentDataManager = new StudentDataManager();
+
     }
 
     public void onStudentCitizensSearch() {
@@ -70,13 +67,11 @@ public class StudentViewControllerModel {
     }
 
     public ObservableList<CategoryEntryModel> getRelevantFuncCategoriesAsList() {
-        ObservableList<CategoryEntryModel> list = FXCollections.observableArrayList(selectedCitizen.getRelevantFunctionalAbilities().values());
-        return list;
+        return FXCollections.observableArrayList(selectedCitizen.getRelevantFunctionalAbilities().values());
     }
 
     public ObservableList<CategoryEntryModel> getRelevantHealthCategoriesAsList() {
-        ObservableList<CategoryEntryModel> list = FXCollections.observableArrayList(selectedCitizen.getRelevantHealthConditions().values());
-        return list;
+        return FXCollections.observableArrayList(selectedCitizen.getRelevantHealthConditions().values());
     }
 
 

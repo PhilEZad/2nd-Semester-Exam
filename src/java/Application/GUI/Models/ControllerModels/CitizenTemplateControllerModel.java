@@ -2,7 +2,6 @@ package Application.GUI.Models.ControllerModels;
 
 import Application.BE.Category;
 import Application.BE.FunctionalEntry;
-import Application.BLL.TeacherDataManager;
 import Application.GUI.Models.CategoryEntryModel;
 import Application.GUI.Models.CitizenModel;
 import Application.GUI.Models.FunctionalLevels;
@@ -19,7 +18,6 @@ import java.util.Random;
 
 public class CitizenTemplateControllerModel {
 
-    private TeacherDataManager teacherDataManager;
 
     private CitizenModel selectedCitizenTemplateModel;
 
@@ -27,18 +25,16 @@ public class CitizenTemplateControllerModel {
     private CitizenModel preEditCitizenTemplateModel;
 
     public CitizenTemplateControllerModel() {
-        teacherDataManager = new TeacherDataManager();
+
     }
 
 
     /**
      * Get all the citizen templates from the DB and put them in a list.
-     * @return
      */
     public ObservableList<CitizenModel> getCitizenTemplates() {
         // TODO: 26-05-2022  ObservableList<CitizenModel> citizenTemplates = FXCollections.observableArrayList(teacherDataManager.getAllCitizenTemplates());
-        ObservableList<CitizenModel> citizenTemplates = FXCollections.observableArrayList();
-        return citizenTemplates;
+        return FXCollections.observableArrayList();
     }
 
     /**
@@ -79,12 +75,10 @@ public class CitizenTemplateControllerModel {
     /**
      * Create a new citizen template and write it to the DB.
      * Returns the instance for it to be added to the list in the GUI.
-     * @return
      */
     public CitizenModel newCitizenTemplate() {
-        CitizenModel CitizenTemplateModel = new CitizenModel();
 
-        return CitizenTemplateModel;
+        return new CitizenModel();
     }
 
     /**
@@ -126,11 +120,9 @@ public class CitizenTemplateControllerModel {
     public void saveEditedCitizenTemplate() {
         if (preEditCitizenTemplateModel != null) {
 
-            HashMap<Category, CategoryEntryModel> newHealthRoot = new HashMap<>();
-            newHealthRoot.putAll(selectedCitizenTemplateModel.getAllHealthConditions());
+            HashMap<Category, CategoryEntryModel> newHealthRoot = new HashMap<>(selectedCitizenTemplateModel.getAllHealthConditions());
 
-            HashMap<Category, CategoryEntryModel> newFuncRoot = new HashMap<>();
-            newFuncRoot.putAll(selectedCitizenTemplateModel.getAllFuncCategories());
+            HashMap<Category, CategoryEntryModel> newFuncRoot = new HashMap<>(selectedCitizenTemplateModel.getAllFuncCategories());
 
             HashMap<Category, CategoryEntryModel> newRelevantHealthConditions = new HashMap<>();
             HashMap<Category, CategoryEntryModel> newRelevantFunctionalAbilities = new HashMap<>();
@@ -163,16 +155,12 @@ public class CitizenTemplateControllerModel {
             selectedCitizenTemplateModel.setNonRelevantHealthConditions(newNonRelevantHealthConditions); //Non-Relevant Health
             selectedCitizenTemplateModel.setNonRelevantFunctionalAbilities(newNonRelevantFunctionalAbilities); //Non-Relevant Functional
 
-            HashMap<Category, CategoryEntryModel> allOldHealth = new HashMap<>();
-            allOldHealth.putAll(preEditCitizenTemplateModel.getAllHealthConditions());
-            HashMap<Category, CategoryEntryModel> allOldFunc = new HashMap<>();
-            allOldFunc.putAll(preEditCitizenTemplateModel.getAllFuncCategories());
+            HashMap<Category, CategoryEntryModel> allOldHealth = new HashMap<>(preEditCitizenTemplateModel.getAllHealthConditions());
+            HashMap<Category, CategoryEntryModel> allOldFunc = new HashMap<>(preEditCitizenTemplateModel.getAllFuncCategories());
 
 
-            HashMap<Category, CategoryEntryModel> dbWriteHealthConditions = new HashMap<>();
-            dbWriteHealthConditions.putAll(selectedCitizenTemplateModel.getAllHealthConditions());
-            HashMap<Category, CategoryEntryModel> dbWriteFunctionalAbilities = new HashMap<>();
-            dbWriteFunctionalAbilities.putAll(selectedCitizenTemplateModel.getAllFuncCategories());
+            HashMap<Category, CategoryEntryModel> dbWriteHealthConditions = new HashMap<>(selectedCitizenTemplateModel.getAllHealthConditions());
+            HashMap<Category, CategoryEntryModel> dbWriteFunctionalAbilities = new HashMap<>(selectedCitizenTemplateModel.getAllFuncCategories());
 
 
             //List of changed health conditions. If no changes are made to the item, it will be removed from the list.
@@ -221,7 +209,6 @@ public class CitizenTemplateControllerModel {
 
     /**
      * Gets the pre edit citizen template.
-     * @return
      *
      */
     public CitizenModel getPreEditState() {

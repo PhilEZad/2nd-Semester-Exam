@@ -15,7 +15,7 @@ public class HealthConditionDAO implements IDatabaseActions<FunctionalEntry>
     @Override
     public FunctionalEntry create(FunctionalEntry input) {
         String sql = """
-                    INSERT INTO JournalEntry (FK_Category, assessment, cause, implications, currentStatus, expectedStatus, citizenGoals, notes, severity) 
+                    INSERT INTO HealthEntry (FK_Category, assessment, cause, implications, currentStatus, expectedStatus, citizenGoals, notes, severity)
                     VALUES (?, ?, ?, ?, ?, ?, ? ,?, ?)
                     """;
 

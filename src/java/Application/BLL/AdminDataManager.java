@@ -11,7 +11,7 @@ import java.util.List;
 
 public class AdminDataManager extends TeacherDataManager
 {
-    SchoolDAO schoolDAO = new SchoolDAO();
+    final SchoolDAO schoolDAO = new SchoolDAO();
 
     public AdminDataManager()
     {

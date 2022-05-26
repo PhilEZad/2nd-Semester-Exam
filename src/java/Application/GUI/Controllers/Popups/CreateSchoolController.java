@@ -26,11 +26,11 @@ public class CreateSchoolController implements Initializable {
     @FXML
     private Button btnCancel;
 
-    AdminDataManager dataManager = new AdminDataManager();
+    final AdminDataManager dataManager = new AdminDataManager();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        txtSchoolZipCode.setTextFormatter(new TextFormatter<Integer>(new IntegerStringConverter(), 0, GUIUtils.getIntegerFilter()));
+        txtSchoolZipCode.setTextFormatter(new TextFormatter<>(new IntegerStringConverter(), 0, GUIUtils.getIntegerFilter()));
     }
 
     public void createSchool(ActionEvent actionEvent) {

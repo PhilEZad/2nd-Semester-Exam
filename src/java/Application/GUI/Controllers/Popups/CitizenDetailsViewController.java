@@ -74,17 +74,11 @@ public class CitizenDetailsViewController implements Initializable {
 
 
     private void initBundle(ResourceBundle bundle) {
-        if (bundle.getObject("selectedCitizen") != null){
-            model.setSelectedCitizen((CitizenModel) bundle.getObject("selectedCitizen"));
-        }
-        if (bundle.getObject("accountType") != null){
-            String accountType = (String) bundle.getObject("accountType");
-            if (accountType.equals("teacher")){
-                isTeacher = true;
-            }else {
-                isTeacher = false;
-            }
-        }
+        bundle.getObject("selectedCitizen");
+        model.setSelectedCitizen((CitizenModel) bundle.getObject("selectedCitizen"));
+        bundle.getObject("accountType");
+        String accountType = (String) bundle.getObject("accountType");
+        isTeacher = accountType.equals("teacher");
     }
 
     /**
@@ -132,7 +126,6 @@ public class CitizenDetailsViewController implements Initializable {
      * opens the observation view with the given parameters.
      * editing is true, the view is opened in edit mode, automatically navigating
      * to the observation selected in this view and autofilling the user inputs to the existing data.
-     * @param event
      */
     public void onEditObservation(ActionEvent event) {
         TreeItem<CategoryEntryModel> selectedFuncItem = treeTblViewFunc.getSelectionModel().getSelectedItem();
@@ -175,7 +168,7 @@ public class CitizenDetailsViewController implements Initializable {
             };
 
 
-            root = FXMLLoader.load(getClass().getResource("/Views/Popups/ObservationView.fxml"), resources);
+            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Views/Popups/ObservationView.fxml")), resources);
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
@@ -216,7 +209,7 @@ public class CitizenDetailsViewController implements Initializable {
                 stage.close();
             }
             else {
-                root = FXMLLoader.load(getClass().getResource("/Views/StudentView.fxml"), resources);
+                root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Views/StudentView.fxml")), resources);
                 Scene scene = new Scene(root);
                 stage.setScene(scene);
             }

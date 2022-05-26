@@ -1,8 +1,5 @@
 package Application.BLL;
 
-import Application.BE.Category;
-import Application.DAL.CategoryDAO;
-
 public class CategoryTree
 {
     public void createTree()
@@ -10,7 +7,5 @@ public class CategoryTree
         var root = new CategoryLoader().load();
 
 
-
-        return;
     }
 }

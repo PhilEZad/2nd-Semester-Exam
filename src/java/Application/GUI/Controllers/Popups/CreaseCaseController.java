@@ -22,7 +22,7 @@ public class CreaseCaseController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
-        //inquiryList = FXCollections.observableList(caseModel.getAllInquries());
+        //inquiryList = FXCollections.observableList(caseModel.getAllInquires());
         //initComboBox();
     }
 

@@ -20,8 +20,8 @@ public class CreateTeacherController
     @FXML public TextField txtFieldLastName;
     @FXML public TextField txtFieldEmail;
 
-    // FIXME: 20/05/2022 Detatch DAO layer
-    AdminDataManager accountDAO = new AdminDataManager();
+    // FIXME: 20/05/2022 Detach DAO layer
+    final AdminDataManager accountDAO = new AdminDataManager();
 
     public void onSaveTeacher(ActionEvent actionEvent)
     {

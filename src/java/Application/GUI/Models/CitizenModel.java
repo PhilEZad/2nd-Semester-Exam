@@ -12,6 +12,10 @@ import java.util.Map;
 
 public class CitizenModel implements Cloneable
 {
+
+    private int id;
+
+
     private final StringProperty firstName = new SimpleStringProperty();
     private final StringProperty lastName = new SimpleStringProperty();
     private final IntegerProperty age = new SimpleIntegerProperty();
@@ -33,8 +37,10 @@ public class CitizenModel implements Cloneable
 
 
     private TreeItem<CategoryEntryModel> relevantFunctionalAbilities;
-    private TreeItem<CategoryEntryModel> relevantHealthConditions;
     private TreeItem<CategoryEntryModel> nonRelevantFunctionalAbilities;
+
+
+    private TreeItem<CategoryEntryModel> relevantHealthConditions;
     private TreeItem<CategoryEntryModel> nonRelevantHealthConditions;
 
 
@@ -333,5 +339,9 @@ public class CitizenModel implements Cloneable
     public void setTemplate(int template)
     {
         this.template.set(template);
+    }
+
+    public Citizen getBeCitizen() {
+        return null;
     }
 }

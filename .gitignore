@@ -14,7 +14,6 @@ target/**
 .idea/**/usage.statistics.xml
 .idea/**/dictionaries
 .idea/**/shelf
-target/**
 
 # AWS User-specific
 .idea/**/aws.xml
@@ -118,4 +117,3 @@ fabric.properties
 # End of https://www.toptal.com/developers/gitignore/api/intellij
 .idea/workspace.xml
 .idea/runConfigurations.xml
-.idea/workspace.xml

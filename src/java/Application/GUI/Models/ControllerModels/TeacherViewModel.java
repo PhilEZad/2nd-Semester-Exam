@@ -65,8 +65,7 @@ public class TeacherViewModel {
     }
 
     public ObservableList getCitizenTemplates() {
-        ObservableList<CitizenModel> citizenTemplates = FXCollections.observableArrayList();
-        return citizenTemplates;
+        return FXCollections.<CitizenModel>observableArrayList();
     }
 
     public void setSelectedCitizenTemplateModel(CitizenModel selectedCitizenTemplateModel) {

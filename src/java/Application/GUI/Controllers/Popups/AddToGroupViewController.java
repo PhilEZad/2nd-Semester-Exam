@@ -23,7 +23,7 @@ import java.util.ResourceBundle;
 public class AddToGroupViewController implements Initializable {
 
 
-    TeacherDataManager dataManager;
+    final TeacherDataManager dataManager;
 
     @FXML public Button btnSave;
     @FXML public Button btnCancel;
@@ -92,26 +92,20 @@ public class AddToGroupViewController implements Initializable {
 
         FilteredList<AccountModel> filteredData = new FilteredList<>(studentList(), b -> true);
 
-        txtAccountSearch.textProperty().addListener((observable, oldValue, newValue) -> {
-            filteredData.setPredicate(account -> {
+        txtAccountSearch.textProperty().addListener((observable, oldValue, newValue) -> filteredData.setPredicate(account -> {
 
-                if (newValue == null || newValue.isEmpty())
-                {
-                    return true;
-                }
+            if (newValue == null || newValue.isEmpty())
+            {
+                return true;
+            }
 
-                String lowerCaseFilter = newValue.toLowerCase();
+            String lowerCaseFilter = newValue.toLowerCase();
 
-                if (account.getFirstName().toLowerCase().indexOf(lowerCaseFilter) != -1)
-                {
-                    return true;
-                } else if(account.getLastName().toLowerCase().indexOf(lowerCaseFilter) != -1)
-                {
-                    return true;
-                }else
-                    return false;
-            });
-        });
+            if (account.getFirstName().toLowerCase().contains(lowerCaseFilter))
+            {
+                return true;
+            } else return account.getLastName().toLowerCase().contains(lowerCaseFilter);
+        }));
 
         SortedList<AccountModel> sortedUsers = new SortedList<>(filteredData);
 

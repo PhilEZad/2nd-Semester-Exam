@@ -16,142 +16,147 @@
 
 <BorderPane stylesheets="@../../Styles/MainStylesheet.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Application.GUI.Controllers.Popups.ObservationViewController">
    <center>
-      <TabPane fx:id="tabPaneContainer" prefHeight="468.0" prefWidth="590.0" styleClass="tab-label" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
-         <tabs>
-            <Tab fx:id="tabHealth" text="Helbreds tilstande">
-               <content>
-                  <AnchorPane prefHeight="358.0" prefWidth="432.0" styleClass="background">
-                     <children>
-                        <TreeTableView fx:id="treeTableViewHealth" layoutX="25.0" layoutY="11.0" minWidth="165.0" prefHeight="335.0" prefWidth="174.0" AnchorPane.bottomAnchor="12.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="11.0">
-                          <columns>
-                            <TreeTableColumn fx:id="treeTblColumnHealthCatName" minWidth="165.0" prefWidth="-1.0" text="Tilstands kategorier*" />
-                          </columns>
-                           <styleClass>
-                              <String fx:value="healthTable" />
-                              <String fx:value="healthTable-view" />
-                              <String fx:value="container-healthTable" />
-                           </styleClass>
-                        </TreeTableView>
-                        <AnchorPane layoutX="201.0" layoutY="54.0" prefHeight="87.0" prefWidth="389.0" styleClass="container-healthTable" AnchorPane.bottomAnchor="300.0" AnchorPane.leftAnchor="201.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="54.0">
-                           <children>
-                              <VBox layoutX="14.0" layoutY="9.0" prefHeight="37.0" prefWidth="118.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="8.0">
-                                 <children>
-                                    <Label styleClass="lblBackgroundBold" text="Niveau" />
-                                    <ComboBox fx:id="comboBoxHealthLevel" prefHeight="22.0" prefWidth="150.0" />
-                                 </children>
-                              </VBox>
-                              <VBox layoutX="137.0" layoutY="8.0" prefHeight="66.0" prefWidth="111.0" AnchorPane.leftAnchor="137.0" AnchorPane.topAnchor="8.0">
-                                 <children>
-                                    <Label styleClass="lblBackgroundBold" text="Årsag" />
-                                    <TextArea fx:id="txtAreaHealthCause" prefHeight="51.0" prefWidth="126.0" wrapText="true" />
-                                 </children>
-                              </VBox>
-                              <VBox layoutX="262.0" layoutY="16.0" prefHeight="66.0" prefWidth="111.0" AnchorPane.leftAnchor="260.0" AnchorPane.topAnchor="8.0">
-                                 <children>
-                                    <Label styleClass="lblBackgroundBold" text="Vurdering*" />
-                                    <TextArea fx:id="txtAreaHealthAssessment" prefHeight="51.0" prefWidth="111.0" wrapText="true" />
-                                 </children>
-                              </VBox>
-                           </children>
-                        </AnchorPane>
-                        <AnchorPane layoutX="201.0" layoutY="162.0" prefHeight="108.0" prefWidth="388.0" styleClass="container-healthTable" AnchorPane.bottomAnchor="171.0" AnchorPane.leftAnchor="201.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="162.0">
-                           <children>
-                              <VBox layoutX="14.0" layoutY="14.0" prefWidth="118.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0">
-                                 <children>
-                                    <Label styleClass="lblBackgroundBold" text="Forventet tilstand" />
-                                    <ComboBox fx:id="comboBoxHealthExpectedCondition" prefHeight="22.0" prefWidth="135.0" />
-                                 </children>
-                              </VBox>
-                              <VBox layoutX="176.0" layoutY="14.0" prefHeight="80.0" prefWidth="198.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="14.0">
-                                 <children>
-                                    <Label styleClass="lblBackgroundBold" text="Faglig Notat" />
-                                    <TextArea fx:id="txtAreaHealthNote" prefHeight="73.0" prefWidth="135.0" wrapText="true" />
-                                 </children>
-                              </VBox>
-                           </children>
-                        </AnchorPane>
-                        <Line endX="-100.0" endY="-357.0" layoutX="297.0" layoutY="365.0" startX="-100.0" startY="68.0" AnchorPane.bottomAnchor="7.5" AnchorPane.leftAnchor="190.0" AnchorPane.topAnchor="7.5" />
-                        <Line endX="277.0" endY="-257.0" fill="BLACK" layoutX="309.0" layoutY="407.0" startX="-106.0" startY="-257.0" stroke="#0000004a" />
-                        <Button layoutX="434.0" layoutY="378.0" mnemonicParsing="false" onAction="#onSaveHealthObservation" styleClass="backgroundButton" text="Gem " AnchorPane.bottomAnchor="23.0" AnchorPane.rightAnchor="20.0" />
-                        <Button layoutX="328.0" layoutY="378.0" mnemonicParsing="false" onAction="#onCancel" styleClass="backgroundButton" text="Annuller" AnchorPane.bottomAnchor="23.0" AnchorPane.rightAnchor="100.0" />
-                     </children>
-                  </AnchorPane>
-               </content>
-            </Tab>
-            <Tab fx:id="tabFunc" text="Funktionsevne tilstande">
-               <content>
-                  <AnchorPane prefHeight="385.0" prefWidth="590.0" styleClass="background">
-                     <children>
-                        <TreeTableView fx:id="treeTableViewFunc" layoutX="14.0" layoutY="11.0" minWidth="165.0" prefHeight="335.0" prefWidth="174.0" AnchorPane.bottomAnchor="12.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="11.0">
-                           <columns>
-                              <TreeTableColumn fx:id="treeTblColumnFuncCatName" minWidth="160.99999380111694" prefWidth="165.99999380111694" text="Tilstands kategorier*" />
-                           </columns>
-                           <styleClass>
-                              <String fx:value="funcTable" />
-                              <String fx:value="container-funcTable" />
-                              <String fx:value="funcTable-view" />
-                           </styleClass>
-                        </TreeTableView>
-                        <AnchorPane layoutX="196.0" layoutY="21.0" prefHeight="87.0" prefWidth="389.0" styleClass="container-funcTable" AnchorPane.leftAnchor="198.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="21.0">
-                           <children>
-                              <VBox layoutX="14.0" layoutY="9.0" prefHeight="37.0" prefWidth="118.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="8.0">
-                                 <children>
-                                    <Label styleClass="lblBackgroundBold" text="Niveau*" />
-                                    <ComboBox fx:id="comboBoxFuncLevel" prefHeight="22.0" prefWidth="150.0" />
-                                 </children>
-                              </VBox>
-                              <VBox layoutX="137.0" layoutY="8.0" prefHeight="66.0" prefWidth="111.0" AnchorPane.leftAnchor="137.0" AnchorPane.topAnchor="8.0">
-                                 <children>
-                                    <Label styleClass="lblBackgroundBold" text="Årsag" />
-                                    <TextArea fx:id="txtAreaFuncCause" prefHeight="51.0" prefWidth="126.0" wrapText="true" />
-                                 </children>
-                              </VBox>
-                              <VBox layoutX="262.0" layoutY="16.0" prefHeight="66.0" prefWidth="111.0" AnchorPane.leftAnchor="260.0" AnchorPane.topAnchor="8.0">
-                                 <children>
-                                    <Label styleClass="lblBackgroundBold" text="Vurdering" />
-                                    <TextArea fx:id="txtAreaFuncAssessment" prefHeight="51.0" prefWidth="111.0" wrapText="true" />
-                                 </children>
-                              </VBox>
-                           </children>
-                        </AnchorPane>
-                        <AnchorPane layoutX="197.0" layoutY="135.0" prefHeight="191.0" prefWidth="388.0" styleClass="container-funcTable" AnchorPane.leftAnchor="197.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="135.0">
-                           <children>
-                              <VBox layoutX="14.0" layoutY="8.0" prefHeight="76.0" prefWidth="149.0">
-                                 <children>
-                                    <Label styleClass="lblBackgroundBold" text="Betydninger for udførelse" />
-                                    <TextArea fx:id="txtAreaFuncImplications" prefHeight="61.0" prefWidth="149.0" wrapText="true" />
-                                 </children>
-                              </VBox>
-                              <VBox fx:id="txtAreaFuncGoals" layoutX="174.0" layoutY="8.0">
-                                 <children>
-                                    <Label styleClass="lblBackgroundBold" text="Borgers ønsker/mål" />
-                                    <TextArea prefHeight="61.0" prefWidth="200.0" wrapText="true" />
-                                 </children>
-                              </VBox>
-                              <VBox layoutX="14.0" layoutY="106.0" prefWidth="118.0">
-                                 <children>
-                                    <Label styleClass="lblBackgroundBold" text="Forventet tilstand" />
-                                    <ComboBox fx:id="comboBoxFuncExpectedCondition" prefHeight="22.0" prefWidth="135.0" />
-                                 </children>
-                              </VBox>
-                              <VBox layoutX="175.0" layoutY="106.0" prefHeight="80.0" prefWidth="198.0">
-                                 <children>
-                                    <Label styleClass="lblBackgroundBold" text="Faglig Notat" />
-                                    <TextArea fx:id="txtAreaFuncNote" prefHeight="73.0" prefWidth="135.0" wrapText="true" />
-                                 </children>
-                              </VBox>
-                           </children>
-                        </AnchorPane>
-                        <Line endX="-100.0" endY="-357.0" layoutX="295.0" layoutY="363.0" startX="-100.0" startY="68.0" AnchorPane.bottomAnchor="7.5" AnchorPane.leftAnchor="190.0" AnchorPane.topAnchor="7.5" />
-                        <Line endX="277.0" endY="-257.0" fill="BLACK" layoutX="305.0" layoutY="378.0" startX="-106.0" startY="-257.0" stroke="#0000004a" AnchorPane.leftAnchor="198.5" AnchorPane.topAnchor="120.5" />
-                        <Button layoutX="445.0" layoutY="389.0" mnemonicParsing="false" onAction="#onSaveFuncObservation" styleClass="backgroundButton" text="Gem" AnchorPane.bottomAnchor="12.0" AnchorPane.rightAnchor="30.0" />
-                        <Button layoutX="352.0" layoutY="389.0" mnemonicParsing="false" onAction="#onCancel" styleClass="backgroundButton" text="Annuller" AnchorPane.bottomAnchor="12.0" AnchorPane.rightAnchor="100.0" />
-                        <Label layoutX="198.0" layoutY="409.0" text="*Obligatoriske felter" AnchorPane.leftAnchor="198.0" AnchorPane.topAnchor="409.0" />
-                     </children>
-                  </AnchorPane>
-               </content>
-            </Tab>
-         </tabs>
-      </TabPane>
+       <TabPane fx:id="tabPaneContainer" prefHeight="468.0" prefWidth="590.0" styleClass="tab-label"
+                tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+           <Tab fx:id="tabHealth" text="Helbreds tilstande">
+               <AnchorPane prefHeight="358.0" prefWidth="432.0" styleClass="background">
+                   <TreeTableView fx:id="treeTableViewHealth" layoutX="25.0" layoutY="11.0" minWidth="165.0"
+                                  prefHeight="335.0" prefWidth="174.0" AnchorPane.bottomAnchor="12.0"
+                                  AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="11.0">
+                       <columns>
+                           <TreeTableColumn fx:id="treeTblColumnHealthCatName" minWidth="165.0" prefWidth="-1.0"
+                                            text="Tilstands kategorier*"/>
+                       </columns>
+                       <styleClass>
+                           <String fx:value="healthTable"/>
+                           <String fx:value="healthTable-view"/>
+                           <String fx:value="container-healthTable"/>
+                       </styleClass>
+                   </TreeTableView>
+                   <AnchorPane layoutX="201.0" layoutY="54.0" prefHeight="87.0" prefWidth="389.0"
+                               styleClass="container-healthTable" AnchorPane.bottomAnchor="300.0"
+                               AnchorPane.leftAnchor="201.0" AnchorPane.rightAnchor="5.0"
+                               AnchorPane.topAnchor="54.0">
+                       <VBox layoutX="14.0" layoutY="9.0" prefHeight="37.0" prefWidth="118.0"
+                             AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="8.0">
+                           <Label styleClass="lblBackgroundBold" text="Niveau"/>
+                           <ComboBox fx:id="comboBoxHealthLevel" prefHeight="22.0" prefWidth="150.0"/>
+                       </VBox>
+                       <VBox layoutX="137.0" layoutY="8.0" prefHeight="66.0" prefWidth="111.0"
+                             AnchorPane.leftAnchor="137.0" AnchorPane.topAnchor="8.0">
+                           <Label styleClass="lblBackgroundBold" text="Årsag"/>
+                           <TextArea fx:id="txtAreaHealthCause" prefHeight="51.0" prefWidth="126.0"
+                                     wrapText="true"/>
+                       </VBox>
+                       <VBox layoutX="262.0" layoutY="16.0" prefHeight="66.0" prefWidth="111.0"
+                             AnchorPane.leftAnchor="260.0" AnchorPane.topAnchor="8.0">
+                           <Label styleClass="lblBackgroundBold" text="Vurdering*"/>
+                           <TextArea fx:id="txtAreaHealthAssessment" prefHeight="51.0" prefWidth="111.0"
+                                     wrapText="true"/>
+                       </VBox>
+                   </AnchorPane>
+                   <AnchorPane layoutX="201.0" layoutY="162.0" prefHeight="108.0" prefWidth="388.0"
+                               styleClass="container-healthTable" AnchorPane.bottomAnchor="171.0"
+                               AnchorPane.leftAnchor="201.0" AnchorPane.rightAnchor="5.0"
+                               AnchorPane.topAnchor="162.0">
+                       <VBox layoutX="14.0" layoutY="14.0" prefWidth="118.0" AnchorPane.leftAnchor="14.0"
+                             AnchorPane.topAnchor="14.0">
+                           <Label styleClass="lblBackgroundBold" text="Forventet tilstand"/>
+                           <ComboBox fx:id="comboBoxHealthExpectedCondition" prefHeight="22.0"
+                                     prefWidth="135.0"/>
+                       </VBox>
+                       <VBox layoutX="176.0" layoutY="14.0" prefHeight="80.0" prefWidth="198.0"
+                             AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="14.0">
+                           <Label styleClass="lblBackgroundBold" text="Faglig Notat"/>
+                           <TextArea fx:id="txtAreaHealthNote" prefHeight="73.0" prefWidth="135.0"
+                                     wrapText="true"/>
+                       </VBox>
+                   </AnchorPane>
+                   <Line endX="-100.0" endY="-357.0" layoutX="297.0" layoutY="365.0" startX="-100.0" startY="68.0"
+                         AnchorPane.bottomAnchor="7.5" AnchorPane.leftAnchor="190.0" AnchorPane.topAnchor="7.5"/>
+                   <Line endX="277.0" endY="-257.0" fill="BLACK" layoutX="309.0" layoutY="407.0" startX="-106.0"
+                         startY="-257.0" stroke="#0000004a"/>
+                   <Button layoutX="434.0" layoutY="378.0" mnemonicParsing="false"
+                           onAction="#onSaveHealthObservation" styleClass="backgroundButton" text="Gem "
+                           AnchorPane.bottomAnchor="23.0" AnchorPane.rightAnchor="20.0"/>
+                   <Button layoutX="328.0" layoutY="378.0" mnemonicParsing="false" onAction="#onCancel"
+                           styleClass="backgroundButton" text="Annuller" AnchorPane.bottomAnchor="23.0"
+                           AnchorPane.rightAnchor="100.0"/>
+               </AnchorPane>
+           </Tab>
+           <Tab fx:id="tabFunc" text="Funktionsevne tilstande">
+               <AnchorPane prefHeight="385.0" prefWidth="590.0" styleClass="background">
+                   <TreeTableView fx:id="treeTableViewFunc" layoutX="14.0" layoutY="11.0" minWidth="165.0"
+                                  prefHeight="335.0" prefWidth="174.0" AnchorPane.bottomAnchor="12.0"
+                                  AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="11.0">
+                       <columns>
+                           <TreeTableColumn fx:id="treeTblColumnFuncCatName" minWidth="160.99999380111694"
+                                            prefWidth="165.99999380111694" text="Tilstands kategorier*"/>
+                       </columns>
+                       <styleClass>
+                           <String fx:value="funcTable"/>
+                           <String fx:value="container-funcTable"/>
+                           <String fx:value="funcTable-view"/>
+                       </styleClass>
+                   </TreeTableView>
+                   <AnchorPane layoutX="196.0" layoutY="21.0" prefHeight="87.0" prefWidth="389.0"
+                               styleClass="container-funcTable" AnchorPane.leftAnchor="198.0"
+                               AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="21.0">
+                       <VBox layoutX="14.0" layoutY="9.0" prefHeight="37.0" prefWidth="118.0"
+                             AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="8.0">
+                           <Label styleClass="lblBackgroundBold" text="Niveau*"/>
+                           <ComboBox fx:id="comboBoxFuncLevel" prefHeight="22.0" prefWidth="150.0"/>
+                       </VBox>
+                       <VBox layoutX="137.0" layoutY="8.0" prefHeight="66.0" prefWidth="111.0"
+                             AnchorPane.leftAnchor="137.0" AnchorPane.topAnchor="8.0">
+                           <Label styleClass="lblBackgroundBold" text="Årsag"/>
+                           <TextArea fx:id="txtAreaFuncCause" prefHeight="51.0" prefWidth="126.0"
+                                     wrapText="true"/>
+                       </VBox>
+                       <VBox layoutX="262.0" layoutY="16.0" prefHeight="66.0" prefWidth="111.0"
+                             AnchorPane.leftAnchor="260.0" AnchorPane.topAnchor="8.0">
+                           <Label styleClass="lblBackgroundBold" text="Vurdering"/>
+                           <TextArea fx:id="txtAreaFuncAssessment" prefHeight="51.0" prefWidth="111.0"
+                                     wrapText="true"/>
+                       </VBox>
+                   </AnchorPane>
+                   <AnchorPane layoutX="197.0" layoutY="135.0" prefHeight="191.0" prefWidth="388.0"
+                               styleClass="container-funcTable" AnchorPane.leftAnchor="197.0"
+                               AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="135.0">
+                       <VBox layoutX="14.0" layoutY="8.0" prefHeight="76.0" prefWidth="149.0">
+                           <Label styleClass="lblBackgroundBold" text="Betydninger for udførelse"/>
+                           <TextArea fx:id="txtAreaFuncImplications" prefHeight="61.0" prefWidth="149.0"
+                                     wrapText="true"/>
+                       </VBox>
+                       <VBox fx:id="txtAreaFuncGoals" layoutX="174.0" layoutY="8.0">
+                           <Label styleClass="lblBackgroundBold" text="Borgers ønsker/mål"/>
+                           <TextArea prefHeight="61.0" prefWidth="200.0" wrapText="true"/>
+                       </VBox>
+                       <VBox layoutX="14.0" layoutY="106.0" prefWidth="118.0">
+                           <Label styleClass="lblBackgroundBold" text="Forventet tilstand"/>
+                           <ComboBox fx:id="comboBoxFuncExpectedCondition" prefHeight="22.0" prefWidth="135.0"/>
+                       </VBox>
+                       <VBox layoutX="175.0" layoutY="106.0" prefHeight="80.0" prefWidth="198.0">
+                           <Label styleClass="lblBackgroundBold" text="Faglig Notat"/>
+                           <TextArea fx:id="txtAreaFuncNote" prefHeight="73.0" prefWidth="135.0"
+                                     wrapText="true"/>
+                       </VBox>
+                   </AnchorPane>
+                   <Line endX="-100.0" endY="-357.0" layoutX="295.0" layoutY="363.0" startX="-100.0" startY="68.0"
+                         AnchorPane.bottomAnchor="7.5" AnchorPane.leftAnchor="190.0" AnchorPane.topAnchor="7.5"/>
+                   <Line endX="277.0" endY="-257.0" fill="BLACK" layoutX="305.0" layoutY="378.0" startX="-106.0"
+                         startY="-257.0" stroke="#0000004a" AnchorPane.leftAnchor="198.5"
+                         AnchorPane.topAnchor="120.5"/>
+                   <Button layoutX="445.0" layoutY="389.0" mnemonicParsing="false" onAction="#onSaveFuncObservation"
+                           styleClass="backgroundButton" text="Gem" AnchorPane.bottomAnchor="12.0"
+                           AnchorPane.rightAnchor="30.0"/>
+                   <Button layoutX="352.0" layoutY="389.0" mnemonicParsing="false" onAction="#onCancel"
+                           styleClass="backgroundButton" text="Annuller" AnchorPane.bottomAnchor="12.0"
+                           AnchorPane.rightAnchor="100.0"/>
+                   <Label layoutX="198.0" layoutY="409.0" text="*Obligatoriske felter" AnchorPane.leftAnchor="198.0"
+                          AnchorPane.topAnchor="409.0"/>
+               </AnchorPane>
+           </Tab>
+       </TabPane>
    </center>
 </BorderPane>

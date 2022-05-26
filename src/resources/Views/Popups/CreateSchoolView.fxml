@@ -9,52 +9,48 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="235.0" prefWidth="364.0" styleClass="transparentBG" stylesheets="@../../Styles/MainStylesheet.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Application.GUI.Controllers.Popups.CreateSchoolController">
-   <children>
-      <BorderPane prefHeight="279.0" prefWidth="440.0" styleClass="panel30Deg" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <center>
+<AnchorPane prefHeight="235.0" prefWidth="364.0" styleClass="transparentBG"
+            stylesheets="@../../Styles/MainStylesheet.css" xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="Application.GUI.Controllers.Popups.CreateSchoolController">
+    <BorderPane prefHeight="279.0" prefWidth="440.0" styleClass="panel30Deg" AnchorPane.bottomAnchor="0.0"
+                AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <center>
             <VBox prefHeight="161.0" prefWidth="436.0" BorderPane.alignment="CENTER">
-               <children>
-                  <HBox alignment="CENTER" prefHeight="69.0" prefWidth="436.0">
-                     <children>
-                        <Label styleClass="panelLbl" text="Institutionsnavn" />
-                        <TextField fx:id="txtSchoolName" styleClass="text-fieldBase" />
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER" prefHeight="71.0" prefWidth="436.0">
-                     <children>
-                        <Label styleClass="panelLbl" text="Postnummer" />
-                        <TextField fx:id="txtSchoolZipCode" styleClass="text-fieldBase" />
-                     </children>
-                  </HBox>
-               </children>
+                <HBox alignment="CENTER" prefHeight="69.0" prefWidth="436.0">
+                    <Label styleClass="panelLbl" text="Institutionsnavn"/>
+                    <TextField fx:id="txtSchoolName" styleClass="text-fieldBase"/>
+                </HBox>
+                <HBox alignment="CENTER" prefHeight="71.0" prefWidth="436.0">
+                    <Label styleClass="panelLbl" text="Postnummer"/>
+                    <TextField fx:id="txtSchoolZipCode" styleClass="text-fieldBase"/>
+                </HBox>
             </VBox>
-         </center>
-         <top>
-            <Label styleClass="panelLbl" text="Ny Skole" BorderPane.alignment="CENTER" />
-         </top>
-         <bottom>
+        </center>
+        <top>
+          <Label styleClass="panelLbl" text="Ny Skole" BorderPane.alignment="CENTER"/>
+        </top>
+        <bottom>
             <HBox alignment="CENTER" prefHeight="55.0" prefWidth="436.0" BorderPane.alignment="CENTER">
-               <children>
-                  <Button fx:id="btnCancel" alignment="CENTER" mnemonicParsing="false" onAction="#Cancel" styleClass="panelBtn" text="Anullere">
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
-                     <HBox.margin>
-                        <Insets right="200.0" />
-                     </HBox.margin>
-                  </Button>
-                  <Button mnemonicParsing="false" onAction="#createSchool" styleClass="panelBtn" stylesheets="@../../Styles/MainStylesheet.css" text="Gem">
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
-                  </Button>
-               </children>
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
+                <opaqueInsets>
+                    <Insets/>
+                </opaqueInsets>
+                <Button fx:id="btnCancel" alignment="CENTER" mnemonicParsing="false" onAction="#Cancel"
+                        styleClass="panelBtn" text="Anullere">
+                    <opaqueInsets>
+                        <Insets/>
+                    </opaqueInsets>
+                    <HBox.margin>
+                        <Insets right="200.0"/>
+                    </HBox.margin>
+                </Button>
+                <Button mnemonicParsing="false" onAction="#createSchool" styleClass="panelBtn"
+                        stylesheets="@../../Styles/MainStylesheet.css" text="Gem">
+                    <HBox.margin>
+                        <Insets/>
+                    </HBox.margin>
+                </Button>
             </HBox>
-         </bottom>
-      </BorderPane>
-   </children>
+        </bottom>
+    </BorderPane>
 </AnchorPane>
