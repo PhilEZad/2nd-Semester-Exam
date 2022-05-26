@@ -303,9 +303,26 @@ public class AssignedCitizensDAO implements IDatabaseActions<Pair<Account, List<
         @Override
         public void delete(int id)
         {
+            var dao = new AbstractDAO<>() {
 
+                @Override
+                protected Object execute(PreparedStatement statement) throws SQLException
+                {
+                    AbstractDAO.setPlaceholders(statement, id);
+                    statement.executeUpdate();
+                    return null;
+                }
+
+                @Override
+                protected String getSQLStatement() {
+                    return """
+                            DELETE FROM AssignedCitizen
+                            WHERE FK_AID = ?
+                            """;
+                }
+            };
+
+            dao.start();
         }
-
-
     }
-
+    
