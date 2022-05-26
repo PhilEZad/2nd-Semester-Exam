@@ -37,13 +37,12 @@ public class CitizenModel implements Cloneable{
     private Map<Category, CategoryEntryModel> nonRelevantHealthConditions;
 
 
-    public CitizenModel(String firstName, String lastName, int age, int template) {
+    public CitizenModel(String firstName, String lastName, int age, boolean template) {
         this.beCitizen = new Citizen(-1, new GeneralJournal(), SessionModel.getSchool(), firstName, lastName, age, template);
 
         this.firstName = new SimpleStringProperty(beCitizen.getFirstname());
         this.lastName = new SimpleStringProperty(beCitizen.getLastname());
         this.age = new SimpleIntegerProperty(beCitizen.getAge());
-        this.template = new SimpleIntegerProperty(beCitizen.getTemplate());
 
         this.coping = new SimpleStringProperty(beCitizen.getGeneralInfo().getCoping());
         this.motivation = new SimpleStringProperty(beCitizen.getGeneralInfo().getMotivation());

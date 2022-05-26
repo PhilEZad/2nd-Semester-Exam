@@ -2,8 +2,6 @@ package Application.GUI.Controllers.Popups;
 
 import Application.BE.School;
 import Application.BLL.AdminDataManager;
-import Application.BLL.TeacherDataManager;
-import Application.GUI.Models.SchoolModel;
 import Application.Utility.GUIUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,7 +16,6 @@ import javafx.util.converter.IntegerStringConverter;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
-import java.util.function.UnaryOperator;
 
 public class CreateSchoolController implements Initializable {
 

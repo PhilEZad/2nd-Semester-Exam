@@ -1,9 +1,12 @@
 package Application.GUI.Controllers;
 
 import Application.BE.Account;
+import Application.BE.School;
 import Application.BLL.AdminDataManager;
+import Application.GUI.Controllers.dashboard.AdminDashboardController;
 import Application.GUI.Models.AccountModel;
 import Application.GUI.Models.SchoolModel;
+import Application.Utility.GUIUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -16,14 +19,16 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import org.controlsfx.control.spreadsheet.SpreadsheetCellType;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.*;
 
 public class AdminViewController implements Initializable {
 
-    AdminDataManager daoAdmin;
+    AdminDataManager dataManager;
 
     @FXML TextField txtFieldSearch;
 
@@ -50,9 +55,16 @@ public class AdminViewController implements Initializable {
     @FXML public TableColumn<SchoolModel, Number> tblClmSchoolZipCode;
     @FXML public TableColumn<SchoolModel, String> tblClmSchoolCity;
 
+    enum ListType
+    {
+        TEACHER,
+        STUDENT,
+        ADMIN
+    }
+
     public AdminViewController()
     {
-        daoAdmin = new AdminDataManager();
+        dataManager = new AdminDataManager();
     }
 
 
@@ -80,9 +92,9 @@ public class AdminViewController implements Initializable {
 
     private void populateTableViews()
     {
-        tblViewTeacher.setItems(searchTable(txtFieldSearch, tblViewTeacher, FXCollections.observableArrayList(daoAdmin.getAllTeachers()));
-        tblViewStudent.setItems(searchTable(txtFieldSearch, tblViewTeacher, FXCollections.observableArrayList(daoAdmin.getAllStudents()));
-        tblViewSchool.setItems(daoAdmin.getAllSchools());
+        tblViewTeacher.setItems(searchTable(txtFieldSearch, tblViewTeacher, FXCollections.observableArrayList(getObservableList(ListType.TEACHER))));
+        tblViewStudent.setItems(searchTable(txtFieldSearch, tblViewTeacher, FXCollections.observableArrayList(getObservableList(ListType.STUDENT))));
+        tblViewSchool.setItems(getObservableSchools());
     }
 
     public void createStudent(ActionEvent actionEvent)
@@ -98,7 +110,7 @@ public class AdminViewController implements Initializable {
         {
             e.printStackTrace();
         }
-        popupMenu.setOnHidden(event -> tblViewStudent.setItems(searchTable(txtFieldSearch, tblViewTeacher, daoAdmin.getAllStudents())));
+        popupMenu.setOnHidden(event -> tblViewStudent.setItems(searchTable(txtFieldSearch, tblViewTeacher, getObservableList(ListType.STUDENT))));
     }
 
     public void createTeacher(ActionEvent actionEvent)
@@ -114,7 +126,7 @@ public class AdminViewController implements Initializable {
         {
             e.printStackTrace();
         }
-        popupMenu.setOnHidden(event -> tblViewTeacher.setItems(searchTable(txtFieldSearch, tblViewTeacher, daoAdmin.getAllTeachers())));
+        popupMenu.setOnHidden(event -> tblViewTeacher.setItems(searchTable(txtFieldSearch, tblViewTeacher, getObservableList(ListType.TEACHER))));
     }
 
     public void createSchool(ActionEvent actionEvent)
@@ -130,7 +142,7 @@ public class AdminViewController implements Initializable {
         {
             e.printStackTrace();
         }
-        popupMenu.setOnHidden(event -> tblViewStudent.setItems(searchTable(txtFieldSearch, tblViewTeacher, daoAdmin.getAllStudents())));
+        popupMenu.setOnHidden(event -> tblViewStudent.setItems(searchTable(txtFieldSearch, tblViewStudent, getObservableSchools())));
     }
 
     public void editSelected(ActionEvent actionEvent)
@@ -146,7 +158,7 @@ public class AdminViewController implements Initializable {
                 popupMenuTeacher.setTitle("Rediger Lærer");
                 popupMenuTeacher.setScene(new Scene(rootTeacher));
                 popupMenuTeacher.show();
-                popupMenuTeacher.setOnHidden(event -> tblViewTeacher.setItems(searchTable(txtFieldSearch, tblViewTeacher, daoAdmin.getAllTeachers())));
+                popupMenuTeacher.setOnHidden(event -> tblViewTeacher.setItems(searchTable(txtFieldSearch, tblViewTeacher, getObservableList(ListType.TEACHER))));
             } else if (tabViewStudent.isSelected()) {
                 resource = getResource(tblViewStudent);
                 Stage popupMenuStudent = new Stage();
@@ -154,7 +166,7 @@ public class AdminViewController implements Initializable {
                 popupMenuStudent.setTitle("Rediger Elev");
                 popupMenuStudent.setScene(new Scene(rootStudent));
                 popupMenuStudent.show();
-                popupMenuStudent.setOnHidden(event -> tblViewStudent.setItems(searchTable(txtFieldSearch, tblViewTeacher, daoAdmin.getAllStudents())));
+                popupMenuStudent.setOnHidden(event -> tblViewStudent.setItems(searchTable(txtFieldSearch, tblViewTeacher, getObservableList(ListType.STUDENT))));
             } else if (tabViewSchool.isSelected()) {
                 resource = getResource(tblViewSchool);
                 Stage popupMenuSchool = new Stage();
@@ -162,7 +174,7 @@ public class AdminViewController implements Initializable {
                 popupMenuSchool.setTitle("Rediger Skole");
                 popupMenuSchool.setScene(new Scene(rootSchool));
                 popupMenuSchool.show();
-                popupMenuSchool.setOnHidden(event -> tblViewSchool.setItems(daoAdmin.getAllSchools()));
+                popupMenuSchool.setOnHidden(event -> tblViewSchool.setItems(getObservableSchools()));
             } else {
                 //Alert alert
             }
@@ -187,8 +199,13 @@ public class AdminViewController implements Initializable {
 
             if (result.get() == ButtonType.OK)
             {
-                daoAdmin.deleteAccount(tblViewTeacher.getSelectionModel().getSelectedItem().getId());
-                tblViewTeacher.setItems(searchTable(txtFieldSearch, tblViewTeacher, daoAdmin.getAllTeachers()));
+                try {
+                    dataManager.deleteTeacher(tblViewTeacher.getSelectionModel().getSelectedItem().getAccount());
+                } catch (SQLException e) {
+                    GUIUtils.alertCall(Alert.AlertType.WARNING, "Datbase fejl.");
+                    e.printStackTrace();
+                }
+                tblViewTeacher.setItems(searchTable(txtFieldSearch, tblViewTeacher, getObservableList(ListType.TEACHER)));
             }
 
         } else if (tabViewStudent.isSelected())
@@ -201,8 +218,14 @@ public class AdminViewController implements Initializable {
 
             if (result.get() == ButtonType.OK)
             {
-                daoAdmin.deleteAccount(tblViewStudent.getSelectionModel().getSelectedItem().getId());
-                tblViewStudent.setItems(searchTable(txtFieldSearch, tblViewTeacher, daoAdmin.getAllStudents()));
+                try {
+                    dataManager.deleteStudent(tblViewStudent.getSelectionModel().getSelectedItem().getAccount());
+                } catch (SQLException e)
+                {
+                    GUIUtils.alertCall(Alert.AlertType.WARNING, "Database fejl.");
+                    e.printStackTrace();
+                }
+                tblViewStudent.setItems(searchTable(txtFieldSearch, tblViewTeacher, getObservableList(ListType.STUDENT)));
             }
 
         } else if (tabViewSchool.isSelected())
@@ -215,8 +238,15 @@ public class AdminViewController implements Initializable {
 
             if (result.get() == ButtonType.OK)
             {
-                daoAdmin.deleteSchool(tblViewSchool.getSelectionModel().getSelectedItem().getId());
-                tblViewSchool.setItems(daoAdmin.getAllSchools());
+                try
+                {
+                    dataManager.deleteSchool(tblViewSchool.getSelectionModel().getSelectedItem().getSchool());
+                    tblViewSchool.setItems(getObservableSchools());
+                } catch (SQLException sqlException)
+                {
+                    GUIUtils.alertCall(Alert.AlertType.WARNING, "Database fejl.");
+                    sqlException.printStackTrace();
+                }
             }
         }
     }
@@ -254,6 +284,71 @@ public class AdminViewController implements Initializable {
         sortedUsers.comparatorProperty().bind(table.comparatorProperty());
 
         return sortedUsers;
+    }
+
+    private ObservableList<AccountModel> getObservableList(ListType listType)
+    {
+        ObservableList<AccountModel> studentList = FXCollections.observableArrayList();
+
+        List<Account> accountList;
+
+        try
+        {
+            switch (listType)
+            {
+                case STUDENT:
+                    accountList = dataManager.getAllStudents();
+                    break;
+                case TEACHER:
+                    accountList = dataManager.getAllTeachers();
+                    break;
+                case ADMIN:
+                    accountList = dataManager.getAllAdmins();
+                    break;
+                default:
+                    throw new IllegalStateException("Unexpected value: " + listType);
+            }
+
+            for (Account account : accountList)
+            {
+                AccountModel student = new AccountModel(account);
+                studentList.add(student);
+            }
+
+            return studentList;
+
+        } catch (SQLException e)
+        {
+            GUIUtils.alertCall(Alert.AlertType.WARNING, "Database fejl.");
+            e.printStackTrace();
+            return studentList;
+        }
+    }
+
+    private ObservableList<SchoolModel> getObservableSchools()
+    {
+        ObservableList<SchoolModel> schoolModelList = FXCollections.observableArrayList();
+
+        List<School> schoolList;
+
+        try
+        {
+            schoolList = dataManager.getAllSchools();
+
+            for (School school : schoolList)
+            {
+                SchoolModel schoolModel = new SchoolModel(school);
+                schoolModelList.add(schoolModel);
+            }
+
+            return schoolModelList;
+
+        } catch (SQLException e)
+        {
+            GUIUtils.alertCall(Alert.AlertType.WARNING, "Database fejl.");
+            e.printStackTrace();
+            return schoolModelList;
+        }
     }
 
     private ResourceBundle getResource(TableView tableView) {
