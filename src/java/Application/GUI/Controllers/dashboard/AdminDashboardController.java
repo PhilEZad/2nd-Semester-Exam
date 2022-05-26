@@ -5,6 +5,7 @@ import Application.BE.School;
 import Application.BLL.AdminDataManager;
 import Application.GUI.Models.AccountModel;
 import Application.GUI.Models.SchoolModel;
+import Application.Utility.GUIUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -98,9 +99,10 @@ public class AdminDashboardController implements Initializable {
             popupMenu.setScene(new Scene(root));
             popupMenu.show();
             popupMenu.setOnHidden(event1 -> tblViewStudent.setItems(searchTable(txtFieldSearch, tblViewTeacher, getObservableList(ListType.STUDENT))));
-        } catch (IOException e)
+        } catch (IOException ioException)
         {
-            e.printStackTrace();
+            GUIUtils.alertCall(Alert.AlertType.WARNING, "Stylesheet ikke fundet");
+            ioException.printStackTrace();
         }
     }
 
@@ -116,13 +118,10 @@ public class AdminDashboardController implements Initializable {
             popupMenuStudent.setOnHidden(event1 -> {
                 tblViewStudent.setItems(searchTable(txtFieldSearch, tblViewTeacher, getObservableList(ListType.STUDENT)));
             });
-        } catch (IOException e)
+        } catch (IOException ioException)
         {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setHeaderText("Ingen elev valgt.");
-            alert.getDialogPane().getStylesheets().add(Objects.requireNonNull(getClass().getResource("/Styles/MainStylesheet.css")).toExternalForm());
-            alert.showAndWait();
-            e.printStackTrace();
+            GUIUtils.alertCall(Alert.AlertType.WARNING, "Stylesheet ikke fundet.");
+            ioException.printStackTrace();
         }
     }
 
@@ -140,13 +139,10 @@ public class AdminDashboardController implements Initializable {
                 dataManager.deleteStudent(tblViewStudent.getSelectionModel().getSelectedItem().getAccount());
                 tblViewStudent.setItems(searchTable(txtFieldSearch, tblViewTeacher, getObservableList(ListType.TEACHER)));
             }
-        } catch (Exception e)
+        } catch (SQLException sqlException)
         {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setHeaderText("Ingen elev valgt.");
-            alert.getDialogPane().getStylesheets().add(Objects.requireNonNull(getClass().getResource("/Styles/MainStylesheet.css")).toExternalForm());
-            alert.showAndWait();
-            e.printStackTrace();
+            GUIUtils.alertCall(Alert.AlertType.WARNING, "Database fejl.");
+            sqlException.printStackTrace();
         }
     }
 
@@ -164,6 +160,7 @@ public class AdminDashboardController implements Initializable {
             popupMenu.setOnHidden(event1 -> tblViewTeacher.setItems(searchTable(txtFieldSearch, tblViewTeacher, getObservableList(ListType.TEACHER))));
         } catch (IOException e)
         {
+            GUIUtils.alertCall(Alert.AlertType.WARNING, "Database fejl.");
             e.printStackTrace();
         }
     }
@@ -180,11 +177,11 @@ public class AdminDashboardController implements Initializable {
             popupMenuTeacher.setOnHidden(event1 -> tblViewTeacher.setItems(searchTable(txtFieldSearch, tblViewTeacher, getObservableList(ListType.TEACHER))));
         } catch (IOException e)
         {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setHeaderText("Ingen lærer valgt.");
-            alert.getDialogPane().getStylesheets().add(Objects.requireNonNull(getClass().getResource("/Styles/MainStylesheet.css")).toExternalForm());
-            alert.showAndWait();
+            GUIUtils.alertCall(Alert.AlertType.WARNING, "Stylesheet ikke fundet.");
             e.printStackTrace();
+        } catch (IllegalArgumentException illegalArgumentException) {
+            GUIUtils.alertCall(Alert.AlertType.WARNING, "Ingen lærer valgt.");
+            illegalArgumentException.printStackTrace();
         }
     }
 
@@ -206,13 +203,14 @@ public class AdminDashboardController implements Initializable {
                 tblViewTeacher.setItems(searchTable(txtFieldSearch, tblViewTeacher, getObservableList(ListType.TEACHER)));
             }
 
-        } catch (Exception e)
+        } catch (SQLException sqlException)
         {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setHeaderText("Ingen elev valgt.");
-            alert.getDialogPane().getStylesheets().add(Objects.requireNonNull(getClass().getResource("/Styles/MainStylesheet.css")).toExternalForm());
-            alert.showAndWait();
-            e.printStackTrace();
+            GUIUtils.alertCall(Alert.AlertType.WARNING, "Database fejl.");
+            sqlException.printStackTrace();
+        } catch (IllegalArgumentException illegalArgumentException)
+        {
+            GUIUtils.alertCall(Alert.AlertType.WARNING, "Ingen lærer valgt.");
+            illegalArgumentException.printStackTrace();
         }
     }
 
@@ -228,9 +226,10 @@ public class AdminDashboardController implements Initializable {
             popupMenu.setScene(new Scene(root));
             popupMenu.show();
             popupMenu.setOnHidden(event1 -> tblViewSchool.setItems(getObservableSchools()));
-        } catch (IOException e)
+        } catch (IOException ioException)
         {
-            e.printStackTrace();
+            GUIUtils.alertCall(Alert.AlertType.WARNING, "Kunne ikke finde stylesheet.");
+            ioException.printStackTrace();
         }
     }
 
@@ -243,13 +242,14 @@ public class AdminDashboardController implements Initializable {
             popupMenuSchool.setScene(new Scene(rootSchool));
             popupMenuSchool.show();
             popupMenuSchool.setOnHidden(event1 -> tblViewSchool.setItems(getObservableSchools()));
-        } catch (IOException e)
+        } catch (IllegalArgumentException illegalArgumentException)
         {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setHeaderText("Ingen skole valgt.");
-            alert.getDialogPane().getStylesheets().add(Objects.requireNonNull(getClass().getResource("/Styles/MainStylesheet.css")).toExternalForm());
-            alert.showAndWait();
-            e.printStackTrace();
+            GUIUtils.alertCall(Alert.AlertType.WARNING, "Ingen skole valgt.");
+            illegalArgumentException.printStackTrace();
+        } catch (IOException ioException)
+        {
+            GUIUtils.alertCall(Alert.AlertType.WARNING, "Kunne ikke finde stylesheet.");
+            ioException.printStackTrace();
         }
     }
 
@@ -270,13 +270,14 @@ public class AdminDashboardController implements Initializable {
                 dataManager.deleteSchool(tblViewSchool.getSelectionModel().getSelectedItem().getSchool());
                 tblViewSchool.setItems(getObservableSchools());
             }
-        } catch (Exception e)
+        } catch (IllegalArgumentException illegalArgumentException)
         {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setHeaderText("Ingen elev valgt.");
-            alert.getDialogPane().getStylesheets().add(Objects.requireNonNull(getClass().getResource("/Styles/MainStylesheet.css")).toExternalForm());
-            alert.showAndWait();
-            e.printStackTrace();
+            GUIUtils.alertCall(Alert.AlertType.WARNING, "Ingen skole valgt");
+            illegalArgumentException.printStackTrace();
+        } catch (SQLException sqlException)
+        {
+            GUIUtils.alertCall(Alert.AlertType.WARNING, "Database fejl.");
+            sqlException.printStackTrace();
         }
     }
 
@@ -361,10 +362,7 @@ public class AdminDashboardController implements Initializable {
 
         } catch (SQLException e)
             {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setHeaderText("Database fejl.");
-                alert.getDialogPane().getStylesheets().add(Objects.requireNonNull(getClass().getResource("/Styles/MainStylesheet.css")).toExternalForm());
-                alert.showAndWait();
+                GUIUtils.alertCall(Alert.AlertType.WARNING, "Database fejl.");
                 e.printStackTrace();
                 return studentList;
             }
@@ -390,10 +388,7 @@ public class AdminDashboardController implements Initializable {
 
         } catch (SQLException e)
         {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setHeaderText("Database fejl.");
-            alert.getDialogPane().getStylesheets().add(Objects.requireNonNull(getClass().getResource("/Styles/MainStylesheet.css")).toExternalForm());
-            alert.showAndWait();
+            GUIUtils.alertCall(Alert.AlertType.WARNING, "Database fejl.");
             e.printStackTrace();
             return schoolModelList;
         }

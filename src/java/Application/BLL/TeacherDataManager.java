@@ -1,6 +1,7 @@
 package Application.BLL;
 
 import Application.BE.*;
+import Application.DAL.AccountDAO;
 
 import java.nio.file.AccessDeniedException;
 import java.sql.SQLException;
@@ -9,6 +10,7 @@ import java.util.List;
 
 public class TeacherDataManager extends StudentDataManager
 {
+    AccountDAO accountDAO = new AccountDAO();
 
     public TeacherDataManager()
     {
@@ -25,7 +27,7 @@ public class TeacherDataManager extends StudentDataManager
         {
             if (!account.getIsTeacher() && !account.getIsAdmin())
             {
-                return accountDAO.createAccount(account);
+                return accountDAO.create(account);
             } else
             {
                 throw new AccessDeniedException("");
@@ -35,7 +37,7 @@ public class TeacherDataManager extends StudentDataManager
 
     public List<Account> getAllStudents() throws SQLException
     {
-        List<Account> accountList = accountDAO.getAllAccounts();
+        List<Account> accountList = accountDAO.readAll();
         List<Account> studentList = new ArrayList<>();
 
         for (Account account: accountList)
@@ -53,7 +55,7 @@ public class TeacherDataManager extends StudentDataManager
     {
         if (!account.getIsTeacher() && !account.getIsAdmin())
         {
-            accountDAO.updateAccount(account);
+            accountDAO.update(account);
         } else
         {
             throw new IllegalArgumentException("");
@@ -64,7 +66,7 @@ public class TeacherDataManager extends StudentDataManager
     {
         if (!account.getIsAdmin() && !account.getIsTeacher())
         {
-            accountDAO.deleteAccount(account.getID());
+            accountDAO.delete(account.getID());
         } else
         {
             throw new IllegalArgumentException("");

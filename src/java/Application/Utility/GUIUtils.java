@@ -7,10 +7,7 @@ import Application.GUI.Models.CategoryEntryModel;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TextFormatter;
-import javafx.scene.control.TreeItem;
+import javafx.scene.control.*;
 
 import java.util.*;
 import java.util.function.UnaryOperator;
@@ -154,6 +151,13 @@ public final class GUIUtils {
         return treeItem;
     }
 
+    public static void alertCall(Alert.AlertType alertType, String alertMessage)
+    {
+        Alert alert = new Alert(alertType);
+        alert.setHeaderText(alertMessage);
+        alert.getDialogPane().getStylesheets().add(Objects.requireNonNull(GUIUtils.class.getResource("/Styles/MainStylesheet.css")).toExternalForm());
+        alert.showAndWait();
+    }
 }
 
 

@@ -5,6 +5,7 @@ import Application.BE.Citizen;
 import Application.BLL.TeacherDataManager;
 import Application.GUI.Models.AccountModel;
 import Application.GUI.Models.CitizenModel;
+import Application.Utility.GUIUtils;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -19,6 +20,7 @@ import javafx.scene.layout.AnchorPane;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class CitizensController implements Initializable
@@ -73,8 +75,18 @@ public class CitizensController implements Initializable
 
     public void onDeleteCitizen(ActionEvent event)
     {
-        dataManager.deleteCitizen(availableCitizens.getSelectionModel().getSelectedItem().getBeCitizen());
-
+        try
+        {
+            dataManager.deleteCitizen(availableCitizens.getSelectionModel().getSelectedItem().getBeCitizen());
+        } catch (SQLException sqlException)
+        {
+            GUIUtils.alertCall(Alert.AlertType.WARNING, "Database fejl.");
+            sqlException.printStackTrace();
+        } catch (IllegalArgumentException illegalArgumentException)
+        {
+            GUIUtils.alertCall(Alert.AlertType.WARNING, "Ingen borger valgt.");
+            illegalArgumentException.printStackTrace();
+        }
     }
 
     private ChangeListener<CitizenModel> citizenSelectionChanged()
