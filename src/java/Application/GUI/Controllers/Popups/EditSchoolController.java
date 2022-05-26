@@ -1,10 +1,13 @@
 package Application.GUI.Controllers.Popups;
 
 import Application.BE.School;
+import Application.BLL.AdminDataManager;
 import Application.GUI.Models.SchoolModel;
+import Application.Utility.GUIUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
@@ -12,6 +15,7 @@ import javafx.stage.Stage;
 import javafx.util.converter.IntegerStringConverter;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 import java.util.function.UnaryOperator;
 
@@ -23,6 +27,13 @@ public class EditSchoolController implements Initializable {
     @FXML TextField txtSchoolZipCode;
 
     SchoolModel school;
+
+    AdminDataManager dataManager;
+
+    public EditSchoolController()
+    {
+        dataManager = new AdminDataManager();
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources)
@@ -39,10 +50,17 @@ public class EditSchoolController implements Initializable {
 
     public void saveEdits(ActionEvent actionEvent)
     {
-        school.update(new School(school.getId(), txtSchoolName.getText(), new Location(Integer.parseInt(txtSchoolZipCode.getText()), "")));
-        
-        Stage stage = (Stage) btnSave.getScene().getWindow();
-        stage.close();
+        try
+        {
+            dataManager.updateSchool(new School(school.getId(), txtSchoolName.getText(), Integer.parseInt(txtSchoolZipCode.getText()), ""));
+
+            Stage stage = (Stage) btnSave.getScene().getWindow();
+            stage.close();
+        } catch (SQLException sqlException)
+        {
+            GUIUtils.alertCall(Alert.AlertType.WARNING, "Database fejl.");
+            sqlException.printStackTrace();
+        }
     }
 
     public void cancelEdits(ActionEvent actionEvent)
