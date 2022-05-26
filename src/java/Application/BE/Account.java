@@ -15,8 +15,22 @@ public class Account implements IUniqueIdentifier<Integer>
 
     private Boolean isStudent;
 
+    public Account()
+    {
+        // TODO: 26-05-2022 default init
+    }
+
+    public Account(int id)
+    {
+        this();
+
+        this.setID(id);
+    }
+
+
     public Account(int id, String login, String password, String firstName, String lastName, String email, School school, Boolean isTeacher, Boolean isAdmin) {
-        this.id = id;
+        this(id);
+
         this.username = login;
         this.password = password;
         this.firstName = firstName;

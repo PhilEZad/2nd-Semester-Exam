@@ -2,11 +2,14 @@ package Application.DAL;
 
 import Application.BE.Account;
 import Application.BE.Citizen;
+import Application.BE.GeneralJournal;
+import Application.BE.School;
 import Application.DAL.TemplateMethod.AbstractDAO;
 import javafx.util.Pair;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class AssignedCitizensDAO implements IDatabaseActions<Pair<Account, List<Citizen>>>
@@ -88,7 +91,7 @@ public class AssignedCitizensDAO implements IDatabaseActions<Pair<Account, List<
                 /**
                  * param: 1 - CitizenID | 2 -
                  *
-                 * todo: REPORT: use implSpec in report
+                 * todo: REPORT: use implSpec in report ?
                  * @implSpec should be a stored procedure (reason: Ahead-Of-Time compilation & network traffic)
                  * */
                 //@Override
@@ -129,113 +132,178 @@ public class AssignedCitizensDAO implements IDatabaseActions<Pair<Account, List<
         }
 
         /**
+         * does not get the related citizen info (functional/health) use the returned id to populate
+         *
          * @param id is taken from the account, and all citizens assigned will be returned
          * */
         @Override
         public Pair<Account, List<Citizen>> read(int id) throws SQLException
         {
-            return null;
+            var dao = new AbstractDAO<List<Citizen>>() {
+                @Override
+                protected List<Citizen> execute(PreparedStatement statement) throws SQLException
+                {
+                    var citizens = new ArrayList<Citizen>();
+
+                    setPlaceholders(statement, id);
+
+                    var rs = statement.executeQuery();
+
+                    while (rs.next())
+                    {
+                        citizens.add(new Citizen(
+                                rs.getInt("CID"),
+                                new GeneralJournal(
+                                        rs.getInt("GID"),
+                                        rs.getString("coping"),
+                                        rs.getString( "motivation"),
+                                        rs.getString("resources"),
+                                        rs.getString("roles"),
+                                        rs.getString("habits"),
+                                        rs.getString("eduAndJob"),
+                                        rs.getString("lifeStory"),
+                                        rs.getString("healthInfo"),
+                                        rs.getString("assistiveDevices"),
+                                        rs.getString("homeLayout"),
+                                        rs.getString("network")
+                                ),
+                                new School(
+                                        rs.getInt("SID"),
+                                        rs.getString("schoolName"),
+                                        rs.getInt("Zip"),
+                                        rs.getString("city")
+                                ),
+                                rs.getString("firstname"),
+                                rs.getString("lastname"),
+                                rs.getInt("age"),
+                                rs.getBoolean("isTemplate")
+                        ));
+                    }
+
+                    return citizens;
+                }
+
+                @Override
+                protected String getSQLStatement() {
+                    return """
+                            SELECT * FROM Citizen
+                            JOIN AssignedCitizen on Citizen.CID = AssignedCitizen.FK_CID
+                            JOIN School on Citizen.FK_cSchool = School.SID
+                            JOIN Zipcode on School.FK_Zipcode = Zipcode.Zip
+                            JOIN GeneralJournal on Citizen.CID = GeneralJournal.FK_Citizen
+                            WHERE AssignedCitizen.FK_AID = ?
+                            """;
+                }
+            };
+
+            dao.start();
+
+            return new Pair<>(new Account(id), dao.getResult().getValue());
+        }
+
+        @Override
+        public List<Pair<Account, List<Citizen>>> readAll()
+        {
+            var dao = new AbstractDAO<List<Pair<Account, List<Citizen>>>>()
+            {
+                @Override
+                protected List<Pair<Account, List<Citizen>>> execute(PreparedStatement statement) throws SQLException
+                {
+                    var result = new ArrayList<Pair<Account, List<Citizen>>>();
+                    var rs = statement.executeQuery();
+
+                    while (rs.next())
+                    {
+                        var accountID = rs.getInt("AID");
+
+                        // construct citizen regardless
+                        var citizen = new Citizen(
+                                rs.getInt("CID"),
+                                new GeneralJournal(
+                                        rs.getInt("GID"),
+                                        rs.getString("coping"),
+                                        rs.getString( "motivation"),
+                                        rs.getString("resources"),
+                                        rs.getString("roles"),
+                                        rs.getString("habits"),
+                                        rs.getString("eduAndJob"),
+                                        rs.getString("lifeStory"),
+                                        rs.getString("healthInfo"),
+                                        rs.getString("assistiveDevices"),
+                                        rs.getString("homeLayout"),
+                                        rs.getString("network")
+                                ),
+                                new School(
+                                        rs.getInt("SID"),
+                                        rs.getString("schoolName"),
+                                        rs.getInt("Zip"),
+                                        rs.getString("city")
+                                ),
+                                rs.getString("firstname"),
+                                rs.getString("lastname"),
+                                rs.getInt("age"),
+                                rs.getBoolean("isTemplate")
+                        );
+
+                        var currentAccountInList = result.stream().filter(accountListPair -> accountListPair.getKey().getID() == accountID).findFirst();;
+
+                        if (currentAccountInList.isPresent())
+                        {
+                            // it is in the list so add citizen to that list // maybe a copy is made ??? todo: test
+                            result.get(result.indexOf(currentAccountInList.get())).getValue().add(citizen);
+                        }
+                        else
+                        {
+                            // construct account here because this is where we need it.
+                            var account =  new Account(
+                                    rs.getInt("AID"),
+                                    rs.getString("username"),
+                                    rs.getString("password"),
+                                    rs.getString("firstname"),
+                                    rs.getString("lastname"),
+                                    rs.getString("email"),
+                                    new School (
+                                            rs.getInt("SID"),
+                                            rs.getString("schoolName"),
+                                            rs.getInt("Zip"),
+                                            rs.getString("city")
+                                    ),
+                                    rs.getByte("accountType") == 0x01,
+                                    rs.getByte("accountType") == 0x10
+                            );
+
+                            // add account and citizen to list;
+                            result.add(new Pair<>(account, List.of(citizen)));
+                        }
+                    }
+
+                    return result;
+                }
+
+                @Override
+                protected String getSQLStatement() {
+                    return """
+                            SELECT * FROM AssignedCitizen
+                            JOIN Account on AssignedCitizen.FK_AID = Account.AID
+                            JOIN Citizen on Citizen.CID = AssignedCitizen.FK_CID
+                            JOIN School on School.SID = Account.FK_aSchool AND Citizen.FK_cSchool = School.SID
+                            JOIN zipCode ON School.FK_Zipcode = zipCode.Zip
+                            """;
+                }
+            };
+
+            dao.start();;
+
+            return dao.getResult().getValue();
         }
 
         /**
          * @param id is taken from the account, and all citizens assigned will be removed (only the reference)
          * */
         @Override
-        public void delete(int id) {
-
-        }
-
-
-
-        public List<CitizenModel> read(AccountModel id) throws SQLException
+        public void delete(int id)
         {
-            String sql = """                                                                                                             
-                                                                                                                                     
-                    """;
 
-            Connection conn = DBConnectionPool.getInstance().checkOut();
-
-            PreparedStatement ptsm = conn.prepareStatement(sql);
-            ptsm.setInt(1, id.getId());
-
-            ResultSet resultSet = ptsm.executeQuery();
-            List<CitizenModel> accounts = new ArrayList<>();
-            while (resultSet.next())
-            {
-                accounts.add(new CitizenModel( new Citizen(
-                        resultSet.getInt("CID"),
-                        new GeneralJournal(), // TODO: 24-05-2022
-                        new School(1, "EASV", 6700, "Esbjerg"),
-                        resultSet.getString("firstname"),
-                        resultSet.getString("lastname"),
-                        resultSet.getInt("age"),
-                        resultSet.getBoolean("isTemplate")
-                )));
-            }
-            return accounts;
-        }
-
-        public List<AccountModel> read(CitizenModel id) throws SQLException
-        {
-            String sql = """                                                                                                             
-                    SELECT * FROM [Group]                                                                                            
-                    JOIN AccountGroup ON AccountGroup.FK_GroupID = FK_GroupID                                                        
-                    JOIN Account ON AccountGroup.FK_MemberID = Account.AID                                                           
-                    WHERE [Group].FK_Citizen = ?                                                                                     
-                    """;
-
-            Connection conn = DBConnectionPool.getInstance().checkOut();
-
-            PreparedStatement ptsm = conn.prepareStatement(sql);
-            ptsm.setInt(1, id.getBeCitizen().getID());
-
-            ResultSet resultSet = ptsm.executeQuery();
-            List<AccountModel> accounts = new ArrayList<>();
-            while (resultSet.next())
-            {
-                accounts.add(new AccountModel( new Account(
-                        resultSet.getInt("AID"),
-                        resultSet.getString("username"),
-                        resultSet.getString("hashed_pwd"),
-                        resultSet.getString("firstname"),
-                        resultSet.getString("lastname"),
-                        resultSet.getString("email"),
-                        new School(1, "EASV", 6700,  "Esbjerg"),
-                        resultSet.getByte("accountType") == 0x01,
-                        resultSet.getByte("accountType") == 0x10)
-                ));
-            }
-            return accounts;
-        }
-
-
-
-
-        public List<Group> readAll() throws SQLException
-        {
-            List<Group> returnList = new ArrayList<>();
-
-            String sql = """                                                                                                             
-                SELECT * FROM AccountGroup                                                                                           
-                JOIN Account ON AccountGroup.FK_MemberID = Account.AID                                                               
-                JOIN School ON Account.FK_AccountSchool = School.SID                                                                 
-                JOIN Zipcode ON School.FK_Zipcode = Zipcode.Zip                                                                      
-                """;
-
-            Connection conn = DBConnectionPool.getInstance().checkOut();
-
-            PreparedStatement ptsm = conn.prepareStatement(sql);
-
-            ResultSet resultSet = ptsm.executeQuery();
-
-            while (resultSet.next())
-            {
-
-
-                returnList.add(newGroup);
-            }
-
-            return returnList;
         }
 
 

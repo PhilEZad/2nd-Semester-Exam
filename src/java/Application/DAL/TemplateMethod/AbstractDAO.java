@@ -17,8 +17,6 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public abstract class AbstractDAO<RETURN_TYPE>
 {
-
-
     private final AtomicReference<RETURN_TYPE> return_value = new AtomicReference<>();
     private final List<Integer> return_ids = new ArrayList<>();
 
