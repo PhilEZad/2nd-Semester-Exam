@@ -1,8 +1,8 @@
 package Application.DAL;
 
-
 import Application.BE.School;
 import Application.DAL.DBConnector.DBConnectionPool;
+import Application.DAL.TemplateMethod.IDatabaseActions;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

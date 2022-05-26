@@ -5,6 +5,8 @@ import Application.BE.Citizen;
 import Application.BE.GeneralJournal;
 import Application.BE.School;
 import Application.DAL.TemplateMethod.AbstractDAO;
+import Application.DAL.TemplateMethod.IDatabaseActions;
+import Application.DAL.util.ResultSetHelpers;
 import javafx.util.Pair;
 
 import java.sql.PreparedStatement;
@@ -112,22 +114,7 @@ public class AssignedAccountsDAO implements IDatabaseActions<Pair<Citizen, List<
 
                 while (rs.next())
                 {
-                    accounts.add(new Account(
-                            rs.getInt("AID"),
-                            rs.getString("username"),
-                            rs.getString("password"),
-                            rs.getString("firstname"),
-                            rs.getString("lastname"),
-                            rs.getString("email"),
-                            new School (
-                                    rs.getInt("SID"),
-                                    rs.getString("schoolName"),
-                                    rs.getInt("Zip"),
-                                    rs.getString("city")
-                            ),
-                            rs.getByte("accountType") == 0x01,
-                            rs.getByte("accountType") == 0x10
-                    ));
+                    accounts.add(ResultSetHelpers.buildAccount(rs));
                 }
 
                 return accounts;
@@ -166,25 +153,8 @@ public class AssignedAccountsDAO implements IDatabaseActions<Pair<Citizen, List<
                 {
                     var citizenID = rs.getInt("CID");
 
-                    var account =  new Account(
-                            rs.getInt("AID"),
-                            rs.getString("username"),
-                            rs.getString("password"),
-                            rs.getString("firstname"),
-                            rs.getString("lastname"),
-                            rs.getString("email"),
-                            new School (
-                                    rs.getInt("SID"),
-                                    rs.getString("schoolName"),
-                                    rs.getInt("Zip"),
-                                    rs.getString("city")
-                            ),
-                            rs.getByte("accountType") == 0x01,
-                            rs.getByte("accountType") == 0x10
-                    );
-
-                    // construct citizen regardless
-
+                    // construct account regardless
+                    var account = ResultSetHelpers.buildAccount(rs);
 
                     var currentCitizenInList = result.stream().filter(accountListPair -> accountListPair.getKey().getID() == citizenID).findFirst();;
 
@@ -196,33 +166,7 @@ public class AssignedAccountsDAO implements IDatabaseActions<Pair<Citizen, List<
                     else
                     {
                         // construct citizen here because this is where we need it.
-                        var citizen = new Citizen(
-                                rs.getInt("CID"),
-                                new GeneralJournal(
-                                        rs.getInt("GID"),
-                                        rs.getString("coping"),
-                                        rs.getString( "motivation"),
-                                        rs.getString("resources"),
-                                        rs.getString("roles"),
-                                        rs.getString("habits"),
-                                        rs.getString("eduAndJob"),
-                                        rs.getString("lifeStory"),
-                                        rs.getString("healthInfo"),
-                                        rs.getString("assistiveDevices"),
-                                        rs.getString("homeLayout"),
-                                        rs.getString("network")
-                                ),
-                                new School(
-                                        rs.getInt("SID"),
-                                        rs.getString("schoolName"),
-                                        rs.getInt("Zip"),
-                                        rs.getString("city")
-                                ),
-                                rs.getString("firstname"),
-                                rs.getString("lastname"),
-                                rs.getInt("age"),
-                                rs.getBoolean("isTemplate")
-                        );
+                        var citizen = ResultSetHelpers.buildCitizen(rs);
 
                         // add account and citizen to list;
                         result.add(new Pair<>(citizen, List.of(account)));

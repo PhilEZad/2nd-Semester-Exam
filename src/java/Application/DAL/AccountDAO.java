@@ -2,10 +2,10 @@ package Application.DAL;
 
 import Application.BE.Account;
 import Application.BE.School;
-import Application.DAL.DBConnector.DBConnectionPool;
 import Application.DAL.TemplateMethod.AbstractDAO;
+import Application.DAL.TemplateMethod.IDatabaseActions;
+import Application.DAL.util.ResultSetHelpers;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -97,24 +97,7 @@ public class AccountDAO implements IDatabaseActions<Account> {
                 ResultSet rs = statement.executeQuery();
 
                 rs.next();
-
-                var school = new School(
-                        rs.getInt("SID"),
-                        rs.getString("schoolName"),
-                        rs.getInt("Zip"),
-                        rs.getString("city")
-                );
-
-                return new Account(
-                        rs.getInt("AID"),
-                        rs.getString("username"),
-                        rs.getString("password"),
-                        rs.getString("firstname"),
-                        rs.getString("lastname"),
-                        rs.getString("email"),
-                        school,
-                        rs.getByte("accountType") == 0x01,
-                        rs.getByte("accountType") == 0x10);
+                return ResultSetHelpers.buildAccount(rs);
             }
 
             @Override
@@ -129,7 +112,6 @@ public class AccountDAO implements IDatabaseActions<Account> {
         };
 
         dao.start();
-
         return dao.getResult().getValue();
     }
 
@@ -149,26 +131,9 @@ public class AccountDAO implements IDatabaseActions<Account> {
                 var result = new ArrayList<Account>();
                 ResultSet rs = statement.executeQuery();
 
-                while (rs.next()) {
-
-                    School school = new School(
-                            rs.getInt("SID"),
-                            rs.getString("schoolName"),
-                            rs.getInt("Zip"), rs.getString("city")
-                    );
-
-                    Account student = new Account(
-                            rs.getInt("AID"),
-                            rs.getString("username"),
-                            rs.getString("password"),
-                            rs.getString("firstname"),
-                            rs.getString("lastname"),
-                            rs.getString("email"),
-                            school,
-                            rs.getByte("accountType") == 0x01,
-                            rs.getByte("accountType") == 0x10);
-
-                    result.add(student);
+                while (rs.next())
+                {
+                    result.add(ResultSetHelpers.buildAccount(rs));
                 }
 
                 return result;
@@ -186,7 +151,6 @@ public class AccountDAO implements IDatabaseActions<Account> {
         };
 
         dao.start();
-
         return dao.getResult().getValue();
     }
 
@@ -211,7 +175,7 @@ public class AccountDAO implements IDatabaseActions<Account> {
             protected String getSQLStatement() {
                 return """
                         UPDATE Account
-                        SET firstName = ?, lastname = ?, email = ? 
+                        SET firstName = ?, lastname = ?, email = ?
                         WHERE AID = ?
                         """;
             }
@@ -231,24 +195,7 @@ public class AccountDAO implements IDatabaseActions<Account> {
                 ResultSet rs = statement.executeQuery();
 
                 rs.next();
-
-                var school = new School(
-                        rs.getInt("SID"),
-                        rs.getString("schoolName"),
-                        rs.getInt("Zip"),
-                        rs.getString("city")
-                );
-
-                return new Account(
-                        rs.getInt("AID"),
-                        rs.getString("username"),
-                        rs.getString("password"),
-                        rs.getString("firstname"),
-                        rs.getString("lastname"),
-                        rs.getString("email"),
-                        school,
-                        rs.getByte("accountType") == 0x01,
-                        rs.getByte("accountType") == 0x10);
+                return ResultSetHelpers.buildAccount(rs);
             }
 
             @Override
@@ -263,7 +210,6 @@ public class AccountDAO implements IDatabaseActions<Account> {
         };
 
         dao.start();
-
         return dao.getResult().getValue();
     }
 }

@@ -1,10 +1,10 @@
 package Application.DAL;
 
 import Application.BE.*;
-import Application.DAL.DBConnector.DBConnectionPool;
 import Application.DAL.TemplateMethod.AbstractDAO;
+import Application.DAL.TemplateMethod.IDatabaseActions;
+import Application.DAL.util.ResultSetHelpers;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;

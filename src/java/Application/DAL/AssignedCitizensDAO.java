@@ -5,6 +5,8 @@ import Application.BE.Citizen;
 import Application.BE.GeneralJournal;
 import Application.BE.School;
 import Application.DAL.TemplateMethod.AbstractDAO;
+import Application.DAL.TemplateMethod.IDatabaseActions;
+import Application.DAL.util.ResultSetHelpers;
 import javafx.util.Pair;
 
 import java.sql.PreparedStatement;
@@ -151,33 +153,7 @@ public class AssignedCitizensDAO implements IDatabaseActions<Pair<Account, List<
 
                     while (rs.next())
                     {
-                        citizens.add(new Citizen(
-                                rs.getInt("CID"),
-                                new GeneralJournal(
-                                        rs.getInt("GID"),
-                                        rs.getString("coping"),
-                                        rs.getString( "motivation"),
-                                        rs.getString("resources"),
-                                        rs.getString("roles"),
-                                        rs.getString("habits"),
-                                        rs.getString("eduAndJob"),
-                                        rs.getString("lifeStory"),
-                                        rs.getString("healthInfo"),
-                                        rs.getString("assistiveDevices"),
-                                        rs.getString("homeLayout"),
-                                        rs.getString("network")
-                                ),
-                                new School(
-                                        rs.getInt("SID"),
-                                        rs.getString("schoolName"),
-                                        rs.getInt("Zip"),
-                                        rs.getString("city")
-                                ),
-                                rs.getString("firstname"),
-                                rs.getString("lastname"),
-                                rs.getInt("age"),
-                                rs.getBoolean("isTemplate")
-                        ));
+                        citizens.add(ResultSetHelpers.buildCitizen(rs));
                     }
 
                     return citizens;
@@ -217,33 +193,7 @@ public class AssignedCitizensDAO implements IDatabaseActions<Pair<Account, List<
                         var accountID = rs.getInt("AID");
 
                         // construct citizen regardless
-                        var citizen = new Citizen(
-                                rs.getInt("CID"),
-                                new GeneralJournal(
-                                        rs.getInt("GID"),
-                                        rs.getString("coping"),
-                                        rs.getString( "motivation"),
-                                        rs.getString("resources"),
-                                        rs.getString("roles"),
-                                        rs.getString("habits"),
-                                        rs.getString("eduAndJob"),
-                                        rs.getString("lifeStory"),
-                                        rs.getString("healthInfo"),
-                                        rs.getString("assistiveDevices"),
-                                        rs.getString("homeLayout"),
-                                        rs.getString("network")
-                                ),
-                                new School(
-                                        rs.getInt("SID"),
-                                        rs.getString("schoolName"),
-                                        rs.getInt("Zip"),
-                                        rs.getString("city")
-                                ),
-                                rs.getString("firstname"),
-                                rs.getString("lastname"),
-                                rs.getInt("age"),
-                                rs.getBoolean("isTemplate")
-                        );
+                        var citizen = ResultSetHelpers.buildCitizen(rs);
 
                         var currentAccountInList = result.stream().filter(accountListPair -> accountListPair.getKey().getID() == accountID).findFirst();;
 
@@ -255,22 +205,7 @@ public class AssignedCitizensDAO implements IDatabaseActions<Pair<Account, List<
                         else
                         {
                             // construct account here because this is where we need it.
-                            var account =  new Account(
-                                    rs.getInt("AID"),
-                                    rs.getString("username"),
-                                    rs.getString("password"),
-                                    rs.getString("firstname"),
-                                    rs.getString("lastname"),
-                                    rs.getString("email"),
-                                    new School (
-                                            rs.getInt("SID"),
-                                            rs.getString("schoolName"),
-                                            rs.getInt("Zip"),
-                                            rs.getString("city")
-                                    ),
-                                    rs.getByte("accountType") == 0x01,
-                                    rs.getByte("accountType") == 0x10
-                            );
+                            var account = ResultSetHelpers.buildAccount(rs);
 
                             // add account and citizen to list;
                             result.add(new Pair<>(account, List.of(citizen)));

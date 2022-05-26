@@ -2,6 +2,7 @@ package Application.DAL;
 
 import Application.BE.FunctionalEntry;
 import Application.DAL.DBConnector.DBConnectionPool;
+import Application.DAL.TemplateMethod.IDatabaseActions;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

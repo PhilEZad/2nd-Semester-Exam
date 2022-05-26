@@ -1,5 +1,6 @@
-package Application.DAL;
+package Application.DAL.util;
 
+import Application.BE.Account;
 import Application.BE.Citizen;
 import Application.BE.GeneralJournal;
 import Application.BE.School;
@@ -18,7 +19,7 @@ public class ResultSetHelpers
         return new Citizen(
                 rs.getInt("CID"),
                 buildGeneralJournal(rs),
-                buiSchool(rs),
+                buildSchool(rs),
                 rs.getString("firstName"),
                 rs.getString("lastName"),
                 rs.getInt("age"),
@@ -29,7 +30,7 @@ public class ResultSetHelpers
     /**
      * todo: doc
      * */
-    public static School buiSchool(ResultSet rs) throws SQLException
+    public static School buildSchool(ResultSet rs) throws SQLException
     {
         return new School(
                 rs.getInt("SID"),
@@ -53,6 +54,20 @@ public class ResultSetHelpers
                 rs.getInt("age"),
                 rs.getBoolean("isTemplate")
         );
+    }
+
+    public static Account buildAccount(ResultSet rs) throws SQLException
+    {
+        return new Account(
+                rs.getInt("AID"),
+                rs.getString("username"),
+                rs.getString("password"),
+                rs.getString("firstname"),
+                rs.getString("lastname"),
+                rs.getString("email"),
+                buildSchool(rs),
+                rs.getByte("accountType") == 0x01,
+                rs.getByte("accountType") == 0x10);
     }
 
     /**

@@ -1,4 +1,4 @@
-package Application.DAL;
+package Application.DAL.TemplateMethod;
 
 import org.jetbrains.annotations.Contract;
 
