@@ -123,7 +123,6 @@ public final class GUIUtils {
 
         ObservableList<T> items = listView.getItems();
         listView.setItems(items);
-
     }
 
     private static <T> ChangeListener<? super ObservableList<T>> searchListenerListView(ListView<T> listView) {

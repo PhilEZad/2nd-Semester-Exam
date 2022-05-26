@@ -5,13 +5,18 @@ import Application.BLL.AdminDataManager;
 import Application.GUI.Models.AccountModel;
 import Application.GUI.Models.SchoolModel;
 import Application.GUI.Models.StudentModel;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 
 import java.net.URL;
+import java.util.ListResourceBundle;
 import java.util.ResourceBundle;
 
 public class AdminDashboardController implements Initializable {
@@ -99,5 +104,68 @@ public class AdminDashboardController implements Initializable {
     }
 
     public void onDeleteSchool(ActionEvent event) {
+    }
+
+
+
+    private SortedList<AccountModel> searchTable(TextField searchField, TableView table, ObservableList searchList)
+    {
+        FilteredList<AccountModel> filteredData = new FilteredList<>(searchList, b -> true);
+
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(user -> {
+
+                if (newValue == null || newValue.isEmpty())
+                {
+                    return true;
+                }
+
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                if (user.getFirstName().toLowerCase().indexOf(lowerCaseFilter) != -1)
+                {
+                    return true;
+                } else if(user.getLastName().toLowerCase().indexOf(lowerCaseFilter) != -1)
+                {
+                    return true;
+                }else if (user.getEmail().toLowerCase().indexOf(lowerCaseFilter) != -1)
+                {
+                    return true;
+                } else
+                    return false;
+            });
+        });
+
+        SortedList<AccountModel> sortedUsers = new SortedList<>(filteredData);
+
+        sortedUsers.comparatorProperty().bind(table.comparatorProperty());
+
+        return sortedUsers;
+    }
+
+    private ResourceBundle getResource(TableView tableView) {
+        ResourceBundle resource = new ListResourceBundle() {
+            @Override
+            protected Object[][] getContents() {
+                return new Object[][]
+                        {
+                                {"selectedModel", tableView.getSelectionModel().getSelectedItem()},
+                        };
+            }
+        };
+        return resource;
+    }
+
+    private ResourceBundle getResource(AccountModel account) {
+        ResourceBundle resource = new ListResourceBundle() {
+            @Override
+            protected Object[][] getContents() {
+                return new Object[][]
+                        {
+                                {"selectedModel", account},
+                        };
+            }
+        };
+        return resource;
     }
 }

@@ -33,7 +33,8 @@ public class State implements IState {
     @Override
     public void disable() {
         Timeline timeline = new Timeline();
-        timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(0.3), new KeyValue(viewPane.opacityProperty(), 0)));
+        timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(0.3),
+                new KeyValue(viewPane.opacityProperty(), 0)));
         timeline.play();
         menuButton.setDisable(false);
     }
@@ -51,7 +52,8 @@ public class State implements IState {
         viewPane.setCenter(root);
         menuButton.setDisable(true);
         Timeline timeline = new Timeline();
-        timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(0.3), new KeyValue(viewPane.opacityProperty(), 1)));
+        timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(0.3),
+                new KeyValue(viewPane.opacityProperty(), 1)));
         timeline.play();
     }
 

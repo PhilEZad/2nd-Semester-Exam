@@ -10,14 +10,10 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="scene" stylesheets="@../Styles/MainStylesheet.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Application.GUI.Controllers.TeacherViewController">
+<?import javafx.scene.layout.Pane?>
+<BorderPane fx:id="scene" stylesheets="@../Styles/MainStylesheet.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Application.GUI.Controllers.AdminViewController">
     <center>
-        <StackPane prefHeight="891.0" prefWidth="938.0">
-            <fx:include fx:id="anchorPaneDashboard" source="dashboard/AdminDashboard.fxml" />
-            <fx:include fx:id="anchorPaneStudents" source="dashboard/Students.fxml" />
-            <fx:include fx:id="anchorPaneCitizens" source="dashboard/Citizens.fxml" />
-            <fx:include fx:id="anchorPaneCitizenTemplate" source="dashboard/CitizenTemplate.fxml" />
-        </StackPane>
+        <Pane fx:id="viewPane" prefHeight="891.0" prefWidth="1048.0" BorderPane.alignment="CENTER" />
     </center>
     <left>
         <AnchorPane prefHeight="891.0" prefWidth="92.0" styleClass="sideMenu" BorderPane.alignment="CENTER">
