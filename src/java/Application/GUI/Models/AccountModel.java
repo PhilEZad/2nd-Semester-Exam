@@ -21,6 +21,8 @@ public class AccountModel
     private StringProperty email;
     private School school;
     private Account account;
+    private Boolean isTeacher;
+    private Boolean isAdmin;
 
     public AccountModel(Account account)
     {
@@ -32,8 +34,11 @@ public class AccountModel
         this.email = new SimpleStringProperty();
         this.school = account.getSchool();
         this.account = account;
+        this.isTeacher = account.getIsTeacher();
+        this.isAdmin = account.getIsAdmin();
 
-        id.set(account.getId());
+
+        id.set(account.getID());
         password.set(account.getPassword());
         accountName.set(account.getUsername());
         firstName.set(account.getFirstName());
@@ -139,5 +144,25 @@ public class AccountModel
     @Override
     public String toString() {
         return firstName.get() + " " + lastName.get();
+    }
+
+    public Boolean getIsTeacher()
+    {
+        return isTeacher;
+    }
+
+    public void setIsTeacher(Boolean teacher)
+    {
+        isTeacher = teacher;
+    }
+
+    public Boolean getIsAdmin()
+    {
+        return isAdmin;
+    }
+
+    public void setIsAdmin(Boolean admin)
+    {
+        isAdmin = admin;
     }
 }

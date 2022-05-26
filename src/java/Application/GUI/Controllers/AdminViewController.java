@@ -4,6 +4,7 @@ import Application.BE.Account;
 import Application.BLL.AdminDataManager;
 import Application.GUI.Models.AccountModel;
 import Application.GUI.Models.SchoolModel;
+import Application.Utility.GUIUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -19,6 +20,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.*;
 
 public class AdminViewController implements Initializable {
@@ -215,8 +217,15 @@ public class AdminViewController implements Initializable {
 
             if (result.get() == ButtonType.OK)
             {
-                daoAdmin.deleteSchool(tblViewSchool.getSelectionModel().getSelectedItem().getId());
-                tblViewSchool.setItems(daoAdmin.getAllSchools());
+                try
+                {
+                    daoAdmin.deleteSchool(tblViewSchool.getSelectionModel().getSelectedItem().getSchool());
+                    tblViewSchool.setItems(daoAdmin.getAllSchools());
+                } catch (SQLException sqlException)
+                {
+                    GUIUtils.alertCall(Alert.AlertType.WARNING, "Database fejl.");
+                    sqlException.printStackTrace();
+                }
             }
         }
     }
