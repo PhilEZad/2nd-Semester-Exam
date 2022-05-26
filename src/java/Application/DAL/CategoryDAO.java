@@ -116,7 +116,7 @@ public class CategoryDAO implements IDatabaseActions<Category>
 
                 while (rs.next())
                 {
-                    categories.add(new Category(rs.getInt("CatID"), rs.getString("catName"), rs.getInt("ParentID")));
+                    categories.add(new Category(rs.getInt("CatID"), rs.getString("categoryName"), rs.getInt("ParentID")));
                 }
 
                 return categories;
@@ -145,8 +145,6 @@ public class CategoryDAO implements IDatabaseActions<Category>
 
     public static void main(String[] args) {
         CategoryDAO dao = new CategoryDAO();
-
         System.out.println(dao.readAll());
-        System.out.println(dao.read(5));
     }
 }

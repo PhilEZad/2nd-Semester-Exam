@@ -2,17 +2,17 @@ package Application.BLL;
 
 import Application.BE.*;
 import Application.DAL.CitizenDAO;
-import Application.DAL.ContentDAO;
+import Application.DAL.FunctionalAbilityDAO;
 
 import java.util.HashMap;
 import java.util.stream.Collectors;
 
 public class CitizenCreator
 {
-    ContentDAO contentDAO = new ContentDAO();
+    FunctionalAbilityDAO functionalAbilityDAO = new FunctionalAbilityDAO();
     CitizenDAO citizenDAO = new CitizenDAO();
 
-    CitizenContentLinkDAO binder = new CitizenContentLinkDAO();
+    //CitizenContentLinkDAO binder = new CitizenContentLinkDAO();
 
     public Citizen create (Citizen citizen, HashMap<Category, FunctionalEntry> entries)
     {
@@ -22,7 +22,7 @@ public class CitizenCreator
         // create all entries from list in db
         for (var entry : entries.values())
         {
-            entry.setID(contentDAO.create(entry).getID());
+            entry.setID(functionalAbilityDAO.create(entry).getID());
         }
 
         // setup binding
@@ -31,7 +31,7 @@ public class CitizenCreator
         binding.citizenID = qualified.getID();
         binding.contentIDs = entries.values().stream().map(FunctionalEntry::getID).collect(Collectors.toList());
         // commit bind of one citizen and all entries
-        binder.create(binding);
+        //binder.create(binding);
 
         // make it available to the citizen object instance
         qualified.setContent(entries);

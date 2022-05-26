@@ -51,17 +51,18 @@ public class TeacherDataManager extends StudentDataManager
         return studentList;
     }
 
-    public Account updateStudent(Account account) throws IllegalArgumentException, SQLException
+    public void updateStudent(Account account) throws IllegalArgumentException, SQLException
     {
         if (!account.getIsTeacher() && !account.getIsAdmin())
         {
             accountDAO.update(account);
-        } else
+        }
+        else
         {
             throw new IllegalArgumentException("");
         }
-
     }
+
     public void deleteStudent(Account account) throws IllegalArgumentException, SQLException
     {
         if (!account.getIsAdmin() && !account.getIsTeacher())
@@ -77,7 +78,7 @@ public class TeacherDataManager extends StudentDataManager
     {
         if (citizen != null)
         {
-            citizen.create
+            // TODO: 26-05-2022   citizen.create
         }
 
         // TODO: 25-05-2022 return default
@@ -88,7 +89,7 @@ public class TeacherDataManager extends StudentDataManager
     {
         if (citizen != null)
         {
-            citizenDAO.deleteCitizen(citizen.getID());
+            // TODO: 26-05-2022  citizenDAO.deleteCitizen(citizen.getID());
         }
         else
         {
@@ -108,7 +109,7 @@ public class TeacherDataManager extends StudentDataManager
             if (!student.getIsTeacher() && !student.getIsAdmin())
             {
                 // FIXME: 25/05/2022 Use correct method from DAO
-                assignedCitizenDAO.someDAOmethoc(student.getID(), citizen.getID());
+                // TODO: 26-05-2022  assignedCitizenDAO.someDAOmethoc(student.getID(), citizen.getID());
             }
             else
             {
@@ -128,7 +129,7 @@ public class TeacherDataManager extends StudentDataManager
             if (!student.getIsTeacher() && !student.getIsAdmin())
             {
                 // FIXME: 25/05/2022 Use correct method from DAO
-                assignedCitizenDAO.someDAOmethod(student.getID(), citizen.getID());
+                // TODO: 26-05-2022   assignedCitizenDAO.someDAOmethod(student.getID(), citizen.getID());
             }
             else
             {

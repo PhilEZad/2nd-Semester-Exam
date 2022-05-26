@@ -75,7 +75,6 @@ public class Category implements IUniqueIdentifier<Integer> {
         return "Category{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", children=" + children +
                 '}';
     }
 

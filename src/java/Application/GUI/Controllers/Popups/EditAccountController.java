@@ -66,7 +66,9 @@ public class EditAccountController implements Initializable {
                         account.getIsTeacher(),
                         account.getIsAdmin()
                 ));
-            } else {
+            }
+            else
+            {
                 dataManager.updateStudent(new Account(
                         account.getId(),
                         txtFieldUsername.getText(),

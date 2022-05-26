@@ -47,7 +47,7 @@ public class CitizensController implements Initializable
 
     public void initTables()
     {
-        availableCitizens.setItems(listToObservable(dataManager.getAllCitizens()));
+        // TODO: 26-05-2022  availableCitizens.setItems(listToObservable(dataManager.getAllCitizens()));
     }
 
     public void initListeners()
@@ -106,8 +106,11 @@ public class CitizensController implements Initializable
         }
 
         try {
-            this.listViewStudentsForCitizen.setItems(FXCollections.observableArrayList(new AssignedCitizenDAO().read(availableCitizens.getSelectionModel().getSelectedItem())));
-        } catch (SQLException e) {
+            // TODO: 26-05-2022  this.listViewStudentsForCitizen.setItems(FXCollections.observableArrayList(new AssignedCitizenDAO().read(availableCitizens.getSelectionModel().getSelectedItem())));
+            // temp
+            this.listViewStudentsForCitizen.setItems(FXCollections.observableArrayList());
+            // TODO: 26-05-2022  } catch (SQLException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
 

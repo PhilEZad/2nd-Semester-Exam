@@ -151,7 +151,7 @@ public class AccountDAO implements IDatabaseActions<Account> {
         };
 
         dao.start();
-        return dao.getResult().getValue();
+        return dao.hasValue() ? dao.getResult().getValue() : new ArrayList<>();
     }
 
     /**

@@ -37,7 +37,8 @@ public class StudentViewControllerModel {
     public ObservableList<CitizenModel> getAllCitizens()
     {
         ObservableList<CitizenModel> citizens = FXCollections.observableArrayList();
-        for (Citizen c : studentDataManager.getAssignedCitizens(0)){ //TODO: 0 is a placeholder for the current user
+        // TODO: 26-05-2022  for (Citizen c : studentDataManager.getAssignedCitizens(0)){ //TODO: 0 is a placeholder for the current user
+        for (Citizen c : new Citizen[]{}){ //TODO: 0 is a placeholder for the current user
             citizens.add(new CitizenModel(c));
         }
       return citizens;
@@ -81,7 +82,7 @@ public class StudentViewControllerModel {
 
 
     public void updateObservation(CategoryEntryModel value) {
-        studentDataManager.updateObservation(selectedCitizen.getBeCitizen(), value.getContentEntry());
+        // TODO: 26-05-2022  studentDataManager.updateObservation(selectedCitizen.getBeCitizen(), value.getContentEntry());
     }
 
     public void recalculateRelevantCategories() {

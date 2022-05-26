@@ -36,7 +36,8 @@ public class CitizenTemplateControllerModel {
      * @return
      */
     public ObservableList<CitizenModel> getCitizenTemplates() {
-        ObservableList<CitizenModel> citizenTemplates = FXCollections.observableArrayList(teacherDataManager.getAllCitizenTemplates());
+        // TODO: 26-05-2022  ObservableList<CitizenModel> citizenTemplates = FXCollections.observableArrayList(teacherDataManager.getAllCitizenTemplates());
+        ObservableList<CitizenModel> citizenTemplates = FXCollections.observableArrayList();
         return citizenTemplates;
     }
 
@@ -90,7 +91,7 @@ public class CitizenTemplateControllerModel {
      * Delete the selected citizen template.
      **/
     public void deleteCitizenTemplate() {
-        teacherDataManager.deleteCitizenTemplate(selectedCitizenTemplateModel.getBeCitizen());
+        // TODO: 26-05-2022  teacherDataManager.deleteCitizenTemplate(selectedCitizenTemplateModel.getBeCitizen());
     }
 
     /**
@@ -212,7 +213,7 @@ public class CitizenTemplateControllerModel {
                 beFuncConditions.put(cat, entry);
             }
 
-            teacherDataManager.updateCitizenTemplate(selectedCitizenTemplateModel.getBeCitizen(), beHealthConditions, beFuncConditions);
+            // TODO: 26-05-2022   teacherDataManager.updateCitizenTemplate(selectedCitizenTemplateModel.getBeCitizen(), beHealthConditions, beFuncConditions);
         }
     }
 
@@ -229,7 +230,7 @@ public class CitizenTemplateControllerModel {
 
 
     public void newCitizenEntity() {
-        teacherDataManager.newCitizenEntity(selectedCitizenTemplateModel.getBeCitizen());
+        // TODO: 26-05-2022  teacherDataManager.newCitizenEntity(selectedCitizenTemplateModel.getBeCitizen());
     }
 
     /**

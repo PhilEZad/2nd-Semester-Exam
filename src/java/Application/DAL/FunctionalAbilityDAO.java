@@ -10,7 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-public class ContentDAO implements IDatabaseActions<FunctionalEntry>
+public class FunctionalAbilityDAO implements IDatabaseActions<FunctionalEntry>
 {
     @Override
     public FunctionalEntry create(FunctionalEntry input) {

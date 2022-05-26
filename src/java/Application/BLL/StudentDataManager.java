@@ -22,7 +22,7 @@ public class StudentDataManager {
     {
         if (citizen != null)
         {
-               citizenDAO.updateCitizen();
+            // TODO: 26-05-2022   citizenDAO.updateCitizen();
         }
         else
         {

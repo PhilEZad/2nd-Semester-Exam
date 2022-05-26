@@ -1,19 +1,16 @@
 package Application.DAL;
 
 import Application.BE.GeneralJournal;
-import Application.DAL.DBConnector.DBConnectionPool;
 import Application.DAL.TemplateMethod.AbstractDAO;
 import Application.DAL.TemplateMethod.IDatabaseActions;
 import Application.DAL.util.ResultSetHelpers;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GeneralDAO implements IDatabaseActions<GeneralJournal>
+public class GeneralInformationDAO implements IDatabaseActions<GeneralJournal>
 {
     @Override
     public GeneralJournal create(GeneralJournal input)
@@ -181,7 +178,7 @@ public class GeneralDAO implements IDatabaseActions<GeneralJournal>
     }
 
     public static void main(String[] args) {
-        GeneralDAO daoTest = new GeneralDAO();
+        GeneralInformationDAO daoTest = new GeneralInformationDAO();
 
         GeneralJournal journal = new GeneralJournal(
                 2,

@@ -4,6 +4,8 @@ import Application.BE.IUniqueIdentifier;
 import Application.DAL.DBConnector.DBConnectionPool;
 import javafx.util.Pair;
 import org.intellij.lang.annotations.Language;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -34,7 +36,10 @@ public abstract class AbstractDAO<RETURN_TYPE>
             PreparedStatement statement = conn.prepareStatement(this.getSQLStatement(), PreparedStatement.RETURN_GENERATED_KEYS);
 
             RETURN_TYPE newVal = this.execute(statement);
-            this.return_value.set(newVal);
+            if (newVal != null)
+            {
+                this.return_value.set(newVal);
+            }
 
             ResultSet generatedKeys = statement.getGeneratedKeys();
             while (generatedKeys.next()) {
@@ -75,13 +80,12 @@ public abstract class AbstractDAO<RETURN_TYPE>
         }
     }
 
-    public final Pair<Integer, RETURN_TYPE> getResult()
+    @NotNull public final Pair<Integer, RETURN_TYPE> getResult()
     {
         if (!this.hasExecutedSuccessfully.get())
         {
             // post error
             System.err.println("exception occurred when running db query");
-            return null;
         }
 
         return new Pair<>(return_ids.stream().findFirst().orElse(-1), return_value.getAcquire());
@@ -101,5 +105,9 @@ public abstract class AbstractDAO<RETURN_TYPE>
     public final boolean hasStarted() { return this.hasStarted.get(); }
     public final boolean isSuccessful() { return this.hasExecutedSuccessfully.get(); }
     protected final Exception getLastError() { return LastException; };
+
+    public boolean hasValue() {
+        return this.return_value.getAcquire() != null;
+    }
 }
 
