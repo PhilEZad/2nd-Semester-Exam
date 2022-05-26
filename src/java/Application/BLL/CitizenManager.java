@@ -3,16 +3,48 @@ package Application.BLL;
 import Application.BE.*;
 import Application.DAL.CitizenDAO;
 import Application.DAL.FunctionalAbilityDAO;
+import Application.GUI.Models.CitizenModel;
 
 import java.util.HashMap;
 import java.util.stream.Collectors;
 
-public class CitizenCreator
+public class CitizenManager
 {
     FunctionalAbilityDAO functionalAbilityDAO = new FunctionalAbilityDAO();
+
     CitizenDAO citizenDAO = new CitizenDAO();
 
     //CitizenContentLinkDAO binder = new CitizenContentLinkDAO();
+
+    public static CitizenModel convert(Citizen be)
+    {
+        CitizenModel model = new CitizenModel();
+
+        // set base data
+        model.setFirstName(be.getFirstname());
+        model.setLastName(be.getLastname());
+        model.setAge(be.getAge());
+        model.setTemplate(be.getTemplate() ? 1 : 0);
+
+        /// general info data
+        model.setCoping(be.getGeneralInfo().getCoping());
+        model.setMotivation(be.getGeneralInfo().getMotivation());
+        model.setResources(be.getGeneralInfo().getResources());
+        model.setRoles(be.getGeneralInfo().getRoles());
+        model.setHabits(be.getGeneralInfo().getHabits());
+        model.setEduAndJob(be.getGeneralInfo().getEduAndJob());
+        model.setLifeStory(be.getGeneralInfo().getLifeStory());
+        model.setHealthInfo(be.getGeneralInfo().getHealthInfo());
+        model.setAssistiveDevices(be.getGeneralInfo().getAssistiveDevices());
+        model.setHomeLayout(be.getGeneralInfo().getHomeLayout());
+        model.setNetwork(be.getGeneralInfo().getNetwork());
+
+
+
+
+        return model;
+    }
+
 
     public Citizen create (Citizen citizen, HashMap<Category, FunctionalEntry> entries)
     {

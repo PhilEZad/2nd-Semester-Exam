@@ -1,6 +1,10 @@
 package Application.BE;
 
+import com.c05mic.generictree.Tree;
+
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.TreeMap;
 
 public class Citizen implements Cloneable, IUniqueIdentifier<Integer>
 {
@@ -14,9 +18,8 @@ public class Citizen implements Cloneable, IUniqueIdentifier<Integer>
     private GeneralJournal journal;
     private int zipCode;
 
-    private HashMap<Category, FunctionalEntry> healthCategoryEntries;
-
-    private HashMap<Category, FunctionalEntry> funcCategoryEntries;
+    private Tree<HealthEntry> healthConditions;
+    private Tree<FunctionalEntry> functionalAbilities;
 
 
     public Citizen(int id, GeneralJournal journal, School school, String firstname, String lastname, int age, boolean template)
@@ -28,9 +31,6 @@ public class Citizen implements Cloneable, IUniqueIdentifier<Integer>
         this.lastname = lastname;
         this.age = age;
         this.isTemplate = template;
-
-        funcCategoryEntries = new HashMap<>();
-        healthCategoryEntries = new HashMap<>();
     }
 
     public Citizen(int id)
@@ -97,38 +97,6 @@ public class Citizen implements Cloneable, IUniqueIdentifier<Integer>
     {
         // populate lists (healthCategoryEntries, funcCategoryEntries)
     }
-    
-    public void setFunctionalAbilities (HashMap<Category, FunctionalEntry> functionalAbilities) {
-        funcCategoryEntries.clear();
-        for (FunctionalEntry entry : functionalAbilities.values()) {
-            funcCategoryEntries.put(entry.getCategory(), entry);
-        };
-    }
-
-    public void setHealthConditions (HashMap<Category, FunctionalEntry> healthConditions) {
-        healthCategoryEntries.clear();
-        for (FunctionalEntry entry : healthConditions.values()) {
-            healthCategoryEntries.put(entry.getCategory(), entry);
-        };
-    }
-
-    public HashMap<Category, FunctionalEntry> getFunctionalAbilities() {
-        return funcCategoryEntries;
-    }
-
-    public HashMap<Category, FunctionalEntry> getHealthConditions() {
-        return healthCategoryEntries;
-    }
-
-    public void addFunctionalAbility (FunctionalEntry entry)
-    {
-        funcCategoryEntries.put(entry.getCategory(), entry);
-    }
-
-    public void addHealthConditions (FunctionalEntry entry)
-    {
-        healthCategoryEntries.put(entry.getCategory(), entry);
-    }
 
     public GeneralJournal getGeneralInfo () {
         return journal;
@@ -155,6 +123,21 @@ public class Citizen implements Cloneable, IUniqueIdentifier<Integer>
     }
 
 
+    public Tree<HealthEntry> getHealthConditions() {
+        return healthConditions;
+    }
+
+    public void setHealthConditions(Tree<HealthEntry> healthConditions) {
+        this.healthConditions = healthConditions;
+    }
+
+    public Tree<FunctionalEntry> getFunctionalAbilities() {
+        return functionalAbilities;
+    }
+
+    public void setFunctionalAbilities(Tree<FunctionalEntry> functionalAbilities) {
+        this.functionalAbilities = functionalAbilities;
+    }
 }
 
 

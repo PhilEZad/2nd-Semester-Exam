@@ -9,7 +9,7 @@ public class Category implements IUniqueIdentifier<Integer> {
 
     private String name;
 
-    private List<Category> children = new ArrayList<>();
+    private final List<Category> children = new ArrayList<>();
 
     private int parentID;
 
@@ -17,6 +17,14 @@ public class Category implements IUniqueIdentifier<Integer> {
 
     private CategoryType type;
 
+    public Category(int id, String name, CategoryType type, Category parent)
+    {
+        this.id = id;
+        this.name = name;
+        this.type = type;
+        this.parent = parent;
+        this.parentID = parent.getID();
+    }
 
     public Category(String name) {
         this.name = name;

@@ -9,13 +9,12 @@ import javafx.beans.property.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CitizenModel implements Cloneable{
-
+public class CitizenModel implements Cloneable
+{
     private StringProperty firstName;
     private StringProperty lastName;
     private IntegerProperty age;
     private IntegerProperty template;
-
 
     private StringProperty coping;
     private StringProperty motivation;
@@ -38,32 +37,7 @@ public class CitizenModel implements Cloneable{
 
 
     public CitizenModel(String firstName, String lastName, int age, boolean template) {
-        this.beCitizen = new Citizen(-1, new GeneralJournal(), SessionModel.getSchool(), firstName, lastName, age, template);
-
-        this.firstName = new SimpleStringProperty(beCitizen.getFirstname());
-        this.lastName = new SimpleStringProperty(beCitizen.getLastname());
-        this.age = new SimpleIntegerProperty(beCitizen.getAge());
-
-        this.coping = new SimpleStringProperty(beCitizen.getGeneralInfo().getCoping());
-        this.motivation = new SimpleStringProperty(beCitizen.getGeneralInfo().getMotivation());
-        this.resources = new SimpleStringProperty(beCitizen.getGeneralInfo().getResources());
-        this.roles = new SimpleStringProperty(beCitizen.getGeneralInfo().getRoles());
-        this.habits = new SimpleStringProperty(beCitizen.getGeneralInfo().getHabits());
-        this.eduAndJob = new SimpleStringProperty(beCitizen.getGeneralInfo().getEduAndJob());
-        this.lifeStory = new SimpleStringProperty(beCitizen.getGeneralInfo().getLifeStory());
-        this.healthInfo = new SimpleStringProperty(beCitizen.getGeneralInfo().getHealthInfo());
-        this.assistiveDevices = new SimpleStringProperty(beCitizen.getGeneralInfo().getAssistiveDevices());
-        this.homeLayout = new SimpleStringProperty(beCitizen.getGeneralInfo().getHomeLayout());
-        this.network = new SimpleStringProperty(beCitizen.getGeneralInfo().getNetwork());
-        initBindings();
-
-        this.relevantFunctionalAbilities = new HashMap<Category, CategoryEntryModel>();
-        this.relevantHealthConditions = new HashMap<Category, CategoryEntryModel>();
-        this.nonRelevantFunctionalAbilities = new HashMap<Category, CategoryEntryModel>();
-        this.nonRelevantHealthConditions = new HashMap<Category, CategoryEntryModel>();
-
-        initFunctionalAbilities();
-        initHealthConditions();
+        this(new Citizen(-1, new GeneralJournal(), SessionModel.getSchool(), firstName, lastName, age, template));
     }
 
     public CitizenModel(Citizen citizen) {
@@ -84,19 +58,19 @@ public class CitizenModel implements Cloneable{
         this.assistiveDevices = new SimpleStringProperty(beCitizen.getGeneralInfo().getAssistiveDevices());
         this.homeLayout = new SimpleStringProperty(beCitizen.getGeneralInfo().getHomeLayout());
         this.network = new SimpleStringProperty(beCitizen.getGeneralInfo().getNetwork());
-        initBindings();
-
+        //initBindings();
 
         this.relevantFunctionalAbilities = new HashMap<Category, CategoryEntryModel>();
         this.relevantHealthConditions = new HashMap<Category, CategoryEntryModel>();
         this.nonRelevantFunctionalAbilities = new HashMap<Category, CategoryEntryModel>();
         this.nonRelevantHealthConditions = new HashMap<Category, CategoryEntryModel>();
 
-        initFunctionalAbilities();
-        initHealthConditions();
+       // initFunctionalAbilities();
+        //initHealthConditions();
     }
 
     public CitizenModel() {
+
         this.firstName = new SimpleStringProperty();
         this.lastName = new SimpleStringProperty();
         this.age = new SimpleIntegerProperty();
@@ -119,8 +93,8 @@ public class CitizenModel implements Cloneable{
         this.nonRelevantFunctionalAbilities = new HashMap<Category, CategoryEntryModel>();
         this.nonRelevantHealthConditions = new HashMap<Category, CategoryEntryModel>();
 
-        initFunctionalAbilities();
-        initHealthConditions();
+        //initFunctionalAbilities();
+        //initHealthConditions();
     }
 
 
@@ -176,7 +150,7 @@ public class CitizenModel implements Cloneable{
 
 
     public String getFirstName() {
-        return firstName.get();
+        return firstNameProperty().get();
     }
 
     public StringProperty firstNameProperty() {
@@ -184,11 +158,11 @@ public class CitizenModel implements Cloneable{
     }
 
     public void setFirstName(String name) {
-        this.firstName.set(name);
+        this.firstNameProperty().set(name);
     }
 
     public String getLastName() {
-        return lastName.get();
+        return lastNameProperty().get();
     }
 
     public StringProperty lastNameProperty() {
@@ -196,11 +170,11 @@ public class CitizenModel implements Cloneable{
     }
 
     public void setLastName(String lastName) {
-        this.lastName.set(lastName);
+        this.lastNameProperty().set(lastName);
     }
 
     public int getAge() {
-        return age.get();
+        return ageProperty().get();
     }
 
     public IntegerProperty ageProperty() {
@@ -208,24 +182,23 @@ public class CitizenModel implements Cloneable{
     }
 
     public void setAge(int age) {
-        this.age.set(age);
+        this.ageProperty().set(age);
     }
 
-
     public String getCoping() {
-        return coping.get();
+        return copingProperty().get();
     }
 
     public void setCoping(String coping) {
-        this.coping.set(coping);
+        this. copingProperty().set(coping);
     }
 
     public String getMotivation() {
-        return motivation.get();
+        return motivationProperty().get();
     }
 
     public void setMotivation(String motivation) {
-        this.motivation.set(motivation);
+        this.motivationProperty().set(motivation);
     }
 
     public StringProperty copingProperty() {
@@ -237,7 +210,7 @@ public class CitizenModel implements Cloneable{
     }
 
     public String getResources() {
-        return resources.get();
+        return resourcesProperty().get();
     }
 
     public StringProperty resourcesProperty() {
@@ -245,11 +218,11 @@ public class CitizenModel implements Cloneable{
     }
 
     public void setResources(String resources) {
-        this.resources.set(resources);
+        this.resourcesProperty().set(resources);
     }
 
     public String getRoles() {
-        return roles.get();
+        return rolesProperty().get();
     }
 
     public StringProperty rolesProperty() {
@@ -257,11 +230,11 @@ public class CitizenModel implements Cloneable{
     }
 
     public void setRoles(String roles) {
-        this.roles.set(roles);
+        this.rolesProperty().set(roles);
     }
 
     public String getHabits() {
-        return habits.get();
+        return habitsProperty().get();
     }
 
     public StringProperty habitsProperty() {
@@ -269,11 +242,11 @@ public class CitizenModel implements Cloneable{
     }
 
     public void setHabits(String habits) {
-        this.habits.set(habits);
+        this.habitsProperty().set(habits);
     }
 
     public String getEduAndJob() {
-        return eduAndJob.get();
+        return eduAndJobProperty().get();
     }
 
     public StringProperty eduAndJobProperty() {
@@ -281,11 +254,11 @@ public class CitizenModel implements Cloneable{
     }
 
     public void setEduAndJob(String eduAndJob) {
-        this.eduAndJob.set(eduAndJob);
+        this.eduAndJobProperty().set(eduAndJob);
     }
 
     public String getLifeStory() {
-        return lifeStory.get();
+        return lifeStoryProperty().get();
     }
 
     public StringProperty lifeStoryProperty() {
@@ -293,11 +266,11 @@ public class CitizenModel implements Cloneable{
     }
 
     public void setLifeStory(String lifeStory) {
-        this.lifeStory.set(lifeStory);
+        this.lifeStoryProperty().set(lifeStory);
     }
 
     public String getHealthInfo() {
-        return healthInfo.get();
+        return healthInfoProperty().get();
     }
 
     public StringProperty healthInfoProperty() {
@@ -305,11 +278,11 @@ public class CitizenModel implements Cloneable{
     }
 
     public void setHealthInfo(String healthInfo) {
-        this.healthInfo.set(healthInfo);
+        this.healthInfoProperty().set(healthInfo);
     }
 
     public String getAssistiveDevices() {
-        return assistiveDevices.get();
+        return assistiveDevicesProperty().get();
     }
 
     public StringProperty assistiveDevicesProperty() {
@@ -317,11 +290,11 @@ public class CitizenModel implements Cloneable{
     }
 
     public void setAssistiveDevices(String assistiveDevices) {
-        this.assistiveDevices.set(assistiveDevices);
+        this.assistiveDevicesProperty().set(assistiveDevices);
     }
 
     public String getHomeLayout() {
-        return homeLayout.get();
+        return homeLayoutProperty().get();
     }
 
     public StringProperty homeLayoutProperty() {
@@ -329,11 +302,11 @@ public class CitizenModel implements Cloneable{
     }
 
     public void setHomeLayout(String homeLayout) {
-        this.homeLayout.set(homeLayout);
+        this.homeLayoutProperty().set(homeLayout);
     }
 
     public String getNetwork() {
-        return network.get();
+        return networkProperty().get();
     }
 
     public StringProperty networkProperty() {
@@ -341,16 +314,10 @@ public class CitizenModel implements Cloneable{
     }
 
     public void setNetwork(String network) {
-        this.network.set(network);
+        this.networkProperty().set(network);
     }
 
-    public Citizen getBeCitizen() {
-        return beCitizen;
-    }
 
-    public void setBeCitizen(Citizen beCitizen) {
-        this.beCitizen = beCitizen;
-    }
 
     public Map<Category, CategoryEntryModel> getNonRelevantFunctionalAbilities() {
         return nonRelevantFunctionalAbilities;
