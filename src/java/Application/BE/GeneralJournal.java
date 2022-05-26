@@ -3,7 +3,6 @@ package Application.BE;
 public class GeneralJournal implements IUniqueIdentifier<Integer>
 {
     private int id;
-
     private int citizenID;
     private String coping;
     private String motivation;

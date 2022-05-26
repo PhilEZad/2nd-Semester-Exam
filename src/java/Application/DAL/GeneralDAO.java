@@ -20,56 +20,10 @@ public class GeneralDAO implements IDatabaseActions<GeneralJournal>
     {
         var dao = new AbstractDAO<Void>()
         {
-
             @Override
             protected Void execute(PreparedStatement statement) throws SQLException
             {
-                setPlaceholders(statement);
-                return null;
-            }
-
-            @Override
-            protected String getSQLStatement() {
-                return """
-                        INSERT INTO GeneralJournal (FK_Citizen, coping, motivation, resources, roles, habits, eduAndJob, lifestory, healthInfo, assistiveDevices, homelayout, network)
-                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-                        """;
-            }
-        };
-        String sql = """
-                    INSERT INTO GeneralJournal (FK_Citizen, coping, motivation, resources, roles, habits, eduAndJob, lifestory, healthInfo, assistiveDevices, homelayout, network)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-                    """;
-
-        Connection conn = DBConnectionPool.getInstance().checkOut();
-        try {
-            PreparedStatement pstmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
-
-
-            pstmt.setString(1, input.getCoping());
-            pstmt.setString(2, input.getMotivation());
-            pstmt.setString(3, input.getResources());
-            pstmt.setString(4, input.getRoles());
-            pstmt.setString(5, input.getHabits());
-            pstmt.setString(6, input.getEduAndJob());
-            pstmt.setString(7, input.getLifeStory());
-            pstmt.setString(8, input.getHealthInfo());
-            pstmt.setString(9, input.getAssistiveDevices());
-            pstmt.setString(10, input.getHomeLayout());
-            pstmt.setString(11, input.getNetwork());
-
-            pstmt.executeUpdate();
-
-            int id = -1;
-
-            ResultSet generatedKeys = pstmt.getGeneratedKeys();
-            if (generatedKeys.next()) {
-                id = generatedKeys.getInt(1);
-            }
-
-            pstmt.close();
-            return new GeneralJournal(
-                    id,
+                setPlaceholders(statement,
                     input.getCitizenID(),
                     input.getCoping(),
                     input.getMotivation(),
@@ -82,152 +36,148 @@ public class GeneralDAO implements IDatabaseActions<GeneralJournal>
                     input.getAssistiveDevices(),
                     input.getHomeLayout(),
                     input.getNetwork()
-            );
+                );
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
-        finally {
-            DBConnectionPool.getInstance().checkIn(conn);
-        }
+                statement.executeUpdate();
+                return null;
+            }
+
+            @Override
+            protected String getSQLStatement() {
+                return """
+                        INSERT INTO GeneralJournal (FK_Citizen, coping, motivation, [resources], roles, habits, eduAndJob, lifestory, healthInfo, assistiveDevices, homelayout, network)
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                        """;
+            }
+        };
+
+        dao.start();
+        input.setID(dao.getResult().getKey());
+        return input;
     }
 
     @Override
     public void update(GeneralJournal input)
     {
-        String sql = """
-                UPDATE GeneralInfo
-                SET coping = ?, motivation = ?, resources = ?, roles = ?, habits = ?, eduAndjob = ?, lifestory = ?, healthInfo = ?, assistiveDevices = ?, homelayout = ?, network = ?
-                WHERE InfoID = ?
-                """;
-
-        Connection conn = DBConnectionPool.getInstance().checkOut();
-        try
+        var dao = new AbstractDAO<Void>()
         {
-            PreparedStatement ptsm = conn.prepareStatement(sql);
-            ptsm.setString(1, input.getCoping());
-            ptsm.setString(2, input.getMotivation());
-            ptsm.setString(3, input.getResources());
-            ptsm.setString(4, input.getRoles());
-            ptsm.setString(5, input.getHabits());
-            ptsm.setString(6, input.getEduAndJob());
-            ptsm.setString(7, input.getLifeStory());
-            ptsm.setString(8, input.getHealthInfo());
-            ptsm.setString(9, input.getAssistiveDevices());
-            ptsm.setString(10, input.getHomeLayout());
-            ptsm.setString(11, input.getNetwork());
-            ptsm.setInt(12, input.getID());
+            @Override
+            protected Void execute(PreparedStatement statement) throws SQLException
+            {
+                setPlaceholders(statement,
+                        input.getCoping(),
+                        input.getMotivation(),
+                        input.getResources(),
+                        input.getRoles(),
+                        input.getHabits(),
+                        input.getEduAndJob(),
+                        input.getLifeStory(),
+                        input.getHealthInfo(),
+                        input.getAssistiveDevices(),
+                        input.getHomeLayout(),
+                        input.getNetwork(),
+                        input.getID()
+                );
 
-            ptsm.executeUpdate();
+                statement.executeUpdate();
+                return null;
+            }
 
-        } catch (Exception e)
-        {
-            e.printStackTrace();
-        }
+            @Override
+            protected String getSQLStatement() {
+                return """
+                        UPDATE GeneralJournal
+                        SET coping = ?, motivation = ?, [resources] = ?, roles = ?, habits = ?,
+                        eduAndjob = ?, lifestory = ?, healthInfo = ?, assistiveDevices = ?,
+                        homelayout = ?, network = ?
+                        WHERE JournalGID = ?
+                        """;
+            }
+        };
+
+        dao.start();
     }
 
     @Override
     public GeneralJournal read(int id)
     {
-        String sql = """
-                    SELECT * FROM GeneralInfo
-                    WHERE InfoID = ?
-                    """;
-
-        Connection conn = DBConnectionPool.getInstance().checkOut();
-        try
+        var dao = new AbstractDAO<GeneralJournal>()
         {
-            PreparedStatement ptsm = conn.prepareStatement(sql);
-            ptsm.setInt(1, id);
-
-            ResultSet result = ptsm.executeQuery();
-
-            result.next();
-
-            return new GeneralJournal(
-                    result.getInt("JournalGID"),
-                    result.getInt("FK_Citizen"),
-                    result.getString("coping"),
-                    result.getString("motivation"),
-                    result.getString("resources"),
-                    result.getString("roles"),
-                    result.getString("habits"),
-                    result.getString("eduAndJob"),
-                    result.getString("lifestory"),
-                    result.getString("healthInfo"),
-                    result.getString("assistiveDevices"),
-                    result.getString("homelayout"),
-                    result.getString("network")
-            );
-        } catch (Exception e)
-        {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    @Override
-    public List<GeneralJournal> readAll() {
-        String sql = """
-                    SELECT * FROM GeneralInfo
-                    """;
-        List<GeneralJournal> returnList = new ArrayList<>();
-
-        Connection conn = DBConnectionPool.getInstance().checkOut();
-        try
-        {
-            PreparedStatement pstmt = conn.prepareStatement(sql);
-
-            ResultSet rs = pstmt.executeQuery();
-
-            while (rs.next()) {
-
-                GeneralJournal journal = new GeneralJournal(
-                        rs.getInt("JournalGID"),
-                        rs.getInt("FK_Citizen"),
-                        rs.getString("coping"),
-                        rs.getString("motivation"),
-                        rs.getString("resources"),
-                        rs.getString("roles"),
-                        rs.getString("habits"),
-                        rs.getString("eduAndJob"),
-                        rs.getString("lifestory"),
-                        rs.getString("healthInfo"),
-                        rs.getString("assistiveDevices"),
-                        rs.getString("homelayout"),
-                        rs.getString("network")
-                );
-                returnList.add(journal);
+            @Override
+            protected GeneralJournal execute(PreparedStatement statement) throws SQLException
+            {
+                setPlaceholders(statement, id);
+                var rs = statement.executeQuery();
+                return ResultSetHelpers.buildGeneralJournal(rs);
             }
 
-            pstmt.close();
+            @Override
+            protected String getSQLStatement() {
+                return """
+                        SELECT * FROM GeneralJournal
+                        WHERE JournalGID = ?
+                        """;
+            }
+        };
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        finally {
-            DBConnectionPool.getInstance().checkIn(conn);
-        }
-
-        return returnList;
+        dao.start();
+        return dao.getResult().getValue();
     }
 
     @Override
-    public void delete(int id) {
-        String sql = """
-                DELETE FROM GeneralInfo
-                WHERE infoID = ?
-                """;
-
-        Connection conn = DBConnectionPool.getInstance().checkOut();
-        try {
-            PreparedStatement ptsm = conn.prepareStatement(sql);
-            ptsm.setInt(1, id);
-        } catch (Exception e)
+    public List<GeneralJournal> readAll()
+    {
+        var dao = new AbstractDAO<List<GeneralJournal>>()
         {
-            e.printStackTrace();
-        }
+            @Override
+            protected List<GeneralJournal> execute(PreparedStatement statement) throws SQLException
+            {
+                List<GeneralJournal> results = new ArrayList<>();
+                var rs = statement.executeQuery();
+
+                while (rs.next())
+                {
+                    results.add(ResultSetHelpers.buildGeneralJournal(rs));
+                }
+
+                return results;
+            }
+
+            @Override
+            protected String getSQLStatement() {
+                return """
+                        SELECT * FROM GeneralJournal
+                        """;
+            }
+        };
+
+        dao.start();
+        return dao.getResult().getValue();
+    }
+
+    @Override
+    public void delete(int id)
+    {
+        var dao = new AbstractDAO<Void>()
+        {
+            @Override
+            protected Void execute(PreparedStatement statement) throws SQLException
+            {
+                setPlaceholders(statement, id);
+                statement.executeUpdate();
+                return null;
+            }
+
+            @Override
+            protected String getSQLStatement() {
+                return """
+                        DELETE FROM GeneralJournal
+                        WHERE JournalGID = ?
+                        """;
+            }
+        };
+
+        dao.start();
     }
 
     public static void main(String[] args) {
