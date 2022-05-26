@@ -3,6 +3,8 @@ package Application.BE;
 public class GeneralJournal implements IUniqueIdentifier<Integer>
 {
     private int id;
+
+    private int citizenID;
     private String coping;
     private String motivation;
     private String resources;
@@ -31,7 +33,8 @@ public class GeneralJournal implements IUniqueIdentifier<Integer>
         this.network = "";
     }
 
-    public GeneralJournal(int generalID, String coping, String motivation, String resources, String roles, String habits, String eduAndJob, String lifeStory, String healthInfo, String assistiveDevices, String homeLayout, String network) {
+    public GeneralJournal(int generalID, int citizenID, String coping, String motivation, String resources, String roles, String habits, String eduAndJob, String lifeStory, String healthInfo, String assistiveDevices, String homeLayout, String network) {
+        this.citizenID = citizenID;
         this.id = generalID;
         this.coping = coping;
         this.motivation = motivation;
@@ -165,5 +168,13 @@ public class GeneralJournal implements IUniqueIdentifier<Integer>
     @Override
     public void setID(Integer id) {
         this.id = id == null ? -1 : id;
+    }
+
+    public int getCitizenID() {
+        return citizenID;
+    }
+
+    public void setCitizenID(int citizenID) {
+        this.citizenID = citizenID;
     }
 }

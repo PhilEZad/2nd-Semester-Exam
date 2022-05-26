@@ -2,7 +2,9 @@ package Application.DAL;
 
 import Application.BE.GeneralJournal;
 import Application.DAL.DBConnector.DBConnectionPool;
+import Application.DAL.TemplateMethod.AbstractDAO;
 import Application.DAL.TemplateMethod.IDatabaseActions;
+import Application.DAL.util.ResultSetHelpers;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,17 +13,39 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GeneralDAO implements IDatabaseActions<GeneralJournal> {
+public class GeneralDAO implements IDatabaseActions<GeneralJournal>
+{
     @Override
-    public GeneralJournal create(GeneralJournal input) {
+    public GeneralJournal create(GeneralJournal input)
+    {
+        var dao = new AbstractDAO<Void>()
+        {
+
+            @Override
+            protected Void execute(PreparedStatement statement) throws SQLException
+            {
+                setPlaceholders(statement);
+                return null;
+            }
+
+            @Override
+            protected String getSQLStatement() {
+                return """
+                        INSERT INTO GeneralJournal (FK_Citizen, coping, motivation, resources, roles, habits, eduAndJob, lifestory, healthInfo, assistiveDevices, homelayout, network)
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                        """;
+            }
+        };
         String sql = """
-                    INSERT INTO GeneralInfo (coping, motivation, resources, roles, habits, eduAndJob, lifestory, healthInfo, assistiveDevices, homelayout, network)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    INSERT INTO GeneralJournal (FK_Citizen, coping, motivation, resources, roles, habits, eduAndJob, lifestory, healthInfo, assistiveDevices, homelayout, network)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                     """;
 
         Connection conn = DBConnectionPool.getInstance().checkOut();
         try {
             PreparedStatement pstmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+
+
             pstmt.setString(1, input.getCoping());
             pstmt.setString(2, input.getMotivation());
             pstmt.setString(3, input.getResources());
@@ -46,6 +70,7 @@ public class GeneralDAO implements IDatabaseActions<GeneralJournal> {
             pstmt.close();
             return new GeneralJournal(
                     id,
+                    input.getCitizenID(),
                     input.getCoping(),
                     input.getMotivation(),
                     input.getResources(),
@@ -121,7 +146,8 @@ public class GeneralDAO implements IDatabaseActions<GeneralJournal> {
             result.next();
 
             return new GeneralJournal(
-                    result.getInt("InfoID"),
+                    result.getInt("JournalGID"),
+                    result.getInt("FK_Citizen"),
                     result.getString("coping"),
                     result.getString("motivation"),
                     result.getString("resources"),
@@ -158,7 +184,8 @@ public class GeneralDAO implements IDatabaseActions<GeneralJournal> {
             while (rs.next()) {
 
                 GeneralJournal journal = new GeneralJournal(
-                        rs.getInt("InfoID"),
+                        rs.getInt("JournalGID"),
+                        rs.getInt("FK_Citizen"),
                         rs.getString("coping"),
                         rs.getString("motivation"),
                         rs.getString("resources"),
@@ -208,6 +235,7 @@ public class GeneralDAO implements IDatabaseActions<GeneralJournal> {
 
         GeneralJournal journal = new GeneralJournal(
                 2,
+                1,
                 "Coping2",
                 "Motivation2",
                 "Resources2",

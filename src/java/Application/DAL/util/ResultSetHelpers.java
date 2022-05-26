@@ -76,7 +76,8 @@ public class ResultSetHelpers
     public static GeneralJournal buildGeneralJournal(ResultSet rs) throws SQLException
     {
         return new GeneralJournal(
-                rs.getInt("InfoID"),
+                rs.getInt("JournalGID"),
+                rs.getInt("FK_Citizen"),
                 rs.getString("coping"),
                 rs.getString("motivation"),
                 rs.getString("resources"),
