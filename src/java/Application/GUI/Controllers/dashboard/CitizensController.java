@@ -5,6 +5,7 @@ import Application.BE.Citizen;
 import Application.BLL.TeacherDataManager;
 import Application.GUI.Models.AccountModel;
 import Application.GUI.Models.CitizenModel;
+import Application.Utility.GUIUtils;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -79,18 +80,12 @@ public class CitizensController implements Initializable
             dataManager.deleteCitizen(availableCitizens.getSelectionModel().getSelectedItem().getBeCitizen());
         } catch (SQLException sqlException)
         {
+            GUIUtils.alertCall(Alert.AlertType.WARNING, "Database fejl.");
             sqlException.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setHeaderText("Database fejl.");
-            alert.getDialogPane().getStylesheets().add(Objects.requireNonNull(getClass().getResource("/Styles/MainStylesheet.css")).toExternalForm());
-            alert.showAndWait();
         } catch (IllegalArgumentException illegalArgumentException)
         {
+            GUIUtils.alertCall(Alert.AlertType.WARNING, "Ingen borger valgt.");
             illegalArgumentException.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setHeaderText("Ingen borger valgt.");
-            alert.getDialogPane().getStylesheets().add(Objects.requireNonNull(getClass().getResource("/Styles/MainStylesheet.css")).toExternalForm());
-            alert.showAndWait();
         }
     }
 

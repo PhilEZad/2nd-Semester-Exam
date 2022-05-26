@@ -2,6 +2,7 @@ package Application.BLL;
 
 import Application.BE.Account;
 import Application.BE.School;
+import Application.DAL.SchoolDAO;
 
 import java.nio.file.AccessDeniedException;
 import java.sql.SQLException;
@@ -10,6 +11,7 @@ import java.util.List;
 
 public class AdminDataManager extends TeacherDataManager
 {
+    SchoolDAO schoolDAO = new SchoolDAO();
 
     public AdminDataManager()
     {
@@ -22,7 +24,7 @@ public class AdminDataManager extends TeacherDataManager
         {
             account.setIsAdmin(false);
             account.setIsTeacher(true);
-            return accountDAO.createAccount(account);
+            return accountDAO.create(account);
         } else
         {
             throw new IllegalArgumentException();
@@ -31,7 +33,7 @@ public class AdminDataManager extends TeacherDataManager
 
     public List<Account> getAllTeachers() throws SQLException
     {
-        List<Account> accountList = accountDAO.getAllAccounts();
+        List<Account> accountList = accountDAO.readAll();
         List<Account> teacherList = new ArrayList<>();
 
         for (Account account: accountList)
@@ -45,11 +47,11 @@ public class AdminDataManager extends TeacherDataManager
         return teacherList;
     }
 
-    public Account updateTeacher(Account account) throws AccessDeniedException, SQLException
+    public void updateTeacher(Account account) throws AccessDeniedException, SQLException
     {
         if (account.getIsTeacher())
         {
-            accountDAO.updateAccount(account);
+           accountDAO.update(account);
         } else
         {
             throw new AccessDeniedException("");
@@ -57,23 +59,22 @@ public class AdminDataManager extends TeacherDataManager
 
     }
 
-    public int deleteTeacher(Account account) throws IllegalArgumentException, SQLException
+    public void deleteTeacher(Account account) throws IllegalArgumentException, SQLException
     {
         if (account.getIsTeacher())
         {
-            account.deleteAccount(account.getID());
+           accountDAO.delete(account.getID());
         } else
         {
             throw new IllegalArgumentException("");
         }
-
     }
 
     public School createSchool(School school) throws IllegalArgumentException, SQLException
     {
         if (school != null)
         {
-            return schoolDO.createSchool(school);
+            return schoolDAO.create(school);
         } else
         {
             throw new IllegalArgumentException("");
@@ -82,14 +83,14 @@ public class AdminDataManager extends TeacherDataManager
 
     public List<School> getAllSchools() throws SQLException
     {
-        return schoolDAO.getAllSchools();
+        return schoolDAO.readAll();
     }
 
     public void updateSchool(School school) throws IllegalArgumentException, SQLException
     {
         if (school != null)
         {
-            schoolDAO.updateSchool(school);
+            schoolDAO.update(school);
         } else
         {
             throw new IllegalArgumentException("");
@@ -101,7 +102,7 @@ public class AdminDataManager extends TeacherDataManager
     {
         if (school != null)
         {
-            schoolDAO.deleteSchool(school.getID());
+            schoolDAO.delete(school.getID());
         } else
         {
             throw new IllegalArgumentException("");
@@ -114,7 +115,7 @@ public class AdminDataManager extends TeacherDataManager
         {
             account.setIsTeacher(false);
             account.setIsAdmin(true);
-            accountDAO.createAccount(account);
+            return accountDAO.create(account);
         }
         else
         {
@@ -124,7 +125,7 @@ public class AdminDataManager extends TeacherDataManager
 
     public List<Account> getAllAdmins() throws SQLException
     {
-        List<Account> accountList = accountDAO.getAllAccounts();
+        List<Account> accountList = accountDAO.readAll();
         List<Account> adminList = new ArrayList<>();
 
         for (Account account: accountList)
@@ -135,14 +136,14 @@ public class AdminDataManager extends TeacherDataManager
             }
         }
 
-        return admintList;
+        return adminList;
     }
 
     public void updateAdmin(Account account) throws IllegalAccessException, SQLException
     {
         if (account.getIsAdmin())
         {
-            account.updateAccount(account.getID());
+            accountDAO.update(account);
         }
         else
         {
@@ -154,7 +155,7 @@ public class AdminDataManager extends TeacherDataManager
     {
         if (account.getIsAdmin())
         {
-            accountDAO.deleteAccount(account.getID());
+            accountDAO.delete(account.getID());
         }
         else
         {

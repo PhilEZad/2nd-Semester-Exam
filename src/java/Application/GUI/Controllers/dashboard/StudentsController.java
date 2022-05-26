@@ -4,6 +4,7 @@ import Application.BE.Account;
 import Application.BLL.TeacherDataManager;
 import Application.GUI.Models.AccountModel;
 import Application.GUI.Models.CitizenModel;
+import Application.Utility.GUIUtils;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -163,13 +164,14 @@ public class StudentsController implements Initializable {
             popupMenuStudent.setScene(new Scene(rootStudent));
             popupMenuStudent.show();
             popupMenuStudent.setOnHidden(event1 -> listViewStudents.setItems(initTableWithSearch()));
-        } catch (IOException e)
+        } catch (IllegalArgumentException illegalArgumentException)
         {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setHeaderText("Ingen elev valgt.");
-            alert.getDialogPane().getStylesheets().add(Objects.requireNonNull(getClass().getResource("/Styles/MainStylesheet.css")).toExternalForm());
-            alert.showAndWait();
-            e.printStackTrace();
+            GUIUtils.alertCall(Alert.AlertType.WARNING, "Ingen elev valgt.");
+            illegalArgumentException.printStackTrace();
+        } catch (IOException ioException)
+        {
+            GUIUtils.alertCall(Alert.AlertType.WARNING, "Stylesheet ikke fundet.");
+            ioException.printStackTrace();
         }
     }
 
@@ -187,13 +189,14 @@ public class StudentsController implements Initializable {
                 dataManger.deleteStudent((listViewStudents.getSelectionModel().getSelectedItem().getAccount()));
                 listViewStudents.setItems(initTableWithSearch());
             }
-        } catch (Exception e)
+        } catch (SQLException sqlException)
         {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setHeaderText("Ingen elev valgt.");
-            alert.getDialogPane().getStylesheets().add(Objects.requireNonNull(getClass().getResource("/Styles/MainStylesheet.css")).toExternalForm());
-            alert.showAndWait();
-            e.printStackTrace();
+            GUIUtils.alertCall(Alert.AlertType.WARNING, "Database fejl.");
+            sqlException.printStackTrace();
+        } catch (IllegalArgumentException illegalArgumentException)
+        {
+            GUIUtils.alertCall(Alert.AlertType.WARNING, "Ingen elev valgt.");
+            illegalArgumentException.printStackTrace();
         }
     }
 
@@ -263,11 +266,8 @@ public class StudentsController implements Initializable {
             return returnList;
         } catch (SQLException sqlException)
         {
+            GUIUtils.alertCall(Alert.AlertType.WARNING, "Database fejl.");
             sqlException.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setHeaderText("Database fejl.");
-            alert.getDialogPane().getStylesheets().add(Objects.requireNonNull(getClass().getResource("/Styles/MainStylesheet.css")).toExternalForm());
-            alert.showAndWait();
             return returnList;
         }
     }
