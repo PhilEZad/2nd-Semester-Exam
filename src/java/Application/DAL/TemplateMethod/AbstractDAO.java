@@ -86,7 +86,7 @@ public abstract class AbstractDAO<RETURN_TYPE>
             System.err.println("exception occurred when running db query");
         }
 
-        return new Pair<>(return_ids.stream().findFirst().orElse(-1), Objects.requireNonNull(return_value.getAcquire()));
+        return new Pair<>(return_ids.stream().findFirst().orElse(-1), return_value.getAcquire());
     }
 
     public final List<Integer> getAllReturnedIDs()
