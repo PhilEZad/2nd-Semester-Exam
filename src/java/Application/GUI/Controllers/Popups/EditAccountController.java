@@ -2,6 +2,7 @@ package Application.GUI.Controllers.Popups;
 
 import Application.BE.Account;
 import Application.BLL.AdminDataManager;
+import Application.BLL.SessionManager;
 import Application.GUI.Models.AccountModel;
 import Application.Utility.GUIUtils;
 import javafx.event.ActionEvent;
@@ -58,7 +59,7 @@ public class EditAccountController implements Initializable {
                 dataManager.updateTeacher(new Account(
                         account.getId(),
                         txtFieldUsername.getText(),
-                        account.getPassword(),
+                        SessionManager.createToken(txtFieldUsername.getText(), passwordField.getText()),
                         txtFieldFirstName.getText(),
                         txtFieldLastName.getText(),
                         txtFieldEmail.getText(),
@@ -70,7 +71,7 @@ public class EditAccountController implements Initializable {
                 dataManager.updateStudent(new Account(
                         account.getId(),
                         txtFieldUsername.getText(),
-                        account.getPassword(),
+                        SessionManager.createToken(txtFieldUsername.getText(), passwordField.getText()),
                         txtFieldFirstName.getText(),
                         txtFieldLastName.getText(),
                         txtFieldEmail.getText(),

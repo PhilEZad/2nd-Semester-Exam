@@ -44,6 +44,7 @@ public class CreateStudentController implements Initializable {
 
         try {
             System.out.println(SessionManager.getCurrent().getSchool().getID());
+            System.out.println(SessionManager.createToken(login, password));
             adminDataManager.createStudent(new Account(
                     -1,
                     login,
