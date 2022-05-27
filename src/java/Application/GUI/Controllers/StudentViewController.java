@@ -48,7 +48,7 @@ public class StudentViewController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         initTableViews();
         initListViewCitizens();
-        initTestData();
+        //initTestData();
         initBundle(resources);
         GUIUtils.searchListener(txtFieldCitizenSearch, listViewCitizens);
     }
@@ -76,9 +76,8 @@ public class StudentViewController implements Initializable {
 
         tblViewStudentDashboardHealth.setFixedCellSize(50);
 
-        tblViewStudentDashboardHealth.getItems().add(new CategoryEntryModel("Health", HealthLevels.RELEVANT.ordinal(), ""));
-
-        tblViewStudentDashboardFunc.getItems().add(new CategoryEntryModel("FUNCY", HealthLevels.RELEVANT.ordinal(), ""));
+        //tblViewStudentDashboardHealth.getItems().add(new CategoryEntryModel("Health", HealthLevels.RELEVANT.ordinal(), ""));
+        //tblViewStudentDashboardFunc.getItems().add(new CategoryEntryModel("FUNCY", HealthLevels.RELEVANT.ordinal(), ""));
     }
 
     private void updateCitizenInfo(CitizenModel citizen) {

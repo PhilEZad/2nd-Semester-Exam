@@ -36,6 +36,9 @@ public class StudentViewControllerModel {
 
     public ObservableList<CitizenModel> getAllCitizens()
     {
+        if (SessionModel.getCurrent() == null)
+            return FXCollections.observableArrayList();
+
         ObservableList<CitizenModel> citizens = FXCollections.observableArrayList();
 
         for (Citizen c : studentDataManager.getAssignedCitizens(SessionModel.getCurrent().getID()))

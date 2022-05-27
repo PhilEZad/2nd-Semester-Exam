@@ -1,17 +1,17 @@
 package Application.GUI.Controllers;
 
+import Application.BLL.SessionManager;
 import Application.GUI.Models.SessionModel;
+import Application.Utility.AccountType;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 
 import java.io.IOException;
 import java.net.URL;
@@ -19,65 +19,58 @@ import java.util.ListResourceBundle;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
+
 public class LoginController implements Initializable
 {
-    private SessionModel account;
 
-    @FXML
-    public AnchorPane LoginScene;
+        @FXML public BorderPane root;
 
-    @FXML
-    public TextField txtUsername;
+        public RadioButton rbStudent;
+        public RadioButton rbTeacher;
+        public RadioButton rbAdmin;
 
-    @FXML
-    public TextField txtPwd;
+        public TextField username;
+        public TextField password;
 
-    @FXML
-    public Button btnSubmit;
+        ToggleGroup toggleGroup;
 
 
-    public LoginController()
-    {
-        this.txtUsername = new TextField();
-        this.txtPwd = new TextField();
-        this.btnSubmit = new Button();
-    }
+        public void onSubmit(ActionEvent actionEvent) throws IOException
+        {
+            AccountType accountType = rbAdmin.isSelected() ? AccountType.ADMIN : rbTeacher.isSelected() ? AccountType.TEACHER : rbStudent.isSelected() ? AccountType.STUDENT : AccountType.NONE;
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources)
-    {
-    }
+            // TODO: 27-05-2022 remove constant true
+            if (true || SessionManager.tryBeginSession(accountType, this.username.getText(), this.password.getText()))
+            {
+                String url = switch (accountType)
+                        {
+                            case ADMIN -> "/Views/AdminView.fxml";
+                            case TEACHER -> "/Views/TeacherView.fxml";
+                            case STUDENT -> "/Views/StudentView.fxml";
+                            case NONE -> null;
+                        };
 
-    private ResourceBundle createResourceBundle()
-    {
-        return new ListResourceBundle() {
-            @Override
-            protected Object[][] getContents() {
-                return new Object[][] {
-                    {"account", account}
-                };
+                if (url != null) root.getScene().setRoot(FXMLLoader.load(Objects.requireNonNull(this.getClass().getResource(url))));
             }
-        };
-    }
-
-    public void onSubmit(ActionEvent event) throws IOException {
-
-        account = new SessionModel();
-
-        if (account.authenticate(this.txtUsername.getText(), this.txtPwd.getText()))
-        {
-            Parent root = FXMLLoader.load(Objects.requireNonNull(this.getClass().getResource("/views/TeacherView.fxml")), createResourceBundle());
-
-            // switch to dashboard
-            LoginScene.getScene().setRoot(root);
+            else
+            {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Login Fejl");
+                alert.setHeaderText("Fejl i login");
+                alert.setContentText("Brugernavn eller kodeord er forkert");
+                alert.showAndWait();
+            }
         }
-        else
+
+        @Override
+        public void initialize(URL location, ResourceBundle resources)
         {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Login Fejl");
-            alert.setHeaderText("Fejl i login");
-            alert.setContentText("Brugernavn eller kodeord er forkert");
-            alert.showAndWait();
+            toggleGroup = new ToggleGroup();
+
+            toggleGroup.getToggles().add(rbStudent);
+            toggleGroup.getToggles().add(rbAdmin);
+            toggleGroup.getToggles().add(rbTeacher);
+
+            toggleGroup.selectToggle(rbStudent);
         }
-    }
 }
