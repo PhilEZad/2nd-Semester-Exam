@@ -5,6 +5,7 @@ import Application.DAL.AccountDAO;
 import Application.DAL.AssignedAccountsDAO;
 import Application.DAL.AssignedCitizensDAO;
 import Application.DAL.CitizenDAO;
+import javafx.util.Pair;
 
 import java.nio.file.AccessDeniedException;
 import java.sql.SQLException;
@@ -34,7 +35,8 @@ public class TeacherDataManager extends StudentDataManager
             if (!account.getIsTeacher() && !account.getIsAdmin())
             {
                 return accountDAO.create(account);
-            } else
+            }
+            else
             {
                 throw new AccessDeniedException("");
             }
@@ -85,11 +87,10 @@ public class TeacherDataManager extends StudentDataManager
     {
         if (citizen != null)
         {
-            citizenDAO.create(citizen);
+            return citizenDAO.create(citizen);
         }
 
-        // TODO: 25-05-2022 return default
-        return citizen; 
+        return new Citizen();
     }
 
     public void deleteCitizen(Citizen citizen) throws IllegalArgumentException, SQLException
@@ -106,7 +107,7 @@ public class TeacherDataManager extends StudentDataManager
 
     public void assignToCitizen(Account student, Citizen citizen) throws IllegalArgumentException, AccessDeniedException, SQLException
     {
-        if (student != null && citizen != null)
+        if (student == null || citizen == null)
         {
             throw new IllegalArgumentException("");
         }
@@ -114,8 +115,7 @@ public class TeacherDataManager extends StudentDataManager
         {
             if (!student.getIsTeacher() && !student.getIsAdmin())
             {
-                // FIXME: 25/05/2022 Use correct method from DAO
-                assignedCitizenDAO.someDAOmethoc(student.getID(), citizen.getID());
+                assignedCitizensDAO.create(new Pair<>(student, List.of(citizen)));
             }
             else
             {
@@ -126,7 +126,7 @@ public class TeacherDataManager extends StudentDataManager
 
     public void removeFromCitizen(Account student, Citizen citizen) throws IllegalArgumentException, AccessDeniedException, SQLException
     {
-        if (student != null && citizen != null)
+        if (student == null || citizen == null)
         {
             throw new IllegalArgumentException("");
         }
@@ -134,8 +134,7 @@ public class TeacherDataManager extends StudentDataManager
         {
             if (!student.getIsTeacher() && !student.getIsAdmin())
             {
-                // FIXME: 25/05/2022 Use correct method from DAO
-                assignedCitizenDAO.someDAOmethod(student.getID(), citizen.getID());
+                assignedCitizensDAO.delete(student.getID(), citizen.getID());
             }
             else
             {

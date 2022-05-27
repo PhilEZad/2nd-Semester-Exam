@@ -11,6 +11,8 @@ import java.util.Map;
 
 public class CitizenModel implements Cloneable{
 
+    private int id;
+
     private StringProperty firstName;
     private StringProperty lastName;
     private IntegerProperty age;
@@ -406,5 +408,15 @@ public class CitizenModel implements Cloneable{
     public void setTemplate(int template)
     {
         this.template.set(template);
+    }
+
+    public void setID(int id)
+    {
+        this.id = id;
+    }
+
+    public int getID()
+    {
+        return this.id;
     }
 }

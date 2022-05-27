@@ -38,6 +38,10 @@ public class Citizen implements Cloneable, IUniqueIdentifier<Integer>
         this.id = id;
     }
 
+    public Citizen() {
+        this(-1);
+    }
+
     @Override
     public Integer getID() {
         return this.id;

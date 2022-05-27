@@ -1,8 +1,10 @@
 package Application.DAL;
 
 import Application.BE.Category;
+import Application.BE.CategoryType;
 import Application.DAL.TemplateMethod.AbstractDAO;
 import Application.DAL.TemplateMethod.IDatabaseActions;
+import Application.DAL.util.ResultSetHelpers;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -81,7 +83,7 @@ public class CategoryDAO implements IDatabaseActions<Category>
 
                 rs.next();
 
-                return new Category(rs.getInt("CatID"), rs.getString("catName"), rs.getInt("ParentID"));
+                return ResultSetHelpers.buildCategory(rs, CategoryType.UNKNOWN);
             }
 
             @Override
@@ -116,7 +118,7 @@ public class CategoryDAO implements IDatabaseActions<Category>
 
                 while (rs.next())
                 {
-                    categories.add(new Category(rs.getInt("CatID"), rs.getString("catName"), rs.getInt("ParentID")));
+                    categories.add(ResultSetHelpers.buildCategory(rs, CategoryType.UNKNOWN));
                 }
 
                 return categories;

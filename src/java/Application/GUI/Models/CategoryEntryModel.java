@@ -39,7 +39,7 @@ public class CategoryEntryModel implements Comparable<CategoryEntryModel> {
 
     public CategoryEntryModel(FunctionalEntry contentEntry) {
         this.contentEntry = contentEntry;
-        this.id = contentEntry.getId();
+        this.id = contentEntry.getID();
 
         initProperties();
         categoryName.set(contentEntry.getCategoryName());
