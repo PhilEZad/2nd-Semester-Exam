@@ -39,7 +39,7 @@ public class CitizenTemplateControllerModel {
     public ObservableList<CitizenModel> getCitizenTemplates() throws SQLException
     {
         ObservableList<CitizenModel> citizenTemplates = FXCollections.observableArrayList();
-        teacherDataManager.getAllCitizens().forEach(citizen -> citizenTemplates.add(CitizenModel.convert(citizen)));
+        teacherDataManager.getAllCitizenTemplates().forEach(citizen -> citizenTemplates.add(CitizenModel.convert(citizen)));
 
         return citizenTemplates;
     }

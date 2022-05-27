@@ -1,6 +1,10 @@
 package Application.GUI.Controllers.dashboard;
 
+import Application.BE.Citizen;
 import Application.BE.GeneralJournal;
+import Application.BE.School;
+import Application.BLL.SessionManager;
+import Application.BLL.TeacherDataManager;
 import Application.GUI.Models.*;
 import Application.GUI.Models.ControllerModels.CitizenTemplateControllerModel;
 import Application.Utility.GUIUtils;
@@ -33,6 +37,7 @@ public class CitizenTemplateController implements Initializable {
     public Button btnCitizenTemplateEditSave;
     public Button btnActions;
 
+    TeacherDataManager dataManager = new TeacherDataManager();
 
     // Citizen Template - Functional Conditions
     public TreeTableView<CategoryEntryModel> treeTblViewFunc;
@@ -133,7 +138,28 @@ public class CitizenTemplateController implements Initializable {
      * Creates a new blank citizen template.e
      */
     private void onNewCitizenTemplate() {
-        listViewCitizenTemplates.getItems().add(model.newCitizenTemplate());
+        //listViewCitizenTemplates.getItems().add(new CitizenModel(new Citizen(-1, new GeneralJournal() ,SessionManager.getCurrent().getSchool(), "", "", 0, true)));
+
+        CitizenModel newCitizenTemplate = new CitizenModel(
+                new Citizen(
+                        -1,
+                        new GeneralJournal(),
+                        new School(
+                                2,
+                                "",
+                                6700,
+                                ""
+                        ),
+                        "Also a test",
+                        "Test test",
+                        99,
+                        true
+                )
+        );
+
+        dataManager.createCitizen(newCitizenTemplate.getBeCitizen());
+
+        listViewCitizenTemplates.getItems().add(newCitizenTemplate);
     }
 
     /**

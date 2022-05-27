@@ -6,6 +6,7 @@ import Application.DAL.AssignedAccountsDAO;
 import Application.DAL.AssignedCitizensDAO;
 import Application.DAL.CitizenDAO;
 import javafx.util.Pair;
+import org.boon.primitive.Arry;
 
 import java.nio.file.AccessDeniedException;
 import java.sql.SQLException;
@@ -15,14 +16,17 @@ import java.util.List;
 
 public class TeacherDataManager extends StudentDataManager
 {
-    AccountDAO accountDAO = new AccountDAO();
+    AccountDAO accountDAO;
 
-    AssignedCitizensDAO assignedCitizensDAO = new AssignedCitizensDAO();
-    AssignedAccountsDAO assignedAccountsDAO = new AssignedAccountsDAO();
+    AssignedCitizensDAO assignedCitizensDAO;
+    AssignedAccountsDAO assignedAccountsDAO;
 
     public TeacherDataManager()
     {
+        accountDAO = new AccountDAO();
 
+        assignedCitizensDAO = new AssignedCitizensDAO();
+        assignedAccountsDAO = new AssignedAccountsDAO();
     }
 
     public Account createStudent(Account account) throws IllegalArgumentException, AccessDeniedException, SQLException
@@ -147,5 +151,20 @@ public class TeacherDataManager extends StudentDataManager
     public void updateCitizen(Citizen beCitizen, HashMap<Category, FunctionalEntry> beHealthConditions, HashMap<Category, FunctionalEntry> beFuncConditions)
     {
 
+    }
+
+    public List<Citizen> getAllCitizenTemplates()
+    {
+        List<Citizen> citizenListDAO = citizenDAO.readAll();
+        List<Citizen> citizenTemplatesList = new ArrayList<>();
+
+        for (Citizen citizen: citizenListDAO)
+        {
+            if (citizen.getTemplate())
+            {
+                citizenTemplatesList.add(citizen);
+            }
+        }
+        return citizenTemplatesList;
     }
 }
