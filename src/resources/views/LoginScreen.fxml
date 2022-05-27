@@ -4,16 +4,14 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="root" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="498.0" prefWidth="653.0" styleClass="background" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Application.GUI.Controllers.LoginController">
+<BorderPane fx:id="root" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="498.0" prefWidth="653.0" styleClass="background" stylesheets="@../Styles/MainStylesheet.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Application.GUI.Controllers.LoginController">
    <center>
-      <VBox alignment="CENTER" prefHeight="297.0" prefWidth="379.0" style="-fx-padding: 5em;">
+      <VBox alignment="CENTER" prefHeight="297.0" prefWidth="379.0" style="-fx-padding: 5em;" styleClass="panel30Deg">
          <children>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="25.0">
                <children>
@@ -37,9 +35,9 @@
                   <TextField fx:id="password" prefHeight="45.0" prefWidth="328.0" styleClass="customText-fieldBase" />
                </children>
             </VBox>
-            <Button mnemonicParsing="false" onAction="#onSubmit" prefHeight="37.0" prefWidth="82.0" text="Log ind">
+            <Button mnemonicParsing="false" onAction="#onSubmit" prefHeight="37.0" prefWidth="82.0" styleClass="panelBtnNoPadding" text="Log ind">
                <VBox.margin>
-                  <Insets />
+                  <Insets top="20.0" />
                </VBox.margin>
             </Button>
          </children>
