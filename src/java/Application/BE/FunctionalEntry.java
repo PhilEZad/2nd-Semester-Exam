@@ -4,6 +4,7 @@ public class FunctionalEntry implements IUniqueIdentifier<Integer> {
 
     private Integer id = 0;
     private Category category = null;
+    private int citizenID;
 
     private String assessment = "";
     private String cause = "";
@@ -34,10 +35,11 @@ public class FunctionalEntry implements IUniqueIdentifier<Integer> {
         initRelevance();
     }
 
-    public FunctionalEntry(int id, Category category, int level, String assessment, String cause, String implications, int expectedStatus, String citizenGoals, String note)
+    public FunctionalEntry(int id, Category category, int citizenID, int level, String assessment, String cause, String implications, int expectedStatus, String citizenGoals, String note)
     {
         this.id = id;
         this.category = category;
+        this.citizenID = citizenID;
         this.currentStatus = level;
 
         this.assessment = assessment;
@@ -49,6 +51,17 @@ public class FunctionalEntry implements IUniqueIdentifier<Integer> {
         this.note = note;
 
         initRelevance();
+    }
+
+    public FunctionalEntry(int journalHID, int fk_citizen, Category fk_category, String assessment, String cause, String implications, String goals, String notes, int currentLevel, int expetedLevel) {
+        this.id = journalHID;
+        this.citizenID = fk_citizen;
+        this.category = fk_category;
+        this.assessment = assessment;
+        this.cause = cause;
+        this.note = notes;
+        this.currentStatus = currentLevel;
+        this.expectedStatus = expetedLevel;
     }
 
 
@@ -156,4 +169,11 @@ public class FunctionalEntry implements IUniqueIdentifier<Integer> {
         return this.severity;
     }
 
+    public int getCitizenID() {
+        return citizenID;
+    }
+
+    public void setCitizenID(int citizenID) {
+        this.citizenID = citizenID;
+    }
 }

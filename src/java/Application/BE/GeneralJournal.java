@@ -1,9 +1,10 @@
 package Application.BE;
 
+import java.util.Objects;
+
 public class GeneralJournal implements IUniqueIdentifier<Integer>
 {
     private int id;
-
     private int citizenID;
     private String coping;
     private String motivation;
@@ -65,9 +66,7 @@ public class GeneralJournal implements IUniqueIdentifier<Integer>
     }
 
     public void setMotivation(String motivation) {
-        if (motivation == null)
-            this.motivation = "";
-        else this.motivation = motivation;
+        this.motivation = Objects.requireNonNullElse(motivation, "");
     }
 
     public String getResources() {
@@ -75,9 +74,7 @@ public class GeneralJournal implements IUniqueIdentifier<Integer>
     }
 
     public void setResources(String resources) {
-        if (resources == null)
-            this.resources = "";
-        else this.resources = resources;
+        this.resources = Objects.requireNonNullElse(resources, "");
     }
 
     public String getRoles() {
@@ -105,9 +102,7 @@ public class GeneralJournal implements IUniqueIdentifier<Integer>
     }
 
     public void setEduAndJob(String eduAndJob) {
-        if (eduAndJob == null)
-            this.eduAndJob = "";
-        else this.eduAndJob = eduAndJob;
+        this.eduAndJob = Objects.requireNonNullElse(eduAndJob, "");
     }
 
     public String getLifeStory() {
@@ -115,9 +110,7 @@ public class GeneralJournal implements IUniqueIdentifier<Integer>
     }
 
     public void setLifeStory(String lifeStory) {
-        if (lifeStory == null)
-            this.lifeStory = "";
-        else this.lifeStory = lifeStory;
+        this.lifeStory = Objects.requireNonNullElse(lifeStory, "");
     }
 
     public String getHealthInfo() {
@@ -125,9 +118,7 @@ public class GeneralJournal implements IUniqueIdentifier<Integer>
     }
 
     public void setHealthInfo(String healthInfo) {
-        if (healthInfo == null)
-            this.healthInfo = "";
-        else this.healthInfo = healthInfo;
+        this.healthInfo = Objects.requireNonNullElse(healthInfo, "");
     }
 
     public String getAssistiveDevices() {
@@ -135,9 +126,7 @@ public class GeneralJournal implements IUniqueIdentifier<Integer>
     }
 
     public void setAssistiveDevices(String assistiveDevices) {
-        if (assistiveDevices == null)
-            this.assistiveDevices = "";
-        else this.assistiveDevices = assistiveDevices;
+        this.assistiveDevices = Objects.requireNonNullElse(assistiveDevices, "");
     }
 
     public String getHomeLayout() {
@@ -145,9 +134,7 @@ public class GeneralJournal implements IUniqueIdentifier<Integer>
     }
 
     public void setHomeLayout(String homeLayout) {
-        if (homeLayout == null)
-            this.homeLayout = "";
-        else this.homeLayout = homeLayout;
+        this.homeLayout = Objects.requireNonNullElse(homeLayout, "");
     }
 
     public String getNetwork() {
@@ -155,9 +142,7 @@ public class GeneralJournal implements IUniqueIdentifier<Integer>
     }
 
     public void setNetwork(String network) {
-        if (network == null)
-            this.network = "";
-        else this.network = network;
+        this.network = Objects.requireNonNullElse(network, "");
     }
 
     @Override

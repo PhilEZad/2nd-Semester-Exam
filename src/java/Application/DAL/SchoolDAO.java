@@ -20,11 +20,10 @@ public class SchoolDAO implements IDatabaseActions<School>
     {
         var dao = new AbstractDAO<Void>() {
             @Override
-            protected Void execute(PreparedStatement statement) throws SQLException {
-
+            protected Void execute(PreparedStatement statement) throws SQLException
+            {
                 setPlaceholders(statement, input.getSchoolName(), input.getZipCode());
                 statement.executeUpdate();
-
                 return null;
             }
 
@@ -145,6 +144,5 @@ public class SchoolDAO implements IDatabaseActions<School>
         };
 
         dao.start();
-
     }
 }

@@ -1,15 +1,48 @@
 package Application.DAL.util;
 
-import Application.BE.Account;
-import Application.BE.Citizen;
-import Application.BE.GeneralJournal;
-import Application.BE.School;
+import Application.BE.*;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class ResultSetHelpers
 {
+
+    public static Category buildCategory(ResultSet rs) throws SQLException {
+        return new Category(
+                rs.getInt("CatID"),
+                rs.getString("categoryName"),
+                rs.getInt("FK_ParentCat")
+        );
+    }
+
+    public static FunctionalEntry buildFunctionalEntry(ResultSet rs) throws SQLException {
+        return new FunctionalEntry(
+                rs.getInt("JournalHID"),
+                rs.getInt("FK_Citizen"),
+                buildCategory(rs),
+                rs.getString("assessment"),
+                rs.getString("cause"),
+                rs.getString("implications"),
+                rs.getString("goals"),
+                rs.getString("notes"),
+                rs.getInt("currentLevel"),
+                rs.getInt("expetedLevel")
+        );
+    }
+
+    public static HealthEntry buildHealthEntry(ResultSet rs) throws SQLException {
+        return new HealthEntry (
+                rs.getInt("JournalHID"),
+                rs.getInt("FK_Citizen"),
+                buildCategory(rs),
+                rs.getString("assement"),
+                rs.getString("cause"),
+                rs.getString("notes"),
+                rs.getInt("currentLevel"),
+                rs.getInt("expetedLevel")
+        );
+    }
 
     /**
      * todo: doc
