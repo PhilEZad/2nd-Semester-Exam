@@ -2,11 +2,14 @@ package Application.BLL;
 
 
 import Application.BE.Citizen;
+import Application.DAL.CitizenDAO;
 
 import java.sql.SQLException;
 import java.util.List;
 
-public class StudentDataManager {
+public class StudentDataManager
+{
+    CitizenDAO citizenDAO = new CitizenDAO();
 
     public StudentDataManager()
     {
@@ -15,14 +18,14 @@ public class StudentDataManager {
 
     public List<Citizen> getAllCitizens() throws SQLException
     {
-        return null;
+        return citizenDAO.readAll();
     }
 
     public void updateCitizen(Citizen citizen) throws IllegalArgumentException, SQLException
     {
         if (citizen != null)
         {
-               citizenDAO.updateCitizen();
+               citizenDAO.update(citizen);
         }
         else
         {

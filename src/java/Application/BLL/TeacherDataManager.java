@@ -2,6 +2,9 @@ package Application.BLL;
 
 import Application.BE.*;
 import Application.DAL.AccountDAO;
+import Application.DAL.AssignedAccountsDAO;
+import Application.DAL.AssignedCitizensDAO;
+import Application.DAL.CitizenDAO;
 
 import java.nio.file.AccessDeniedException;
 import java.sql.SQLException;
@@ -11,6 +14,9 @@ import java.util.List;
 public class TeacherDataManager extends StudentDataManager
 {
     AccountDAO accountDAO = new AccountDAO();
+
+    AssignedCitizensDAO assignedCitizensDAO = new AssignedCitizensDAO();
+    AssignedAccountsDAO assignedAccountsDAO = new AssignedAccountsDAO();
 
     public TeacherDataManager()
     {
@@ -61,7 +67,9 @@ public class TeacherDataManager extends StudentDataManager
             throw new IllegalArgumentException("");
         }
 
+        return account;
     }
+
     public void deleteStudent(Account account) throws IllegalArgumentException, SQLException
     {
         if (!account.getIsAdmin() && !account.getIsTeacher())
@@ -77,7 +85,7 @@ public class TeacherDataManager extends StudentDataManager
     {
         if (citizen != null)
         {
-            citizen.create
+            citizenDAO.create(citizen);
         }
 
         // TODO: 25-05-2022 return default
@@ -88,13 +96,12 @@ public class TeacherDataManager extends StudentDataManager
     {
         if (citizen != null)
         {
-            citizenDAO.deleteCitizen(citizen.getID());
+            citizenDAO.delete(citizen.getID());
         }
         else
         {
             throw new IllegalArgumentException("");
         }
-
     }
 
     public void assignToCitizen(Account student, Citizen citizen) throws IllegalArgumentException, AccessDeniedException, SQLException
