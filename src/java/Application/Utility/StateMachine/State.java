@@ -20,7 +20,7 @@ public class State implements IState{
 
     @Override
     public Object getState() {
-        return null;
+        return viewPane;
     }
 
     @Override

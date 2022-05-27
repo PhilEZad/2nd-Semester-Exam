@@ -13,6 +13,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -33,23 +34,13 @@ public class TeacherAdminViewController implements Initializable
 
     private ToggleGroup toggleGroupViews;
     private StateMachine<ToggleButton> stateMachine = new StateMachine<>();
+
     private TeacherDataManager dataManager = new TeacherDataManager();
     
-
-    /**
-     *  passed by reference through a resource bundle from the login controller
-     *
-     * @see LoginController
-     * */
-    private AccountModel account;
 
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
-
-        //this.account = (AccountModel) resources.getObject("account");
-
-
         initToggleGroup();
         viewChangedListener();
         initViewStates();
@@ -91,7 +82,7 @@ public class TeacherAdminViewController implements Initializable
 
     private void initVisible()
     {
-        anchorPaneDashboard.setVisible(false);
+        anchorPaneDashboard.setVisible(true);
         anchorPaneStudents.setVisible(false);
         anchorPaneCitizenTemplate.setVisible(false);
         anchorPaneCitizens.setVisible(false);
