@@ -16,6 +16,7 @@ import javafx.util.converter.IntegerStringConverter;
 import org.controlsfx.control.Notifications;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.*;
 
 public class CitizenTemplateController implements Initializable {
@@ -280,7 +281,11 @@ public class CitizenTemplateController implements Initializable {
      * which calls the setDataToCitizenTemplatesList() method when the selected citizenTemplate changes.
      */
     private void initCitizenTemplatesList() {
-        listViewCitizenTemplates.setItems(model.getCitizenTemplates());
+        try {
+            listViewCitizenTemplates.setItems(model.getCitizenTemplates());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
         listViewCitizenTemplates.getSelectionModel().select(0);
 

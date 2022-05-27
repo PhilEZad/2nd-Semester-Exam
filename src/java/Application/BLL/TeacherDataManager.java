@@ -10,6 +10,7 @@ import javafx.util.Pair;
 import java.nio.file.AccessDeniedException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class TeacherDataManager extends StudentDataManager
@@ -143,4 +144,8 @@ public class TeacherDataManager extends StudentDataManager
         }
     }
 
+    public void updateCitizen(Citizen beCitizen, HashMap<Category, FunctionalEntry> beHealthConditions, HashMap<Category, FunctionalEntry> beFuncConditions)
+    {
+
+    }
 }

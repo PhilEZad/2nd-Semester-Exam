@@ -125,6 +125,10 @@ public class CitizenModel implements Cloneable{
         initHealthConditions();
     }
 
+    public static CitizenModel convert(Citizen citizen) {
+        return new CitizenModel(citizen);
+    }
+
 
     private void initBindings() {
         this.firstName.bindBidirectional(new SimpleStringProperty(beCitizen.getFirstname()));

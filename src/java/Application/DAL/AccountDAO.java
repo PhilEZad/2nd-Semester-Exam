@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class AccountDAO implements IDatabaseActions<Account> {
 
@@ -145,7 +146,6 @@ public class AccountDAO implements IDatabaseActions<Account> {
                         SELECT * FROM Account
                         JOIN School ON Account.FK_aSchool = School.SID
                         JOIN zipCode ON School.FK_Zipcode = zipCode.Zip
-                        WHERE AID = ?
                         """;
             }
         };

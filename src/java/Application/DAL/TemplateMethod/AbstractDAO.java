@@ -4,6 +4,7 @@ import Application.BE.IUniqueIdentifier;
 import Application.DAL.DBConnector.DBConnectionPool;
 import javafx.util.Pair;
 import org.intellij.lang.annotations.Language;
+import org.jetbrains.annotations.NotNull;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
@@ -75,16 +77,16 @@ public abstract class AbstractDAO<RETURN_TYPE>
         }
     }
 
+    @NotNull
     public final Pair<Integer, RETURN_TYPE> getResult()
     {
         if (!this.hasExecutedSuccessfully.get())
         {
             // post error
             System.err.println("exception occurred when running db query");
-            return null;
         }
 
-        return new Pair<>(return_ids.stream().findFirst().orElse(-1), return_value.getAcquire());
+        return new Pair<>(return_ids.stream().findFirst().orElse(-1), Objects.requireNonNull(return_value.getAcquire()));
     }
 
     public final List<Integer> getAllReturnedIDs()

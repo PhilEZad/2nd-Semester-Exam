@@ -2,6 +2,7 @@ package Application.BLL;
 
 
 import Application.BE.Citizen;
+import Application.BE.FunctionalEntry;
 import Application.DAL.CitizenDAO;
 
 import java.sql.SQLException;
@@ -31,5 +32,13 @@ public class StudentDataManager
         {
             throw new IllegalArgumentException("");
         }
+    }
+
+    public Citizen[] getAssignedCitizens(int id)
+    {
+        return null;
+    }
+
+    public void updateObservation(Citizen beCitizen, FunctionalEntry contentEntry) {
     }
 }

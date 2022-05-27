@@ -37,10 +37,13 @@ public class StudentViewControllerModel {
     public ObservableList<CitizenModel> getAllCitizens()
     {
         ObservableList<CitizenModel> citizens = FXCollections.observableArrayList();
-        for (Citizen c : studentDataManager.getAssignedCitizens(0)){ //TODO: 0 is a placeholder for the current user
+
+        for (Citizen c : studentDataManager.getAssignedCitizens(SessionModel.getCurrent().getID()))
+        {
             citizens.add(new CitizenModel(c));
         }
-      return citizens;
+
+        return citizens;
     }
 
     public CitizenModel getSelectedCitizen() {

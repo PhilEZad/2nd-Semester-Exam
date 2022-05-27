@@ -13,6 +13,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TreeItem;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Random;
@@ -35,8 +36,11 @@ public class CitizenTemplateControllerModel {
      * Get all the citizen templates from the DB and put them in a list.
      * @return
      */
-    public ObservableList<CitizenModel> getCitizenTemplates() {
-        ObservableList<CitizenModel> citizenTemplates = FXCollections.observableArrayList(teacherDataManager.getAllCitizenTemplates());
+    public ObservableList<CitizenModel> getCitizenTemplates() throws SQLException
+    {
+        ObservableList<CitizenModel> citizenTemplates = FXCollections.observableArrayList();
+        teacherDataManager.getAllCitizens().forEach(citizen -> citizenTemplates.add(CitizenModel.convert(citizen)));
+
         return citizenTemplates;
     }
 
@@ -90,7 +94,11 @@ public class CitizenTemplateControllerModel {
      * Delete the selected citizen template.
      **/
     public void deleteCitizenTemplate() {
-        teacherDataManager.deleteCitizenTemplate(selectedCitizenTemplateModel.getBeCitizen());
+        try {
+            teacherDataManager.deleteCitizen(selectedCitizenTemplateModel.getBeCitizen());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -212,7 +220,7 @@ public class CitizenTemplateControllerModel {
                 beFuncConditions.put(cat, entry);
             }
 
-            teacherDataManager.updateCitizenTemplate(selectedCitizenTemplateModel.getBeCitizen(), beHealthConditions, beFuncConditions);
+            teacherDataManager.updateCitizen(selectedCitizenTemplateModel.getBeCitizen(), beHealthConditions, beFuncConditions);
         }
     }
 
@@ -229,7 +237,7 @@ public class CitizenTemplateControllerModel {
 
 
     public void newCitizenEntity() {
-        teacherDataManager.newCitizenEntity(selectedCitizenTemplateModel.getBeCitizen());
+        teacherDataManager.createCitizen(selectedCitizenTemplateModel.getBeCitizen());
     }
 
     /**
