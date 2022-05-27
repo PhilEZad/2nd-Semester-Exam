@@ -85,7 +85,7 @@ public class AdminDashboardController implements Initializable {
     {
         tblViewTeacher.setItems(searchTable(txtFieldSearch, tblViewTeacher, getObservableList(ListType.TEACHER)));
         tblViewStudent.setItems(searchTable(txtFieldSearch, tblViewStudent, getObservableList(ListType.STUDENT)));
-        tblViewSchool.setItems(schoolList);
+        tblViewSchool.setItems(getObservableSchools());
     }
 
 
