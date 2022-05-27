@@ -177,7 +177,7 @@ public class AccountDAO implements IDatabaseActions<Account> {
             @Override
             protected Account execute(PreparedStatement statement) throws SQLException
             {
-                AbstractDAO.setPlaceholders(statement, input.getFirstName(), input.getLastName(), input.getEmail(), input.getID());
+                AbstractDAO.setPlaceholders(statement, input.getFirstName(), input.getLastName(), input.getEmail(), input.getUsername(), input.getPassword(), input.getID());
                 statement.executeUpdate();
                 return input;
             }
@@ -186,7 +186,7 @@ public class AccountDAO implements IDatabaseActions<Account> {
             protected String getSQLStatement() {
                 return """
                         UPDATE Account
-                        SET firstName = ?, lastname = ?, email = ?
+                        SET firstName = ?, lastName = ?, email = ?, username = ?, password = ? 
                         WHERE AID = ?
                         """;
             }
