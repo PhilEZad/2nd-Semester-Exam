@@ -3,6 +3,7 @@ package Application.GUI.Controllers.Popups;
 import Application.BE.Account;
 import Application.BE.School;
 import Application.BLL.AdminDataManager;
+import Application.BLL.SessionManager;
 import Application.Utility.GUIUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -25,18 +26,15 @@ public class CreateTeacherController
 
     public void onSaveTeacher(ActionEvent actionEvent)
     {
-
-        // FIXME: 03/05/2022 -- Dummy School
-        School school = new School(1, "Dummy School", 6800, "Varde");
         try {
             accountDAO.createTeacher(new Account(
                             -1,
                             txtFieldUsername.getText(),
-                            txtFieldPassword.getText(),
+                            SessionManager.createToken(txtFieldUsername.getText() ,txtFieldPassword.getText()),
                             txtFieldFirstName.getText(),
                             txtFieldLastName.getText(),
                             txtFieldEmail.getText(),
-                            school,
+                            SessionManager.getCurrent().getSchool(),
                             true,
                             false
                     )

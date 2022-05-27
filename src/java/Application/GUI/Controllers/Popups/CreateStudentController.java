@@ -3,6 +3,7 @@ package Application.GUI.Controllers.Popups;
 import Application.BE.Account;
 import Application.BE.School;
 import Application.BLL.AdminDataManager;
+import Application.BLL.SessionManager;
 import Application.Utility.GUIUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -41,12 +42,18 @@ public class CreateStudentController implements Initializable {
         String login = txtFieldUsername.getText();
         String password = passwordField.getText();
 
-        // FIXME: 03/05/2022 -- Dummy School
         try {
-            School school = new School(1, "Dummy School", 6700, "Esbjerg");
-
-            adminDataManager.createStudent(new Account(-1, login, password, firstName, lastName, email, school, false, false));
-            //TODO: add getSchool() and implement salt for hashing
+            System.out.println(SessionManager.getCurrent().getSchool().getID());
+            adminDataManager.createStudent(new Account(
+                    -1,
+                    login,
+                    SessionManager.createToken(login, password),
+                    firstName,
+                    lastName,
+                    email,
+                    SessionManager.getCurrent().getSchool(),
+                    false,
+                    false));
 
             ((Node) (event.getSource())).getScene().getWindow().hide();
         } catch (SQLException sqlException)
