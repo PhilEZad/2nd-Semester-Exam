@@ -22,11 +22,11 @@ public class Category implements IUniqueIdentifier<Integer> {
         this.name = name;
     }
 
-    public Category(int id, String name, int parentID) {
+    public Category(int id, String name, int parentID, CategoryType type) {
         this.id = id;
         this.name = name;
         this.parentID = parentID;
-        initType();
+        this.type = type;
     }
 
     private void initType()
