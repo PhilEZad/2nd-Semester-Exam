@@ -11,9 +11,19 @@ public enum AccountType
 
     private final int id;
 
+    private boolean isAdmin = false;
+    private boolean isTeacher = false;
+    private boolean isStudent = false;
+
     AccountType(int id)
     {
         this.id = id;
+
+        switch (id) {
+            case 0 -> this.isAdmin = true;
+            case 1 -> this.isTeacher = true;
+            case 2 -> this.isStudent = true;
+        }
     }
 
     public int getId() {
@@ -25,4 +35,15 @@ public enum AccountType
         return Arrays.stream(AccountType.values()).filter(accountType -> accountType.id == id).findFirst().orElse(NONE);
     }
 
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public boolean isTeacher() {
+        return isTeacher;
+    }
+
+    public boolean isStudent() {
+        return isStudent;
+    }
 }

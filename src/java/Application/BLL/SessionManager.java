@@ -1,6 +1,7 @@
 package Application.BLL;
 
 import Application.BE.Account;
+import Application.DAL.AccountDAO;
 import Application.Utility.AccountType;
 import at.favre.lib.crypto.bcrypt.BCrypt;
 
@@ -30,14 +31,16 @@ public class SessionManager
     {
         Account account = null;
         try {
-            account =  null;//DataAccessFactory.get(User.class).getAccessObject().getByString(username);
+            account = new AccountDAO().read(username);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        if (account != null )//&& account.getAuthorization().equals(type) && account.getPassword().equals(createToken(username, password)))
+        if (account != null && account.getPassword().equals(createToken(username, password)))
         {
-            LoggedInUser = account;
+            boolean correctAuthLevel = account.getIsAdmin() == type.isAdmin() &&  account.getIsTeacher() == type.isTeacher();
+
+            LoggedInUser = correctAuthLevel ? account : null;
         }
 
         return LoggedInUser != null;
