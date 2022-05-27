@@ -8,11 +8,12 @@ import java.sql.SQLException;
 public class ResultSetHelpers
 {
 
-    public static Category buildCategory(ResultSet rs) throws SQLException {
+    public static Category buildCategory(ResultSet rs, CategoryType type) throws SQLException {
         return new Category(
                 rs.getInt("CatID"),
                 rs.getString("categoryName"),
-                rs.getInt("FK_ParentCat")
+                rs.getInt("FK_ParentCat"),
+                type
         );
     }
 
@@ -20,7 +21,7 @@ public class ResultSetHelpers
         return new FunctionalEntry(
                 rs.getInt("JournalHID"),
                 rs.getInt("FK_Citizen"),
-                buildCategory(rs),
+                buildCategory(rs, CategoryType.FUNCTIONAL_ABILITY),
                 rs.getString("assessment"),
                 rs.getString("cause"),
                 rs.getString("implications"),
@@ -35,7 +36,7 @@ public class ResultSetHelpers
         return new HealthEntry (
                 rs.getInt("JournalHID"),
                 rs.getInt("FK_Citizen"),
-                buildCategory(rs),
+                buildCategory(rs, CategoryType.HEALTH_CONDITION),
                 rs.getString("assement"),
                 rs.getString("cause"),
                 rs.getString("notes"),
