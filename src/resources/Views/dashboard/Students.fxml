@@ -16,7 +16,7 @@
     <AnchorPane layoutX="14.0" layoutY="23.0" prefHeight="362.0" prefWidth="200.0" styleClass="panel30Deg" AnchorPane.bottomAnchor="26.600000000000023" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="23.0">
         <ListView fx:id="listViewStudents" layoutX="18.0" layoutY="70.0" prefHeight="272.0" prefWidth="163.0" AnchorPane.bottomAnchor="18.399999999999977" AnchorPane.leftAnchor="18.0" AnchorPane.rightAnchor="16.80000000000001" AnchorPane.topAnchor="70.0" />
         <HBox layoutX="20.0" layoutY="26.0" prefHeight="26.0" prefWidth="163.0" AnchorPane.leftAnchor="16.0" AnchorPane.topAnchor="24.0">
-            <TextField fx:id="txtFieldStudentsSearch" prefHeight="30.0" prefWidth="191.0" promptText="Search" styleClass="text-fieldBase" />
+            <TextField fx:id="txtFieldStudentsSearch" prefHeight="30.0" prefWidth="191.0" promptText="Søg" styleClass="text-fieldBase" />
         </HBox>
     </AnchorPane>
     <AnchorPane layoutX="230.0" layoutY="23.0" prefHeight="80.0" prefWidth="623.0" styleClass="panel30Deg" AnchorPane.leftAnchor="230.0" AnchorPane.rightAnchor="22.0" AnchorPane.topAnchor="23.0">
