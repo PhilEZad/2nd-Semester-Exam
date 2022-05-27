@@ -46,6 +46,12 @@ public class AccountModel
         email.set(account.getEmail());
     }
 
+
+    public static AccountModel convert(Account account)
+    {
+        return new AccountModel(account);
+    }
+
     public int getId()
     {
         return id.get();

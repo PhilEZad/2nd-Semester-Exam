@@ -3,6 +3,7 @@ package Application.GUI.Controllers.dashboard;
 import Application.BE.Citizen;
 
 import Application.BLL.TeacherDataManager;
+import Application.DAL.AssignedAccountsDAO;
 import Application.DAL.AssignedCitizensDAO;
 import Application.GUI.Models.AccountModel;
 import Application.GUI.Models.CitizenModel;
@@ -48,7 +49,11 @@ public class CitizensController implements Initializable
 
     public void initTables()
     {
-        availableCitizens.setItems(listToObservable(dataManager.getAllCitizens()));
+        try {
+            availableCitizens.setItems(listToObservable(dataManager.getAllCitizens()));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void initListeners()
@@ -106,9 +111,15 @@ public class CitizensController implements Initializable
             return;
         }
 
-        try {
-            this.listViewStudentsForCitizen.setItems(FXCollections.observableArrayList(new AssignedCitizensDAO().read(availableCitizens.getSelectionModel().getSelectedItem().getID())));
-        } catch (SQLException e) {
+        try
+        {
+            this.listViewStudentsForCitizen.itemsProperty().get().clear();
+
+            new AssignedAccountsDAO().read(selected.getID()).getValue().forEach(account ->
+                    this.listViewStudentsForCitizen.itemsProperty().get().add(AccountModel.convert(account)));
+        }
+        catch (SQLException e)
+        {
             throw new RuntimeException(e);
         }
 
