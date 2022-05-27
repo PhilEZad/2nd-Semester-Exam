@@ -6,6 +6,7 @@ import Application.DAL.TemplateMethod.AbstractDAO;
 import Application.DAL.TemplateMethod.IDatabaseActions;
 import Application.DAL.util.ResultSetHelpers;
 
+import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -92,8 +93,7 @@ public class AccountDAO implements IDatabaseActions<Account> {
         var dao = new AbstractDAO<Account>()
         {
             @Override
-            protected Account execute(PreparedStatement statement) throws SQLException
-            {
+            protected Account execute(PreparedStatement statement) throws SQLException, IOException {
                 AbstractDAO.setPlaceholders(statement, accountID);
                 ResultSet rs = statement.executeQuery();
 
@@ -127,8 +127,7 @@ public class AccountDAO implements IDatabaseActions<Account> {
         var dao = new AbstractDAO<List<Account>>()
         {
             @Override
-            protected List<Account> execute(PreparedStatement statement) throws SQLException
-            {
+            protected List<Account> execute(PreparedStatement statement) throws SQLException, IOException {
                 var result = new ArrayList<Account>();
                 ResultSet rs = statement.executeQuery();
 
@@ -189,8 +188,7 @@ public class AccountDAO implements IDatabaseActions<Account> {
         var dao = new AbstractDAO<Account>()
         {
             @Override
-            protected Account execute(PreparedStatement statement) throws SQLException
-            {
+            protected Account execute(PreparedStatement statement) throws SQLException, IOException {
                 AbstractDAO.setPlaceholders(statement, username);
                 ResultSet rs = statement.executeQuery();
 

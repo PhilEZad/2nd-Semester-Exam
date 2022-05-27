@@ -9,6 +9,7 @@ import Application.DAL.TemplateMethod.IDatabaseActions;
 import Application.DAL.util.ResultSetHelpers;
 import javafx.util.Pair;
 
+import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -104,8 +105,7 @@ public class AssignedAccountsDAO implements IDatabaseActions<Pair<Citizen, List<
     {
         var dao = new AbstractDAO<List<Account>>() {
             @Override
-            protected List<Account> execute(PreparedStatement statement) throws SQLException
-            {
+            protected List<Account> execute(PreparedStatement statement) throws SQLException, IOException {
                 var accounts = new ArrayList<Account>();
 
                 setPlaceholders(statement, id);
@@ -144,8 +144,7 @@ public class AssignedAccountsDAO implements IDatabaseActions<Pair<Citizen, List<
         var dao = new AbstractDAO<List<Pair<Citizen, List<Account>>>>()
         {
             @Override
-            protected List<Pair<Citizen, List<Account>>> execute(PreparedStatement statement) throws SQLException
-            {
+            protected List<Pair<Citizen, List<Account>>> execute(PreparedStatement statement) throws SQLException, IOException {
                 var result = new ArrayList<Pair<Citizen, List<Account>>>();
                 var rs = statement.executeQuery();
 

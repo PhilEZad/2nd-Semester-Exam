@@ -2,6 +2,7 @@ package Application.DAL.util;
 
 import Application.BE.*;
 
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -90,8 +91,7 @@ public class ResultSetHelpers
         );
     }
 
-    public static Account buildAccount(ResultSet rs) throws SQLException
-    {
+    public static Account buildAccount(ResultSet rs) throws SQLException, IOException {
         return new Account(
                 rs.getInt("AID"),
                 rs.getString("username"),
@@ -100,8 +100,8 @@ public class ResultSetHelpers
                 rs.getString("lastname"),
                 rs.getString("email"),
                 buildSchool(rs),
-                rs.getByte("accountType") == 0x01,
-                rs.getByte("accountType") == 0x10);
+                rs.getBoolean("isTeacher"),
+                rs.getBoolean("isAdmin"));
     }
 
     /**

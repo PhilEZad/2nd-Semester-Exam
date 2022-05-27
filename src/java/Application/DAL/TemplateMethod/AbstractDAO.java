@@ -6,6 +6,7 @@ import javafx.util.Pair;
 import org.intellij.lang.annotations.Language;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -94,7 +95,7 @@ public abstract class AbstractDAO<RETURN_TYPE>
         return this.return_ids;
     }
 
-    protected abstract RETURN_TYPE execute(PreparedStatement statement) throws SQLException;
+    protected abstract RETURN_TYPE execute(PreparedStatement statement) throws SQLException, IOException;
 
     @Language("sql")
     protected abstract String getSQLStatement();
