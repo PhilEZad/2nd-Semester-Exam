@@ -140,7 +140,7 @@ public class AdminDashboardController implements Initializable {
 
             if (result.get() == ButtonType.OK) {
                 dataManager.deleteStudent(tblViewStudent.getSelectionModel().getSelectedItem().getAccount());
-                tblViewStudent.setItems(searchTable(txtFieldSearch, tblViewTeacher, getObservableList(ListType.TEACHER)));
+                tblViewStudent.setItems(searchTable(txtFieldSearch, tblViewTeacher, getObservableList(ListType.STUDENT)));
             }
         } catch (SQLException sqlException)
         {
