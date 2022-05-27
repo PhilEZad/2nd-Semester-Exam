@@ -4,6 +4,7 @@ public class HealthEntry implements IUniqueIdentifier<Integer>
 {
     private Integer id;
     private Category category;
+    private int citizenID;
     private String assessment;
     private String cause;
     private String note;
@@ -11,6 +12,22 @@ public class HealthEntry implements IUniqueIdentifier<Integer>
     private Integer expectedStatus;
 
     private boolean relevant;
+
+    public HealthEntry(int citizenID) {
+        this.citizenID = citizenID;
+    }
+
+    public HealthEntry(int journalHID, int fk_citizen, Category fk_category, String assement, String cause, String notes, int currentLevel, int expetedLevel)
+    {
+        this.id = journalHID;
+        this.citizenID = fk_citizen;
+        this.category = fk_category;
+        this.assessment = assement;
+        this.cause = cause;
+        this.note = notes;
+        this.currentStatus = currentLevel;
+        this.expectedStatus = expetedLevel;
+    }
 
 
     @Override
@@ -69,5 +86,13 @@ public class HealthEntry implements IUniqueIdentifier<Integer>
 
     public void setExpectedStatus(Integer expectedStatus) {
         this.expectedStatus = expectedStatus;
+    }
+
+    public int getCitizenID() {
+        return citizenID;
+    }
+
+    public void setCitizenID(int citizenID) {
+        this.citizenID = citizenID;
     }
 }

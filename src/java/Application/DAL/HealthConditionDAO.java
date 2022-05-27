@@ -1,78 +1,199 @@
 package Application.DAL;
 
 import Application.BE.FunctionalEntry;
+import Application.BE.GeneralJournal;
+import Application.BE.HealthEntry;
 import Application.DAL.DBConnector.DBConnectionPool;
+import Application.DAL.TemplateMethod.AbstractDAO;
 import Application.DAL.TemplateMethod.IDatabaseActions;
+import Application.DAL.util.ResultSetHelpers;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
-public class HealthConditionDAO implements IDatabaseActions<FunctionalEntry>
+public class HealthConditionDAO implements IDatabaseActions<HealthEntry>
 {
     @Override
-    public FunctionalEntry create(FunctionalEntry input) {
-        String sql = """
-                    INSERT INTO HealthEntry (FK_Category, assessment, cause, implications, currentStatus, expectedStatus, citizenGoals, notes, severity)
-                    VALUES (?, ?, ?, ?, ?, ?, ? ,?, ?)
-                    """;
+    public HealthEntry create(HealthEntry input) {
+        var dao = new AbstractDAO<Void>()
+        {
+            @Override
+            protected Void execute(PreparedStatement statement) throws SQLException
+            {
+                setPlaceholders(statement,
+                        input.getCitizenID(),
+                        input.getCategory().getID(),
+                        input.getAssessment(),
+                        input.getCause(),
+                        input.getNote(),
+                        input.getCurrentStatus(),
+                        input.getExpectedStatus()
+                );
 
-        Connection conn = DBConnectionPool.getInstance().checkOut();
-        try {
-            PreparedStatement pstmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
-
-
-            pstmt.setInt(1, input.getCategory().getID());
-            pstmt.setString(2, input.getAssessment());
-            pstmt.setString(3, input.getCause());
-            pstmt.setString(4, input.getImplications());
-            pstmt.setInt(5, input.getCurrentStatus());
-            pstmt.setInt(6, input.getExpectedStatus());
-            pstmt.setString(7, input.getCitizenGoals());
-            pstmt.setString(8, input.getNote());
-            pstmt.setInt(9, input.getSeverity());
-
-            pstmt.execute();
-
-            int id = -1;
-
-            ResultSet generatedKeys = pstmt.getGeneratedKeys();
-            if (generatedKeys.next()) {
-                id = generatedKeys.getInt(1);
+                statement.executeUpdate();
+                return null;
             }
 
-            input.setID(id);
-            pstmt.close();
-            return input;
+            @Override
+            protected String getSQLStatement() {
+                return """
+                        INSERT INTO HealthEntry (FK_Citizen, FK_Category, assement, cause, notes, currentLevel, expectedLevel)
+                        VALUES (?, ?, ?, ?, ?, ?, ?)
+                        """;
+            }
+        };
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
-        finally {
-            DBConnectionPool.getInstance().checkIn(conn);
-        }
+        dao.start();
+        input.setID(dao.getResult().getKey());
+        return input;
     }
 
     @Override
-    public void update(FunctionalEntry input) {
+    public void update(HealthEntry input) {
+        var dao = new AbstractDAO<Void>()
+        {
+            @Override
+            protected Void execute(PreparedStatement statement) throws SQLException
+            {
+                setPlaceholders(statement,
+                        input.getAssessment(),
+                        input.getCause(),
+                        input.getNote(),
+                        input.getCurrentStatus(),
+                        input.getExpectedStatus(),
+                        input.getID()
+                );
 
+                statement.executeUpdate();
+                return null;
+            }
+
+            @Override
+            protected String getSQLStatement() {
+                return """
+                        UPDATE HealthEntry
+                        SET assement = ?, cause = ?, notes = ?, currentLevel = ?, expectedLevel = ?
+                        WHERE JournalHID = ?
+                        """;
+            }
+        };
+
+        dao.start();
     }
 
     @Override
-    public FunctionalEntry read(int id) {
-        return null;
+    public HealthEntry read(int id) {
+        var dao = new AbstractDAO<HealthEntry>()
+        {
+            @Override
+            protected HealthEntry execute(PreparedStatement statement) throws SQLException
+            {
+                setPlaceholders(statement, id);
+                var rs = statement.executeQuery();
+                return ResultSetHelpers.buildHealthEntry(rs);
+            }
+
+            @Override
+            protected String getSQLStatement() {
+                return """
+                        SELECT * FROM HealthEntry
+                        JOIN Categories C on C.CatID = HealthEntry.FK_Category
+                        WHERE JournalHID = ?
+                        """;
+            }
+        };
+
+        dao.start();
+        return dao.getResult().getValue();
+    }
+
+    public List<HealthEntry> readAll(int citizen_id) {
+        var dao = new AbstractDAO<List<HealthEntry>>()
+        {
+            @Override
+            protected List<HealthEntry> execute(PreparedStatement statement) throws SQLException
+            {
+                setPlaceholders(statement, citizen_id);
+                List<HealthEntry> results = new ArrayList<>();
+                var rs = statement.executeQuery();
+
+                while (rs.next())
+                {
+                    results.add(ResultSetHelpers.buildHealthEntry(rs));
+                }
+
+                return results;
+            }
+
+            @Override
+            protected String getSQLStatement() {
+                return """
+                        SELECT * FROM HealthEntry
+                        JOIN Categories C on C.CatID = HealthEntry.FK_Category
+                        WHERE FK_Citizen = ?
+                        """;
+            }
+        };
+
+        dao.start();
+        return dao.getResult().getValue();
     }
 
     @Override
-    public List<FunctionalEntry> readAll() {
-        return null;
+    public List<HealthEntry> readAll() {
+        var dao = new AbstractDAO<List<HealthEntry>>()
+        {
+            @Override
+            protected List<HealthEntry> execute(PreparedStatement statement) throws SQLException
+            {
+                List<HealthEntry> results = new ArrayList<>();
+                var rs = statement.executeQuery();
+
+                while (rs.next())
+                {
+                    results.add(ResultSetHelpers.buildHealthEntry(rs));
+                }
+
+                return results;
+            }
+
+            @Override
+            protected String getSQLStatement() {
+                return """
+                        SELECT * FROM HealthEntry
+                        """;
+            }
+        };
+
+        dao.start();
+        return dao.getResult().getValue();
     }
 
     @Override
     public void delete(int id) {
+        var dao = new AbstractDAO<Void>()
+        {
+            @Override
+            protected Void execute(PreparedStatement statement) throws SQLException
+            {
+                setPlaceholders(statement, id);
+                statement.executeUpdate();
+                return null;
+            }
 
+            @Override
+            protected String getSQLStatement() {
+                return """
+                        DELETE FROM HealthEntry
+                        WHERE JournalHID = ?
+                        """;
+            }
+        };
+
+        dao.start();
     }
 }
