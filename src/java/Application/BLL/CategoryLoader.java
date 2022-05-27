@@ -23,41 +23,50 @@ public class CategoryLoader
         }
     }
 
-    public Category load()
+    // Loads all categories from the database
+    // Returns a Category object
+
+    public List<Category> load()
     {
         /// flat set of all categories.
         var allCategories =  categoryDAO.readAll();
 
-        Category content = new Category("root");
-
         for (var element : allCategories)
         {
-            if (element.getParentID() <= 0)
+            if (element.getParentID() == 0)
             {
-                content.getChildren().add(element);
-                element.setParent(content);
+                element.setParent(new Category("root"));
+                element.getParent().setID(0);
             }
 
-            getImmediateChildren(element, allCategories);
+            for (var category : allCategories)
+            {
+                if (category.getParentID() == element.getID())
+                {
+                    element.getChildren().add(category);
+                    category.setParent(element);
+                }
+            }
         }
 
-        return content;
+        return allCategories;
     }
 
     public static void main(String[] args) {
 
         CategoryLoader loader = new CategoryLoader();
 
-        for (var Level0 : loader.load().getChildren()) {
-            System.out.println(Level0.getName());
+        int lastChange = 0;
 
-            for (var Level1 : Level0.getChildren()) {
-                System.out.println("\t" + Level1.getName());
-
-                for (var Level2 : Level1.getChildren()) {
-                    System.out.println("\t\t" + Level2.getName());
-                }
+        for (var Level0 : loader.load())
+        {
+            if (Level0.getParent().getID() != lastChange)
+            {
+                System.out.println();
+                lastChange = Level0.getParent().getID();
             }
+
+            System.out.println("parent: [" + Level0.getParent().getID() + "] " + Level0.getParent().getName() + " -> current: [" + Level0.getID() + "] " + Level0.getName());
         }
     }
 }
