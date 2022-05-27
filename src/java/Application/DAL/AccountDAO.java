@@ -29,16 +29,28 @@ public class AccountDAO implements IDatabaseActions<Account> {
             @Override
             protected Account execute(PreparedStatement statement) throws SQLException
             {
-                AbstractDAO.setPlaceholders(statement, input.getUsername(), input.getPassword(), input.getFirstName(), input.getLastName(), input.getEmail(), input.getSchool().getID(), input.getAuthLevel());
+                AbstractDAO.setPlaceholders(statement,
+                        input.getUsername(),
+                        input.getPassword(),
+                        input.getFirstName(),
+                        input.getLastName(),
+                        input.getEmail(),
+                        input.getSchool().getID(),
+                        input.getIsAdmin(),
+                        input.getIsTeacher(),
+                        (!input.getIsTeacher() && !input.getIsAdmin())
+                );
+
                 statement.execute();
+
                 return input;
             }
 
             @Override
             protected String getSQLStatement() {
                 return """
-                        INSERT INTO Account (username, password, firstName, lastname, email, FK_aSchool, accountType) 
-                        VALUES (?, ?, ?, ?, ?, ?, ?)
+                        INSERT INTO Account (username, password, firstName, lastname, email, FK_aSchool, isAdmin, isTeacher, isStudent) 
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
                         """;
             }
         };

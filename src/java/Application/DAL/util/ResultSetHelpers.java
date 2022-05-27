@@ -13,7 +13,7 @@ public class ResultSetHelpers
         return new Category(
                 rs.getInt("CatID"),
                 rs.getString("categoryName"),
-                rs.getInt("FK_ParentCat"),
+                rs.getInt("ParentID"),
                 type
         );
     }

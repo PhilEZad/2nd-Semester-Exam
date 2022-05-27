@@ -30,9 +30,13 @@ public class SessionManager
     public static boolean tryBeginSession(AccountType type, String username, String password)
     {
         Account account = null;
-        try {
+
+        try
+        {
             account = new AccountDAO().read(username);
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
         }
 

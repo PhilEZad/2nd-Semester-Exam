@@ -6,7 +6,6 @@ import Application.DAL.AssignedAccountsDAO;
 import Application.DAL.AssignedCitizensDAO;
 import Application.DAL.CitizenDAO;
 import javafx.util.Pair;
-import org.boon.primitive.Arry;
 
 import java.nio.file.AccessDeniedException;
 import java.sql.SQLException;

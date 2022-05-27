@@ -3,6 +3,7 @@ package Application.GUI.Controllers.dashboard;
 import Application.BE.Account;
 import Application.BE.School;
 import Application.BLL.AdminDataManager;
+import Application.BLL.SessionManager;
 import Application.GUI.Models.AccountModel;
 import Application.GUI.Models.SchoolModel;
 import Application.Utility.GUIUtils;
@@ -64,6 +65,8 @@ public class AdminDashboardController implements Initializable {
     {
         initTableViews();
         populateTableViews();
+
+        System.out.println(SessionManager.getCurrent().getSchool());
     }
 
     private void initTableViews()

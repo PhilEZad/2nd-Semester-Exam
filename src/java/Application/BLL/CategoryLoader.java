@@ -1,6 +1,7 @@
 package Application.BLL;
 
 import Application.BE.Category;
+import Application.BE.CategoryType;
 import Application.DAL.CategoryDAO;
 
 import java.util.ArrayList;
@@ -14,7 +15,6 @@ public class CategoryLoader
     {
         for (var category : completeList)
         {
-
             if (category.getParentID() == root.getID())
             {
                 root.getChildren().add(category);
@@ -48,8 +48,6 @@ public class CategoryLoader
 
         CategoryLoader loader = new CategoryLoader();
 
-        System.out.println("/t/t/t" + " : " + loader.load());
-
         for (var Level0 : loader.load().getChildren()) {
             System.out.println(Level0.getName());
 
@@ -58,7 +56,6 @@ public class CategoryLoader
 
                 for (var Level2 : Level1.getChildren()) {
                     System.out.println("\t\t" + Level2.getName());
-                    System.out.println("\t\t\t" + Level2.getParent().getName());
                 }
             }
         }

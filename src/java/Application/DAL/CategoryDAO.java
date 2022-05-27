@@ -127,9 +127,11 @@ public class CategoryDAO implements IDatabaseActions<Category>
             @Override
             protected String getSQLStatement() {
                 return """
-                        SELECT CHILD.CatID, CHILD.categoryName, PARENT.CatID AS ParentID, PARENT.categoryName AS parentName 
+                        SELECT CHILD.CatID, CHILD.categoryName, PARENT.CatID AS ParentID, PARENT.categoryName AS parentName
                         FROM dbo.Categories PARENT, dbo.Categories CHILD 
                         WHERE PARENT.CatID = CHILD.FK_ParentCat
+                        UNION SELECT NULLABLE.CatID, NULLABLE.categoryName, NULL, NULL
+                        FROM dbo.Categories AS NULLABLE WHERE NULLABLE.FK_ParentCat IS NULL
                         """;
             }
         };

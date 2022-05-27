@@ -8,6 +8,7 @@ public class Account implements IUniqueIdentifier<Integer>
     private String firstName;
     private String lastName;
     private String email;
+
     private School school;
 
     private Boolean isTeacher;
