@@ -4,6 +4,7 @@ import Application.BE.Account;
 import Application.BE.Citizen;
 import Application.BE.GeneralJournal;
 import Application.DAL.CitizenDAO;
+import Application.DAL.GeneralInformationDAO;
 
 import java.util.List;
 
@@ -12,6 +13,8 @@ public class CitizenManager
     private static final HealthEntriesManager healthEntriesManager = new HealthEntriesManager();
 
     private static final CitizenDAO citizenDAO = new CitizenDAO();
+
+    private static final GeneralInformationDAO generalInfoDAO = new GeneralInformationDAO();
 
     public List<Citizen> getAllTemplates()
     {
@@ -22,14 +25,23 @@ public class CitizenManager
 
     public Citizen createCitizenTemplate()
     {
-        Citizen citizen = new Citizen(-1, new GeneralJournal(), SessionManager.getCurrent().getSchool(), "fornavn", "efternavn", 70, true);
+        // create citizen in db
+        Citizen citizen = citizenDAO.create(new Citizen(-1, SessionManager.getCurrent().getSchool(), "fornavn", "efternavn", 70, true));
+
+
+        // create general journal
+        GeneralJournal generalJournal = new GeneralJournal();
+        generalJournal.setCitizenID(citizen.getID());
+        generalInfoDAO.create(generalJournal);
+
+        citizen.setGeneralJournal(generalJournal);
 
         for (var entry : healthEntriesManager.getHealthEntries(-1))
         {
             citizen.addHealthConditions(entry);
         }
 
-        return citizenDAO.create(citizen);
+        return citizen;
     }
 
     public void updateCitizen(Citizen citizen)

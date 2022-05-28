@@ -321,7 +321,7 @@ public class CitizenTemplateController implements Initializable
 
         //Set all TextAreas to editable
         editableTextAreas.forEach(ta -> ta.setEditable(editable));
-
+/*
         //Set all ComboBoxes to editable
         for (CategoryEntryModel cat : GUIUtils.getTreeItemsFromRoot(treeTblViewFunc.getRoot())) {
             ComboBox<FunctionalLevels> funcLevelComboBox = cat.getLevelFuncLevelComboBox();
@@ -343,6 +343,8 @@ public class CitizenTemplateController implements Initializable
                 healthExConComboBox.setDisable(!editable);
             }
         }
+
+ */
 
 
 

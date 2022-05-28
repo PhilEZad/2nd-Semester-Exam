@@ -40,7 +40,10 @@ public class CitizenModel implements Cloneable{
 
 
     public CitizenModel(String firstName, String lastName, int age, boolean template) {
-        this.beCitizen = new Citizen(-1, new GeneralJournal(), SessionModel.getSchool(), firstName, lastName, age, template);
+
+        this.beCitizen = new Citizen(-1, SessionModel.getSchool(), firstName, lastName, age, template);
+
+        this.beCitizen.setGeneralJournal(new GeneralJournal());
 
         this.firstName = new SimpleStringProperty(beCitizen.getFirstname());
         this.lastName = new SimpleStringProperty(beCitizen.getLastname());

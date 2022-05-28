@@ -51,15 +51,17 @@ public class ResultSetHelpers
      * */
     public static Citizen buildCitizen(ResultSet rs) throws SQLException
     {
-        return new Citizen(
+        var citizen = new Citizen(
                 rs.getInt("CID"),
-                buildGeneralJournal(rs),
                 buildSchool(rs),
                 rs.getString("firstName"),
                 rs.getString("lastName"),
                 rs.getInt("age"),
                 rs.getBoolean("isTemplate")
         );
+
+        citizen.setJournal(buildGeneralJournal(rs));
+        return citizen;
     }
 
     /**
@@ -75,21 +77,6 @@ public class ResultSetHelpers
         );
     }
 
-    /**
-     * todo: doc
-     * */
-    public static Citizen buildCitizen(ResultSet rs, GeneralJournal journal, School school) throws SQLException
-    {
-        return new Citizen(
-                rs.getInt("CID"),
-                journal,
-                school,
-                rs.getString("firstName"),
-                rs.getString("lastName"),
-                rs.getInt("age"),
-                rs.getBoolean("isTemplate")
-        );
-    }
 
     public static Account buildAccount(ResultSet rs) throws SQLException, IOException {
         return new Account(

@@ -19,10 +19,9 @@ public class Citizen implements Cloneable, IUniqueIdentifier<Integer>
     private HashMap<Category, FunctionalEntry> funcCategoryEntries;
 
 
-    public Citizen(int id, GeneralJournal journal, School school, String firstname, String lastname, int age, boolean template)
+    public Citizen(int id, School school, String firstname, String lastname, int age, boolean template)
     {
         this(id);
-        this.journal = journal;
         this.school = school;
         this.firstname = firstname;
         this.lastname = lastname;
