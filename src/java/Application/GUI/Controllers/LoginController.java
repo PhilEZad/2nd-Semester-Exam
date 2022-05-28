@@ -38,8 +38,7 @@ public class LoginController implements Initializable
         public void onSubmit(ActionEvent actionEvent) throws IOException
         {
             AccountType accountType = rbAdmin.isSelected() ? AccountType.ADMIN : rbTeacher.isSelected() ? AccountType.TEACHER : rbStudent.isSelected() ? AccountType.STUDENT : AccountType.NONE;
-
-            // TODO: 27-05-2022 remove constant true
+            
             if (SessionManager.tryBeginSession(accountType, this.username.getText(), this.password.getText()))
             {
                 String url = switch (accountType)

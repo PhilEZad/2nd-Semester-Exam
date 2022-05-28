@@ -458,6 +458,18 @@ public class CitizenTemplateController implements Initializable
 
         treeTblColumnHealthNote.setOnEditCommit(event -> event.getTreeTablePosition().getTreeItem().getValue().setNote(event.getNewValue()));
         treeTblColumnHealthNote.setOnEditCancel(event -> event.getTreeTablePosition().getTreeItem().getValue().setNote(event.getOldValue()));
+
+        treeTblColumnFuncLevel.setOnEditCommit(event -> event.getTreeTablePosition().getTreeItem().getValue().setLevel(event.getNewValue().getValue().level));
+        treeTblColumnFuncLevel.setOnEditCancel(event -> event.getTreeTablePosition().getTreeItem().getValue().setLevel(event.getOldValue().getValue().level));
+
+        treeTblColumnHealthLevel.setOnEditCommit(event -> event.getTreeTablePosition().getTreeItem().getValue().setLevel(event.getNewValue().getValue().ordinal()));
+        treeTblColumnHealthLevel.setOnEditCancel(event -> event.getTreeTablePosition().getTreeItem().getValue().setLevel(event.getOldValue().getValue().ordinal()));
+
+        treeTblColumnFuncExpectedCondition.setOnEditCommit(event -> event.getTreeTablePosition().getTreeItem().getValue().setExpectedCondition(event.getNewValue().getValue().level));
+        treeTblColumnFuncExpectedCondition.setOnEditCancel(event -> event.getTreeTablePosition().getTreeItem().getValue().setExpectedCondition(event.getOldValue().getValue().level));
+
+        treeTblColumnHealthExpectedCondition.setOnEditCommit(event -> event.getTreeTablePosition().getTreeItem().getValue().setExpectedCondition(event.getNewValue().getValue().ordinal()));
+        treeTblColumnHealthExpectedCondition.setOnEditCancel(event -> event.getTreeTablePosition().getTreeItem().getValue().setExpectedCondition(event.getOldValue().getValue().ordinal()));
     }
 
 

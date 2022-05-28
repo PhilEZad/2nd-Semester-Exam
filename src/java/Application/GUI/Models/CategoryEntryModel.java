@@ -13,6 +13,8 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import java.util.Arrays;
+
 public class CategoryEntryModel implements Comparable<CategoryEntryModel>
 {
     private final StringProperty categoryName = new SimpleStringProperty();
@@ -128,10 +130,10 @@ public class CategoryEntryModel implements Comparable<CategoryEntryModel>
     }
 
 
-    private void initBinds() {
+    private void initBinds()
+    {
         categoryName.bindBidirectional(new SimpleStringProperty(contentEntry.getCategoryName()));
         level.bindBidirectional(new SimpleIntegerProperty(contentEntry.getCurrentStatus()));
-
         assessment.bindBidirectional(new SimpleStringProperty(contentEntry.getAssessment()));
         cause.bindBidirectional(new SimpleStringProperty(contentEntry.getCause()));
         implications.bindBidirectional(new SimpleStringProperty(contentEntry.getImplications()));
@@ -323,7 +325,8 @@ public class CategoryEntryModel implements Comparable<CategoryEntryModel>
         return levelFunc.get();
     }
 
-    public ObjectProperty<ImageView> levelFuncProperty() {
+    public ObjectProperty<ImageView> levelFuncProperty()
+    {
        Image funcImage = levelFunc.get().image;
        ImageView imageView = new ImageView(funcImage);
        imageView.setFitWidth(60);
@@ -408,17 +411,26 @@ public class CategoryEntryModel implements Comparable<CategoryEntryModel>
         return level;
     }
 
-    public void setLevel(int level) {
-        if (this.type == CategoryType.FUNCTIONAL_ABILITY && levelFunc != null) {
+    public void setLevel(int level)
+    {
+        if (this.type == CategoryType.FUNCTIONAL_ABILITY)
+        {
             if (level == 9)
+            {
                 levelFunc.set(FunctionalLevels.LEVEL_9);
-            else levelFunc.set(FunctionalLevels.values()[level]);
-        }
-        if (this.type == CategoryType.HEALTH_CONDITION && levelHealth != null) {
-            levelHealth.set(HealthLevels.values()[level]);
+            }
+            else
+            {
+                levelFunc.set(Arrays.stream(FunctionalLevels.values()).filter(functionalLevels -> functionalLevels.level == level).findFirst().orElse(FunctionalLevels.LEVEL_9));
+            }
         }
 
-        this.level.set(level);
+        if (this.type == CategoryType.HEALTH_CONDITION)
+        {
+            levelHealth.set(Arrays.stream(HealthLevels.values()).filter(healthLevels -> healthLevels.level == level).findFirst().orElse(HealthLevels.NOT_RELEVANT));
+        }
+
+        this.levelProperty().set(level);
     }
 
     public boolean isRelevant() {
