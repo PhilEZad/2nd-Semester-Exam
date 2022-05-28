@@ -377,7 +377,7 @@ public class CitizenTemplateController implements Initializable
     public void onEditModeRequested(ActionEvent event) {
 
         try {
-            selectedBackup = (CitizenModel) selected.clone();
+            selectedBackup = selected.clone();
         } catch (CloneNotSupportedException e) {
             throw new RuntimeException(e);
         }
@@ -418,12 +418,14 @@ public class CitizenTemplateController implements Initializable
      */
     public void onEditCancel(ActionEvent event)
     {
+        System.out.println("selected object: " + selected.hashCode() + " selectedbackup: " + selectedBackup.hashCode());
+
         ObservableList<CitizenModel> templateModelObservableList = listViewCitizenTemplates.getItems();
 
         int index = templateModelObservableList.indexOf(selected);
 
         listViewCitizenTemplates.getItems().set(index, selectedBackup);
-
+        listViewCitizenTemplates.getSelectionModel().selectFirst();
         listViewCitizenTemplates.getSelectionModel().select(index);
 
         setEditable(false);

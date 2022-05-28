@@ -5,10 +5,7 @@ import javafx.beans.property.*;
 import javafx.collections.ObservableMap;
 import javafx.scene.control.TreeItem;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class CitizenModel implements Cloneable
@@ -244,8 +241,34 @@ public class CitizenModel implements Cloneable
 
 
     @Override
-    public Object clone() throws CloneNotSupportedException {
-        return super.clone();
+    public CitizenModel clone() throws CloneNotSupportedException
+    {
+        super.clone();
+        CitizenModel clone = new CitizenModel();
+
+        clone.setID(this.getID());
+        clone.setFirstName(this.getFirstName());
+        clone.setLastName(this.getLastName());
+        clone.setAge(this.getAge());
+        clone.setCoping(this.getCoping());
+        clone.setMotivation(this.getMotivation());
+        clone.setResources(this.getResources());
+        clone.setRoles(this.getRoles());
+        clone.setHabits(this.getHabits());
+        clone.setEduAndJob(this.getEduAndJob());
+        clone.setLifeStory(this.getLifeStory());
+        clone.setHealthInfo(this.getHealthInfo());
+        clone.setNetwork(this.getNetwork());
+        clone.setBeCitizen(this.getBeCitizen());
+
+        clone.setRelevantFunctionalAbilities(new ArrayList<>(this.getRelevantFunctionalAbilities()));
+        clone.setRelevantHealthConditions(new ArrayList<>(this.getRelevantHealthConditions()));
+        clone.setNonRelevantFunctionalAbilities(new ArrayList<>(this.getNonRelevantFunctionalAbilities()));
+        clone.setNonRelevantHealthConditions(new ArrayList<>(this.getNonRelevantHealthConditions()));
+
+        clone.updateTreeStructure();
+
+        return clone;
     }
 
     public StringProperty assistiveDevicesProperty() {
@@ -256,5 +279,180 @@ public class CitizenModel implements Cloneable
         return homeLayout;
     }
 
+    public String getFirstName() {
+        return firstName.get();
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName.set(firstName);
+    }
+
+    public String getLastName() {
+        return lastName.get();
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName.set(lastName);
+    }
+
+    public int getAge() {
+        return age.get();
+    }
+
+    public void setAge(int age) {
+        this.age.set(age);
+    }
+
+    public int getTemplate() {
+        return template.get();
+    }
+
+    public IntegerProperty templateProperty() {
+        return template;
+    }
+
+    public void setTemplate(int template) {
+        this.template.set(template);
+    }
+
+    public String getCoping() {
+        return coping.get();
+    }
+
+    public void setCoping(String coping) {
+        this.coping.set(coping);
+    }
+
+    public String getMotivation() {
+        return motivation.get();
+    }
+
+    public void setMotivation(String motivation) {
+        this.motivation.set(motivation);
+    }
+
+    public String getResources() {
+        return resources.get();
+    }
+
+    public void setResources(String resources) {
+        this.resources.set(resources);
+    }
+
+    public String getRoles() {
+        return roles.get();
+    }
+
+    public void setRoles(String roles) {
+        this.roles.set(roles);
+    }
+
+    public String getHabits() {
+        return habits.get();
+    }
+
+    public void setHabits(String habits) {
+        this.habits.set(habits);
+    }
+
+    public String getEduAndJob() {
+        return eduAndJob.get();
+    }
+
+    public void setEduAndJob(String eduAndJob) {
+        this.eduAndJob.set(eduAndJob);
+    }
+
+    public String getLifeStory() {
+        return lifeStory.get();
+    }
+
+    public void setLifeStory(String lifeStory) {
+        this.lifeStory.set(lifeStory);
+    }
+
+    public String getHealthInfo() {
+        return healthInfo.get();
+    }
+
+    public void setHealthInfo(String healthInfo) {
+        this.healthInfo.set(healthInfo);
+    }
+
+    public String getAssistiveDevices() {
+        return assistiveDevices.get();
+    }
+
+    public void setAssistiveDevices(String assistiveDevices) {
+        this.assistiveDevices.set(assistiveDevices);
+    }
+
+    public String getHomeLayout() {
+        return homeLayout.get();
+    }
+
+    public void setHomeLayout(String homeLayout) {
+        this.homeLayout.set(homeLayout);
+    }
+
+    public String getNetwork() {
+        return network.get();
+    }
+
+    public void setNetwork(String network) {
+        this.network.set(network);
+    }
+
+    public void setBeCitizen(Citizen beCitizen) {
+        this.beCitizen = beCitizen;
+    }
+
+    public List<CategoryEntryModel> getRelevantFunctionalAbilities() {
+        return relevantFunctionalAbilities;
+    }
+
+    public void setRelevantFunctionalAbilities(List<CategoryEntryModel> relevantFunctionalAbilities) {
+        this.relevantFunctionalAbilities = relevantFunctionalAbilities;
+    }
+
+    public List<CategoryEntryModel> getRelevantHealthConditions() {
+        return relevantHealthConditions;
+    }
+
+    public void setRelevantHealthConditions(List<CategoryEntryModel> relevantHealthConditions) {
+        this.relevantHealthConditions = relevantHealthConditions;
+    }
+
+    public List<CategoryEntryModel> getNonRelevantFunctionalAbilities() {
+        return nonRelevantFunctionalAbilities;
+    }
+
+    public void setNonRelevantFunctionalAbilities(List<CategoryEntryModel> nonRelevantFunctionalAbilities) {
+        this.nonRelevantFunctionalAbilities = nonRelevantFunctionalAbilities;
+    }
+
+    public List<CategoryEntryModel> getNonRelevantHealthConditions() {
+        return nonRelevantHealthConditions;
+    }
+
+    public void setNonRelevantHealthConditions(List<CategoryEntryModel> nonRelevantHealthConditions) {
+        this.nonRelevantHealthConditions = nonRelevantHealthConditions;
+    }
+
+    public TreeItem<CategoryEntryModel> getFunctionalAbilitiesTree() {
+        return functionalAbilitiesTree.get();
+    }
+
+    public void setFunctionalAbilitiesTree(TreeItem<CategoryEntryModel> functionalAbilitiesTree) {
+        this.functionalAbilitiesTree.set(functionalAbilitiesTree);
+    }
+
+    public TreeItem<CategoryEntryModel> getHealthConditionsTree() {
+        return healthConditionsTree.get();
+    }
+
+    public void setHealthConditionsTree(TreeItem<CategoryEntryModel> healthConditionsTree) {
+        this.healthConditionsTree.set(healthConditionsTree);
+    }
 
 }
