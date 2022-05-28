@@ -144,10 +144,10 @@ public class ObservationViewController implements Initializable {
 
 
             if (observation.getValue().getType() == CategoryType.HEALTH_CONDITION){
-                observation.getValue().setLevelHealth(comboBoxHealthLevel.getSelectionModel().getSelectedItem());
+                observation.getValue().setCurrentHealthStatus(comboBoxHealthLevel.getSelectionModel().getSelectedItem());
                 observation.getValue().setCause(txtAreaHealthCause.getText());
                 observation.getValue().setAssessment(txtAreaHealthAssessment.getText());
-                observation.getValue().setExConHealth(comboBoxHealthExpectedCondition.getSelectionModel().getSelectedItem());
+                observation.getValue().setExpectedHealthStatus(comboBoxHealthExpectedCondition.getSelectionModel().getSelectedItem());
                 observation.getValue().setNote(txtAreaHealthNote.getText());
 
                 model.updateObservation(observation.getValue());

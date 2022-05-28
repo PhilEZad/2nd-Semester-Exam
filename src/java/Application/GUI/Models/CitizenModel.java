@@ -11,21 +11,21 @@ public class CitizenModel implements Cloneable
 {
     private int id;
 
-    private StringProperty firstName = new SimpleStringProperty();
-    private StringProperty lastName = new SimpleStringProperty();
-    private IntegerProperty age = new SimpleIntegerProperty();
-    private IntegerProperty template = new SimpleIntegerProperty();
-    private StringProperty coping = new SimpleStringProperty();
-    private StringProperty motivation = new SimpleStringProperty();
-    private StringProperty resources = new SimpleStringProperty();
-    private StringProperty roles = new SimpleStringProperty();
-    private StringProperty habits = new SimpleStringProperty();
-    private StringProperty eduAndJob = new SimpleStringProperty();
-    private StringProperty lifeStory = new SimpleStringProperty();
-    private StringProperty healthInfo = new SimpleStringProperty();
-    private StringProperty assistiveDevices = new SimpleStringProperty();
-    private StringProperty homeLayout = new SimpleStringProperty();
-    private StringProperty network = new SimpleStringProperty();
+    private final StringProperty firstName = new SimpleStringProperty();
+    private final StringProperty lastName = new SimpleStringProperty();
+    private final IntegerProperty age = new SimpleIntegerProperty();
+    private final IntegerProperty template = new SimpleIntegerProperty();
+    private final StringProperty coping = new SimpleStringProperty();
+    private final StringProperty motivation = new SimpleStringProperty();
+    private final StringProperty resources = new SimpleStringProperty();
+    private final StringProperty roles = new SimpleStringProperty();
+    private final StringProperty habits = new SimpleStringProperty();
+    private final StringProperty eduAndJob = new SimpleStringProperty();
+    private final StringProperty lifeStory = new SimpleStringProperty();
+    private final StringProperty healthInfo = new SimpleStringProperty();
+    private final StringProperty assistiveDevices = new SimpleStringProperty();
+    private final StringProperty homeLayout = new SimpleStringProperty();
+    private final StringProperty network = new SimpleStringProperty();
 
     private Citizen beCitizen;
 

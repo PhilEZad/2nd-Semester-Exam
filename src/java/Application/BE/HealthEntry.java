@@ -2,14 +2,14 @@ package Application.BE;
 
 public class HealthEntry implements IUniqueIdentifier<Integer>
 {
-    private Integer id;
-    private Category category;
-    private int citizenID;
-    private String assessment;
-    private String cause;
-    private String note;
-    private Integer currentStatus;
-    private Integer expectedStatus;
+    private Integer id = -1;
+    private Category category = new Category("unknown");
+    private int citizenID = 0;
+    private String assessment = "";
+    private String cause = "";
+    private String note = "";
+    private Integer currentStatus = 0;
+    private Integer expectedStatus = 0;
 
 
     public HealthEntry(int citizenID) {
@@ -26,6 +26,10 @@ public class HealthEntry implements IUniqueIdentifier<Integer>
         this.note = notes;
         this.currentStatus = currentLevel;
         this.expectedStatus = expetedLevel;
+    }
+
+    public HealthEntry() {
+
     }
 
 
