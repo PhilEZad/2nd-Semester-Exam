@@ -197,6 +197,7 @@ public class CitizenTemplateController implements Initializable
 
     private void setTreeTables()
     {
+        /*
         //TODO: Proper table population
         // Set up the table
         CitizenModel citizenTemplateModel = new CitizenModel();
@@ -223,6 +224,7 @@ public class CitizenTemplateController implements Initializable
 
         funcRoot.getChildren().addAll(funcTree);
         healthRoot.getChildren().addAll(healthTree);
+        */
     }
 
 
@@ -285,7 +287,7 @@ public class CitizenTemplateController implements Initializable
 
         //set the functional abilities TreeTableView to the values of the selected citizen template
         TreeItem<CategoryEntryModel> funcRoot = new TreeItem<>();
-        funcRoot.getChildren().addAll(GUIUtils.mapToTreeItem(selected.getRelevantFunctionalAbilities()));
+        //funcRoot.getChildren().addAll(GUIUtils.mapToTreeItem(selected.getRelevantFunctionalAbilities()));
         treeTblViewFunc.setRoot(funcRoot);
         treeTblViewFunc.setShowRoot(false);
 
@@ -333,7 +335,7 @@ public class CitizenTemplateController implements Initializable
 
         //Set all TextAreas to editable
         editableTextAreas.forEach(ta -> ta.setEditable(editable));
-
+/*
         //Set all ComboBoxes to editable
        for (CategoryEntryModel cat : GUIUtils.getTreeItemsFromRoot(treeTblViewFunc.getRoot()))
        {
@@ -357,7 +359,7 @@ public class CitizenTemplateController implements Initializable
                healthExConComboBox.setDisable(!editable);
            }
        }
-
+*/
         //Allow the user to edit the name and age of the citizen template
         txtFieldName.setDisable(!editable);
         txtFieldSurname.setDisable(!editable);

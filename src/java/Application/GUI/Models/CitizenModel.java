@@ -33,10 +33,11 @@ public class CitizenModel implements Cloneable
 
     private Citizen beCitizen;
 
-    private Map<Category, CategoryEntryModel> relevantFunctionalAbilities = new HashMap<>();
-    private Map<Category, CategoryEntryModel> relevantHealthConditions = new HashMap<>();
-    private Map<Category, CategoryEntryModel> nonRelevantFunctionalAbilities = new HashMap<>();
-    private Map<Category, CategoryEntryModel> nonRelevantHealthConditions = new HashMap<>();
+    private List<CategoryEntryModel> relevantFunctionalAbilities = new ArrayList<>();
+    private List<CategoryEntryModel> relevantHealthConditions = new ArrayList<>();
+
+    private List<CategoryEntryModel> nonRelevantFunctionalAbilities = new ArrayList<>();
+    private List<CategoryEntryModel> nonRelevantHealthConditions = new ArrayList<>();
 
 
     public CitizenModel(String firstName, String lastName, int age, boolean template)
@@ -66,7 +67,7 @@ public class CitizenModel implements Cloneable
         this.homeLayout.set(citizen.getGeneralInfo().getHomeLayout());
         this.network.set(citizen.getGeneralInfo().getNetwork());
 
-        for (FunctionalEntry entry : citizen.getFunctionalAbilities().values())
+        for (FunctionalEntry entry : citizen.getFunctionalAbilities())
         {
             Category category = entry.getCategory();
             CategoryEntryModel model = new CategoryEntryModel(entry);
@@ -74,27 +75,26 @@ public class CitizenModel implements Cloneable
 
             if (entry.isRelevant())
             {
-                relevantFunctionalAbilities.put(category, model);
+                relevantFunctionalAbilities.add(model);
             }
             else
             {
-                nonRelevantFunctionalAbilities.put(category, model);
+                nonRelevantFunctionalAbilities.add(model);
             }
         }
 
-        for (HealthEntry entry : citizen.getHealthConditions().values())
+        for (HealthEntry entry : citizen.getHealthConditions())
         {
-            Category category = entry.getCategory();
             CategoryEntryModel model = new CategoryEntryModel(entry);
-            model.setCategory(category);
+            model.setCategory(entry.getCategory());
 
             if (entry.isRelevant())
             {
-                relevantHealthConditions.put(category, model);
+                relevantHealthConditions.add(model);
             }
             else
             {
-                nonRelevantHealthConditions.put(category, model);
+                nonRelevantHealthConditions.add(model);
             }
         }
     }
@@ -285,63 +285,64 @@ public class CitizenModel implements Cloneable
         return beCitizen;
     }
 
-    public void setBeCitizen(Citizen beCitizen) {
-        this.beCitizen = beCitizen;
-    }
-
-    public Map<Category, CategoryEntryModel> getNonRelevantFunctionalAbilities() {
-        return nonRelevantFunctionalAbilities;
-    }
-
-    public void setNonRelevantFunctionalAbilities(Map<Category, CategoryEntryModel> nonRelevantFunctionalAbilities) {
-        this.nonRelevantFunctionalAbilities = nonRelevantFunctionalAbilities;
-    }
-
-    public Map<Category, CategoryEntryModel> getNonRelevantHealthConditions() {
-        return nonRelevantHealthConditions;
-    }
-
-    public void setNonRelevantHealthConditions(Map<Category, CategoryEntryModel> nonRelevantHealthConditions) {
-        this.nonRelevantHealthConditions = nonRelevantHealthConditions;
-    }
 
     public Map<Category, CategoryEntryModel> getRelevantFunctionalAbilities() {
-        return relevantFunctionalAbilities;
+        return null;
     }
 
-    public void setRelevantFunctionalAbilities(Map<Category, CategoryEntryModel> relevantFunctionalAbilities) {
-        this.relevantFunctionalAbilities = relevantFunctionalAbilities;
-    }
 
     public Map<Category, CategoryEntryModel> getRelevantHealthConditions() {
-        return relevantHealthConditions;
+        return null;
     }
 
-    public void setRelevantHealthConditions(Map<Category, CategoryEntryModel> relevantHealthConditions) {
-        this.relevantHealthConditions = relevantHealthConditions;
-    }
 
     public Map<Category, CategoryEntryModel> getAllFuncCategories() {
         HashMap<Category, CategoryEntryModel> allFuncCategories = new HashMap<>();
-        allFuncCategories.putAll(nonRelevantFunctionalAbilities);
-        allFuncCategories.putAll(relevantFunctionalAbilities);
+        //allFuncCategories.putAll(null);
+        //allFuncCategories.putAll(null);
         return allFuncCategories;
     }
 
     public Map<Category, CategoryEntryModel> getAllHealthConditions() {
         HashMap<Category, CategoryEntryModel> allHealthConditions = new HashMap<>();
-        allHealthConditions.putAll(nonRelevantHealthConditions);
-        allHealthConditions.putAll(relevantHealthConditions);
+        //allHealthConditions.putAll(null);
+        //allHealthConditions.putAll(null);
         return allHealthConditions;
     }
 
     public TreeItem<CategoryEntryModel> createNestedTreeOfAllHealthConditions()
     {
         TreeItem<CategoryEntryModel> root = new TreeItem<>();
+        root.setExpanded(true);
 
-        for (Map.Entry<Category, CategoryEntryModel> entry : getAllHealthConditions().entrySet())
+        var all = new ArrayList<CategoryEntryModel>();
+        all.addAll(this.relevantHealthConditions);
+        all.addAll(this.nonRelevantHealthConditions);
+
+        Map<Category, List<CategoryEntryModel>> map = new HashMap<>();
+
+        for (var outer : all)
         {
-            root.getChildren().add(new TreeItem<>(entry.getValue()));
+            if (map.containsKey(outer.getCategory().getParent()))
+            {
+                map.get(outer.getCategory().getParent()).add(outer);
+            }
+            else
+            {
+                map.put(outer.getCategory().getParent(), new ArrayList<>() {{add(outer);}});
+            }
+        }
+
+        for (Category key : map.keySet())
+        {
+            TreeItem<CategoryEntryModel> leafs = new TreeItem<>(new CategoryEntryModel(key.getName()));
+
+            for (var value : map.get(key))
+            {
+                leafs.getChildren().add(new TreeItem<>(value));
+            }
+
+            root.getChildren().add(leafs);
         }
 
         return root;
@@ -352,10 +353,6 @@ public class CitizenModel implements Cloneable
         return super.clone();
     }
 
-    public void setTemplate(int template)
-    {
-        this.template.set(template);
-    }
 
     public void setID(int id)
     {

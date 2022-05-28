@@ -1,6 +1,8 @@
 package Application.BE;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class Citizen implements Cloneable, IUniqueIdentifier<Integer>
 {
@@ -14,9 +16,9 @@ public class Citizen implements Cloneable, IUniqueIdentifier<Integer>
     private GeneralJournal journal;
     private int zipCode;
 
-    private HashMap<Category, HealthEntry> healthCategoryEntries;
+    private List<HealthEntry> healthCategoryEntries;
 
-    private HashMap<Category, FunctionalEntry> funcCategoryEntries;
+    private List<FunctionalEntry> funcCategoryEntries;
 
 
     public Citizen(int id, School school, String firstname, String lastname, int age, boolean template)
@@ -29,8 +31,8 @@ public class Citizen implements Cloneable, IUniqueIdentifier<Integer>
         this.isTemplate = template;
         this.setGeneralJournal(new GeneralJournal());
 
-        funcCategoryEntries = new HashMap<>();
-        healthCategoryEntries = new HashMap<>();
+        funcCategoryEntries = new ArrayList<>();
+        healthCategoryEntries = new ArrayList<>();
     }
 
     public Citizen(int id)
@@ -102,36 +104,23 @@ public class Citizen implements Cloneable, IUniqueIdentifier<Integer>
         // populate lists (healthCategoryEntries, funcCategoryEntries)
     }
     
-    public void setFunctionalAbilities (HashMap<Category, FunctionalEntry> functionalAbilities) {
-        funcCategoryEntries.clear();
-        for (FunctionalEntry entry : functionalAbilities.values()) {
-            funcCategoryEntries.put(entry.getCategory(), entry);
-        };
-    }
 
-    public void setHealthConditions (HashMap<Category, HealthEntry> healthConditions) {
-        healthCategoryEntries.clear();
-        for (HealthEntry entry : healthConditions.values()) {
-            healthCategoryEntries.put(entry.getCategory(), entry);
-        };
-    }
-
-    public HashMap<Category, FunctionalEntry> getFunctionalAbilities() {
+    public List<FunctionalEntry> getFunctionalAbilities() {
         return funcCategoryEntries;
     }
 
-    public HashMap<Category, HealthEntry> getHealthConditions() {
+    public List<HealthEntry> getHealthConditions() {
         return healthCategoryEntries;
     }
 
     public void addFunctionalAbility (FunctionalEntry entry)
     {
-        funcCategoryEntries.put(entry.getCategory(), entry);
+        funcCategoryEntries.add(entry);
     }
 
     public void addHealthConditions (HealthEntry entry)
     {
-        healthCategoryEntries.put(entry.getCategory(), entry);
+        healthCategoryEntries.add(entry);
     }
 
     public GeneralJournal getGeneralInfo () {
