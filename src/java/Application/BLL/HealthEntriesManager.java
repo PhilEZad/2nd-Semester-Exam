@@ -7,6 +7,7 @@ import Application.DAL.HealthConditionDAO;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class HealthEntriesManager
 {
@@ -17,15 +18,21 @@ public class HealthEntriesManager
 
         var data = citizenId == -1 ? new ArrayList<HealthEntry>() : new HealthConditionDAO().readAll(citizenId);
 
+        // TODO: 28-05-2022 - use enum instead of int constant.
+        var root = categories.stream().filter(category -> category.getID() == 3).findFirst().orElse(new Category("Helbredstilstande"));
+
         // create default health entries for each category that does not have an instance in the database.
         // does not update the database.
-        for (Category category : categories)
+        for (Category intermediate : root.getChildren())
         {
-            if (data.stream().noneMatch(healthEntry -> Objects.equals(healthEntry.getCategory().getID(), category.getID())))
+            for (Category leaf : intermediate.getChildren())
             {
-                var healthEntry = new HealthEntry(citizenId);
-                healthEntry.setCategory(category);
-                data.add(healthEntry);
+                if (data.stream().noneMatch(healthEntry -> Objects.equals(healthEntry.getCategory().getID(), leaf.getID())))
+                {
+                    var healthEntry = new HealthEntry(citizenId);
+                    healthEntry.setCategory(leaf);
+                    data.add(healthEntry);
+                }
             }
         }
 
