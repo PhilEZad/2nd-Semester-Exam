@@ -118,7 +118,8 @@ public class CitizenTemplateControllerModel {
      * Save all the edits to the citizen template to the DB.
      */
     public void saveEditedCitizenTemplate()
-    {/*
+    {
+        /*
         if (preEditCitizenTemplateModel != null) {
 
             HashMap<Category, CategoryEntryModel> newHealthRoot = new HashMap<>();
@@ -151,6 +152,7 @@ public class CitizenTemplateControllerModel {
                     newNonRelevantFunctionalAbilities.put(newFunc.getContentEntry().getCategory(), newFunc);
                 }
             }
+
 
             selectedCitizenTemplateModel.setRelevantHealthConditions(newRelevantHealthConditions); //Relevant health
             selectedCitizenTemplateModel.setRelevantFunctionalAbilities(newRelevantFunctionalAbilities); //Relevant Functional
@@ -210,9 +212,10 @@ public class CitizenTemplateControllerModel {
 
             teacherDataManager.updateCitizen(selectedCitizenTemplateModel.getBeCitizen(), beHealthConditions, beFuncConditions);
         }
-        */
     }
 
+
+         */
 
 
     /**
@@ -220,6 +223,7 @@ public class CitizenTemplateControllerModel {
      * @return
      *
      */
+    }
     public CitizenModel getPreEditState() {
         return preEditCitizenTemplateModel;
     }

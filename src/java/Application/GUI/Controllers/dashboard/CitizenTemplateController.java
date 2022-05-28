@@ -5,9 +5,11 @@ import Application.BE.GeneralJournal;
 import Application.BLL.CitizenManager;
 import Application.BLL.TeacherDataManager;
 import Application.GUI.Models.*;
-import Application.GUI.Models.ControllerModels.CitizenTemplateControllerModel;
 import Application.Utility.GUIUtils;
-import javafx.collections.FXCollections;
+import com.github.javafaker.Faker;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.Property;
+import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
@@ -16,7 +18,10 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldTreeTableCell;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
+import javafx.util.StringConverter;
+import javafx.util.converter.DefaultStringConverter;
 import javafx.util.converter.IntegerStringConverter;
+import javafx.util.converter.NumberStringConverter;
 import org.controlsfx.control.Notifications;
 
 import java.net.URL;
@@ -75,12 +80,8 @@ public class CitizenTemplateController implements Initializable
     private List<TreeTableColumn<CategoryEntryModel, String>> editableTreeTableColumns = new ArrayList<>();
     private List<TextArea> editableTextAreas = new ArrayList<>();
 
-    private CitizenTemplateControllerModel model = new CitizenTemplateControllerModel();
-
-
     CitizenModel selected;
     CitizenModel selectedBackup;
-
 
 
     @Override
@@ -88,8 +89,6 @@ public class CitizenTemplateController implements Initializable
     {
         editableTreeTableColumns.addAll(List.of(treeTblColumnFuncAssessment,treeTblColumnFuncCause,treeTblColumnFuncImplications,treeTblColumnFuncCitizenGoals,treeTblColumnFuncNote,treeTblColumnHealthAssessment,treeTblColumnHealthCause,treeTblColumnHealthNote));
         editableTextAreas.addAll(List.of(txtAreaGenInfoCoping, txtAreaGenInfoMotivation, txtAreaGenInfoResources,txtAreaGenInfoRoles,txtAreaGenInfoHabits,txtAreaGenInfoEduAndJob,txtAreaGenInfoLifeStory,txtAreaGenInfoHealthInfo,txtAreaGenInfoAssistiveDevices,txtAreaGenInfoHomeLayout,txtAreaGenInfoNetwork));
-
-        setTreeTables();
 
         setCellValuesForTreeTable();
         setTreeTableEditCallbacks();
@@ -195,40 +194,6 @@ public class CitizenTemplateController implements Initializable
         }
     }
 
-
-    private void setTreeTables()
-    {
-        /*
-        //TODO: Proper table population
-        // Set up the table
-        CitizenModel citizenTemplateModel = new CitizenModel();
-
-        var func = citizenTemplateModel.getRelevantFunctionalAbilities().values();
-        var health = citizenTemplateModel.getRelevantHealthConditions().values();
-
-        ObservableList<TreeItem<CategoryEntryModel>> funcTree = FXCollections.observableArrayList();
-        ObservableList<TreeItem<CategoryEntryModel>> healthTree = FXCollections.observableArrayList();
-
-        TreeItem<CategoryEntryModel> funcRoot = new TreeItem<>(new CategoryEntryModel("Functional Abilities"));
-        TreeItem<CategoryEntryModel> healthRoot = new TreeItem<>(new CategoryEntryModel("Health Conditions"));
-
-        treeTblViewFunc.setRoot(funcRoot);
-        treeTblViewHealth.setRoot(healthRoot);
-
-        for (CategoryEntryModel categoryEntryModel : func) {
-            funcTree.add(new TreeItem<>(categoryEntryModel));
-        }
-
-        for (CategoryEntryModel categoryEntryModel : health) {
-            healthTree.add(new TreeItem<>(categoryEntryModel));
-        }
-
-        funcRoot.getChildren().addAll(funcTree);
-        healthRoot.getChildren().addAll(healthTree);
-        */
-    }
-
-
     /**
      * Initializes the TreeTableColumns for the Function and Health TreeTableViews.
      * Sets the cellValueFactory for the TreeTableColumns.
@@ -269,44 +234,59 @@ public class CitizenTemplateController implements Initializable
 
         listViewCitizenTemplates.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             this.selected = newValue;
-            setDataToCitizenTemplateView();
+            rebindDataBidirectional(oldValue, newValue);
         });
 
         listViewCitizenTemplates.getSelectionModel().selectFirst();
     }
 
 
+
+    private <T> void rebindProperty(Property<T> lhs, Property<T> old, Property<T> _new)
+    {
+        if (lhs == null)
+            return;
+
+        if (old != null)
+        {
+            lhs.unbindBidirectional(old);
+        }
+
+        lhs.bindBidirectional(_new);
+    }
+
+
     /**
      * sets every compononent of the citizen template view to the values of the selected citizen template.
      */
-    private void setDataToCitizenTemplateView()
+    private void rebindDataBidirectional(CitizenModel oldValue, CitizenModel newValue)
     {
         //set the base data of name, surname and age to that of the selected citizen template
-        txtFieldName.setText(selected.getFirstName());
-        txtFieldSurname.setText(selected.getLastName());
-        txtFieldAge.setText(String.valueOf(selected.getAge()));
+        txtFieldAge.textProperty().unbindBidirectional(oldValue.ageProperty());
+        txtFieldAge.textProperty().bindBidirectional(newValue.ageProperty(), new NumberStringConverter());
+
+        rebindProperty(txtFieldName.textProperty(), oldValue.firstNameProperty(), newValue.firstNameProperty());
+        rebindProperty(txtFieldSurname.textProperty(), oldValue.lastNameProperty(), newValue.lastNameProperty());
+        rebindProperty(txtAreaGenInfoCoping.textProperty(), oldValue.copingProperty(), newValue.copingProperty());
+        rebindProperty(txtAreaGenInfoMotivation.textProperty(), oldValue.motivationProperty(), newValue.motivationProperty());
+        rebindProperty(txtAreaGenInfoResources.textProperty(), oldValue.resourcesProperty(), newValue.resourcesProperty());
+        rebindProperty(txtAreaGenInfoRoles.textProperty(), oldValue.rolesProperty(), newValue.rolesProperty());
+        rebindProperty(txtAreaGenInfoHabits.textProperty(), oldValue.habitsProperty(), newValue.habitsProperty());
+        rebindProperty(txtAreaGenInfoEduAndJob.textProperty(), oldValue.eduAndJobProperty(), newValue.eduAndJobProperty());
+        rebindProperty(txtAreaGenInfoLifeStory.textProperty(), oldValue.lifeStoryProperty(), newValue.lifeStoryProperty());
+        rebindProperty(txtAreaGenInfoHealthInfo.textProperty(), oldValue.healthInfoProperty(), newValue.healthInfoProperty());
+        rebindProperty(txtAreaGenInfoAssistiveDevices.textProperty(), oldValue.assistiveDevicesProperty(), newValue.assistiveDevicesProperty());
+        rebindProperty(txtAreaGenInfoHomeLayout.textProperty(), oldValue.homeLayoutProperty(), newValue.homeLayoutProperty());
+        rebindProperty(txtAreaGenInfoNetwork.textProperty(), oldValue.networkProperty(), newValue.networkProperty());
 
         //set the functional abilities TreeTableView to the values of the selected citizen template
-        treeTblViewFunc.setRoot(selected.createTreeStructure(false, CategoryType.FUNCTIONAL_ABILITY));
+        treeTblViewFunc.setRoot(selected.createTreeStructure(true, CategoryType.FUNCTIONAL_ABILITY));
         treeTblViewFunc.setShowRoot(false);
 
         //set the health categories to the health categories of the selected citizen template
-        treeTblViewHealth.setRoot(selected.createTreeStructure(false, CategoryType.HEALTH_CONDITION));
+        treeTblViewHealth.setRoot(selected.createTreeStructure(true, CategoryType.HEALTH_CONDITION));
         treeTblViewHealth.setShowRoot(false);
 
-        //set the general information section to that of the selected citizen template
-        GeneralJournal journal = selected.getBeCitizen().getGeneralInfo();
-        txtAreaGenInfoCoping.setText(journal.getCoping());
-        txtAreaGenInfoMotivation.setText(journal.getMotivation());
-        txtAreaGenInfoResources.setText(journal.getResources());
-        txtAreaGenInfoRoles.setText(journal.getRoles());
-        txtAreaGenInfoHabits.setText(journal.getHabits());
-        txtAreaGenInfoEduAndJob.setText(journal.getEduAndJob());
-        txtAreaGenInfoLifeStory.setText(journal.getLifeStory());
-        txtAreaGenInfoHealthInfo.setText(journal.getHealthInfo());
-        txtAreaGenInfoAssistiveDevices.setText(journal.getAssistiveDevices());
-        txtAreaGenInfoHomeLayout.setText(journal.getHomeLayout());
-        txtAreaGenInfoNetwork.setText(journal.getNetwork());
     }
 
 
@@ -410,14 +390,15 @@ public class CitizenTemplateController implements Initializable
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) 
         {
-            if (selected.getFirstName() != txtFieldName.getText() && !txtFieldName.getText().isEmpty()) {
-                selected.setFirstName(txtFieldName.getText());
+            /*
+            if (selected.firstNameProperty().get() != txtFieldName.getText() && !txtFieldName.getText().isEmpty()) {
+                selected.firstNameProperty().set(txtFieldName.getText());
             }
-            if (selected.getLastName() != txtFieldSurname.getText() && !txtFieldSurname.getText().isEmpty()) {
-                selected.setLastName(txtFieldSurname.getText());
+            if (selected.lastNameProperty().get() != txtFieldSurname.getText() && !txtFieldSurname.getText().isEmpty()) {
+                selected.lastNameProperty().set(txtFieldSurname.getText());
             }
-            if (selected.getAge() != Integer.parseInt(txtFieldAge.getText()) && !txtFieldAge.getText().isEmpty()) {
-                selected.setAge(Integer.parseInt(txtFieldAge.getText()));
+            if (selected.ageProperty().get() != Integer.parseInt(txtFieldAge.getText()) && !txtFieldAge.getText().isEmpty()) {
+                selected.ageProperty().set(Integer.parseInt(txtFieldAge.getText()));
             }
 
             selected.getBeCitizen().getGeneralInfo().setCoping(txtAreaGenInfoCoping.getText());
@@ -432,11 +413,14 @@ public class CitizenTemplateController implements Initializable
             selected.getBeCitizen().getGeneralInfo().setHomeLayout(txtAreaGenInfoHomeLayout.getText());
             selected.getBeCitizen().getGeneralInfo().setNetwork(txtAreaGenInfoNetwork.getText());
 
+
+             */
+
             // TODO: 28-05-2022 save correctly
             //model.saveEditedCitizenTemplate();
 
-            treeTblViewFunc.setRoot(selected.createTreeStructure(false, CategoryType.FUNCTIONAL_ABILITY));
-            treeTblViewHealth.setRoot(selected.createTreeStructure(false, CategoryType.HEALTH_CONDITION));
+            treeTblViewFunc.setRoot(selected.createTreeStructure(true, CategoryType.FUNCTIONAL_ABILITY));
+            treeTblViewHealth.setRoot(selected.createTreeStructure(true, CategoryType.HEALTH_CONDITION));
             setEditable(false);
         }
     }
@@ -493,8 +477,22 @@ public class CitizenTemplateController implements Initializable
     }
 
 
+    /**
+     * Use the Java Faker library to generate a random name and Java.Random to generate a random age.
+     * @return An Object Array of Strings with the generated date.
+     */
+    public Object[] generateBaseData() {
+        Faker faker = new Faker(new Locale("da-DK"));
+        Object[] baseData = new Object[3];
+        baseData[0] = faker.name().firstName();
+        baseData[1] = faker.name().lastName();
+        baseData[2] = 55 + new Random().nextInt(45) + "";
+
+        return baseData;
+    }
+
     public void onGenerateBaseData(ActionEvent event) {
-        Object[] baseData = model.generateBaseData();
+        Object[] baseData = generateBaseData();
         txtFieldName.setText((String) baseData[0]);
         txtFieldSurname.setText((String) baseData[1]);
         txtFieldAge.setText((String) baseData[2]);

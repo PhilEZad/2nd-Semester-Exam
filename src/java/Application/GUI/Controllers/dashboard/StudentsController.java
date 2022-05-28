@@ -110,7 +110,7 @@ public class StudentsController implements Initializable {
                 root = FXMLLoader.load(getClass().getResource("/Views/Popups/CitizenDetailsView.fxml"), resources);
                 Scene scene = new Scene(root);
                 stage.setScene(scene);
-                stage.setTitle(selectedStudent.getFirstName() + " " + selectedStudent.getLastName() + " - " + selectedCitizenModel.getFirstName() + " " + selectedCitizenModel.getLastName());
+                stage.setTitle(selectedStudent.getFirstName() + " " + selectedStudent.getLastName() + " - " + selectedCitizenModel.firstNameProperty().get() + " " + selectedCitizenModel.lastNameProperty().get());
                 stage.show();
 
             } catch (IOException e) {

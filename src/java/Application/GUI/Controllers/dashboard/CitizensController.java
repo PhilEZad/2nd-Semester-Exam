@@ -123,8 +123,8 @@ public class CitizensController implements Initializable
             throw new RuntimeException(e);
         }
 
-        lblCitizenName.setText(selected.getFirstName() + " " + selected.getLastName());
-        lblAge.setText(Integer.toString(selected.getAge()));
+        lblCitizenName.setText(selected.firstNameProperty().get() + " " + selected.lastNameProperty().get());
+        lblAge.setText(Integer.toString(selected.ageProperty().get()));
     }
 
     private ObservableList<CitizenModel> listToObservable(List<Citizen> list)

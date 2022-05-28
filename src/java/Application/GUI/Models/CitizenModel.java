@@ -18,6 +18,7 @@ public class CitizenModel implements Cloneable
     private final StringProperty firstName = new SimpleStringProperty();
     private final StringProperty lastName = new SimpleStringProperty();
     private final IntegerProperty age = new SimpleIntegerProperty();
+
     private final IntegerProperty template = new SimpleIntegerProperty();
     private final StringProperty coping = new SimpleStringProperty();
     private final StringProperty motivation = new SimpleStringProperty();
@@ -170,57 +171,16 @@ public class CitizenModel implements Cloneable
         return this.id;
     }
 
-    public String getFirstName() {
-        return firstName.get();
-    }
-
     public StringProperty firstNameProperty() {
         return firstName;
-    }
-
-    public void setFirstName(String name) {
-        this.firstName.set(name);
-    }
-
-    public String getLastName() {
-        return lastName.get();
     }
 
     public StringProperty lastNameProperty() {
         return lastName;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName.set(lastName);
-    }
-
-    public int getAge() {
-        return age.get();
-    }
-
     public IntegerProperty ageProperty() {
         return age;
-    }
-
-    public void setAge(int age) {
-        this.age.set(age);
-    }
-
-
-    public String getCoping() {
-        return coping.get();
-    }
-
-    public void setCoping(String coping) {
-        this.coping.set(coping);
-    }
-
-    public String getMotivation() {
-        return motivation.get();
-    }
-
-    public void setMotivation(String motivation) {
-        this.motivation.set(motivation);
     }
 
     public StringProperty copingProperty() {
@@ -231,112 +191,32 @@ public class CitizenModel implements Cloneable
         return motivation;
     }
 
-    public String getResources() {
-        return resources.get();
-    }
-
     public StringProperty resourcesProperty() {
         return resources;
-    }
-
-    public void setResources(String resources) {
-        this.resources.set(resources);
-    }
-
-    public String getRoles() {
-        return roles.get();
     }
 
     public StringProperty rolesProperty() {
         return roles;
     }
 
-    public void setRoles(String roles) {
-        this.roles.set(roles);
-    }
-
-    public String getHabits() {
-        return habits.get();
-    }
-
     public StringProperty habitsProperty() {
         return habits;
-    }
-
-    public void setHabits(String habits) {
-        this.habits.set(habits);
-    }
-
-    public String getEduAndJob() {
-        return eduAndJob.get();
     }
 
     public StringProperty eduAndJobProperty() {
         return eduAndJob;
     }
 
-    public void setEduAndJob(String eduAndJob) {
-        this.eduAndJob.set(eduAndJob);
-    }
-
-    public String getLifeStory() {
-        return lifeStory.get();
-    }
-
     public StringProperty lifeStoryProperty() {
         return lifeStory;
-    }
-
-    public void setLifeStory(String lifeStory) {
-        this.lifeStory.set(lifeStory);
-    }
-
-    public String getHealthInfo() {
-        return healthInfo.get();
     }
 
     public StringProperty healthInfoProperty() {
         return healthInfo;
     }
 
-    public void setHealthInfo(String healthInfo) {
-        this.healthInfo.set(healthInfo);
-    }
-
-    public String getAssistiveDevices() {
-        return assistiveDevices.get();
-    }
-
-    public StringProperty assistiveDevicesProperty() {
-        return assistiveDevices;
-    }
-
-    public void setAssistiveDevices(String assistiveDevices) {
-        this.assistiveDevices.set(assistiveDevices);
-    }
-
-    public String getHomeLayout() {
-        return homeLayout.get();
-    }
-
-    public StringProperty homeLayoutProperty() {
-        return homeLayout;
-    }
-
-    public void setHomeLayout(String homeLayout) {
-        this.homeLayout.set(homeLayout);
-    }
-
-    public String getNetwork() {
-        return network.get();
-    }
-
     public StringProperty networkProperty() {
         return network;
-    }
-
-    public void setNetwork(String network) {
-        this.network.set(network);
     }
 
     public Citizen getBeCitizen() {
@@ -349,4 +229,11 @@ public class CitizenModel implements Cloneable
         return super.clone();
     }
 
+    public StringProperty assistiveDevicesProperty() {
+        return assistiveDevices;
+    }
+
+    public StringProperty homeLayoutProperty() {
+        return homeLayout;
+    }
 }

@@ -1,5 +1,6 @@
 package Application.GUI.Controllers.Popups;
 
+import Application.BE.CategoryType;
 import Application.BE.GeneralJournal;
 import Application.GUI.Models.CategoryEntryModel;
 import Application.GUI.Models.CitizenModel;
@@ -90,22 +91,23 @@ public class CitizenDetailsViewController implements Initializable {
     /**
      * sets every compononent of the citizen details view to the values of the selected citizen.
      */
-    private void setDataToCitizenTemplateView() {
+    private void setDataToCitizenTemplateView()
+    {
         if (model.getSelectedCitizen() != null) {
             //set the base data of name, surname and age to that of the selected citizen template
-            lblCitizenFirstName.setText(model.getSelectedCitizen().getFirstName());
-            lblCitizenSurname.setText(model.getSelectedCitizen().getLastName());
-            lblCitizenAge.setText(String.valueOf(model.getSelectedCitizen().getAge()));
+            lblCitizenFirstName.setText(model.getSelectedCitizen().firstNameProperty().getValue());
+            lblCitizenSurname.setText(model.getSelectedCitizen().lastNameProperty().getValue());
+            lblCitizenAge.setText(String.valueOf(model.getSelectedCitizen().ageProperty().getValue()));
 
-            /*
+
             //set the functional abilities TreeTableView to the values of the selected citizen template
-            treeTblViewFunc.setRoot(model.getRelevantFuncCategoriesAsTreeItem());
+            treeTblViewFunc.setRoot(model.getSelectedCitizen().createTreeStructure(true, CategoryType.FUNCTIONAL_ABILITY));
             treeTblViewFunc.setShowRoot(false);
 
             //set the health categories to the health categories of the selected citizen template
-            treeTblViewHealth.setRoot(model.getRelevantHealthCategoriesAsTreeItem());
+            treeTblViewHealth.setRoot(model.getSelectedCitizen().createTreeStructure(true, CategoryType.HEALTH_CONDITION));
             treeTblViewHealth.setShowRoot(false);
-*/
+
             GeneralJournal journal = model.getSelectedCitizen().getBeCitizen().getGeneralInfo();
 
             //set the general information section to that of the selected citizen template
