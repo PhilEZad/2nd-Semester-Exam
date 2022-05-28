@@ -50,7 +50,7 @@
                         <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <Button fx:id="btnCitizenTemplateEditOn" mnemonicParsing="false" onAction="#onEditOn" styleClass="outlineBtn" text="Start Redigering" GridPane.columnSpan="2147483647" GridPane.halignment="CENTER" />
+                        <Button fx:id="btnCitizenTemplateEditOn" mnemonicParsing="false" onAction="#onEditModeRequested" styleClass="outlineBtn" text="Start Redigering" GridPane.columnSpan="2147483647" GridPane.halignment="CENTER" />
                         <Button fx:id="btnCitizenTemplateEditCancel" mnemonicParsing="false" onAction="#onEditCancel" styleClass="outlineBtn" text="Annullér" visible="false" GridPane.halignment="CENTER" />
                         <Button fx:id="btnCitizenTemplateEditSave" mnemonicParsing="false" onAction="#onEditDone" styleClass="outlineBtn" text="Gem" visible="false" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
                      </children>

@@ -75,9 +75,6 @@ public class StudentViewController implements Initializable {
         tblColumnStudentDashboardFuncNote.setCellValueFactory(cellData -> cellData.getValue().noteProperty());
 
         tblViewStudentDashboardHealth.setFixedCellSize(50);
-
-        //tblViewStudentDashboardHealth.getItems().add(new CategoryEntryModel("Health", HealthLevels.RELEVANT.ordinal(), ""));
-        //tblViewStudentDashboardFunc.getItems().add(new CategoryEntryModel("FUNCY", HealthLevels.RELEVANT.ordinal(), ""));
     }
 
     private void updateCitizenInfo(CitizenModel citizen) {

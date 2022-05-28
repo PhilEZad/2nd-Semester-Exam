@@ -40,6 +40,9 @@ public class CitizenModel implements Cloneable
     private List<CategoryEntryModel> nonRelevantFunctionalAbilities = new ArrayList<>();
     private List<CategoryEntryModel> nonRelevantHealthConditions = new ArrayList<>();
 
+    private ObjectProperty<TreeItem<CategoryEntryModel>> functionalAbilitiesTree = new SimpleObjectProperty<>(new TreeItem<>());
+    private ObjectProperty<TreeItem<CategoryEntryModel>> healthConditionsTree = new SimpleObjectProperty<>(new TreeItem<>());
+
 
     public CitizenModel(String firstName, String lastName, int age, boolean template)
     {
@@ -98,12 +101,20 @@ public class CitizenModel implements Cloneable
                 nonRelevantHealthConditions.add(model);
             }
         }
+
+        updateTreeStructure();
     }
 
     public CitizenModel() {}
 
     public static CitizenModel convert(Citizen citizen) {
         return new CitizenModel(citizen);
+    }
+
+    public void updateTreeStructure()
+    {
+        functionalAbilitiesTree.set(createTreeStructure(true, CategoryType.FUNCTIONAL_ABILITY));
+        healthConditionsTree.set(createTreeStructure(true, CategoryType.HEALTH_CONDITION));
     }
 
     public TreeItem<CategoryEntryModel> createTreeStructure(boolean includeNonRelevant, CategoryType type)
@@ -171,6 +182,14 @@ public class CitizenModel implements Cloneable
         return this.id;
     }
 
+    public ObjectProperty<TreeItem<CategoryEntryModel>> functionalAbilitiesTreeProperty() {
+        return functionalAbilitiesTree;
+    }
+
+    public ObjectProperty<TreeItem<CategoryEntryModel>> healthConditionsTreeProperty() {
+        return healthConditionsTree;
+    }
+
     public StringProperty firstNameProperty() {
         return firstName;
     }
@@ -236,4 +255,6 @@ public class CitizenModel implements Cloneable
     public StringProperty homeLayoutProperty() {
         return homeLayout;
     }
+
+
 }

@@ -1,15 +1,15 @@
 package Application.GUI.Controllers.dashboard;
 
 import Application.BE.CategoryType;
-import Application.BE.GeneralJournal;
+import Application.BE.Citizen;
 import Application.BLL.CitizenManager;
 import Application.BLL.TeacherDataManager;
 import Application.GUI.Models.*;
 import Application.Utility.GUIUtils;
 import com.github.javafaker.Faker;
-import javafx.beans.binding.Bindings;
+import javafx.beans.InvalidationListener;
 import javafx.beans.property.Property;
-import javafx.beans.property.StringProperty;
+import javafx.beans.value.ChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
@@ -18,8 +18,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldTreeTableCell;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
-import javafx.util.StringConverter;
-import javafx.util.converter.DefaultStringConverter;
 import javafx.util.converter.IntegerStringConverter;
 import javafx.util.converter.NumberStringConverter;
 import org.controlsfx.control.Notifications;
@@ -152,6 +150,8 @@ public class CitizenTemplateController implements Initializable
             notifications.text("Borger skabelon er oprettet");
             notifications.showInformation();
             notifications.hideAfter(Duration.seconds(3));
+            initializeAvailableTemplates();
+
         }
         catch (Exception e)
         {
@@ -176,6 +176,8 @@ public class CitizenTemplateController implements Initializable
         if (result.get() == ButtonType.OK) {
             listViewCitizenTemplates.getItems().remove(listViewCitizenTemplates.getSelectionModel().getSelectedItem());
             // model.deleteCitizenTemplate();
+            initializeAvailableTemplates();
+
         }
     }
 
@@ -187,6 +189,7 @@ public class CitizenTemplateController implements Initializable
         try
         {
             listViewCitizenTemplates.getItems().add((CitizenModel) selected.clone());
+            initializeAvailableTemplates();
         }
         catch (CloneNotSupportedException e)
         {
@@ -232,14 +235,18 @@ public class CitizenTemplateController implements Initializable
         listViewCitizenTemplates.getItems().clear();
         new CitizenManager().getAllTemplates().forEach(citizen -> listViewCitizenTemplates.getItems().add(new CitizenModel(citizen)));
 
-        listViewCitizenTemplates.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            this.selected = newValue;
-            rebindDataBidirectional(oldValue, newValue);
-        });
+        listViewCitizenTemplates.getSelectionModel().selectedItemProperty().removeListener(citizenTemplateListener());
+        listViewCitizenTemplates.getSelectionModel().selectedItemProperty().addListener(citizenTemplateListener());
 
         listViewCitizenTemplates.getSelectionModel().selectFirst();
     }
 
+    private ChangeListener<CitizenModel> citizenTemplateListener() {
+        return (observable, oldValue, newValue) -> {
+            this.selected = newValue;
+            rebindDataBidirectional(oldValue, newValue);
+        };
+    }
 
 
     private <T> void rebindProperty(Property<T> lhs, Property<T> old, Property<T> _new)
@@ -262,9 +269,11 @@ public class CitizenTemplateController implements Initializable
     private void rebindDataBidirectional(CitizenModel oldValue, CitizenModel newValue)
     {
         //set the base data of name, surname and age to that of the selected citizen template
+        if (oldValue == null)
+            oldValue = newValue;
+
         txtFieldAge.textProperty().unbindBidirectional(oldValue.ageProperty());
         txtFieldAge.textProperty().bindBidirectional(newValue.ageProperty(), new NumberStringConverter());
-
         rebindProperty(txtFieldName.textProperty(), oldValue.firstNameProperty(), newValue.firstNameProperty());
         rebindProperty(txtFieldSurname.textProperty(), oldValue.lastNameProperty(), newValue.lastNameProperty());
         rebindProperty(txtAreaGenInfoCoping.textProperty(), oldValue.copingProperty(), newValue.copingProperty());
@@ -280,13 +289,17 @@ public class CitizenTemplateController implements Initializable
         rebindProperty(txtAreaGenInfoNetwork.textProperty(), oldValue.networkProperty(), newValue.networkProperty());
 
         //set the functional abilities TreeTableView to the values of the selected citizen template
-        treeTblViewFunc.setRoot(selected.createTreeStructure(true, CategoryType.FUNCTIONAL_ABILITY));
+        treeTblViewHealth.rootProperty().unbindBidirectional(oldValue.functionalAbilitiesTreeProperty());
+        treeTblViewFunc.rootProperty().bindBidirectional(newValue.functionalAbilitiesTreeProperty());
         treeTblViewFunc.setShowRoot(false);
 
         //set the health categories to the health categories of the selected citizen template
-        treeTblViewHealth.setRoot(selected.createTreeStructure(true, CategoryType.HEALTH_CONDITION));
+        treeTblViewHealth.rootProperty().unbindBidirectional(oldValue.healthConditionsTreeProperty());
+        treeTblViewHealth.rootProperty().bindBidirectional(newValue.healthConditionsTreeProperty());
         treeTblViewHealth.setShowRoot(false);
 
+        //treeTblViewFunc.setRoot(selected.createTreeStructure(true, CategoryType.FUNCTIONAL_ABILITY));
+        //treeTblViewHealth.setRoot(selected.createTreeStructure(true, CategoryType.HEALTH_CONDITION));
     }
 
 
@@ -361,7 +374,7 @@ public class CitizenTemplateController implements Initializable
      * health conditions and functional abilities respectively.
      * @param event
      */
-    public void onEditOn(ActionEvent event) {
+    public void onEditModeRequested(ActionEvent event) {
 
         try {
             selectedBackup = (CitizenModel) selected.clone();
@@ -369,8 +382,6 @@ public class CitizenTemplateController implements Initializable
             throw new RuntimeException(e);
         }
 
-        treeTblViewFunc.setRoot(selected.createTreeStructure(true, CategoryType.FUNCTIONAL_ABILITY));
-        treeTblViewHealth.setRoot(selected.createTreeStructure(true, CategoryType.HEALTH_CONDITION));
         setEditable(true);
     }
 
@@ -381,7 +392,8 @@ public class CitizenTemplateController implements Initializable
      * A new root is set to the tree tables containing all relevant categories after the edit, and the edit mode is turned off.
      * @param event
      */
-    public void onEditDone(ActionEvent event) {
+    public void onEditDone(ActionEvent event)
+    {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setHeaderText("Er du sikker på at du gemme ændringerne på denne borger skabelonen?");
         alert.setContentText("Dette kan ikke fortrydes.");
@@ -390,37 +402,11 @@ public class CitizenTemplateController implements Initializable
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) 
         {
-            /*
-            if (selected.firstNameProperty().get() != txtFieldName.getText() && !txtFieldName.getText().isEmpty()) {
-                selected.firstNameProperty().set(txtFieldName.getText());
-            }
-            if (selected.lastNameProperty().get() != txtFieldSurname.getText() && !txtFieldSurname.getText().isEmpty()) {
-                selected.lastNameProperty().set(txtFieldSurname.getText());
-            }
-            if (selected.ageProperty().get() != Integer.parseInt(txtFieldAge.getText()) && !txtFieldAge.getText().isEmpty()) {
-                selected.ageProperty().set(Integer.parseInt(txtFieldAge.getText()));
-            }
-
-            selected.getBeCitizen().getGeneralInfo().setCoping(txtAreaGenInfoCoping.getText());
-            selected.getBeCitizen().getGeneralInfo().setMotivation(txtAreaGenInfoMotivation.getText());
-            selected.getBeCitizen().getGeneralInfo().setResources(txtAreaGenInfoResources.getText());
-            selected.getBeCitizen().getGeneralInfo().setRoles(txtAreaGenInfoRoles.getText());
-            selected.getBeCitizen().getGeneralInfo().setHabits(txtAreaGenInfoHabits.getText());
-            selected.getBeCitizen().getGeneralInfo().setEduAndJob(txtAreaGenInfoEduAndJob.getText());
-            selected.getBeCitizen().getGeneralInfo().setLifeStory(txtAreaGenInfoLifeStory.getText());
-            selected.getBeCitizen().getGeneralInfo().setHealthInfo(txtAreaGenInfoHealthInfo.getText());
-            selected.getBeCitizen().getGeneralInfo().setAssistiveDevices(txtAreaGenInfoAssistiveDevices.getText());
-            selected.getBeCitizen().getGeneralInfo().setHomeLayout(txtAreaGenInfoHomeLayout.getText());
-            selected.getBeCitizen().getGeneralInfo().setNetwork(txtAreaGenInfoNetwork.getText());
-
-
-             */
 
             // TODO: 28-05-2022 save correctly
             //model.saveEditedCitizenTemplate();
 
-            treeTblViewFunc.setRoot(selected.createTreeStructure(true, CategoryType.FUNCTIONAL_ABILITY));
-            treeTblViewHealth.setRoot(selected.createTreeStructure(true, CategoryType.HEALTH_CONDITION));
+
             setEditable(false);
         }
     }
@@ -451,28 +437,28 @@ public class CitizenTemplateController implements Initializable
      */
     private void setTreeTableEditCallbacks()
     {
-        treeTblColumnFuncAssessment.setOnEditCommit(event -> event.getTreeTablePosition().getTreeItem().getValue().setAssessment(event.getOldValue()));
+        treeTblColumnFuncAssessment.setOnEditCommit(event -> event.getTreeTablePosition().getTreeItem().getValue().setAssessment(event.getNewValue()));
         treeTblColumnFuncAssessment.setOnEditCancel(event -> event.getTreeTablePosition().getTreeItem().getValue().setAssessment(event.getOldValue()));
 
-        treeTblColumnFuncCause.setOnEditCommit(event -> event.getTreeTablePosition().getTreeItem().getValue().setCause(event.getOldValue()));
+        treeTblColumnFuncCause.setOnEditCommit(event -> event.getTreeTablePosition().getTreeItem().getValue().setCause(event.getNewValue()));
         treeTblColumnFuncCause.setOnEditCancel(event -> event.getTreeTablePosition().getTreeItem().getValue().setCause(event.getOldValue()));
 
-        treeTblColumnFuncImplications.setOnEditCommit(event -> event.getTreeTablePosition().getTreeItem().getValue().setImplications(event.getOldValue()));
+        treeTblColumnFuncImplications.setOnEditCommit(event -> event.getTreeTablePosition().getTreeItem().getValue().setImplications(event.getNewValue()));
         treeTblColumnFuncImplications.setOnEditCancel(event -> event.getTreeTablePosition().getTreeItem().getValue().setImplications(event.getOldValue()));
 
-        treeTblColumnFuncCitizenGoals.setOnEditCommit(event -> event.getTreeTablePosition().getTreeItem().getValue().setCitizenGoals(event.getOldValue()));
+        treeTblColumnFuncCitizenGoals.setOnEditCommit(event -> event.getTreeTablePosition().getTreeItem().getValue().setCitizenGoals(event.getNewValue()));
         treeTblColumnFuncCitizenGoals.setOnEditCancel(event -> event.getTreeTablePosition().getTreeItem().getValue().setCitizenGoals(event.getOldValue()));
 
-        treeTblColumnFuncNote.setOnEditCommit(event -> event.getTreeTablePosition().getTreeItem().getValue().setNote(event.getOldValue()));
+        treeTblColumnFuncNote.setOnEditCommit(event -> event.getTreeTablePosition().getTreeItem().getValue().setNote(event.getNewValue()));
         treeTblColumnFuncNote.setOnEditCancel(event -> event.getTreeTablePosition().getTreeItem().getValue().setNote(event.getOldValue()));
 
-        treeTblColumnHealthAssessment.setOnEditCommit(event -> event.getTreeTablePosition().getTreeItem().getValue().setAssessment(event.getOldValue()));
+        treeTblColumnHealthAssessment.setOnEditCommit(event -> event.getTreeTablePosition().getTreeItem().getValue().setAssessment(event.getNewValue()));
         treeTblColumnHealthAssessment.setOnEditCancel(event -> event.getTreeTablePosition().getTreeItem().getValue().setAssessment(event.getOldValue()));
 
-        treeTblColumnHealthCause.setOnEditCommit(event -> event.getTreeTablePosition().getTreeItem().getValue().setCause(event.getOldValue()));
+        treeTblColumnHealthCause.setOnEditCommit(event -> event.getTreeTablePosition().getTreeItem().getValue().setCause(event.getNewValue()));
         treeTblColumnHealthCause.setOnEditCancel(event -> event.getTreeTablePosition().getTreeItem().getValue().setCause(event.getOldValue()));
 
-        treeTblColumnHealthNote.setOnEditCommit(event -> event.getTreeTablePosition().getTreeItem().getValue().setNote(event.getOldValue()));
+        treeTblColumnHealthNote.setOnEditCommit(event -> event.getTreeTablePosition().getTreeItem().getValue().setNote(event.getNewValue()));
         treeTblColumnHealthNote.setOnEditCancel(event -> event.getTreeTablePosition().getTreeItem().getValue().setNote(event.getOldValue()));
     }
 
