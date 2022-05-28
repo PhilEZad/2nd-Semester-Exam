@@ -6,6 +6,7 @@ import Application.BLL.TeacherDataManager;
 import Application.GUI.Models.*;
 import Application.GUI.Models.ControllerModels.CitizenTemplateControllerModel;
 import Application.Utility.GUIUtils;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
@@ -75,6 +76,11 @@ public class CitizenTemplateController implements Initializable
 
     private CitizenTemplateControllerModel model = new CitizenTemplateControllerModel();
 
+
+    CitizenModel selected;
+
+
+
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
@@ -92,7 +98,7 @@ public class CitizenTemplateController implements Initializable
         txtFieldAge.setTextFormatter(new TextFormatter<>(new IntegerStringConverter(),0, GUIUtils.getIntegerFilter()));
 
         setEditable(false);
-        updateAvailableTemplates();
+        initializeAvailableTemplates();
     }
 
 
@@ -180,19 +186,23 @@ public class CitizenTemplateController implements Initializable
     }
 
 
-    private void setTreeTables() {/*
+    private void setTreeTables()
+    {
+
+
         //TODO: Proper table population
         // Set up the table
         CitizenModel citizenTemplateModel = new CitizenModel();
 
-        ObservableList<CategoryEntryModel> func = citizenTemplateModel.getRelevantFunctionalAbilities();
-        ObservableList<CategoryEntryModel> health = citizenTemplateModel.getRelevantHealthConditions();
+        var func = citizenTemplateModel.getRelevantFunctionalAbilities().values();
+        var health = citizenTemplateModel.getRelevantHealthConditions().values();
 
         ObservableList<TreeItem<CategoryEntryModel>> funcTree = FXCollections.observableArrayList();
         ObservableList<TreeItem<CategoryEntryModel>> healthTree = FXCollections.observableArrayList();
 
         TreeItem<CategoryEntryModel> funcRoot = new TreeItem<>(new CategoryEntryModel("Functional Abilities"));
         TreeItem<CategoryEntryModel> healthRoot = new TreeItem<>(new CategoryEntryModel("Health Conditions"));
+
         treeTblViewFunc.setRoot(funcRoot);
         treeTblViewHealth.setRoot(healthRoot);
 
@@ -203,10 +213,9 @@ public class CitizenTemplateController implements Initializable
         for (CategoryEntryModel categoryEntryModel : health) {
             healthTree.add(new TreeItem<>(categoryEntryModel));
         }
+
         funcRoot.getChildren().addAll(funcTree);
         healthRoot.getChildren().addAll(healthTree);
-        */
-
     }
 
 
@@ -243,17 +252,18 @@ public class CitizenTemplateController implements Initializable
      * Initializes the citizen templates list and its ChangeListener,
      * which calls the setDataToCitizenTemplatesList() method when the selected citizenTemplate changes.
      */
-    private void updateAvailableTemplates()
+    private void initializeAvailableTemplates()
     {
         listViewCitizenTemplates.getItems().clear();
         new CitizenManager().getAllTemplates().forEach(citizen -> listViewCitizenTemplates.getItems().add(new CitizenModel(citizen)));
 
-        listViewCitizenTemplates.getSelectionModel().selectFirst();
-
         listViewCitizenTemplates.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            model.setSelectedCitizenTemplateModel((CitizenModel) newValue);
+            model.setSelectedCitizenTemplateModel(newValue);
+            this.selected = newValue;
             setDataToCitizenTemplateView();
         });
+
+        listViewCitizenTemplates.getSelectionModel().selectFirst();
     }
 
 
@@ -321,30 +331,30 @@ public class CitizenTemplateController implements Initializable
 
         //Set all TextAreas to editable
         editableTextAreas.forEach(ta -> ta.setEditable(editable));
-/*
-        //Set all ComboBoxes to editable
-        for (CategoryEntryModel cat : GUIUtils.getTreeItemsFromRoot(treeTblViewFunc.getRoot())) {
-            ComboBox<FunctionalLevels> funcLevelComboBox = cat.getLevelFuncLevelComboBox();
-            ComboBox<FunctionalLevels> funcExConComboBox = cat.getExConFuncComboBox();
-            if (funcLevelComboBox != null) {
-                funcLevelComboBox.setDisable(!editable);
-            }
-            if (funcExConComboBox != null) {
-                funcExConComboBox.setDisable(!editable);
-            }
-        }
-        for (CategoryEntryModel cat : GUIUtils.getTreeItemsFromRoot(treeTblViewHealth.getRoot())) {
-            ComboBox<HealthLevels> healthLevelComboBox = cat.getLevelHealthLevelComboBox();
-            ComboBox<HealthLevels> healthExConComboBox = cat.getExConHealthLevelComboBox();
-            if (healthLevelComboBox != null) {
-                healthLevelComboBox.setDisable(!editable);
-            }
-            if (healthExConComboBox != null) {
-                healthExConComboBox.setDisable(!editable);
-            }
-        }
 
- */
+        //Set all ComboBoxes to editable
+       for (CategoryEntryModel cat : GUIUtils.getTreeItemsFromRoot(treeTblViewFunc.getRoot())) {
+           ComboBox<FunctionalLevels> funcLevelComboBox = cat.getLevelFuncLevelComboBox();
+           ComboBox<FunctionalLevels> funcExConComboBox = cat.getExConFuncComboBox();
+           if (funcLevelComboBox != null) {
+               funcLevelComboBox.setDisable(!editable);
+           }
+           if (funcExConComboBox != null) {
+               funcExConComboBox.setDisable(!editable);
+           }
+       }
+       for (CategoryEntryModel cat : GUIUtils.getTreeItemsFromRoot(treeTblViewHealth.getRoot())) {
+           ComboBox<HealthLevels> healthLevelComboBox = cat.getLevelHealthLevelComboBox();
+           ComboBox<HealthLevels> healthExConComboBox = cat.getExConHealthLevelComboBox();
+           if (healthLevelComboBox != null) {
+               healthLevelComboBox.setDisable(!editable);
+           }
+           if (healthExConComboBox != null) {
+               healthExConComboBox.setDisable(!editable);
+           }
+       }
+
+
 
 
 
