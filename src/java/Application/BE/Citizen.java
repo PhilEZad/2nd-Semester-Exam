@@ -14,7 +14,7 @@ public class Citizen implements Cloneable, IUniqueIdentifier<Integer>
     private GeneralJournal journal;
     private int zipCode;
 
-    private HashMap<Category, FunctionalEntry> healthCategoryEntries;
+    private HashMap<Category, HealthEntry> healthCategoryEntries;
 
     private HashMap<Category, FunctionalEntry> funcCategoryEntries;
 
@@ -109,9 +109,9 @@ public class Citizen implements Cloneable, IUniqueIdentifier<Integer>
         };
     }
 
-    public void setHealthConditions (HashMap<Category, FunctionalEntry> healthConditions) {
+    public void setHealthConditions (HashMap<Category, HealthEntry> healthConditions) {
         healthCategoryEntries.clear();
-        for (FunctionalEntry entry : healthConditions.values()) {
+        for (HealthEntry entry : healthConditions.values()) {
             healthCategoryEntries.put(entry.getCategory(), entry);
         };
     }
@@ -120,7 +120,7 @@ public class Citizen implements Cloneable, IUniqueIdentifier<Integer>
         return funcCategoryEntries;
     }
 
-    public HashMap<Category, FunctionalEntry> getHealthConditions() {
+    public HashMap<Category, HealthEntry> getHealthConditions() {
         return healthCategoryEntries;
     }
 
@@ -129,7 +129,7 @@ public class Citizen implements Cloneable, IUniqueIdentifier<Integer>
         funcCategoryEntries.put(entry.getCategory(), entry);
     }
 
-    public void addHealthConditions (FunctionalEntry entry)
+    public void addHealthConditions (HealthEntry entry)
     {
         healthCategoryEntries.put(entry.getCategory(), entry);
     }

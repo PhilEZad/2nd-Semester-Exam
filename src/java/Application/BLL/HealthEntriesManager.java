@@ -4,16 +4,18 @@ import Application.BE.Category;
 import Application.BE.HealthEntry;
 import Application.DAL.HealthConditionDAO;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public class HealthEntriesManager
 {
-    public static List<HealthEntry> getHealthEntries(int citizenId)
+    public List<HealthEntry> getHealthEntries(int citizenId)
     {
         // get data from database.
         var categories = new CategoryLoader().load();
-        var data = new HealthConditionDAO().readAll(citizenId);
+
+        var data = citizenId == -1 ? new ArrayList<HealthEntry>() : new HealthConditionDAO().readAll(citizenId);
 
         // create default health entries for each category that does not have an instance in the database.
         // does not update the database.

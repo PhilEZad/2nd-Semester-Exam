@@ -89,6 +89,7 @@ public class CitizenDAO implements IDatabaseActions<Citizen>
             protected Citizen execute(PreparedStatement statement) throws SQLException
             {
                 setPlaceholders(statement, id);
+
                 ResultSet result = statement.executeQuery();
                 result.next();
 
@@ -119,9 +120,9 @@ public class CitizenDAO implements IDatabaseActions<Citizen>
         {
             @Override
             protected List<Citizen> execute(PreparedStatement statement) throws SQLException {
-                ResultSet result = statement.executeQuery();
                 List<Citizen> citizens = new ArrayList<>();
 
+                ResultSet result = statement.executeQuery();
                 while (result.next()) {
 
                     citizens.add(ResultSetHelpers.buildCitizen(result));
@@ -183,5 +184,42 @@ public class CitizenDAO implements IDatabaseActions<Citizen>
         };
 
         dao.start();
+    }
+
+    public List<Citizen> readAll(School school)
+    {
+        var dao = new AbstractDAO<List<Citizen>>()
+        {
+            @Override
+            protected List<Citizen> execute(PreparedStatement statement) throws SQLException
+            {
+                setPlaceholders(statement, school.getID());
+
+                List<Citizen> citizens = new ArrayList<>();
+                ResultSet result = statement.executeQuery();
+
+                while (result.next()) {
+
+                    citizens.add(ResultSetHelpers.buildCitizen(result));
+                }
+
+                return citizens;
+            }
+
+            @Override
+            protected String getSQLStatement() {
+                return """
+                        SELECT * FROM Citizen
+                        JOIN School ON School.SID = Citizen.FK_cSchool
+                        JOIN GeneralJournal GJ on Citizen.CID = GJ.FK_Citizen
+                        JOIN Zipcode ON Zipcode.zip = School.FK_Zipcode
+                        WHERE School.SID = ?
+                        """;
+            }
+        };
+
+        dao.start();
+
+        return dao.getResult().getValue();
     }
 }
