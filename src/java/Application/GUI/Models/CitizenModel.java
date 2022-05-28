@@ -3,9 +3,13 @@ package Application.GUI.Models;
 import Application.BE.*;
 import javafx.beans.property.*;
 import javafx.collections.ObservableMap;
+import javafx.scene.control.TreeItem;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class CitizenModel implements Cloneable
 {
@@ -66,6 +70,8 @@ public class CitizenModel implements Cloneable
         {
             Category category = entry.getCategory();
             CategoryEntryModel model = new CategoryEntryModel(entry);
+            model.setCategory(category);
+
             if (entry.isRelevant())
             {
                 relevantFunctionalAbilities.put(category, model);
@@ -80,6 +86,7 @@ public class CitizenModel implements Cloneable
         {
             Category category = entry.getCategory();
             CategoryEntryModel model = new CategoryEntryModel(entry);
+            model.setCategory(category);
 
             if (entry.isRelevant())
             {
@@ -326,6 +333,18 @@ public class CitizenModel implements Cloneable
         allHealthConditions.putAll(nonRelevantHealthConditions);
         allHealthConditions.putAll(relevantHealthConditions);
         return allHealthConditions;
+    }
+
+    public TreeItem<CategoryEntryModel> createNestedTreeOfAllHealthConditions()
+    {
+        TreeItem<CategoryEntryModel> root = new TreeItem<>();
+
+        for (Map.Entry<Category, CategoryEntryModel> entry : getAllHealthConditions().entrySet())
+        {
+            root.getChildren().add(new TreeItem<>(entry.getValue()));
+        }
+
+        return root;
     }
 
     @Override

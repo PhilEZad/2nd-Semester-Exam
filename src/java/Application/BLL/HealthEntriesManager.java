@@ -11,7 +11,7 @@ import java.util.Objects;
 public class HealthEntriesManager extends ContentEntryManager<HealthEntry>
 {
 
-    @Override
+
     public List<HealthEntry> getEntriesFor(int citizenId)
     {
         // get data from database.

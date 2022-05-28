@@ -31,11 +31,13 @@ public class CategoryLoader
         /// flat set of all categories.
         var allCategories =  categoryDAO.readAll();
 
+        var root = new Category("root");
+
         for (var element : allCategories)
         {
             if (element.getParentID() == 0)
             {
-                element.setParent(new Category("root"));
+                element.setParent(root);
                 element.getParent().setID(0);
             }
 
@@ -50,6 +52,34 @@ public class CategoryLoader
         }
 
         return allCategories;
+    }
+
+    public Category loadSingle()
+    {
+        /// flat set of all categories.
+        var allCategories =  categoryDAO.readAll();
+
+        var root = new Category("root");
+
+        for (var element : allCategories)
+        {
+            if (element.getParentID() == 0)
+            {
+                element.setParent(root);
+                element.getParent().setID(0);
+            }
+
+            for (var category : allCategories)
+            {
+                if (category.getParentID() == element.getID())
+                {
+                    element.getChildren().add(category);
+                    category.setParent(element);
+                }
+            }
+        }
+
+        return root;
     }
 
     public static void main(String[] args) {

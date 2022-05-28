@@ -556,4 +556,12 @@ public class CategoryEntryModel implements Comparable<CategoryEntryModel>
 
         return name + levelCompare + assessmentCompare + causeCompare + implicationsCompare + citizenGoalsCompare + expectedConditionCompare + noteCompare;
     }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
 }

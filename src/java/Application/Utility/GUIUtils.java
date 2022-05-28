@@ -29,22 +29,27 @@ public final class GUIUtils {
      * @param root
      * @return a list of CategoryEntryModels present in the TreeItem root.
      */
-    public static List<CategoryEntryModel> getTreeItemsFromRoot(TreeItem<CategoryEntryModel> root) {
+    public static List<CategoryEntryModel> getTreeItemsFromRoot(TreeItem<CategoryEntryModel> root)
+    {
         List<CategoryEntryModel> catList = new ArrayList<>(); //List to store the categories
-        Thread thread = new Thread(() -> {
 
-            ObservableList<TreeItem<CategoryEntryModel>> treeItems = root.getChildren(); //Get the children of the root
-            for (TreeItem<CategoryEntryModel> treeItem : treeItems) { //For each child
-                if (treeItem.getChildren().size() > 0) { //If the child has children
-                    catList.addAll(getTreeItemsFromRoot(treeItem)); //Get the children of the child
-                } else {
-                    CategoryEntryModel categoryEntryModel = treeItem.getValue(); //Get the value of the child
-                    catList.add(categoryEntryModel); //Add the value to the list
-                }
+        ObservableList<TreeItem<CategoryEntryModel>> treeItems = root.getChildren(); //Get the children of the root
 
+        for (TreeItem<CategoryEntryModel> treeItem : treeItems)
+        {
+            //For each child
+            if (treeItem.getChildren().size() > 0)
+            {
+                //If the child has children
+                catList.addAll(getTreeItemsFromRoot(treeItem)); //Get the children of the child
             }
-        });
-        thread.run();
+            else
+            {
+                CategoryEntryModel categoryEntryModel = treeItem.getValue(); //Get the value of the child
+                catList.add(categoryEntryModel); //Add the value to the list
+            }
+        }
+
         return catList;
     }
 
@@ -112,17 +117,23 @@ public final class GUIUtils {
 
     public static TreeItem<CategoryEntryModel> mapToTreeItem(Map<Category, CategoryEntryModel> map){
         //Find the root category
+
         Category rootCategory = null;
-        for(Map.Entry<Category, CategoryEntryModel> entry : map.entrySet()){
-            if(entry.getKey().getParent() == null){
-                rootCategory = entry.getKey();
+
+        for(Map.Entry<Category, CategoryEntryModel> entry : map.entrySet())
+        {
+            if(entry.getKey().getParent() == null)
+            {
+                rootCategory = entry.getKey().getParent().getParent();
             }
         }
 
         TreeItem<CategoryEntryModel> treeRoot = new TreeItem<>(map.get(rootCategory));
 
         TreeItem<CategoryEntryModel> returnRoot = null;
-        if (rootCategory != null) {
+
+        if (rootCategory != null)
+        {
             returnRoot = getChildrenToTreeItem(map, treeRoot, rootCategory.getChildren());
             returnRoot = sortTreeItem(returnRoot);
         }
@@ -130,9 +141,12 @@ public final class GUIUtils {
         return returnRoot;
     }
 
-    private static TreeItem<CategoryEntryModel> getChildrenToTreeItem(Map<Category, CategoryEntryModel> map, TreeItem<CategoryEntryModel> parent, List<Category> children){
-        if (children.size() != 0) {
-            for (Category child : children) {
+    private static TreeItem<CategoryEntryModel> getChildrenToTreeItem(Map<Category, CategoryEntryModel> map, TreeItem<CategoryEntryModel> parent, List<Category> children)
+    {
+        if (children.size() != 0)
+        {
+            for (Category child : children)
+            {
                 TreeItem<CategoryEntryModel> childTreeItem = new TreeItem<>(map.get(child));
                 parent.getChildren().add(childTreeItem);
                 getChildrenToTreeItem(map, childTreeItem, child.getChildren());
@@ -141,10 +155,14 @@ public final class GUIUtils {
         return parent;
     }
 
-    private static TreeItem<CategoryEntryModel> sortTreeItem(TreeItem<CategoryEntryModel> treeItem){
-        if(treeItem.getChildren().size() > 0){
+    private static TreeItem<CategoryEntryModel> sortTreeItem(TreeItem<CategoryEntryModel> treeItem)
+    {
+        if(treeItem.getChildren().size() > 0)
+        {
             treeItem.getChildren().sort(Comparator.comparing(o -> o.getValue().getCategoryName()));
-            for(TreeItem<CategoryEntryModel> child : treeItem.getChildren()){
+
+            for(TreeItem<CategoryEntryModel> child : treeItem.getChildren())
+            {
                 sortTreeItem(child);
             }
         }

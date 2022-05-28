@@ -104,13 +104,18 @@ public class CitizenTemplateControllerModel {
     /**
      * Creates a copy of the citizen template and writes it to the DB.
      */
-    public CitizenModel copyCitizenTemplate() {
+    public CitizenModel copyCitizenTemplate()
+    {
         CitizenModel clone = null;
-        try {
+        try
+        {
             clone = (CitizenModel) selectedCitizenTemplateModel.clone();
-        } catch (CloneNotSupportedException e) {
+        }
+        catch (CloneNotSupportedException e)
+        {
             e.printStackTrace();
         }
+
         //teacherDataManager.copyTemplate(clone.getTemplate());
         return clone;
     }
@@ -120,9 +125,12 @@ public class CitizenTemplateControllerModel {
      * Creates a copy of the citizen template and stores it in the preEditCitizenTemplateModel variable for later user.
      */
     public void savePreEditState() {
-        try {
+        try
+        {
             this.preEditCitizenTemplateModel = (CitizenModel) selectedCitizenTemplateModel.clone();
-        } catch (CloneNotSupportedException e) {
+        }
+        catch (CloneNotSupportedException e)
+        {
             e.printStackTrace();
         }
     }

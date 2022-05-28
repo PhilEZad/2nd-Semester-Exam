@@ -17,6 +17,8 @@ public class Category implements IUniqueIdentifier<Integer> {
 
     private CategoryType type;
 
+    public int depth = 0;
+
 
     public Category(String name) {
         this.name = name;
