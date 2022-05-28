@@ -114,12 +114,13 @@ public class ObservationViewController implements Initializable {
     }
 
     private void initTreeTableViews(){
+        /*
         treeTableViewHealth.setRoot(model.getAllHealthConditionsAsTreeItem());
         treeTableViewHealth.setShowRoot(false);
 
         treeTableViewFunc.setRoot(model.getAllFuncCategoriesAsTreeItem());
         treeTableViewFunc.setShowRoot(false);
-
+*/
         treeTblColumnFuncCatName.setCellValueFactory(param -> param.getValue().getValue().categoryNameProperty());
         treeTblColumnHealthCatName.setCellValueFactory(param -> param.getValue().getValue().categoryNameProperty());
     }

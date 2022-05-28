@@ -56,9 +56,9 @@ public class StudentViewControllerModel {
     public void setSelectedCitizen(CitizenModel selectedCitizen) {
         this.selectedCitizen = selectedCitizen;
     }
-
+/*
     public TreeItem<CategoryEntryModel> getAllFuncCategoriesAsTreeItem() {
-        return GUIUtils.mapToTreeItem(selectedCitizen.getAllFuncCategories());
+        return //GUIUtils.mapToTreeItem(selectedCitizen.getAllFuncCategories());
     }
 
     public TreeItem<CategoryEntryModel> getAllHealthConditionsAsTreeItem() {
@@ -86,11 +86,15 @@ public class StudentViewControllerModel {
 
 
 
+ */
+
     public void updateObservation(CategoryEntryModel value) {
         studentDataManager.updateObservation(selectedCitizen.getBeCitizen(), value.getContentEntry());
     }
 
-    public void recalculateRelevantCategories() {
+    public void recalculateRelevantCategories()
+    {
+        /*
         HashMap<Category, CategoryEntryModel> functionalAbilities = new HashMap<>(selectedCitizen.getAllFuncCategories());
         HashMap<Category, CategoryEntryModel> healthConditions = new HashMap<>(selectedCitizen.getAllHealthConditions());
 
@@ -126,7 +130,7 @@ public class StudentViewControllerModel {
         selectedCitizen.setRelevantHealthConditions(relevantHealthConditions);
         selectedCitizen.setNonRelevantFunctionalAbilities(nonRelevantFunctionalAbilities);
         selectedCitizen.setNonRelevantHealthConditions(nonRelevantHealthConditions);
-
+*/
     }
     
 }

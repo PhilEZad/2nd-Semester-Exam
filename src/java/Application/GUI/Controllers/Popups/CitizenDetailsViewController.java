@@ -97,6 +97,7 @@ public class CitizenDetailsViewController implements Initializable {
             lblCitizenSurname.setText(model.getSelectedCitizen().getLastName());
             lblCitizenAge.setText(String.valueOf(model.getSelectedCitizen().getAge()));
 
+            /*
             //set the functional abilities TreeTableView to the values of the selected citizen template
             treeTblViewFunc.setRoot(model.getRelevantFuncCategoriesAsTreeItem());
             treeTblViewFunc.setShowRoot(false);
@@ -104,7 +105,7 @@ public class CitizenDetailsViewController implements Initializable {
             //set the health categories to the health categories of the selected citizen template
             treeTblViewHealth.setRoot(model.getRelevantHealthCategoriesAsTreeItem());
             treeTblViewHealth.setShowRoot(false);
-
+*/
             GeneralJournal journal = model.getSelectedCitizen().getBeCitizen().getGeneralInfo();
 
             //set the general information section to that of the selected citizen template
@@ -188,6 +189,7 @@ public class CitizenDetailsViewController implements Initializable {
             //refresh the data in the table and add any newly relevant categories
             model.recalculateRelevantCategories();
 
+            /*
             //set the functional abilities TreeTableView to the values of the selected citizen template
             treeTblViewFunc.setRoot(model.getRelevantFuncCategoriesAsTreeItem());
             treeTblViewFunc.setShowRoot(false);
@@ -195,6 +197,8 @@ public class CitizenDetailsViewController implements Initializable {
             //set the health categories to the health categories of the selected citizen template
             treeTblViewHealth.setRoot(model.getRelevantHealthCategoriesAsTreeItem());
             treeTblViewHealth.setShowRoot(false);
+
+             */
         });
     }
 

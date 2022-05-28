@@ -1,5 +1,6 @@
 package Application.GUI.Controllers.dashboard;
 
+import Application.BE.CategoryType;
 import Application.BE.GeneralJournal;
 import Application.BLL.CitizenManager;
 import Application.BLL.TeacherDataManager;
@@ -286,15 +287,11 @@ public class CitizenTemplateController implements Initializable
         txtFieldAge.setText(String.valueOf(selected.getAge()));
 
         //set the functional abilities TreeTableView to the values of the selected citizen template
-        TreeItem<CategoryEntryModel> funcRoot = new TreeItem<>();
-        //funcRoot.getChildren().addAll(GUIUtils.mapToTreeItem(selected.getRelevantFunctionalAbilities()));
-        treeTblViewFunc.setRoot(funcRoot);
+        treeTblViewFunc.setRoot(selected.createTreeStructure(false, CategoryType.FUNCTIONAL_ABILITY));
         treeTblViewFunc.setShowRoot(false);
 
         //set the health categories to the health categories of the selected citizen template
-        TreeItem<CategoryEntryModel> healthRoot = new TreeItem<>();
-        //healthRoot.getChildren().addAll(GUIUtils.mapToTreeItem(selected.getRelevantHealthConditions()));
-        treeTblViewHealth.setRoot(selected.createNestedTreeOfAllHealthConditions());
+        treeTblViewHealth.setRoot(selected.createTreeStructure(false, CategoryType.HEALTH_CONDITION));
         treeTblViewHealth.setShowRoot(false);
 
         //set the general information section to that of the selected citizen template
@@ -349,7 +346,8 @@ public class CitizenTemplateController implements Initializable
            }
        }
 
-       for (CategoryEntryModel cat : GUIUtils.getTreeItemsFromRoot(treeTblViewHealth.getRoot())) {
+       for (CategoryEntryModel cat : GUIUtils.getTreeItemsFromRoot(treeTblViewHealth.getRoot()))
+       {
            ComboBox<HealthLevels> healthLevelComboBox = cat.getLevelHealthLevelComboBox();
            ComboBox<HealthLevels> healthExConComboBox = cat.getExConHealthLevelComboBox();
            if (healthLevelComboBox != null) {
@@ -359,7 +357,9 @@ public class CitizenTemplateController implements Initializable
                healthExConComboBox.setDisable(!editable);
            }
        }
-*/
+
+
+ */
         //Allow the user to edit the name and age of the citizen template
         txtFieldName.setDisable(!editable);
         txtFieldSurname.setDisable(!editable);
@@ -389,9 +389,8 @@ public class CitizenTemplateController implements Initializable
             throw new RuntimeException(e);
         }
 
-        //model.savePreEditState();
-        treeTblViewFunc.setRoot(GUIUtils.mapToTreeItem(selected.getAllFuncCategories()));
-        treeTblViewHealth.setRoot(GUIUtils.mapToTreeItem(selected.getAllHealthConditions()));
+        treeTblViewFunc.setRoot(selected.createTreeStructure(true, CategoryType.FUNCTIONAL_ABILITY));
+        treeTblViewHealth.setRoot(selected.createTreeStructure(true, CategoryType.HEALTH_CONDITION));
         setEditable(true);
     }
 
@@ -434,10 +433,10 @@ public class CitizenTemplateController implements Initializable
             selected.getBeCitizen().getGeneralInfo().setNetwork(txtAreaGenInfoNetwork.getText());
 
             // TODO: 28-05-2022 save correctly
-            model.saveEditedCitizenTemplate();
+            //model.saveEditedCitizenTemplate();
 
-            treeTblViewFunc.setRoot(GUIUtils.mapToTreeItem(selected.getRelevantFunctionalAbilities()));
-            treeTblViewHealth.setRoot(GUIUtils.mapToTreeItem(selected.getRelevantHealthConditions()));
+            treeTblViewFunc.setRoot(selected.createTreeStructure(false, CategoryType.FUNCTIONAL_ABILITY));
+            treeTblViewHealth.setRoot(selected.createTreeStructure(false, CategoryType.HEALTH_CONDITION));
             setEditable(false);
         }
     }

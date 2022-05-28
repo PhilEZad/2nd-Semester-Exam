@@ -58,27 +58,6 @@ public class CitizenTemplateControllerModel {
         return selectedCitizenTemplateModel;
     }
 
-    public TreeItem<CategoryEntryModel> getAllFuncCategoriesAsTreeItem() {
-        TreeItem<CategoryEntryModel> treeItem = new TreeItem<>(new CategoryEntryModel("All Functional Ability Categories"));
-        return GUIUtils.mapToTreeItem(selectedCitizenTemplateModel.getAllFuncCategories());
-    }
-
-    public TreeItem<CategoryEntryModel> getAllHealthConditionsAsTreeItem() {
-        TreeItem<CategoryEntryModel> treeItem = new TreeItem<>(new CategoryEntryModel("All Health Categories"));
-        return GUIUtils.mapToTreeItem(selectedCitizenTemplateModel.getAllHealthConditions());
-    }
-
-
-    public TreeItem<CategoryEntryModel> getRelevantFuncCategoriesAsTreeItem() {
-        return GUIUtils.mapToTreeItem(selectedCitizenTemplateModel.getRelevantFunctionalAbilities());
-    }
-
-    public TreeItem<CategoryEntryModel> getRelevantHealthCategoriesAsTreeItem() {
-        return GUIUtils.mapToTreeItem(selectedCitizenTemplateModel.getRelevantHealthConditions());
-    }
-
-
-
     /**
      * Create a new citizen template and write it to the DB.
      * Returns the instance for it to be added to the list in the GUI.
@@ -138,7 +117,8 @@ public class CitizenTemplateControllerModel {
     /**
      * Save all the edits to the citizen template to the DB.
      */
-    public void saveEditedCitizenTemplate() {
+    public void saveEditedCitizenTemplate()
+    {/*
         if (preEditCitizenTemplateModel != null) {
 
             HashMap<Category, CategoryEntryModel> newHealthRoot = new HashMap<>();
@@ -230,6 +210,7 @@ public class CitizenTemplateControllerModel {
 
             teacherDataManager.updateCitizen(selectedCitizenTemplateModel.getBeCitizen(), beHealthConditions, beFuncConditions);
         }
+        */
     }
 
 

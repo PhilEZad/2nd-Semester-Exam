@@ -105,12 +105,70 @@ public class CitizenModel implements Cloneable
         return new CitizenModel(citizen);
     }
 
+    public TreeItem<CategoryEntryModel> createTreeStructure(boolean includeNonRelevant, CategoryType type)
+    {
+        TreeItem<CategoryEntryModel> root = new TreeItem<>();
+        root.setExpanded(true);
+
+        var all = new ArrayList<CategoryEntryModel>();
+
+        if(type == CategoryType.FUNCTIONAL_ABILITY)
+        {
+            all.addAll(this.relevantFunctionalAbilities);
+            if (includeNonRelevant)
+                all.addAll(this.nonRelevantFunctionalAbilities);
+        }
+        else if(type == CategoryType.HEALTH_CONDITION)
+        {
+            all.addAll(this.relevantHealthConditions);
+            if (includeNonRelevant)
+                all.addAll(this.nonRelevantHealthConditions);
+        }
+        else throw new UnsupportedOperationException("CategoryType not supported");
+
+        Map<Category, List<CategoryEntryModel>> map = new HashMap<>();
+
+        for (var outer : all)
+        {
+            if (map.containsKey(outer.getCategory().getParent()))
+            {
+                map.get(outer.getCategory().getParent()).add(outer);
+            }
+            else
+            {
+                map.put(outer.getCategory().getParent(), new ArrayList<>() {{add(outer);}});
+            }
+        }
+
+        for (Category key : map.keySet())
+        {
+            TreeItem<CategoryEntryModel> leafs = new TreeItem<>(new CategoryEntryModel(key.getName()));
+
+            for (var value : map.get(key))
+            {
+                leafs.getChildren().add(new TreeItem<>(value));
+            }
+
+            root.getChildren().add(leafs);
+        }
+
+        return root;
+    }
 
     @Override
     public String toString() {
         return firstName.get() + " " + lastName.get();
     }
 
+    public void setID(int id)
+    {
+        this.id = id;
+    }
+
+    public int getID()
+    {
+        return this.id;
+    }
 
     public String getFirstName() {
         return firstName.get();
@@ -286,81 +344,9 @@ public class CitizenModel implements Cloneable
     }
 
 
-    public Map<Category, CategoryEntryModel> getRelevantFunctionalAbilities() {
-        return null;
-    }
-
-
-    public Map<Category, CategoryEntryModel> getRelevantHealthConditions() {
-        return null;
-    }
-
-
-    public Map<Category, CategoryEntryModel> getAllFuncCategories() {
-        HashMap<Category, CategoryEntryModel> allFuncCategories = new HashMap<>();
-        //allFuncCategories.putAll(null);
-        //allFuncCategories.putAll(null);
-        return allFuncCategories;
-    }
-
-    public Map<Category, CategoryEntryModel> getAllHealthConditions() {
-        HashMap<Category, CategoryEntryModel> allHealthConditions = new HashMap<>();
-        //allHealthConditions.putAll(null);
-        //allHealthConditions.putAll(null);
-        return allHealthConditions;
-    }
-
-    public TreeItem<CategoryEntryModel> createNestedTreeOfAllHealthConditions()
-    {
-        TreeItem<CategoryEntryModel> root = new TreeItem<>();
-        root.setExpanded(true);
-
-        var all = new ArrayList<CategoryEntryModel>();
-        all.addAll(this.relevantHealthConditions);
-        all.addAll(this.nonRelevantHealthConditions);
-
-        Map<Category, List<CategoryEntryModel>> map = new HashMap<>();
-
-        for (var outer : all)
-        {
-            if (map.containsKey(outer.getCategory().getParent()))
-            {
-                map.get(outer.getCategory().getParent()).add(outer);
-            }
-            else
-            {
-                map.put(outer.getCategory().getParent(), new ArrayList<>() {{add(outer);}});
-            }
-        }
-
-        for (Category key : map.keySet())
-        {
-            TreeItem<CategoryEntryModel> leafs = new TreeItem<>(new CategoryEntryModel(key.getName()));
-
-            for (var value : map.get(key))
-            {
-                leafs.getChildren().add(new TreeItem<>(value));
-            }
-
-            root.getChildren().add(leafs);
-        }
-
-        return root;
-    }
-
     @Override
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
 
-
-    public void setID(int id)
-    {
-        this.id = id;
-    }
-
-    public int getID()
-    {
-        return this.id;
-    }
 }
