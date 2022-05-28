@@ -1,25 +1,25 @@
 package Application.BLL;
 
 import Application.BE.Category;
+import Application.BE.FunctionalEntry;
 import Application.BE.HealthEntry;
+import Application.DAL.FunctionalAbilityDAO;
 import Application.DAL.HealthConditionDAO;
+
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class HealthEntriesManager extends ContentEntryManager<HealthEntry>
+public class FunctionalEntriesManager extends ContentEntryManager<FunctionalEntry>
 {
-
     @Override
-    public List<HealthEntry> getEntriesFor(int citizenId)
+    public List<FunctionalEntry> getEntriesFor(int citizenId)
     {
-        // get data from database.
-
-        var data = citizenId == -1 ? new ArrayList<HealthEntry>() : new HealthConditionDAO().readAll(citizenId);
+        var data = citizenId == -1 ? new ArrayList<FunctionalEntry>() : new FunctionalAbilityDAO().readAll(citizenId);
 
         // TODO: 28-05-2022 - use enum instead of int constant.
-        var root = categoriesCache.stream().filter(category -> category.getID() == 3).findFirst().orElse(new Category("Helbredstilstande"));
+        var root = categoriesCache.stream().filter(category -> category.getID() == 2).findFirst().orElse(new Category("Funktionsevnetilstande"));
 
         // create default health entries for each category that does not have an instance in the database.
         // does not update the database.
@@ -29,7 +29,7 @@ public class HealthEntriesManager extends ContentEntryManager<HealthEntry>
             {
                 if (data.stream().noneMatch(healthEntry -> Objects.equals(healthEntry.getCategory().getID(), leaf.getID())))
                 {
-                    var healthEntry = new HealthEntry(citizenId);
+                    var healthEntry = new FunctionalEntry(citizenId);
                     healthEntry.setCategory(leaf);
                     data.add(healthEntry);
                 }
@@ -37,7 +37,7 @@ public class HealthEntriesManager extends ContentEntryManager<HealthEntry>
         }
 
         // assign the category to each health entry that has been loaded from the database. and had its references updated.
-        for (HealthEntry healthCondition : data)
+        for (FunctionalEntry healthCondition : data)
         {
             Category found = healthCondition.getCategory();
 

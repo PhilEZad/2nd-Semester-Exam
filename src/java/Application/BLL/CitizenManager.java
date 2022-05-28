@@ -2,6 +2,7 @@ package Application.BLL;
 
 import Application.BE.Account;
 import Application.BE.Citizen;
+import Application.BE.FunctionalEntry;
 import Application.BE.GeneralJournal;
 import Application.DAL.CitizenDAO;
 import Application.DAL.GeneralInformationDAO;
@@ -11,6 +12,7 @@ import java.util.List;
 public class CitizenManager
 {
     private static final HealthEntriesManager healthEntriesManager = new HealthEntriesManager();
+    private static final FunctionalEntriesManager functionalEntriesManager = new FunctionalEntriesManager();
 
     private static final CitizenDAO citizenDAO = new CitizenDAO();
 
@@ -18,7 +20,21 @@ public class CitizenManager
 
     public List<Citizen> getAllTemplates()
     {
-        return citizenDAO.readAll(SessionManager.getCurrent().getSchool()).stream().filter(Citizen::getTemplate).collect(java.util.stream.Collectors.toList());
+        var citizens = citizenDAO.readAll(SessionManager.getCurrent().getSchool()).stream().filter(Citizen::getTemplate).collect(java.util.stream.Collectors.toList());
+
+        citizens.forEach(citizen -> {
+            for (var entry : healthEntriesManager.getEntriesFor(citizen.getID()))
+            {
+                citizen.addHealthConditions(entry);
+            }
+
+            for (var entry : functionalEntriesManager.getEntriesFor(citizen.getID()))
+            {
+                citizen.addFunctionalAbility(entry);
+            }
+        });
+
+        return citizens;
     }
 
 
@@ -28,7 +44,6 @@ public class CitizenManager
         // create citizen in db
         Citizen citizen = citizenDAO.create(new Citizen(-1, SessionManager.getCurrent().getSchool(), "fornavn", "efternavn", 70, true));
 
-
         // create general journal
         GeneralJournal generalJournal = new GeneralJournal();
         generalJournal.setCitizenID(citizen.getID());
@@ -36,9 +51,14 @@ public class CitizenManager
 
         citizen.setGeneralJournal(generalJournal);
 
-        for (var entry : healthEntriesManager.getHealthEntries(-1))
+        for (var entry : healthEntriesManager.getEntriesFor(-1))
         {
             citizen.addHealthConditions(entry);
+        }
+
+        for (var entry : functionalEntriesManager.getEntriesFor(-1))
+        {
+            citizen.addFunctionalAbility(entry);
         }
 
         return citizen;

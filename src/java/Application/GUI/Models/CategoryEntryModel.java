@@ -14,7 +14,6 @@ import javafx.scene.image.ImageView;
 
 public class CategoryEntryModel implements Comparable<CategoryEntryModel> {
 
-
     private int id;
     private StringProperty categoryName;
     private IntegerProperty level;
@@ -71,10 +70,14 @@ public class CategoryEntryModel implements Comparable<CategoryEntryModel> {
         initLevelFuncAndLevelHealth();
         initExConFuncAndLevelHealth();
 
-        if (level.get() == 9){
+        if (level.get() == 9)
+        {
             levelFuncComboBox.get().setValue(FunctionalLevels.LEVEL_9);
-        } else levelFuncComboBox.get().setValue(FunctionalLevels.values()[level.get()]);
-
+        }
+        else
+        {
+            levelFuncComboBox.get().setValue(FunctionalLevels.values()[level.get()]);
+        }
     }
 
     public CategoryEntryModel(String categoryName){

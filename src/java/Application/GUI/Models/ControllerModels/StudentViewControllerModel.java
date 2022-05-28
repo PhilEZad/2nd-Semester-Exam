@@ -101,7 +101,7 @@ public class StudentViewControllerModel {
 
         Thread thread = new Thread(() -> {
             for (CategoryEntryModel categoryEntryModel : functionalAbilities.values()) {
-                    if (categoryEntryModel.getContentEntry().getRelevant()) {
+                    if (categoryEntryModel.getContentEntry().isRelevant()) {
                         relevantFunctionalAbilities.put(categoryEntryModel.getContentEntry().getCategory(), categoryEntryModel);
                     }
                     else {
@@ -109,7 +109,7 @@ public class StudentViewControllerModel {
                     }
             }
             for (CategoryEntryModel categoryEntryModel : healthConditions.values()) {
-                if (categoryEntryModel.getContentEntry().getRelevant()) {
+                if (categoryEntryModel.getContentEntry().isRelevant()) {
                     relevantHealthConditions.put(categoryEntryModel.getContentEntry().getCategory(), categoryEntryModel);
                 }
                 else {

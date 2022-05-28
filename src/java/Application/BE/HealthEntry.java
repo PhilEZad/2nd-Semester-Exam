@@ -11,7 +11,6 @@ public class HealthEntry implements IUniqueIdentifier<Integer>
     private Integer currentStatus;
     private Integer expectedStatus;
 
-    private boolean relevant;
 
     public HealthEntry(int citizenID) {
         this.citizenID = citizenID;
@@ -94,5 +93,9 @@ public class HealthEntry implements IUniqueIdentifier<Integer>
 
     public void setCitizenID(int citizenID) {
         this.citizenID = citizenID;
+    }
+
+    public boolean isRelevant() {
+        return this.currentStatus != 0 && this.currentStatus != -1;
     }
 }

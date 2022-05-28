@@ -27,6 +27,7 @@ public class Citizen implements Cloneable, IUniqueIdentifier<Integer>
         this.lastname = lastname;
         this.age = age;
         this.isTemplate = template;
+        this.setGeneralJournal(new GeneralJournal());
 
         funcCategoryEntries = new HashMap<>();
         healthCategoryEntries = new HashMap<>();

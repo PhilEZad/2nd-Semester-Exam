@@ -15,8 +15,6 @@ public class FunctionalEntry implements IUniqueIdentifier<Integer> {
     private Integer currentStatus = 0;
     private Integer expectedStatus = 0;
 
-
-    private boolean relevant;
     private Integer severity = null;
 
 
@@ -24,7 +22,6 @@ public class FunctionalEntry implements IUniqueIdentifier<Integer> {
     {
         this.id = category.getID();
         this.category = category;
-        initRelevance();
     }
 
     public FunctionalEntry(int id, Category category, int level) {
@@ -32,7 +29,6 @@ public class FunctionalEntry implements IUniqueIdentifier<Integer> {
         this.category = category;
         this.currentStatus = level;
         this.expectedStatus = -1;
-        initRelevance();
     }
 
     public FunctionalEntry(int id, Category category, int citizenID, int level, String assessment, String cause, String implications, int expectedStatus, String citizenGoals, String note)
@@ -49,8 +45,6 @@ public class FunctionalEntry implements IUniqueIdentifier<Integer> {
 
         this.citizenGoals = citizenGoals;
         this.note = note;
-
-        initRelevance();
     }
 
     public FunctionalEntry(int journalHID, int fk_citizen, Category fk_category, String assessment, String cause, String implications, String goals, String notes, int currentLevel, int expetedLevel) {
@@ -62,6 +56,11 @@ public class FunctionalEntry implements IUniqueIdentifier<Integer> {
         this.note = notes;
         this.currentStatus = currentLevel;
         this.expectedStatus = expetedLevel;
+    }
+
+    public FunctionalEntry(int citizenId)
+    {
+        this.citizenID = citizenId;
     }
 
 
@@ -93,7 +92,6 @@ public class FunctionalEntry implements IUniqueIdentifier<Integer> {
 
     public void setCurrentStatus(int currentStatus) {
         this.currentStatus = currentStatus;
-        initRelevance();
     }
 
     public String getAssessment() {
@@ -144,25 +142,8 @@ public class FunctionalEntry implements IUniqueIdentifier<Integer> {
         this.note = note;
     }
 
-    public void setRelevant(boolean relevant) {
-        this.relevant = relevant;
-    }
-
-    public boolean getRelevant() {
-        return relevant;
-    }
-
-    private void initRelevance()
-    {
-        if (this.currentStatus == -1)
-        {
-            this.relevant = false;
-        }
-        else switch (getCategory().getType())
-        {
-            case FUNCTIONAL_ABILITY -> setRelevant(this.currentStatus != 9);
-            case HEALTH_CONDITION -> setRelevant(this.currentStatus != 0);
-        }
+    public boolean isRelevant() {
+        return this.currentStatus != 9 && this.currentStatus != -1;
     }
 
     public int getSeverity() {
