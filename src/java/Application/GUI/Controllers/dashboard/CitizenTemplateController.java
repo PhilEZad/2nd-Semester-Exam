@@ -40,8 +40,6 @@ public class CitizenTemplateController implements Initializable
     public Button btnActions;
 
 
-    TeacherDataManager dataManager = new TeacherDataManager();
-
     // Citizen Template - Functional Conditions
     public TreeTableView<CategoryEntryModel> treeTblViewFunc;
     public TreeTableColumn<CategoryEntryModel, String> treeTblColumnFuncCategory;
@@ -75,11 +73,12 @@ public class CitizenTemplateController implements Initializable
     public TextArea txtAreaGenInfoHomeLayout;
     public TextArea txtAreaGenInfoNetwork;
 
-    private List<TreeTableColumn<CategoryEntryModel, String>> editableTreeTableColumns = new ArrayList<>();
-    private List<TextArea> editableTextAreas = new ArrayList<>();
+    private final List<TreeTableColumn<CategoryEntryModel, String>> editableTreeTableColumns = new ArrayList<>();
+    private final List<TextArea> editableTextAreas = new ArrayList<>();
 
-    CitizenModel selected;
-    CitizenModel selectedBackup;
+
+    private CitizenModel selected;
+    private CitizenModel selectedBackup;
 
 
     @Override
@@ -96,8 +95,9 @@ public class CitizenTemplateController implements Initializable
         // textformatter to the age textfield, allowing only integers to be entered.
         txtFieldAge.setTextFormatter(new TextFormatter<>(new IntegerStringConverter(),0, GUIUtils.getIntegerFilter()));
 
-        setEditable(false);
         initializeAvailableTemplates();
+
+        setEditable(false); // this must not be called before the templates are loaded.
     }
 
 
@@ -151,7 +151,6 @@ public class CitizenTemplateController implements Initializable
             notifications.showInformation();
             notifications.hideAfter(Duration.seconds(3));
             initializeAvailableTemplates();
-
         }
         catch (Exception e)
         {
@@ -175,6 +174,7 @@ public class CitizenTemplateController implements Initializable
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {
             listViewCitizenTemplates.getItems().remove(listViewCitizenTemplates.getSelectionModel().getSelectedItem());
+            // TODO: 28-05-2022  Delete the template from the database
             // model.deleteCitizenTemplate();
             initializeAvailableTemplates();
 
@@ -188,6 +188,7 @@ public class CitizenTemplateController implements Initializable
     {
         try
         {
+            // TODO: 28-05-2022 update database; data manager
             listViewCitizenTemplates.getItems().add((CitizenModel) selected.clone());
             initializeAvailableTemplates();
         }
@@ -248,11 +249,12 @@ public class CitizenTemplateController implements Initializable
         };
     }
 
-
     private <T> void rebindProperty(Property<T> lhs, Property<T> old, Property<T> _new)
     {
         if (lhs == null)
             return;
+
+        lhs.unbind(); // can be very hard to debug, bug if you don't do this.
 
         if (old != null)
         {
@@ -268,7 +270,6 @@ public class CitizenTemplateController implements Initializable
      */
     private void rebindDataBidirectional(CitizenModel oldValue, CitizenModel newValue)
     {
-        //set the base data of name, surname and age to that of the selected citizen template
         if (oldValue == null)
             oldValue = newValue;
 
@@ -297,9 +298,6 @@ public class CitizenTemplateController implements Initializable
         treeTblViewHealth.rootProperty().unbindBidirectional(oldValue.healthConditionsTreeProperty());
         treeTblViewHealth.rootProperty().bindBidirectional(newValue.healthConditionsTreeProperty());
         treeTblViewHealth.setShowRoot(false);
-
-        //treeTblViewFunc.setRoot(selected.createTreeStructure(true, CategoryType.FUNCTIONAL_ABILITY));
-        //treeTblViewHealth.setRoot(selected.createTreeStructure(true, CategoryType.HEALTH_CONDITION));
     }
 
 
@@ -325,7 +323,7 @@ public class CitizenTemplateController implements Initializable
 
         //Set all TextAreas to editable
         editableTextAreas.forEach(ta -> ta.setEditable(editable));
-/*
+
         //Set all ComboBoxes to editable
        for (CategoryEntryModel cat : GUIUtils.getTreeItemsFromRoot(treeTblViewFunc.getRoot()))
        {
@@ -351,8 +349,6 @@ public class CitizenTemplateController implements Initializable
            }
        }
 
-
- */
         //Allow the user to edit the name and age of the citizen template
         txtFieldName.setDisable(!editable);
         txtFieldSurname.setDisable(!editable);
