@@ -14,9 +14,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 import java.util.concurrent.RunnableFuture;
+import java.util.stream.Collectors;
 
 
 /**
@@ -34,8 +36,8 @@ public class CitizenManager
 
     public List<Citizen> getAllTemplates()
     {
-        RunnableFuture<List<Citizen>> future = new FutureTask(() -> {
-                var citizens = citizenDAO.readAll(SessionManager.getCurrent().getSchool()).stream().filter(Citizen::getTemplate).collect(java.util.stream.Collectors.toList());{
+        Callable<List<Citizen>> callable = () -> {
+                var citizens = citizenDAO.readAll(SessionManager.getCurrent().getSchool()).stream().filter(Citizen::getTemplate).collect(Collectors.toList());{
 
             citizens.forEach(citizen -> {
                 for (var entry : healthEntriesManager.getEntriesFor(citizen.getID())) {
@@ -46,14 +48,12 @@ public class CitizenManager
                     citizen.addFunctionalAbility(entry);
                 }
             });
-            return null;
-
-        }});
-        future.run();
+            return citizens;
+        }};
 
         try {
-            return future.get();
-        } catch (InterruptedException | ExecutionException e) {
+            return callable.call();
+        } catch (Exception e) {
             e.printStackTrace();
             GUIUtils.alertCall(Alert.AlertType.ERROR, "Fejl i databasen");
             return new ArrayList<>();

@@ -45,7 +45,6 @@ public class State implements IState{
 
     @Override
     public void enable() {
-        Runnable task = () -> {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
         Parent root = null;
         try {
@@ -60,7 +59,6 @@ public class State implements IState{
         timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(0.3),
                 new KeyValue(viewPane.opacityProperty(), 1)));
         timeline.play();
-        };
-        new Thread(task).start();
+
     }
 }
