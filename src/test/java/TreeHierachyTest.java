@@ -1,3 +1,16 @@
+import Application.BE.Category;
+import Application.BE.CategoryType;
+import Application.BE.FunctionalEntry;
+import Application.GUI.Models.CategoryEntryModel;
+import Application.Utility.GUIUtils;
+import javafx.scene.control.TreeItem;
+import org.junit.Before;
+import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
@@ -9,7 +22,7 @@ public class TreeHierachyTest {
     //@Rule
     // public JavaFXThreadingRule javafxRule = new JavaFXThreadingRule();
 
-/*
+
 
     private HashMap<Category, CategoryEntryModel> categoryEntryModelHashMap;
 
@@ -19,31 +32,31 @@ public class TreeHierachyTest {
 
 
         //Categories with parents and children
-        Category superSuperCategory = new Category(-1, "All Conditions", -1);
+        Category superSuperCategory = new Category(-1, "All Conditions", -1,  CategoryType.UNKNOWN);
 
-        Category superA = new Category(-1, "Conditions A", -1);
-        Category subA1 = new Category(-1, "Condition A.1", -1);
-        Category subA2 = new Category(-1, "Condition A.2", -1);
-        Category subA3 = new Category(-1, "Condition A.3", -1);
-        Category subA4 = new Category(-1, "Condition A.4", -1);
+        Category superA = new Category(-1, "Conditions A", -1, CategoryType.UNKNOWN);
+        Category subA1 = new Category(-1, "Condition A.1", -1,  CategoryType.UNKNOWN);
+        Category subA2 = new Category(-1, "Condition A.2", -1,  CategoryType.UNKNOWN);
+        Category subA3 = new Category(-1, "Condition A.3", -1,  CategoryType.UNKNOWN);
+        Category subA4 = new Category(-1, "Condition A.4", -1,  CategoryType.UNKNOWN);
 
-        Category superB = new Category(-1, "Conditions B", -1);
-        Category subB1 = new Category(-1, "Condition B.1", -1);
-        Category subB2 = new Category(-1, "Condition B.2", -1);
-        Category subB3 = new Category(-1, "Condition B.3", -1);
-        Category subB4 = new Category(-1, "Condition B.4", -1);
+        Category superB = new Category(-1, "Conditions B", -1,  CategoryType.UNKNOWN);
+        Category subB1 = new Category(-1, "Condition B.1", -1,  CategoryType.UNKNOWN);
+        Category subB2 = new Category(-1, "Condition B.2", -1,  CategoryType.UNKNOWN);
+        Category subB3 = new Category(-1, "Condition B.3", -1,  CategoryType.UNKNOWN);
+        Category subB4 = new Category(-1, "Condition B.4", -1,  CategoryType.UNKNOWN);
 
-        Category superC = new Category(-1, "Conditions C", -1);
-        Category subC1 = new Category(-1, "Condition C.1", -1);
-        Category subC2 = new Category(-1, "Condition C.2", -1);
-        Category subC3 = new Category(-1, "Condition C.3", -1);
-        Category subC4 = new Category(-1, "Condition C.4", -1);
+        Category superC = new Category(-1, "Conditions C", -1,  CategoryType.UNKNOWN);
+        Category subC1 = new Category(-1, "Condition C.1", -1,  CategoryType.UNKNOWN);
+        Category subC2 = new Category(-1, "Condition C.2", -1,  CategoryType.UNKNOWN);
+        Category subC3 = new Category(-1, "Condition C.3", -1,  CategoryType.UNKNOWN);
+        Category subC4 = new Category(-1, "Condition C.4", -1,  CategoryType.UNKNOWN);
 
-        Category superD = new Category(-1, "Conditions D", -1);
-        Category subD1 = new Category(-1, "Condition D.1", -1);
-        Category subD2 = new Category(-1, "Condition D.2", -1);
-        Category subD3 = new Category(-1, "Condition D.3", -1);
-        Category subD4 = new Category(-1, "Condition D.4", -1);
+        Category superD = new Category(-1, "Conditions D", -1,  CategoryType.UNKNOWN);
+        Category subD1 = new Category(-1, "Condition D.1", -1,  CategoryType.UNKNOWN);
+        Category subD2 = new Category(-1, "Condition D.2", -1,  CategoryType.UNKNOWN);
+        Category subD3 = new Category(-1, "Condition D.3", -1,  CategoryType.UNKNOWN);
+        Category subD4 = new Category(-1, "Condition D.4", -1,  CategoryType.UNKNOWN);
 
         superSuperCategory.setParent(null);
         superSuperCategory.addChild(superA);
@@ -145,5 +158,5 @@ public class TreeHierachyTest {
         assertEquals("Condition A.1", subCategory.getValue().getCategoryName());
         assertEquals(0, subCategory.getChildren().size());
     }
-*/
+
 }
