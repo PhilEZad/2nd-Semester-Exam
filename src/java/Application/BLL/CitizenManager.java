@@ -33,9 +33,11 @@ public class CitizenManager
 
     public List<Citizen> getAllTemplates()
     {
-        Callable<List<Citizen>> callable = () -> {
+        Callable<List<Citizen>> callable = () ->
+        {
                 var citizens = citizenDAO.readAll(SessionManager.getCurrent().getSchool()).stream()
-                        .filter(Citizen::getTemplate).collect(Collectors.toList());{
+                        .filter(Citizen::getTemplate).collect(Collectors.toList());
+                {
 
             citizens.forEach(citizen -> {
                 for (var entry : healthEntriesManager.getEntriesFor(citizen.getID())) {
@@ -168,8 +170,6 @@ public class CitizenManager
         generalInfoDAO.create(generalJournal);
 
         citizen.setGeneralJournal(generalJournal);
-
-
 
             for (var entry : healthEntriesManager.getEntriesFor(citizen.getID())) {
                 citizen.addHealthConditions(entry);
