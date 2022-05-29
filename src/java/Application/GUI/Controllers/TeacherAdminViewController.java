@@ -1,6 +1,7 @@
 package Application.GUI.Controllers;
 
 
+import Application.BLL.SessionManager;
 import Application.BLL.TeacherDataManager;
 import Application.GUI.Models.AccountModel;
 
@@ -56,11 +57,14 @@ public class TeacherAdminViewController implements Initializable
 
     private void initViewStates()
     {
-        System.out.println(anchorPaneDashboard.getChildren());
-        stateMachine.addState(tglBtnDashboard, new State(anchorPaneDashboard, tglBtnDashboard)); // Dashboard
-        stateMachine.addState(tglBtnStudents, new State(anchorPaneStudents, tglBtnStudents)); // Students
-        stateMachine.addState(tglBtnCitizenTemplates, new State(anchorPaneCitizenTemplate, tglBtnCitizenTemplates)); // Citizen Templates
-        stateMachine.addState(tglBtnCitizens, new State(anchorPaneCitizens, tglBtnCitizens)); // Citizens
+        if (SessionManager.getCurrent().getIsAdmin())
+        stateMachine.addState(tglBtnDashboard, new State(scene, "/Views/dashboard/AdminDashboard.fxml", tglBtnDashboard)); // Dashboard
+
+        else stateMachine.addState(tglBtnDashboard, new State(scene, "/Views/dashboard/Default.fxml", tglBtnDashboard)); // Dashboard
+
+        stateMachine.addState(tglBtnStudents, new State(scene,"/Views/dashboard/Students.fxml", tglBtnStudents)); // Students
+        stateMachine.addState(tglBtnCitizenTemplates, new State(scene, "/Views/dashboard/CitizenTemplate.fxml", tglBtnCitizenTemplates)); // Citizen Templates
+        stateMachine.addState(tglBtnCitizens, new State(scene,"/Views/dashboard/Citizens.fxml", tglBtnCitizens)); // Citizens
     }
 
     private void initToggleGroup()

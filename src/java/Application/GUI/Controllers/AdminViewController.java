@@ -30,6 +30,7 @@ import java.util.*;
  * @author Philip Zadeh
  * @author Kasper Rasmussen
  * */
+@Deprecated
 public class AdminViewController implements Initializable {
 
     AdminDataManager dataManager;
