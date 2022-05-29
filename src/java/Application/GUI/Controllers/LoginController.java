@@ -64,7 +64,6 @@ public class LoginController implements Initializable
         @Override
         public void initialize(URL location, ResourceBundle resources)
         {
-            System.out.println(SessionManager.createToken("admin", "admin"));
             toggleGroup = new ToggleGroup();
 
             toggleGroup.getToggles().add(rbStudent);
