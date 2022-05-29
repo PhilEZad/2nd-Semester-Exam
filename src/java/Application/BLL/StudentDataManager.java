@@ -5,10 +5,17 @@ import Application.BE.Citizen;
 import Application.BE.FunctionalEntry;
 import Application.DAL.AssignedCitizensDAO;
 import Application.DAL.CitizenDAO;
+import Application.Utility.GUIUtils;
+import javafx.scene.control.Alert;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.stream.Collectors;
 
 
 /**
@@ -56,10 +63,30 @@ public class StudentDataManager
 
     public List<Citizen> getAssignedCitizens(int id)
     {
+        Callable<List<Citizen>> callable = () ->
+        {
+            var citizens = new AssignedCitizensDAO().read(id).getValue();
+            {
+
+                citizens.forEach(citizen -> {
+                    for (var entry : new  HealthEntriesManager().getEntriesFor(citizen.getID())) {
+                        citizen.addHealthConditions(entry);
+                    }
+
+                    for (var entry : new FunctionalEntriesManager().getEntriesFor(citizen.getID())) {
+                        citizen.addFunctionalAbility(entry);
+                    }
+                });
+                return citizens;
+            }};
+
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
         try {
-            return new AssignedCitizensDAO().read(id).getValue();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+            return executorService.submit(callable).get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+            GUIUtils.alertCall(Alert.AlertType.ERROR, "Fejl ved hentning af skabeloner");
+            return new ArrayList<>();
         }
     }
 
