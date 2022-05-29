@@ -292,13 +292,11 @@ public class CitizenTemplateController implements Initializable
         rebindProperty(txtAreaGenInfoNetwork.textProperty(), oldValue.networkProperty(), newValue.networkProperty());
 
         //set the functional abilities TreeTableView to the values of the selected citizen template
-        treeTblViewHealth.rootProperty().unbindBidirectional(oldValue.functionalAbilitiesTreeProperty());
-        treeTblViewFunc.rootProperty().bindBidirectional(newValue.functionalAbilitiesTreeProperty());
+        treeTblViewFunc.rootProperty().set(newValue.functionalAbilitiesTreeProperty().getValue());
         treeTblViewFunc.setShowRoot(false);
 
         //set the health categories to the health categories of the selected citizen template
-        treeTblViewHealth.rootProperty().unbindBidirectional(oldValue.healthConditionsTreeProperty());
-        treeTblViewHealth.rootProperty().bindBidirectional(newValue.healthConditionsTreeProperty());
+        treeTblViewHealth.rootProperty().set(newValue.healthConditionsTreeProperty().getValue());
         treeTblViewHealth.setShowRoot(false);
     }
 
