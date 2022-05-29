@@ -139,6 +139,14 @@ public class TeacherDataManager extends StudentDataManager
         }
     }
 
+    public List<Citizen> assignedCitizens (Account account) throws SQLException
+    {
+
+        Pair<Account, List<Citizen>> pair = assignedCitizensDAO.read(account.getID());
+
+        return pair.getValue();
+    }
+
     public void removeFromCitizen(Account student, Citizen citizen) throws IllegalArgumentException, AccessDeniedException, SQLException
     {
         if (student == null || citizen == null)

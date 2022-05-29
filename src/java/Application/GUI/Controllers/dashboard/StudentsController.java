@@ -1,6 +1,7 @@
 package Application.GUI.Controllers.dashboard;
 
 import Application.BE.Account;
+import Application.BE.Citizen;
 import Application.BLL.TeacherDataManager;
 import Application.GUI.Models.AccountModel;
 import Application.GUI.Models.CitizenModel;
@@ -251,11 +252,11 @@ public class StudentsController implements Initializable {
             return;
         }
 
-        //try {
-        //    this.listViewCitizensForStudents.setItems(FXCollections.observableArrayList(new AssignedCitizenDAO().read(selected)));
-        //} catch (SQLException e) {
-        //    throw new RuntimeException(e);
-        //}
+        try {
+            this.listViewCitizensForStudents.setItems(listToObservable(dataManger.assignedCitizens(listViewStudents.getSelectionModel().getSelectedItem().getAccount())));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
         lblStudentsStudentName.setText(selected.getFirstName() + " " + selected.getLastName());
         lblStudentEmail.setText(selected.getEmail());
@@ -281,6 +282,18 @@ public class StudentsController implements Initializable {
             sqlException.printStackTrace();
             return returnList;
         }
+    }
+
+    private ObservableList<CitizenModel> listToObservable(List<Citizen> list)
+    {
+        ObservableList<CitizenModel> citizenModelObservableList = FXCollections.observableArrayList();
+        for (Citizen citizen: list)
+        {
+            CitizenModel citizenModel = new CitizenModel(citizen);
+            citizenModelObservableList.add(citizenModel);
+        }
+
+        return citizenModelObservableList;
     }
 }
 
