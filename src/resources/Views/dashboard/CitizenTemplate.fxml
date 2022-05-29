@@ -19,7 +19,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="anchorPaneCitizenTemplateDashboard" prefHeight="756.0" prefWidth="1352.0" styleClass="background" stylesheets="@../../Styles/MainStylesheet.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Application.GUI.Controllers.dashboard.CitizenTemplateController">
+<AnchorPane fx:id="anchorPaneCitizenTemplateDashboard" prefHeight="756.0" prefWidth="1352.0" styleClass="background" stylesheets="@../../Styles/MainStylesheet.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Application.GUI.Controllers.dashboard.CitizenTemplateController">
     <children>
         <AnchorPane layoutX="14.0" layoutY="23.0" prefHeight="300.0" prefWidth="200.0" styleClass="panel30Deg" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="23.0">
             <children>
