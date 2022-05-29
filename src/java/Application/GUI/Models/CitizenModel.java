@@ -70,7 +70,7 @@ public class CitizenModel implements Cloneable
         for (FunctionalEntry entry : citizen.getFunctionalAbilities())
         {
             Category category = entry.getCategory();
-            CategoryEntryModel model = new CategoryEntryModel(entry);
+            CategoryEntryModel model = new CategoryEntryModel(entry, citizen.getID());
             model.setCategory(category);
 
             if (entry.isRelevant())
@@ -85,7 +85,7 @@ public class CitizenModel implements Cloneable
 
         for (HealthEntry entry : citizen.getHealthConditions())
         {
-            CategoryEntryModel model = new CategoryEntryModel(entry);
+            CategoryEntryModel model = new CategoryEntryModel(entry, citizen.getID());
             model.setCategory(entry.getCategory());
 
             if (entry.isRelevant())

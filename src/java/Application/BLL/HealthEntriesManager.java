@@ -10,13 +10,14 @@ import java.util.Objects;
 
 public class HealthEntriesManager extends ContentEntryManager<HealthEntry>
 {
-
-
     public List<HealthEntry> getEntriesFor(int citizenId)
     {
         // get data from database.
 
         var data = citizenId == -1 ? new ArrayList<HealthEntry>() : new HealthConditionDAO().readAll(citizenId);
+
+        if (data == null)
+            data = new ArrayList<HealthEntry>();
 
         // TODO: 28-05-2022 - use enum instead of int constant.
         var root = categoriesCache.stream().filter(category -> category.getID() == 3).findFirst().orElse(new Category("Helbredstilstande"));

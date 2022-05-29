@@ -2,8 +2,8 @@ package Application.BE;
 
 public class FunctionalEntry implements IUniqueIdentifier<Integer> {
 
-    private Integer id = 0;
-    private Category category = null;
+    private Integer id = -1;
+    private Category category =  new Category("unknown");
     private int citizenID;
 
     private String assessment = "";
@@ -15,7 +15,7 @@ public class FunctionalEntry implements IUniqueIdentifier<Integer> {
     private Integer currentStatus = 0;
     private Integer expectedStatus = 0;
 
-    private Integer severity = null;
+    private Integer severity = -1;
 
 
     public FunctionalEntry(Category category)
@@ -61,6 +61,10 @@ public class FunctionalEntry implements IUniqueIdentifier<Integer> {
     public FunctionalEntry(int citizenId)
     {
         this.citizenID = citizenId;
+    }
+
+    public FunctionalEntry() {
+
     }
 
 
@@ -156,5 +160,34 @@ public class FunctionalEntry implements IUniqueIdentifier<Integer> {
 
     public void setCitizenID(int citizenID) {
         this.citizenID = citizenID;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+
+        var obj = (FunctionalEntry) o;
+
+        // content equality
+        return  obj.getCurrentStatus().equals(this.getCurrentStatus()) &&
+                obj.getExpectedStatus().equals(this.getExpectedStatus()) &&
+                obj.getAssessment().equals(this.getAssessment()) &&
+                obj.getCause().equals(this.getCause()) &&
+                obj.getImplications().equals(this.getImplications()) &&
+                obj.getCitizenGoals().equals(this.getCitizenGoals()) &&
+                obj.getNote().equals(this.getNote());
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getCategory() != null ? getCategory().hashCode() : 0;
+        result = 31 * result + (getAssessment() != null ? getAssessment().hashCode() : 0);
+        result = 31 * result + (getCause() != null ? getCause().hashCode() : 0);
+        result = 31 * result + (getImplications() != null ? getImplications().hashCode() : 0);
+        result = 31 * result + (getCitizenGoals() != null ? getCitizenGoals().hashCode() : 0);
+        result = 31 * result + (getNote() != null ? getNote().hashCode() : 0);
+        result = 31 * result + (getCurrentStatus() != null ? getCurrentStatus().hashCode() : 0);
+        result = 31 * result + (getExpectedStatus() != null ? getExpectedStatus().hashCode() : 0);
+        result = 31 * result + (severity != null ? severity.hashCode() : 0);
+        return result;
     }
 }

@@ -84,7 +84,7 @@ public abstract class AbstractDAO<RETURN_TYPE>
         if (!this.hasExecutedSuccessfully.get())
         {
             // post error
-            System.err.println("exception occurred when running db query");
+            System.err.println("exception occurred when running db query" + this.getLastError().getMessage());
         }
 
         return new Pair<>(return_ids.stream().findFirst().orElse(-1), return_value.getAcquire());

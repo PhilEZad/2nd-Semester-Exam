@@ -199,5 +199,14 @@ public class HealthConditionDAO implements IDatabaseActions<HealthEntry>
 
     public void updateAll(List<HealthEntry> healthConditions)
     {
+        for (HealthEntry healthCondition : healthConditions.stream().filter(entry -> !entry.equals(new HealthEntry())).toList())
+        {
+            if (healthCondition.getID() == -1)
+            {
+                create(healthCondition);
+            }
+            else
+                update(healthCondition);
+        }
     }
 }

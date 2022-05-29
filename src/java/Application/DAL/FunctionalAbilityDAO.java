@@ -106,8 +106,9 @@ public class FunctionalAbilityDAO implements IDatabaseActions<FunctionalEntry>
             @Override
             protected String getSQLStatement() {
                 return """
-                        SELECT * FROM GeneralJournal
-                        WHERE JournalGID = ?
+                        SELECT * FROM FunctionalEntry
+                        JOIN Categories C on C.CatID = FunctionalEntry.FK_Category
+                        WHERE JournalFID = ?
                         """;
             }
         };
@@ -138,6 +139,7 @@ public class FunctionalAbilityDAO implements IDatabaseActions<FunctionalEntry>
             protected String getSQLStatement() {
                 return """
                         SELECT * FROM FunctionalEntry
+                        JOIN Categories C on C.CatID = FunctionalEntry.FK_Category
                         WHERE FK_Citizen = ?
                         """;
             }
@@ -201,6 +203,16 @@ public class FunctionalAbilityDAO implements IDatabaseActions<FunctionalEntry>
         dao.start();
     }
 
-    public void updateAll(List<FunctionalEntry> functionalAbilities) {
+    public void updateAll(List<FunctionalEntry> functionalAbilities)
+    {
+        for (FunctionalEntry functionalEntry : functionalAbilities.stream().filter(entry -> !entry.equals(new FunctionalEntry())).toList())
+        {
+            if (functionalEntry.getID() == -1)
+            {
+                create(functionalEntry);
+            }
+            else
+                update(functionalEntry);
+        }
     }
 }

@@ -35,13 +35,10 @@ public class CategoryEntryModel implements Comparable<CategoryEntryModel>, Clone
     private final StringProperty note = new SimpleStringProperty();
 
     private int id;
+    private int citizenID;
     private CategoryType type;
     private Category category;
     private FunctionalEntry contentEntry;
-
-    public static CategoryEntryModel convert(HealthEntry entry) {
-        return new CategoryEntryModel(entry);
-    }
 
     public static Object convert(CategoryEntryModel entry, CategoryType type)
     {
@@ -49,7 +46,7 @@ public class CategoryEntryModel implements Comparable<CategoryEntryModel>, Clone
             case FUNCTIONAL_ABILITY -> {
                 var contentEntry = new FunctionalEntry(entry.getCategory());
                 contentEntry.setID(entry.getId());
-
+                contentEntry.setCitizenID(entry.getCitizenID());
                 contentEntry.setAssessment(entry.getAssessment());
                 contentEntry.setCause(entry.getCause());
                 contentEntry.setImplications(entry.getImplications());
@@ -65,6 +62,7 @@ public class CategoryEntryModel implements Comparable<CategoryEntryModel>, Clone
                 var result = new HealthEntry();
                 result.setID(entry.getId());
 
+                result.setCitizenID(entry.getCitizenID());
                 result.setCategory(entry.getCategory());
                 result.setAssessment(entry.getAssessment());
                 result.setCause(entry.getCause());
@@ -78,7 +76,15 @@ public class CategoryEntryModel implements Comparable<CategoryEntryModel>, Clone
         return null;
     }
 
-    public CategoryEntryModel() {}
+    public CategoryEntryModel(HealthEntry entry, int citizenID) {
+        this(entry);
+        this.citizenID = citizenID;
+    }
+
+    public CategoryEntryModel(FunctionalEntry entry, int citizenID) {
+        this(entry);
+        this.citizenID = citizenID;
+    }
 
     public CategoryEntryModel(HealthEntry entry)
     {
@@ -642,5 +648,13 @@ public class CategoryEntryModel implements Comparable<CategoryEntryModel>, Clone
         } catch (CloneNotSupportedException e) {
             throw new AssertionError();
         }
+    }
+
+    public int getCitizenID() {
+        return citizenID;
+    }
+
+    public void setCitizenID(int citizenID) {
+        this.citizenID = citizenID;
     }
 }

@@ -20,16 +20,20 @@ public class ResultSetHelpers
 
     public static FunctionalEntry buildFunctionalEntry(ResultSet rs) throws SQLException {
         return new FunctionalEntry(
-                rs.getInt("JournalHID"),
+                rs.getInt("JournalFID"),
                 rs.getInt("FK_Citizen"),
-                buildCategory(rs, CategoryType.FUNCTIONAL_ABILITY),
+                new Category(
+                        rs.getInt("CatID"),
+                        rs.getString("categoryName"),
+                        rs.getInt("FK_ParentCat"),
+                        CategoryType.FUNCTIONAL_ABILITY ),
                 rs.getString("assessment"),
                 rs.getString("cause"),
                 rs.getString("implications"),
                 rs.getString("goals"),
                 rs.getString("notes"),
                 rs.getInt("currentLevel"),
-                rs.getInt("expetedLevel")
+                rs.getInt("expectedLevel")
         );
     }
 
@@ -37,12 +41,16 @@ public class ResultSetHelpers
         return new HealthEntry (
                 rs.getInt("JournalHID"),
                 rs.getInt("FK_Citizen"),
-                buildCategory(rs, CategoryType.HEALTH_CONDITION),
+                new Category(
+                        rs.getInt("CatID"),
+                        rs.getString("categoryName"),
+                        rs.getInt("FK_ParentCat"),
+                        CategoryType.HEALTH_CONDITION ),
                 rs.getString("assement"),
                 rs.getString("cause"),
                 rs.getString("notes"),
                 rs.getInt("currentLevel"),
-                rs.getInt("expetedLevel")
+                rs.getInt("expectedLevel")
         );
     }
 

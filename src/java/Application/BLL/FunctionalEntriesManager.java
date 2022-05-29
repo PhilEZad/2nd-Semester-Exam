@@ -18,6 +18,9 @@ public class FunctionalEntriesManager extends ContentEntryManager<FunctionalEntr
     {
         var data = citizenId == -1 ? new ArrayList<FunctionalEntry>() : new FunctionalAbilityDAO().readAll(citizenId);
 
+        if (data == null)
+            data = new ArrayList<FunctionalEntry>();
+
         // TODO: 28-05-2022 - use enum instead of int constant.
         var root = categoriesCache.stream().filter(category -> category.getID() == 2).findFirst().orElse(new Category("Funktionsevnetilstande"));
 

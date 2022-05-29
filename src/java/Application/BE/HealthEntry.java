@@ -102,4 +102,28 @@ public class HealthEntry implements IUniqueIdentifier<Integer>
     public boolean isRelevant() {
         return this.currentStatus != 0 && this.currentStatus != -1;
     }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        var object = (HealthEntry) o;
+
+        // content equals
+        return  object.getAssessment().equals(this.getAssessment()) &&
+                object.getCause().equals(this.getCause()) &&
+                object.getNote().equals(this.getNote()) &&
+                object.getCurrentStatus().equals(this.getCurrentStatus()) &&
+                object.getExpectedStatus().equals(this.getExpectedStatus());
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getCategory() != null ? getCategory().hashCode() : 0;
+        result = 31 * result + (getAssessment() != null ? getAssessment().hashCode() : 0);
+        result = 31 * result + (getCause() != null ? getCause().hashCode() : 0);
+        result = 31 * result + (getNote() != null ? getNote().hashCode() : 0);
+        result = 31 * result + (getCurrentStatus() != null ? getCurrentStatus().hashCode() : 0);
+        result = 31 * result + (getExpectedStatus() != null ? getExpectedStatus().hashCode() : 0);
+        return result;
+    }
 }
