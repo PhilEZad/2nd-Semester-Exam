@@ -145,12 +145,13 @@ public class CitizenTemplateController implements Initializable
         try
         {
             listViewCitizenTemplates.getItems().add(new CitizenModel(new CitizenManager().createCitizenTemplate()));
+            initializeAvailableTemplates();
+
             Notifications notifications = Notifications.create();
             notifications.title("Ny borger skabelon");
             notifications.text("Borger skabelon er oprettet");
             notifications.showInformation();
             notifications.hideAfter(Duration.seconds(3));
-            initializeAvailableTemplates();
         }
         catch (Exception e)
         {
@@ -188,7 +189,7 @@ public class CitizenTemplateController implements Initializable
     {
         try
         {
-            listViewCitizenTemplates.getItems().add(new CitizenModel(new CitizenManager().createCitizenTemplateCopy(CitizenModel.convert(selected.clone().getBeCitizen()))));
+            listViewCitizenTemplates.getItems().add(new CitizenModel(new CitizenManager().createCitizenTemplateCopy(selected.clone())));
             initializeAvailableTemplates();
         }
         catch (CloneNotSupportedException e)
