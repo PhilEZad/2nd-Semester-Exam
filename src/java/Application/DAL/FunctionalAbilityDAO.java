@@ -200,4 +200,7 @@ public class FunctionalAbilityDAO implements IDatabaseActions<FunctionalEntry>
 
         dao.start();
     }
+
+    public void updateAll(List<FunctionalEntry> functionalAbilities) {
+    }
 }

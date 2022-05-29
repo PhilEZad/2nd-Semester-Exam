@@ -196,4 +196,8 @@ public class HealthConditionDAO implements IDatabaseActions<HealthEntry>
 
         dao.start();
     }
+
+    public void updateAll(List<HealthEntry> healthConditions)
+    {
+    }
 }

@@ -100,7 +100,7 @@ public class EditAccountController implements Initializable {
 
     private void initBundle(ResourceBundle resource)
     {
-        if (!(resource.getObject("selectedModel") == null))
+        if (resource.getObject("selectedModel") != null)
         {
             account = (AccountModel) resource.getObject("selectedModel");
         }

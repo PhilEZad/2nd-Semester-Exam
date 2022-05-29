@@ -2,6 +2,8 @@ package Application.GUI.Models;
 
 import javafx.scene.image.Image;
 
+import java.util.Arrays;
+
 public enum FunctionalLevels {
 
     LEVEL_0(0, new Image(FunctionalLevels.class.getResource("/img/func0.png").toExternalForm())),
@@ -18,4 +20,8 @@ public enum FunctionalLevels {
         this.level = level;
         this.image = image;
     }
+    public static FunctionalLevels getByInt(int level) {
+        return Arrays.stream(FunctionalLevels.values()).filter(functionalLevels -> functionalLevels.level == level).findFirst().orElse(LEVEL_9);
+    }
+
 }

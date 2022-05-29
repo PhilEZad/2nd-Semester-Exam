@@ -15,7 +15,7 @@ import javafx.scene.image.ImageView;
 
 import java.util.Arrays;
 
-public class CategoryEntryModel implements Comparable<CategoryEntryModel>
+public class CategoryEntryModel implements Comparable<CategoryEntryModel>, Cloneable
 {
     private final StringProperty categoryName = new SimpleStringProperty();
     private final IntegerProperty level = new SimpleIntegerProperty();
@@ -43,13 +43,39 @@ public class CategoryEntryModel implements Comparable<CategoryEntryModel>
         return new CategoryEntryModel(entry);
     }
 
-    public static HealthEntry convert(CategoryEntryModel entry)
+    public static Object convert(CategoryEntryModel entry, CategoryType type)
     {
-        var result = new HealthEntry();
+        switch (type) {
+            case FUNCTIONAL_ABILITY -> {
+                var contentEntry = new FunctionalEntry(entry.getCategory());
+                contentEntry.setID(entry.getId());
 
-        result.setID(entry.getId());
+                contentEntry.setAssessment(entry.getAssessment());
+                contentEntry.setCause(entry.getCause());
+                contentEntry.setImplications(entry.getImplications());
+                contentEntry.setCitizenGoals(entry.getCitizenGoals());
+                contentEntry.setNote(entry.getNote());
 
-        return result;
+                contentEntry.setCurrentStatus(entry.levelFunc.get().level);
+                contentEntry.setExpectedStatus(entry.exConFunc.get().level);
+
+                return contentEntry;
+            }
+            case HEALTH_CONDITION -> {
+                var result = new HealthEntry();
+                result.setID(entry.getId());
+
+                result.setCategory(entry.getCategory());
+                result.setAssessment(entry.getAssessment());
+                result.setCause(entry.getCause());
+                result.setNote(entry.getNote());
+
+                result.setCurrentStatus(entry.getLevelHealth().level);
+                result.setExpectedStatus(entry.getExConHealth().level);
+                return result;
+            }
+        }
+        return null;
     }
 
     public CategoryEntryModel() {}
@@ -78,16 +104,22 @@ public class CategoryEntryModel implements Comparable<CategoryEntryModel>
         this.contentEntry = contentEntry;
         this.id = contentEntry.getID();
         categoryName.set(contentEntry.getCategoryName());
+
         if (contentEntry.getCurrentStatus() != null)
-        level.set(contentEntry.getCurrentStatus());
-        else level.set(-1);
+            level.set(contentEntry.getCurrentStatus());
+        else
+            level.set(-1);
+
         assessment.set(contentEntry.getAssessment());
         cause.set(contentEntry.getCause());
         implications.set(contentEntry.getImplications());
         citizenGoals.set(contentEntry.getCitizenGoals());
+
         if (contentEntry.getExpectedStatus() != null)
-        expectedCondition.set(contentEntry.getExpectedStatus());
-        else expectedCondition.set(-1);
+            expectedCondition.set(contentEntry.getExpectedStatus());
+        else
+            expectedCondition.set(-1);
+
         note.set(contentEntry.getNote());
         type = contentEntry.getCategory().getType();
         initBinds();
@@ -172,21 +204,45 @@ public class CategoryEntryModel implements Comparable<CategoryEntryModel>
         exConHealthComboBox.get().setButtonCell(comboBoxHealthDescCell());
         exConHealthComboBox.get().setDisable(true);
 
-        if (this.type == CategoryType.FUNCTIONAL_ABILITY) {
-            if (level.get() == 9 || level.get() == -1) {
+        if (this.type == CategoryType.FUNCTIONAL_ABILITY)
+        {
+            if (level.get() == 9 || level.get() == -1)
+            {
                 levelFuncComboBox.get().setValue(FunctionalLevels.LEVEL_9);
-            } else levelFuncComboBox.get().setValue(FunctionalLevels.values()[level.get()]);
-            if (expectedCondition.get() == 9 || expectedCondition.get() == -1){
-                exConFuncComboBox.get().setValue(FunctionalLevels.LEVEL_9);
-            } else exConFuncComboBox.get().setValue(FunctionalLevels.values()[expectedCondition.get()]);
-        }
-        else {
-            if (level.get() == -1) {
-                levelHealthComboBox.get().setValue(HealthLevels.NOT_RELEVANT);
-                exConHealthComboBox.get().setValue(HealthLevels.NOT_RELEVANT);
             }
-           levelHealthComboBox.get().setValue(HealthLevels.values()[level.get()]);
-           exConHealthComboBox.get().setValue(HealthLevels.values()[expectedCondition.get()]);
+            else
+            {
+                levelFuncComboBox.get().setValue(FunctionalLevels.getByInt(level.get()));
+            }
+
+            if (expectedCondition.get() == 9 || expectedCondition.get() == -1)
+            {
+                exConFuncComboBox.get().setValue(FunctionalLevels.LEVEL_9);
+            }
+            else
+            {
+                exConFuncComboBox.get().setValue(FunctionalLevels.getByInt(expectedCondition.get()));
+            }
+        }
+        else
+        {
+           if (level.get() == -1)
+           {
+               levelHealthComboBox.get().setValue(HealthLevels.NOT_RELEVANT);
+           }
+           else
+           {
+               levelHealthComboBox.get().setValue(HealthLevels.getByInt(level.get()));
+           }
+
+           if (expectedCondition.get() == -1)
+           {
+                exConHealthComboBox.get().setValue(HealthLevels.NOT_RELEVANT);
+           }
+           else
+           {
+                exConHealthComboBox.get().setValue(HealthLevels.getByInt(expectedCondition.get()));
+           }
         }
     }
 
@@ -575,5 +631,16 @@ public class CategoryEntryModel implements Comparable<CategoryEntryModel>
 
     public Category getCategory() {
         return category;
+    }
+
+    @Override
+    public CategoryEntryModel clone() {
+        try {
+            CategoryEntryModel clone = (CategoryEntryModel) super.clone();
+            // TODO: copy mutable state here, so the clone can't change the internals of the original
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
 }

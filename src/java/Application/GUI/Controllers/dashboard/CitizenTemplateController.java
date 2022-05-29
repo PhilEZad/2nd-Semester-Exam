@@ -25,6 +25,7 @@ import org.controlsfx.control.Notifications;
 import java.net.URL;
 import java.util.*;
 
+
 public class CitizenTemplateController implements Initializable
 {
     public AnchorPane anchorPaneCitizenTemplateDashboard;
@@ -101,7 +102,6 @@ public class CitizenTemplateController implements Initializable
     }
 
 
-
     /**
      * Shows the context menu with the available actions for the selected citizen template
      * right above the clicked button.
@@ -170,14 +170,14 @@ public class CitizenTemplateController implements Initializable
         alert.setHeaderText("Er du sikker på at du vil slette denne borger skabelonen?");
         alert.setContentText("Dette kan ikke fortrydes.");
         alert.getDialogPane().getStylesheets().add(Objects.requireNonNull(getClass().getResource("/Styles/MainStylesheet.css")).toExternalForm());
-
         Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.OK) {
-            listViewCitizenTemplates.getItems().remove(listViewCitizenTemplates.getSelectionModel().getSelectedItem());
-            // TODO: 28-05-2022  Delete the template from the database
-            // model.deleteCitizenTemplate();
-            initializeAvailableTemplates();
 
+        if (result.get() == ButtonType.OK)
+        {
+            listViewCitizenTemplates.getItems().remove(selected);
+            new CitizenManager().deleteCitizenTemplate(selected.getBeCitizen());
+            listViewCitizenTemplates.getSelectionModel().selectNext();
+            initializeAvailableTemplates();
         }
     }
 
@@ -188,8 +188,7 @@ public class CitizenTemplateController implements Initializable
     {
         try
         {
-            // TODO: 28-05-2022 update database; data manager
-            listViewCitizenTemplates.getItems().add((CitizenModel) selected.clone());
+            listViewCitizenTemplates.getItems().add(new CitizenModel(new CitizenManager().createCitizenTemplateCopy(CitizenModel.convert(selected.clone().getBeCitizen()))));
             initializeAvailableTemplates();
         }
         catch (CloneNotSupportedException e)
@@ -270,6 +269,9 @@ public class CitizenTemplateController implements Initializable
      */
     private void rebindDataBidirectional(CitizenModel oldValue, CitizenModel newValue)
     {
+        if (newValue == null)
+            return;
+
         if (oldValue == null)
             oldValue = newValue;
 
@@ -400,8 +402,7 @@ public class CitizenTemplateController implements Initializable
         {
 
             // TODO: 28-05-2022 save correctly
-            //model.saveEditedCitizenTemplate();
-
+            new CitizenManager().updateCitizen(CitizenModel.convert(selected));
 
             setEditable(false);
         }
@@ -416,13 +417,11 @@ public class CitizenTemplateController implements Initializable
     {
         System.out.println("selected object: " + selected.hashCode() + " selectedbackup: " + selectedBackup.hashCode());
 
-        ObservableList<CitizenModel> templateModelObservableList = listViewCitizenTemplates.getItems();
-
-        int index = templateModelObservableList.indexOf(selected);
-
+        int index = listViewCitizenTemplates.getItems().indexOf(selected);
         listViewCitizenTemplates.getItems().set(index, selectedBackup);
-        listViewCitizenTemplates.getSelectionModel().selectFirst();
-        listViewCitizenTemplates.getSelectionModel().select(index);
+
+        listViewCitizenTemplates.getSelectionModel().selectNext();
+        listViewCitizenTemplates.getSelectionModel().selectPrevious();
 
         setEditable(false);
     }
@@ -459,36 +458,23 @@ public class CitizenTemplateController implements Initializable
         treeTblColumnHealthNote.setOnEditCommit(event -> event.getTreeTablePosition().getTreeItem().getValue().setNote(event.getNewValue()));
         treeTblColumnHealthNote.setOnEditCancel(event -> event.getTreeTablePosition().getTreeItem().getValue().setNote(event.getOldValue()));
 
-        treeTblColumnFuncLevel.setOnEditCommit(event -> event.getTreeTablePosition().getTreeItem().getValue().setLevel(event.getNewValue().getValue().level));
-        treeTblColumnFuncLevel.setOnEditCancel(event -> event.getTreeTablePosition().getTreeItem().getValue().setLevel(event.getOldValue().getValue().level));
+        treeTblColumnFuncLevel.setOnEditCommit(event -> event.getTreeTablePosition().getTreeItem().getValue().setLevelFunc(event.getNewValue().getValue()));
+        treeTblColumnFuncLevel.setOnEditCancel(event -> event.getTreeTablePosition().getTreeItem().getValue().setLevelFunc(event.getOldValue().getValue()));
 
-        treeTblColumnHealthLevel.setOnEditCommit(event -> event.getTreeTablePosition().getTreeItem().getValue().setLevel(event.getNewValue().getValue().ordinal()));
-        treeTblColumnHealthLevel.setOnEditCancel(event -> event.getTreeTablePosition().getTreeItem().getValue().setLevel(event.getOldValue().getValue().ordinal()));
+        treeTblColumnHealthLevel.setOnEditCommit(event -> event.getTreeTablePosition().getTreeItem().getValue().setCurrentHealthStatus(event.getNewValue().getValue()));
+        treeTblColumnHealthLevel.setOnEditCancel(event -> event.getTreeTablePosition().getTreeItem().getValue().setCurrentHealthStatus(event.getOldValue().getValue()));
 
-        treeTblColumnFuncExpectedCondition.setOnEditCommit(event -> event.getTreeTablePosition().getTreeItem().getValue().setExpectedCondition(event.getNewValue().getValue().level));
-        treeTblColumnFuncExpectedCondition.setOnEditCancel(event -> event.getTreeTablePosition().getTreeItem().getValue().setExpectedCondition(event.getOldValue().getValue().level));
+        treeTblColumnFuncExpectedCondition.setOnEditCommit(event -> event.getTreeTablePosition().getTreeItem().getValue().setExConFunc(event.getNewValue().getValue()));
+        treeTblColumnFuncExpectedCondition.setOnEditCancel(event -> event.getTreeTablePosition().getTreeItem().getValue().setExConFunc(event.getOldValue().getValue()));
 
-        treeTblColumnHealthExpectedCondition.setOnEditCommit(event -> event.getTreeTablePosition().getTreeItem().getValue().setExpectedCondition(event.getNewValue().getValue().ordinal()));
-        treeTblColumnHealthExpectedCondition.setOnEditCancel(event -> event.getTreeTablePosition().getTreeItem().getValue().setExpectedCondition(event.getOldValue().getValue().ordinal()));
+        treeTblColumnHealthExpectedCondition.setOnEditCommit(event -> event.getTreeTablePosition().getTreeItem().getValue().setExpectedHealthStatus(event.getNewValue().getValue()));
+        treeTblColumnHealthExpectedCondition.setOnEditCancel(event -> event.getTreeTablePosition().getTreeItem().getValue().setExpectedHealthStatus(event.getOldValue().getValue()));
     }
 
 
-    /**
-     * Use the Java Faker library to generate a random name and Java.Random to generate a random age.
-     * @return An Object Array of Strings with the generated date.
-     */
-    public Object[] generateBaseData() {
-        Faker faker = new Faker(new Locale("da-DK"));
-        Object[] baseData = new Object[3];
-        baseData[0] = faker.name().firstName();
-        baseData[1] = faker.name().lastName();
-        baseData[2] = 55 + new Random().nextInt(45) + "";
-
-        return baseData;
-    }
 
     public void onGenerateBaseData(ActionEvent event) {
-        Object[] baseData = generateBaseData();
+        Object[] baseData = CitizenManager.generateBaseData();
         txtFieldName.setText((String) baseData[0]);
         txtFieldSurname.setText((String) baseData[1]);
         txtFieldAge.setText((String) baseData[2]);

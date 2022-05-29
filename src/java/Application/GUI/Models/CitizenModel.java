@@ -1,12 +1,11 @@
 package Application.GUI.Models;
 
 import Application.BE.*;
+import Application.BLL.SessionManager;
 import javafx.beans.property.*;
-import javafx.collections.ObservableMap;
 import javafx.scene.control.TreeItem;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class CitizenModel implements Cloneable
 {
@@ -106,6 +105,24 @@ public class CitizenModel implements Cloneable
 
     public static CitizenModel convert(Citizen citizen) {
         return new CitizenModel(citizen);
+    }
+
+    public static Citizen convert(CitizenModel citizen)
+    {
+        var citizenCopy = new Citizen(citizen.getID(), SessionManager.getCurrent().getSchool(), citizen.getFirstName(), citizen.getLastName(), citizen.getAge(), citizen.template.get() == 1);
+
+        citizenCopy.setGeneralJournal(new GeneralJournal(citizen.beCitizen.getGeneralInfo().getID(), citizen.getID(), citizen.getCoping(), citizen.getMotivation(), citizen.getResources(), citizen.getRoles(), citizen.getHabits(), citizen.getEduAndJob(), citizen.getLifeStory(), citizen.getHealthInfo(), citizen.getAssistiveDevices(), citizen.getHomeLayout(), citizen.getNetwork()));
+
+        citizenCopy.getFunctionalAbilities().clear();
+        citizenCopy.getHealthConditions().clear();
+
+        citizen.getRelevantFunctionalAbilities().forEach(model -> citizenCopy.getFunctionalAbilities().add((FunctionalEntry) CategoryEntryModel.convert(model, CategoryType.FUNCTIONAL_ABILITY)));
+        citizen.getNonRelevantFunctionalAbilities().forEach(model -> citizenCopy.getFunctionalAbilities().add((FunctionalEntry) CategoryEntryModel.convert(model, CategoryType.FUNCTIONAL_ABILITY)));
+
+        citizen.getRelevantHealthConditions().forEach(model -> citizenCopy.getHealthConditions().add((HealthEntry) CategoryEntryModel.convert(model, CategoryType.HEALTH_CONDITION)));
+        citizen.getNonRelevantHealthConditions().forEach(model -> citizenCopy.getHealthConditions().add((HealthEntry) CategoryEntryModel.convert(model, CategoryType.HEALTH_CONDITION)));
+
+        return citizenCopy;
     }
 
     public void updateTreeStructure()
@@ -261,10 +278,21 @@ public class CitizenModel implements Cloneable
         clone.setNetwork(this.getNetwork());
         clone.setBeCitizen(this.getBeCitizen());
 
-        clone.setRelevantFunctionalAbilities(new ArrayList<>(this.getRelevantFunctionalAbilities()));
-        clone.setRelevantHealthConditions(new ArrayList<>(this.getRelevantHealthConditions()));
-        clone.setNonRelevantFunctionalAbilities(new ArrayList<>(this.getNonRelevantFunctionalAbilities()));
-        clone.setNonRelevantHealthConditions(new ArrayList<>(this.getNonRelevantHealthConditions()));
+        var entries = new ArrayList<CategoryEntryModel>();
+        this.getRelevantFunctionalAbilities().forEach(categoryEntryModel -> entries.add(categoryEntryModel.clone()));
+        clone.setRelevantFunctionalAbilities(entries);
+
+        entries.clear();
+        this.getRelevantHealthConditions().forEach(categoryEntryModel -> entries.add(categoryEntryModel.clone()));
+        clone.setRelevantHealthConditions(entries);
+
+        entries.clear();
+        this.getNonRelevantFunctionalAbilities().forEach(categoryEntryModel -> entries.add(categoryEntryModel.clone()));
+        clone.setNonRelevantFunctionalAbilities(entries);
+
+        entries.clear();
+        this.getNonRelevantHealthConditions().forEach(categoryEntryModel -> entries.add(categoryEntryModel.clone()));
+        clone.setNonRelevantHealthConditions(entries);
 
         clone.updateTreeStructure();
 
