@@ -3,6 +3,7 @@ package Application.BLL;
 
 import Application.BE.Citizen;
 import Application.BE.FunctionalEntry;
+import Application.DAL.AssignedCitizensDAO;
 import Application.DAL.CitizenDAO;
 
 import java.sql.SQLException;
@@ -53,9 +54,13 @@ public class StudentDataManager
         }
     }
 
-    public Citizen[] getAssignedCitizens(int id)
+    public List<Citizen> getAssignedCitizens(int id)
     {
-        return null;
+        try {
+            return new AssignedCitizensDAO().read(id).getValue();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void updateObservation(Citizen beCitizen, FunctionalEntry contentEntry) {
