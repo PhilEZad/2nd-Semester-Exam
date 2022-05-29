@@ -29,7 +29,6 @@ public class AssignedCitizensDAO implements IDatabaseActions<Pair<Account, List<
                     {
                         AbstractDAO.setPlaceholders(statement, input.getKey(), citizen.getID());
                         statement.addBatch();
-
                     }
                     statement.executeBatch();
                     return null;

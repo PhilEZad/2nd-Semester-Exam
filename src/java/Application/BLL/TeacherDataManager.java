@@ -111,6 +111,9 @@ public class TeacherDataManager extends StudentDataManager
 
     public void assignToCitizen(Account student, Citizen citizen) throws IllegalArgumentException, AccessDeniedException, SQLException
     {
+        List<Citizen> citizenList = new ArrayList<>();
+        citizenList.add(citizen);
+
         if (student == null || citizen == null)
         {
             throw new IllegalArgumentException("");
@@ -119,7 +122,7 @@ public class TeacherDataManager extends StudentDataManager
         {
             if (!student.getIsTeacher() && !student.getIsAdmin())
             {
-                assignedCitizensDAO.create(new Pair<>(student, List.of(citizen)));
+                assignedCitizensDAO.create(new Pair<>(student, citizenList));
             }
             else
             {

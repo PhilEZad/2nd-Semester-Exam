@@ -1,6 +1,8 @@
 package Application.GUI.Controllers.Popups;
 
 import Application.BE.Account;
+import Application.BE.Citizen;
+import Application.BLL.CitizenManager;
 import Application.BLL.TeacherDataManager;
 import Application.GUI.Models.AccountModel;
 import Application.GUI.Models.CitizenModel;
@@ -16,6 +18,7 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.net.URL;
+import java.nio.file.AccessDeniedException;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -33,7 +36,6 @@ public class AddToGroupViewController implements Initializable {
 
     @FXML public TableView<AccountModel> tblAddedAccountsTable;
     @FXML public TableColumn<AccountModel, String> clmAddedAccountName;
-    @FXML public TableColumn<AccountModel, String> clmAddedAccountClass;
 
     @FXML public TableView<AccountModel> tblAccountTable;
     @FXML public TableColumn<AccountModel, String> tblClmAccountName;
@@ -51,12 +53,15 @@ public class AddToGroupViewController implements Initializable {
     public void initialize(URL location, ResourceBundle resources)
     {
         initEventListeners();
-        //comboBoxCases.setItems(mockCases());
+        comboBoxCitizen.setItems(listToObservable(dataManager.getAllCitizenTemplates()));
     }
 
-    public void onSave(ActionEvent actionEvent)
+    public void onSave(ActionEvent actionEvent) throws AccessDeniedException, SQLException
     {
-        // FIXME: 06-05-2022 Change getAccountList to list of added users
+        for (AccountModel account : tblAddedAccountsTable.getItems())
+        {
+            dataManager.assignToCitizen(account.getAccount(), comboBoxCitizen.getSelectionModel().getSelectedItem().getBeCitizen());
+        }
 
         Stage stage = (Stage) btnSave.getScene().getWindow();
         stage.close();
@@ -141,4 +146,17 @@ public class AddToGroupViewController implements Initializable {
             return returnList;
         }
     }
+
+    private ObservableList<CitizenModel> listToObservable(List<Citizen> list)
+    {
+        ObservableList<CitizenModel> citizenModelObservableList = FXCollections.observableArrayList();
+        for (Citizen citizen: list)
+        {
+            CitizenModel citizenModel = new CitizenModel(citizen);
+            citizenModelObservableList.add(citizenModel);
+        }
+
+        return citizenModelObservableList;
+    }
+
 }
