@@ -14,10 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.FutureTask;
-import java.util.concurrent.RunnableFuture;
+import java.util.concurrent.*;
 import java.util.stream.Collectors;
 
 
@@ -159,6 +156,7 @@ public class CitizenManager
 
     public Citizen createCitizenTemplateCopy(CitizenModel convert)
     {
+        Callable<Citizen> callable = () -> {
         Citizen citizen = citizenDAO.create(convert.getBeCitizen());
 
         // create general journal
@@ -169,7 +167,7 @@ public class CitizenManager
 
         citizen.setGeneralJournal(generalJournal);
 
-        RunnableFuture<Citizen> future = new FutureTask<>(() -> {
+
 
             for (var entry : healthEntriesManager.getEntriesFor(citizen.getID())) {
                 citizen.addHealthConditions(entry);
@@ -178,15 +176,17 @@ public class CitizenManager
             for (var entry : functionalEntriesManager.getEntriesFor(citizen.getID())) {
                 citizen.addFunctionalAbility(entry);
             }
-            return citizen;
-        });
 
+        return citizen;
+        };
 
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
         try {
-            return future.get();
+            return executorService.submit(callable).get();
         } catch (InterruptedException | ExecutionException e) {
-            GUIUtils.alertCall(Alert.AlertType.ERROR, "Fejl ved kopiering af skabelonen");
-            return citizen;
+            e.printStackTrace();
+            GUIUtils.alertCall(Alert.AlertType.ERROR, "Fejl ved hentning af borger skabelon");
+            return null;
         }
     }
 

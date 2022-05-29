@@ -8,6 +8,9 @@ import javafx.scene.control.Alert;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * loads categories from the database, and creates the relation between them.
@@ -48,10 +51,12 @@ public class CategoryLoader
         };
 
 
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
         try {
-            return callable.call();
-        } catch (Exception e) {
-            GUIUtils.alertCall(Alert.AlertType.ERROR, "Fejl i læsning af kategorier");
+            return executorService.submit(callable).get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+            GUIUtils.alertCall(Alert.AlertType.ERROR, "Fejl ved læsning af kategorier");
             return new ArrayList<>();
         }
     }

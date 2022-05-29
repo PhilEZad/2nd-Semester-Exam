@@ -8,6 +8,7 @@ import Application.GUI.Models.HealthLevels;
 import Application.Utility.GUIUtils;
 import javafx.beans.property.Property;
 import javafx.beans.value.ChangeListener;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.geometry.Side;
@@ -235,16 +236,16 @@ public class CitizenTemplateController implements Initializable
      */
     private void initializeAvailableTemplates()
     {
-        Thread thread = new Thread(() -> {
-        listViewCitizenTemplates.getItems().clear();
-        new CitizenManager().getAllTemplates().forEach(citizen -> listViewCitizenTemplates.getItems().add(new CitizenModel(citizen)));
-        });
-        thread.start();
-        try {
-            thread.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        Task<Void> task = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                listViewCitizenTemplates.getItems().clear();
+                new CitizenManager().getAllTemplates().forEach(citizen -> listViewCitizenTemplates.getItems().add(new CitizenModel(citizen)));
+                return null;
+            }
+        };
+        task.run();
+
         listViewCitizenTemplates.getSelectionModel().selectedItemProperty().removeListener(citizenTemplateListener());
         listViewCitizenTemplates.getSelectionModel().selectedItemProperty().addListener(citizenTemplateListener());
 
