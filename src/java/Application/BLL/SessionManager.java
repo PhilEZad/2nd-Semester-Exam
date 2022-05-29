@@ -58,13 +58,13 @@ public class SessionManager
      * */
     protected static String extendToLength(String input, int length)
     {
-        if (input == null)
-            return "";
-
         if (length <= -1)
         {
             length = Math.abs(length);
         }
+
+        if (input == null)
+            return " ".repeat(length);
 
         int cycles = (length + 1) / Math.max(1, input.length()) + 1;
 

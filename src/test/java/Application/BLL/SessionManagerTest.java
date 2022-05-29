@@ -12,7 +12,7 @@ public class SessionManagerTest extends TestCase {
 
         // test that null input is handled correctly
         token = SessionManager.extendToLength(null, 5);
-        assertEquals("", token);
+        assertEquals("     ", token);
 
         // test negative length is handled correctly
         token = SessionManager.extendToLength("test", -1);
