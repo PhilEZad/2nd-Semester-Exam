@@ -123,7 +123,8 @@ public class ObservationViewController implements Initializable {
 
         treeTableViewFunc.setRoot(model.getAllFuncCategoriesAsTreeItem());
         treeTableViewFunc.setShowRoot(false);
-*/
+         */
+
         treeTblColumnFuncCatName.setCellValueFactory(param -> param.getValue().getValue().categoryNameProperty());
         treeTblColumnHealthCatName.setCellValueFactory(param -> param.getValue().getValue().categoryNameProperty());
     }

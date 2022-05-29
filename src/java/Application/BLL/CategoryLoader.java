@@ -2,8 +2,12 @@ package Application.BLL;
 
 import Application.BE.Category;
 import Application.DAL.CategoryDAO;
+import Application.Utility.GUIUtils;
+import javafx.scene.control.Alert;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
 
 /**
  * loads categories from the database, and creates the relation between them.
@@ -17,32 +21,39 @@ public class CategoryLoader
     // Loads all categories from the database
     // Returns a Category object
 
+
     public List<Category> load()
     {
-        /// flat set of all categories.
-        var allCategories =  categoryDAO.readAll();
+        Callable<List<Category>> callable = () -> {
 
-        var root = new Category("root");
+            /// flat set of all categories.
+            var allCategories = categoryDAO.readAll();
 
-        for (var element : allCategories)
-        {
-            if (element.getParentID() == 0)
-            {
-                element.setParent(root);
-                element.getParent().setID(0);
-            }
+            var root = new Category("root");
 
-            for (var category : allCategories)
-            {
-                if (category.getParentID() == element.getID())
-                {
-                    element.getChildren().add(category);
-                    category.setParent(element);
+            for (var element : allCategories) {
+                if (element.getParentID() == 0) {
+                    element.setParent(root);
+                    element.getParent().setID(0);
+                }
+
+                for (var category : allCategories) {
+                    if (category.getParentID() == element.getID()) {
+                        element.getChildren().add(category);
+                        category.setParent(element);
+                    }
                 }
             }
-        }
+            return allCategories;
+        };
 
-        return allCategories;
+
+        try {
+            return callable.call();
+        } catch (Exception e) {
+            GUIUtils.alertCall(Alert.AlertType.ERROR, "Fejl i læsning af kategorier");
+            return new ArrayList<>();
+        }
     }
 
     public static void main(String[] args) {

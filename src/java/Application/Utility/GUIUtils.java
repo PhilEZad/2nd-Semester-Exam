@@ -10,6 +10,8 @@ import javafx.collections.transformation.SortedList;
 import javafx.scene.control.*;
 
 import java.util.*;
+import java.util.concurrent.Callable;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.UnaryOperator;
 
 /**
@@ -36,26 +38,29 @@ public final class GUIUtils {
      */
     public static List<CategoryEntryModel> getTreeItemsFromRoot(TreeItem<CategoryEntryModel> root)
     {
-        List<CategoryEntryModel> catList = new ArrayList<>(); //List to store the categories
+        Callable<List<CategoryEntryModel>> callable = () -> {
+            List<CategoryEntryModel> catList = new ArrayList<>(); //List to store the categories
 
-        ObservableList<TreeItem<CategoryEntryModel>> treeItems = root.getChildren(); //Get the children of the root
+            ObservableList<TreeItem<CategoryEntryModel>> treeItems = root.getChildren(); //Get the children of the root
 
-        for (TreeItem<CategoryEntryModel> treeItem : treeItems)
-        {
-            //For each child
-            if (treeItem.getChildren().size() > 0)
-            {
-                //If the child has children
-                catList.addAll(getTreeItemsFromRoot(treeItem)); //Get the children of the child
+            for (TreeItem<CategoryEntryModel> treeItem : treeItems) {
+                //For each child
+                if (treeItem.getChildren().size() > 0) {
+                    //If the child has children
+                    catList.addAll(getTreeItemsFromRoot(treeItem)); //Get the children of the child
+                } else {
+                    CategoryEntryModel categoryEntryModel = treeItem.getValue(); //Get the value of the child
+                    catList.add(categoryEntryModel); //Add the value to the list
+                }
             }
-            else
-            {
-                CategoryEntryModel categoryEntryModel = treeItem.getValue(); //Get the value of the child
-                catList.add(categoryEntryModel); //Add the value to the list
-            }
+            return catList;
+        };
+        try {
+            return callable.call();
+        } catch (Exception e) {
+            alertCall(Alert.AlertType.ERROR, "Noget gik galt under hentning af kategorier");
+            return new ArrayList<CategoryEntryModel>();
         }
-
-        return catList;
     }
 
 
@@ -122,50 +127,61 @@ public final class GUIUtils {
 
     public static TreeItem<CategoryEntryModel> mapToTreeItem(Map<Category, CategoryEntryModel> map){
         //Find the root category
+        AtomicReference<TreeItem<CategoryEntryModel>> returnRoot = null;
+        Thread thread = new Thread(() -> {
+            Category rootCategory = null;
 
-        Category rootCategory = null;
-
-        for(Map.Entry<Category, CategoryEntryModel> entry : map.entrySet())
-        {
-            if(entry.getKey().getParent() == null)
-            {
-                rootCategory = entry.getKey(); //Set the root category
+            for (Map.Entry<Category, CategoryEntryModel> entry : map.entrySet()) {
+                if (entry.getKey().getParent() == null) {
+                    rootCategory = entry.getKey(); //Set the root category
+                }
             }
+
+            TreeItem<CategoryEntryModel> treeRoot = new TreeItem<>(map.get(rootCategory)); //Create the root TreeItem node
+
+
+            if (rootCategory != null) {
+                returnRoot.set(getChildrenToTreeItem(map, treeRoot, rootCategory.getChildren()));
+                returnRoot.set(sortTreeItem(returnRoot.get()));
+            }
+        });
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
-
-        TreeItem<CategoryEntryModel> treeRoot = new TreeItem<>(map.get(rootCategory)); //Create the root TreeItem node
-
-        TreeItem<CategoryEntryModel> returnRoot = null;
-
-        if (rootCategory != null)
-        {
-            returnRoot = getChildrenToTreeItem(map, treeRoot, rootCategory.getChildren());
-            returnRoot = sortTreeItem(returnRoot);
-        }
-
-        return returnRoot;
+        return returnRoot.get();
     }
 
     private static TreeItem<CategoryEntryModel> getChildrenToTreeItem(Map<Category, CategoryEntryModel> map, TreeItem<CategoryEntryModel> parent, List<Category> children)
     {
-        if (children.size() != 0)
-        {
-            for (Category child : children)
-            {
-                TreeItem<CategoryEntryModel> childTreeItem = new TreeItem<>(map.get(child));
-                parent.getChildren().add(childTreeItem);
-                getChildrenToTreeItem(map, childTreeItem, child.getChildren());
+        Callable<TreeItem<CategoryEntryModel>> callable = () -> {
+            if (children.size() != 0) {
+                for (Category child : children) {
+                    TreeItem<CategoryEntryModel> childTreeItem = new TreeItem<>(map.get(child));
+                    parent.getChildren().add(childTreeItem);
+                    getChildrenToTreeItem(map, childTreeItem, child.getChildren());
+                }
             }
+            return parent;
+        };
+        try {
+            return callable.call();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return parent;
         }
-        return parent;
     }
 
     private static TreeItem<CategoryEntryModel> sortTreeItem(TreeItem<CategoryEntryModel> treeItem)
     {
         if(treeItem.getChildren().size() > 0)
         {
-            treeItem.getChildren().sort(Comparator.comparing(o -> o.getValue().getCategoryName()));
-
+            Thread thread = new Thread(() -> {
+                treeItem.getChildren().sort(Comparator.comparing(o -> o.getValue().getCategoryName()));
+            });
+            thread.start();
             for(TreeItem<CategoryEntryModel> child : treeItem.getChildren())
             {
                 sortTreeItem(child);

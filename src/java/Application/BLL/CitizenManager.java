@@ -5,13 +5,18 @@ import Application.BE.Citizen;
 import Application.BE.GeneralJournal;
 import Application.DAL.*;
 import Application.GUI.Models.CitizenModel;
+import Application.Utility.GUIUtils;
 import com.github.javafaker.Faker;
+import javafx.scene.control.Alert;
 import javafx.util.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.FutureTask;
+import java.util.concurrent.RunnableFuture;
 
 
 /**
@@ -29,21 +34,30 @@ public class CitizenManager
 
     public List<Citizen> getAllTemplates()
     {
-        var citizens = citizenDAO.readAll(SessionManager.getCurrent().getSchool()).stream().filter(Citizen::getTemplate).collect(java.util.stream.Collectors.toList());
+        RunnableFuture<List<Citizen>> future = new FutureTask(() -> {
+                var citizens = citizenDAO.readAll(SessionManager.getCurrent().getSchool()).stream().filter(Citizen::getTemplate).collect(java.util.stream.Collectors.toList());{
 
-        citizens.forEach(citizen -> {
-            for (var entry : healthEntriesManager.getEntriesFor(citizen.getID()))
-            {
-                citizen.addHealthConditions(entry);
-            }
+            citizens.forEach(citizen -> {
+                for (var entry : healthEntriesManager.getEntriesFor(citizen.getID())) {
+                    citizen.addHealthConditions(entry);
+                }
 
-            for (var entry : functionalEntriesManager.getEntriesFor(citizen.getID()))
-            {
-                citizen.addFunctionalAbility(entry);
-            }
-        });
+                for (var entry : functionalEntriesManager.getEntriesFor(citizen.getID())) {
+                    citizen.addFunctionalAbility(entry);
+                }
+            });
+            return null;
 
-        return citizens;
+        }});
+        future.run();
+
+        try {
+            return future.get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+            GUIUtils.alertCall(Alert.AlertType.ERROR, "Fejl i databasen");
+            return new ArrayList<>();
+        }
     }
 
 
