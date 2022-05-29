@@ -138,14 +138,20 @@ public class ObservationViewController implements Initializable {
                 showAlert();
                 return;
             }
+
             if (txtAreaHealthAssessment.getText().isEmpty() || txtAreaHealthAssessment.getText().isBlank() ||
                     txtAreaHealthAssessment.getText().equals(" ") || txtAreaHealthCause.getText() == null) {
                 showAlert();
                 return;
             }
 
+            if (comboBoxHealthLevel.getSelectionModel().getSelectedItem() == null){
+                showAlert();
+                return;
+            }
 
-            if (observation.getValue().getType() == CategoryType.HEALTH_CONDITION){
+
+            if (observation.getValue().getType() == CategoryType.HEALTH_CONDITION) {
                 observation.getValue().setLevelHealth(comboBoxHealthLevel.getSelectionModel().getSelectedItem());
                 observation.getValue().setCause(txtAreaHealthCause.getText());
                 observation.getValue().setAssessment(txtAreaHealthAssessment.getText());
