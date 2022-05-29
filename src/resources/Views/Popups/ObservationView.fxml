@@ -36,13 +36,13 @@
                            <children>
                               <VBox layoutX="14.0" layoutY="9.0" prefHeight="37.0" prefWidth="118.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="8.0">
                                  <children>
-                                    <Label styleClass="lblBackgroundBold" text="Niveau" />
+                                    <Label styleClass="lblBackgroundBold" text="Niveau*" />
                                     <ComboBox fx:id="comboBoxHealthLevel" prefHeight="22.0" prefWidth="150.0" />
                                  </children>
                               </VBox>
                               <VBox layoutX="137.0" layoutY="8.0" prefHeight="66.0" prefWidth="111.0" AnchorPane.leftAnchor="137.0" AnchorPane.topAnchor="8.0">
                                  <children>
-                                    <Label styleClass="lblBackgroundBold" text="Årsag" />
+                                    <Label styleClass="lblBackgroundBold" text="Årsag*" />
                                     <TextArea fx:id="txtAreaHealthCause" prefHeight="51.0" prefWidth="126.0" wrapText="true" />
                                  </children>
                               </VBox>
@@ -74,6 +74,7 @@
                         <Line endX="277.0" endY="-257.0" fill="BLACK" layoutX="309.0" layoutY="407.0" startX="-106.0" startY="-257.0" stroke="#0000004a" />
                         <Button layoutX="434.0" layoutY="378.0" mnemonicParsing="false" onAction="#onSaveHealthObservation" styleClass="backgroundButton" text="Gem " AnchorPane.bottomAnchor="23.0" AnchorPane.rightAnchor="20.0" />
                         <Button layoutX="328.0" layoutY="378.0" mnemonicParsing="false" onAction="#onCancel" styleClass="backgroundButton" text="Annuller" AnchorPane.bottomAnchor="23.0" AnchorPane.rightAnchor="100.0" />
+                        <Label layoutX="203.0" layoutY="410.0" text="*Obligatoriske felter" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="203.0" />
                      </children>
                   </AnchorPane>
                </content>
