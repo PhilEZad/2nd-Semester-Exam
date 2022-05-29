@@ -174,8 +174,8 @@ public class CitizenTemplateController implements Initializable
 
         if (result.get() == ButtonType.OK)
         {
-            listViewCitizenTemplates.getItems().remove(selected);
             new CitizenManager().deleteCitizenTemplate(selected.getBeCitizen());
+            listViewCitizenTemplates.getItems().remove(selected);
             listViewCitizenTemplates.getSelectionModel().selectNext();
             initializeAvailableTemplates();
         }

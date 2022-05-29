@@ -140,10 +140,15 @@ public class CitizenManager
     public void deleteCitizenTemplate(Citizen beCitizen)
     {
         // TODO: 28-05-2022  Delete the template from the database
-        // delete citizen in db
+
         // delete journals in db
+        generalInfoDAO.delete(beCitizen.getJournal().getID());
+
         // delete citizen from all accounts
         // delete entries in db
+
+        // delete citizen in db
+        citizenDAO.delete(beCitizen.getID());
     }
 
     /**

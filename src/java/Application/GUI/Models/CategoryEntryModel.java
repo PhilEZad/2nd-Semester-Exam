@@ -56,8 +56,8 @@ public class CategoryEntryModel implements Comparable<CategoryEntryModel>, Clone
                 contentEntry.setCitizenGoals(entry.getCitizenGoals());
                 contentEntry.setNote(entry.getNote());
 
-                contentEntry.setCurrentStatus(entry.levelFunc.get().level);
-                contentEntry.setExpectedStatus(entry.exConFunc.get().level);
+                contentEntry.setCurrentStatus(entry.levelFuncComboBox.get().selectionModelProperty().get().getSelectedItem().level);
+                contentEntry.setExpectedStatus(entry.exConFuncComboBox.get().selectionModelProperty().get().getSelectedItem().level);
 
                 return contentEntry;
             }
