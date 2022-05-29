@@ -1,15 +1,12 @@
 package Application.GUI.Models.ControllerModels;
 
-import Application.GUI.Models.CategoryEntryModel;
-import Application.GUI.Models.CitizenTemplateModel;
+import Application.GUI.Models.CitizenModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.scene.control.TreeItem;
 
 public class TeacherViewModel {
 
-    private CitizenTemplateModel selectedCitizenTemplateModel;
+    private CitizenModel selectedCitizenTemplateModel;
 
 
     //Students
@@ -68,15 +65,15 @@ public class TeacherViewModel {
     }
 
     public ObservableList getCitizenTemplates() {
-        ObservableList<CitizenTemplateModel> citizenTemplates = FXCollections.observableArrayList();
+        ObservableList<CitizenModel> citizenTemplates = FXCollections.observableArrayList();
         return citizenTemplates;
     }
 
-    public void setSelectedCitizenTemplateModel(CitizenTemplateModel selectedCitizenTemplateModel) {
+    public void setSelectedCitizenTemplateModel(CitizenModel selectedCitizenTemplateModel) {
         this.selectedCitizenTemplateModel = selectedCitizenTemplateModel;
     }
 
-    public CitizenTemplateModel getSelectedCitizenTemplateModel() {
+    public CitizenModel getSelectedCitizenTemplateModel() {
         return selectedCitizenTemplateModel;
     }
 }

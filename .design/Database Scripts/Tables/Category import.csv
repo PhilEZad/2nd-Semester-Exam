@@ -1,0 +1,104 @@
+PK_CategoryID;FK_ParentID;categoryName;FK_Description;FK_Guide
+1;;Generelle oplysninger;;
+2;;Funktionsevnetilstande;;
+3;;Helbredstilstande;;
+4;1;Mestring;1;12
+5;1;Motivation;2;13
+6;1;Ressourcer;3;14
+7;1;Roller;4;15
+8;1;Vaner;5;16
+9;1;Uddannelse og job;6;17
+10;1;Livshistorie;7;18
+11;1;Netværk;8;19
+12;1;Helbredsoplysninger;9;20
+13;1;Hjælpemidler;10;21
+14;1;Boligens indretning;11;22
+15;2;Egenomsorg;;
+16;2;Praktiske opgaver;;
+17;2;Mobilitet;;
+18;2;Mentale funktioner;;
+19;2;Samfundsliv;;
+20;3;Funktionsniveau;;
+21;3;Bevægeapparat;;
+22;3;Ernæring;;
+23;3;Hud og slimhinder;;
+24;3;Kommunikation;;
+25;3;Psykosociale forhold;;
+26;3;Respiration og cirkulation;;
+27;3;Seksualitet;;
+28;3;Smerter og sanseindtryk;;
+29;3;Søvn og hvile;;
+30;3;Viden og udvikling;;
+31;3;Udskillelse af affaldsstoffer;;
+32;15;Vaske sig;;
+33;15;Gå på toilet;;
+34;15;kropspleje;;
+35;15;Af og påklædning;;
+36;15;Spise;;
+37;15;Drikke;;
+38;15;Varetage egen sundhed;;
+39;15;Fødeindtagelse;;
+40;16;Udføre daglige rutiner;;
+41;16;Skaffe sig varer og tjenesteydelser;;
+42;16;Lave mad;;
+43;16;Lave husligt arbejde;;
+44;17;Ændre kropsstilling;;
+45;17;Forflytte sig;;
+46;17;Løfte og bære;;
+47;17;Gå ;;
+48;17;Bevæge sig omkring;;
+49;17;Færden i forskellige omgivelser ;;
+50;17;Bruge transportmidler;;
+51;17;Udholdenhed;;
+52;17;Muskelstyrke;;
+53;18;Tilegne sig færdigheder;;
+54;18;Problemløsning;;
+55;18;Anvende kommunikationsudstyr og teknikker;;
+56;18;Orienteringsevne;;
+57;18;Energi og handlekraft;;
+58;18;Hukommelse;;
+59;18;Følesesfunktioner;;
+60;18;Overordnede kognitive funktioner;;
+61;19;Have lønnet beskæftigelse;;
+62;20;Problemer med personlig pleje;;
+63;20;Problemer med daglige aktiviteter ;;
+64;21;Problemer med mobilitet og bevægelse;;
+65;22;Problemer med væskeindtag;;
+66;22;Problemer med fødeindtag;;
+67;22;Uhensigtsmæssig vægtændring;;
+68;22;Problemer med overvægt;;
+69;22;Problemer med undervægt;;
+70;23;Problemer med kirurgisk sår;;
+71;23;Problemer med diabetisk sår;;
+72;23;Problemer med cancersår;;
+73;23;Problemer med tryksår;;
+74;23;Problemer med arterielt sår;;
+75;23;Problemer med venøst sår;;
+76;23;Problemer meProblemer med traumesård blandingssår;;
+77;23;Andre problemer med hud og slimhinder;;
+78;24;Problemer med kommunikation;;
+79;25;Problemer med socialt samvær;;
+80;25;Emotionelle problemer;;
+81;25;Problemer med misbrug;;
+82;25;Mentale problemer;;
+83;26;Respirationsproblemer;;
+84;26;Cirkulationsproblemer;;
+85;27;Problemer med seksualitet;;
+86;28;Akutte smerter;;
+87;28;Periodevise smerter;;
+88;28;Kroniske smerter;;
+89;28;Problemer med synssans;;
+90;28;Problemer med lugtesans;;
+91;28;Problemer med hørelse;;
+92;28;Problemer med smagssans;;
+93;28;Problemer med følesans;;
+94;29;Døgnrytmeproblemer;;
+95;29;Søvnproblemer;;
+96;30;Problemer med hukommelse;;
+97;30;Problemer med indsigt i behandlingsformål;;
+98;30;Problemer med sygdomsindsigt;;
+99;30;Kognitive problemer;;
+100;31;Problemer med vandladning;;
+101;31;Problemer med urininkontinens;;
+102;31;Problemer med afføringsinkontinens;;
+103;31;Problemer med mave og tarm;;

@@ -1,58 +1,39 @@
 package Application.BE;
 
-import Application.DAL.Annotations.SQLColumn;
-import Application.DAL.Annotations.SQLGetter;
-import Application.DAL.Annotations.SQLSetter;
-import Application.DAL.Annotations.SQLTable;
+import Application.DAL.TemplateMethod.Annotations.SQLGetter;
+import Application.DAL.TemplateMethod.Annotations.SQLSetter;
 
-@SQLTable(name = "citizen")
-public class Citizen
+import java.util.HashMap;
+
+public class Citizen implements Cloneable
 {
-    @SQLColumn(name = "citizenId")
     private int id;
-
-    @SQLColumn(name = "cFirstName")
+    private GeneralJournal journal;
+    private School school;
     private String firstname;
-
-    @SQLColumn(name = "cSurname")
     private String lastname;
-
-    @SQLColumn(name = "cAge")
     private int age;
-
-    @SQLColumn(name = "cStreet")
-    private int streetID;
-
-    @SQLColumn(name = "cStreetNumber")
-    private int streetNumber;
-
-    @SQLColumn(name = "cZipCode")
     private int zipCode;
 
-    @SQLColumn(name = "cSchool")
-    private int schoolID;
+    private GeneralJournal generalJournal;
 
-    public Citizen(int id, String firstname, String lastname, int age, int streetID, int streetNumber, int zipCode, int schoolID) {
+    private HashMap<Category, ContentEntry> healthCategoryEntries;
+
+    private HashMap<Category, ContentEntry> funcCategoryEntries;
+
+    public Citizen(int id, GeneralJournal journal, School school, String firstname, String lastname, int age)
+    {
         this.id = id;
+        this.journal = journal;
+        this.school = school;
         this.firstname = firstname;
         this.lastname = lastname;
         this.age = age;
-        this.streetID = streetID;
-        this.streetNumber = streetNumber;
-        this.zipCode = zipCode;
-        this.schoolID = schoolID;
+
+        funcCategoryEntries = new HashMap<>();
+        healthCategoryEntries = new HashMap<>();
     }
 
-
-    @SQLGetter(name = "cStreetNumber")
-    public int getStreetNumber() {
-        return streetNumber;
-    }
-
-    @SQLSetter(name = "cStreetNumber")
-    public void setStreetNumber(int streetNumber) {
-        this.streetNumber = streetNumber;
-    }
 
     @SQLGetter(name = "cZipCode")
     public int getZipCode() {
@@ -64,34 +45,9 @@ public class Citizen
         this.zipCode = zipCode;
     }
 
-    @SQLGetter(name = "cSchool")
-    public int getSchoolID() {
-        return schoolID;
-    }
-
-    @SQLSetter(name = "cSchool")
-    public void setSchoolID(int schoolID) {
-        this.schoolID = schoolID;
-    }
-
-    @SQLGetter(name = "cStreet")
-    public int getStreetID() {
-        return streetID;
-    }
-
-    @SQLSetter(name = "cStreet")
-    public void setStreetID(int streetID) {
-        this.streetID = streetID;
-    }
-
     @SQLGetter(name = "cAge")
     public int getAge() {
         return age;
-    }
-
-    @SQLSetter(name = "cAge")
-    public void setAge(int age) {
-        this.age = age;
     }
 
     @SQLGetter(name = "cFirstName")
@@ -119,10 +75,79 @@ public class Citizen
         return lastname;
     }
 
-    @SQLSetter(name = "cSurname")
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    public GeneralJournal getJournal()
+    {
+        return journal;
+    }
+
+    public void setJournal(GeneralJournal journal)
+    {
+        this.journal = journal;
+    }
+
+    public School getSchool()
+    {
+        return school;
+    }
+
+    public void setSchool(School school)
+    {
+        this.school = school;
+    }
+
+    public void setContent(HashMap<Category, ContentEntry> content)
+    {
+        // populate lists (healthCategoryEntries, funcCategoryEntries)
+    }
+    
+    public void setFunctionalAbilities (HashMap<Category, ContentEntry> functionalAbilities) {
+        funcCategoryEntries.clear();
+        for (ContentEntry entry : functionalAbilities.values()) {
+            funcCategoryEntries.put(entry.getCategory(), entry);
+        };
+    }
+
+    public void setHealthConditions (HashMap<Category, ContentEntry> healthConditions) {
+        healthCategoryEntries.clear();
+        for (ContentEntry entry : healthConditions.values()) {
+            healthCategoryEntries.put(entry.getCategory(), entry);
+        };
+    }
+
+    public HashMap<Category, ContentEntry> getFunctionalAbilities() {
+        return funcCategoryEntries;
+    }
+
+    public HashMap<Category, ContentEntry> getHealthConditions() {
+        return healthCategoryEntries;
+    }
+
+    public void addFunctionalAbility (ContentEntry entry)
+    {
+        funcCategoryEntries.put(entry.getCategory(), entry);
+    }
+
+    public void addHealthConditions (ContentEntry entry)
+    {
+        healthCategoryEntries.put(entry.getCategory(), entry);
+    }
+
+    public GeneralJournal getGeneralJournal() {
+        if (generalJournal == null) {
+            return new GeneralJournal(-1);
+        }
+        return generalJournal;
+    }
+
+    public void setGeneralJournal(GeneralJournal generalInfo){
+        this.generalJournal = generalInfo;
     }
 
 
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 }
+
+

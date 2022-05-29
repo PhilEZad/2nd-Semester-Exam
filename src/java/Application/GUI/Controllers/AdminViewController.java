@@ -1,13 +1,14 @@
 package Application.GUI.Controllers;
 
-import Application.BE.Account;
-import Application.GUI.Models.SchoolModel;
-import Application.GUI.Models.StudentModel;
-import javafx.event.ActionEvent;
+import Application.GUI.Models.AccountModel;
+import Application.Utility.StateMachine.State;
+import Application.Utility.StateMachine.StateMachine;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -15,45 +16,67 @@ import java.util.ResourceBundle;
 public class AdminViewController implements Initializable {
 
     @FXML
-    private TableView<StudentModel> tblViewStudent;
-    @FXML
-    private TableColumn<StudentModel, String> tblClmStudentFirstName;
-    @FXML
-    private TableColumn<StudentModel, String> tblClmStudentLastName;
-    @FXML
-    private TableColumn<StudentModel, String> tblClmStudentEmail;
-    @FXML
-    private TableColumn<StudentModel, String> tblClmStudentClass;
+    public ToggleButton tglBtnDashboard;
+    @FXML public ToggleButton tglBtnStudents;
+    @FXML public ToggleButton tglBtnCitizenTemplates;
+    @FXML public ToggleButton tglBtnCitizens;
+    @FXML public BorderPane scene;
+    @FXML public Pane viewPane;
 
-    @FXML
-    private TableView<Account> tblViewTeacher;
-    @FXML
-    private TableColumn<Account, String> tblClmTeacherFirstName;
-    @FXML
-    private TableColumn<Account, String> tblClmTeacherLastName;
-    @FXML
-    private TableColumn<Account, String> tblClmTeacherEmail;
+    private ToggleGroup toggleGroupViews;
+    private StateMachine<ToggleButton> stateMachine = new StateMachine<>();
 
-    @FXML
-    private TableView<SchoolModel> tblViewSchool;
-    @FXML
-    private TableColumn<SchoolModel, String> tblClmSchoolName;
-    @FXML
-    private TableColumn<SchoolModel, Number> tblClmSchoolZipCode;
-    @FXML
-    private TableColumn<SchoolModel, String> tblClmSchoolCity;
+
+    /**
+     *  passed by reference through a resource bundle from the login controller
+     *
+     * @see LoginController
+     * */
+    private AccountModel account;
+
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        initTableViews();
-    }
-
-    private void initTableViews()
+    public void initialize(URL location, ResourceBundle resources)
     {
-        tblClmSchoolName.setCellValueFactory(param -> param.getValue().getName());
-        tblClmSchoolZipCode.setCellValueFactory(param -> param.getValue().getZipCode());
-        tblClmSchoolCity.setCellValueFactory(param -> param.getValue().getCity());
+
+        //this.account = (AccountModel) resources.getObject("account");
+
+
+        initToggleGroup();
+        viewChangedListener();
+        initViewStates();
+
+        tglBtnDashboard.setSelected(true);
     }
 
-    public void openCreateSchool(ActionEvent actionEvent) {
+
+    private void initViewStates()
+    {
+        stateMachine.addState(tglBtnDashboard, new State(scene, "/Views/dashboard/AdminDashboard.fxml", tglBtnDashboard)); // Dashboard
+        stateMachine.addState(tglBtnStudents, new State(scene,"/Views/dashboard/Students.fxml", tglBtnStudents)); // Students
+        stateMachine.addState(tglBtnCitizenTemplates, new State(scene, "/Views/dashboard/CitizenTemplate.fxml", tglBtnCitizenTemplates)); // Citizen Templates
+        stateMachine.addState(tglBtnCitizens, new State(scene,"/Views/dashboard/Citizens.fxml", tglBtnCitizens)); // Citizens
     }
+
+    private void initToggleGroup()
+    {
+        toggleGroupViews = new ToggleGroup();
+        tglBtnDashboard.setToggleGroup(toggleGroupViews);
+        tglBtnStudents.setToggleGroup(toggleGroupViews);
+        tglBtnCitizenTemplates.setToggleGroup(toggleGroupViews);
+        tglBtnCitizens.setToggleGroup(toggleGroupViews);
+    }
+
+    private void viewChangedListener()
+    {
+        toggleGroupViews.selectedToggleProperty().addListener((observable, oldValue, newValue) ->
+        {
+            if(newValue != null)
+            {
+                stateMachine.change((ToggleButton) newValue);
+            }
+        });
+
+    }
+
+
 }

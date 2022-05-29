@@ -1,6 +1,7 @@
 package Application.GUI.Controllers.Popups;
 
 import Application.GUI.Models.SchoolModel;
+import Application.Utility.GUIUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -27,7 +28,7 @@ public class CreateSchoolController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        txtSchoolZipCode.setTextFormatter(new TextFormatter<Integer>(new IntegerStringConverter(), 0, integerFilter()));
+        txtSchoolZipCode.setTextFormatter(new TextFormatter<Integer>(new IntegerStringConverter(), 0, GUIUtils.getIntegerFilter()));
     }
 
     public void createSchool(ActionEvent actionEvent) {
@@ -42,21 +43,4 @@ public class CreateSchoolController implements Initializable {
         stage.close();
     }
 
-    /**
-     * An interger filter, for use in a textFormatter. Only allows whole numbers.
-     * @return
-     */
-    private UnaryOperator<TextFormatter.Change> integerFilter(){
-        UnaryOperator<TextFormatter.Change> integerFilter = change -> {
-            String newText = change.getControlNewText();
-            //if (newText.matches("-?([1-9][0-9]*)?")) {
-            if (newText.matches("-?([1-9][0-9]*)?")) {
-
-                return change;
-            }
-            return null;
-        };
-
-        return integerFilter;
-    }
 }

@@ -1,12 +1,7 @@
 package Application.GUI.Controllers.Popups;
 
-import Application.BE.Account;
-import Application.BE.Case;
-import Application.BE.Inquiry;
-import Application.BE.School;
-import Application.DAL.CasesDAO;
+import Application.BE.*;
 import Application.GUI.Models.AccountModel;
-import Application.GUI.Models.CaseModel;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
@@ -21,6 +16,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.collections.FXCollections;
 
+import java.lang.Class;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -28,7 +24,7 @@ public class AddToTaskViewController implements Initializable {
 
 
     // FIXME: 06/05/2022 -- DAO for testing purpose, decouple
-    CasesDAO casesDAO = new CasesDAO();
+   // CasesDAO casesDAO = new CasesDAO();
 
     public Button btnSave;
     @FXML
@@ -53,18 +49,16 @@ public class AddToTaskViewController implements Initializable {
     public TableColumn<AccountModel, String> tblClmAccountClass;
     @FXML
     public TextField txtAccountSearch;
-    @FXML
-    public ComboBox<CaseModel> comboBoxCases;
+   // @FXML
+   // public ComboBox<CaseModel> comboBoxCases;
     @FXML
     public ComboBox<Class> comboBoxClasses;
-
-    AccountModel accountDAO = new AccountModel();
 
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
         initEventListeners();
-        comboBoxCases.setItems(mockCases());
+        //comboBoxCases.setItems(mockCases());
     }
 
     public AddToTaskViewController()
@@ -138,26 +132,26 @@ public class AddToTaskViewController implements Initializable {
         tblAccountTable.setItems(sortedUsers);
     }
 
-    // FIXME: 06-05-2022 Mock data, hook up to DAO
-    private ObservableList<CaseModel> mockCases()
-        {
-            ObservableList<CaseModel> mockCaseList = FXCollections.observableArrayList();
+   //// FIXME: 06-05-2022 Mock data, hook up to DAO
+   //private ObservableList<CaseModel> mockCases()
+   //    {
+   //        ObservableList<CaseModel> mockCaseList = FXCollections.observableArrayList();
 
-            mockCaseList.add(new CaseModel(new Case(1, "This is the reason", "1234", new Inquiry(1, "Læge"))));
-            mockCaseList.add(new CaseModel(new Case (2, "This is the reason", "1234", new Inquiry(2, "Mor"))));
-            mockCaseList.add(new CaseModel(new Case (3, "This is the reason", "1234", new Inquiry(3, "Bror"))));
-            mockCaseList.add(new CaseModel(new Case (4, "This is the reason", "1234", new Inquiry(4, "Far"))));
-            mockCaseList.add(new CaseModel(new Case (5, "This is the reason", "1234", new Inquiry(5, "Dolf"))));
+   //      // mockCaseList.add(new CaseModel(new Case(1, "This is the reason", "1234", new Inquiry(1, "Læge"))));
+   //      // mockCaseList.add(new CaseModel(new Case (2, "This is the reason", "1234", new Inquiry(2, "Mor"))));
+   //      // mockCaseList.add(new CaseModel(new Case (3, "This is the reason", "1234", new Inquiry(3, "Bror"))));
+   //      // mockCaseList.add(new CaseModel(new Case (4, "This is the reason", "1234", new Inquiry(4, "Far"))));
+   //      // mockCaseList.add(new CaseModel(new Case (5, "This is the reason", "1234", new Inquiry(5, "Dolf"))));
 
-            return mockCaseList;
-        }
+   //        return mockCaseList;
+   //    }
 
     // FIXME: 06-05-2022 Mock data, hook up to DAO
     private ObservableList<AccountModel> mockAccounts()
     {
         ObservableList<AccountModel> mockAccountList = FXCollections.observableArrayList();
 
-        School school = new School(1, "EASV", 6700, "Esbjerg");
+        School school = new School(1, "EASV", new Location(0));
 
         mockAccountList.add(new AccountModel(new Account(1, "", "", "Kasper", "Rasmussen", "", school, 0)));
         mockAccountList.add(new AccountModel(new Account(1, "", "", "Rasmus", "Sandbæk", "", school, 0)));

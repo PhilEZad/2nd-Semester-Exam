@@ -1045,30 +1045,45 @@
 
 .tab:selected .tab-label {
     -fx-alignment: CENTER;
-    -fx-text-fill: #202020;
+    -fx-text-fill: -fx-txtFillLight;
 }
 
-.tab-pane .tab:selected
-{
-    -fx-background-color: #D13F3F;
+.tab-pane .tab:selected .tab-label {
+    -fx-alignment: CENTER;
+    -fx-text-fill: -fx-txtFillLight;
+    -fx-font-weight: bold;
+}
+
+.tab-pane .tab:selected {
+    -fx-background-color: -fx-panelBase;
+    -fx-border-color: -fx-panelHighlight;
+    -fx-border-width: 1 1 0 1;
+    -fx-border-radius: 5 5 0 0;
 }
 
 .tab-pane .tab
 {
-    -fx-background-color: #e6e6e6;
-}
-.tab-pane .tab-header-area .tab-header-background {
-    -fx-opacity: 0;
+    -fx-background-color: -fx-panelHighlight;
+    -fx-border-color: -fx-panelBase;
+    -fx-border-width: 1 1 0 1;
+    -fx-border-radius: 5 5 0 0;
 }
 
-.tab{
+
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-opacity: 1;
+    -fx-background-color: -fx-panelDarkHighlight;
+}
+
+.tab-pane .tab-header-area .tab {
+    -fx-opacity: 1;
+}
+
+.tab
+{
     -fx-background-insets: 0 1 0 1,0,0;
 }
 
-.tab-pane .tab
-{
-    -fx-background-color: #e6e6e6;
-}
 
 .outlineBtn{
     -fx-background-color: transparent;
@@ -1134,7 +1149,7 @@
 .dialog-pane > .content.label {
     -fx-padding: 0.5em 0.5em 0.5em 0.5em;
     -fx-background-color: -fx-bgBase;
-    -fx-text-fill: -fx-txtBase;
+    -fx-text-fill: -fx-txtFillLight;
     -fx-font-family: Roboto;
     -fx-font-size: 14px;
     -fx-wrap-text: true;
@@ -1148,14 +1163,14 @@
 /**Costumization of DialogPane Header**/
 .dialog-pane:header .header-panel {
     -fx-background-color: -fx-bgBase;
-    -fx-border-color: -fx-accent1;
+    -fx-border-color: -fx-panelBase;
     -fx-border-width: 0px 0px 2px 0px
 
 }
 
 .dialog-pane:header .header-panel .label{;
     -fx-background-radius:10px;
-    -fx-text-fill: -fx-txtBase;
+    -fx-text-fill: -fx-txtFillDark;
     -fx-font-weight: bold;
     -fx-font-size:16px;
 }
@@ -1163,37 +1178,37 @@
 
 /**Costumization of Buttons**/
 .dialog-pane .button{
-    -fx-background-color: -fx-bgBase;
+    -fx-background-color: -fx-panelBase;
     -fx-wrap-text: true;
     -fx-cursor:hand;
     -fx-font-family: Roboto;
     -fx-font-size: 10pt;
-    -fx-text-fill: -fx-txtBase;
+    -fx-text-fill: -fx-txtFillLight;
     -fx-content-display: CENTER;
     -fx-border-radius: 20;
     -fx-border-width: 2;
-    -fx-border-color: -fx-txtBase;
+    -fx-border-color: -fx-panelDarkHighlight;
     -fx-background-radius: 20;
 }
 
 .dialog-pane .button:hover{
-    -fx-background-color: -fx-accent1;
-    -fx-text-fill: -fx-txtBase;
-    -fx-border-color: -fx-accent1;
+    -fx-background-color: -fx-panelDarkHighlight;
+    -fx-text-fill: -fx-txtFillLight;
+    -fx-border-color: -fx-panelBase;
     -fx-font-weight: bold;
 }
 
 .dialog-pane .button:pressed{
-    -fx-background-color: -fx-bgBase;
-    -fx-text-fill: -fx-accent1;
-    -fx-border-color: -fx-accent1;
+    -fx-background-color: -fx-panelHighlight;
+    -fx-text-fill: -fx-txtFillDark;
+    -fx-border-color: -fx-txtFillDark;
     -fx-border-radius: 20;
 }
 
 
 .dialog-pane .content.list-cell:filled:selected:focused, .list-cell:filled:selected {
-    -fx-background-color: -fx-accent1;
-    -fx-text-fill: -fx-txtBase;
+    -fx-background-color: -fx-bgBase;
+    -fx-text-fill: -fx-txtFillDark;
 }
 
 .dialog-pane .content.list-cell:even {
@@ -1243,7 +1258,7 @@
     -fx-border-color: -fx-functionBase;
     -fx-border-width: 2;
     -fx-border-radius: 20;
-    -fx-text-fill: -fx-txtBase;
+    -fx-text-fill: -fx-txtFillLight;
 }
 
 .container-healthTable {
@@ -1251,7 +1266,7 @@
     -fx-border-color: -fx-healthBase;
     -fx-border-width: 2;
     -fx-border-radius: 20;
-    -fx-text-fill: -fx-txtBase;
+    -fx-text-fill: -fx-txtFillLight;
 }
 
 .healthLabel {

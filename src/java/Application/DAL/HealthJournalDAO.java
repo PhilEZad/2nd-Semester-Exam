@@ -1,6 +1,6 @@
 package Application.DAL;
 
-import Application.BE.HealthJournal;
+
 import Application.DAL.DBConnector.DBConnectionPool;
 import javafx.collections.FXCollections;
 
@@ -34,10 +34,10 @@ public class HealthJournalDAO extends TemplatePatternDAO
     public List readAll()
     {
         String sql = """
-                SELECT * FROM
+                SELECT * FROM 
                 """;
 
-        List<HealthJournal> healthJournalList = FXCollections.observableArrayList();
+        List<Object> healthJournalList = FXCollections.observableArrayList();
 
         Connection conn = DBConnectionPool.getInstance().checkOut();
         try {
@@ -48,9 +48,7 @@ public class HealthJournalDAO extends TemplatePatternDAO
             while (rs.next())
             {
                 healthJournalList.add(
-                        new HealthJournal(
-
-                        )
+                        null
                 );
             }
 

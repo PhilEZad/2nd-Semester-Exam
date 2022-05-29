@@ -26,8 +26,7 @@
                     <ListView fx:id="listViewCitizenTemplates" layoutX="18.0" layoutY="70.0" prefHeight="272.0" prefWidth="163.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="18.0" AnchorPane.rightAnchor="16.80000000000001" AnchorPane.topAnchor="70.0" />
                     <HBox layoutX="20.0" layoutY="26.0" prefHeight="26.0" prefWidth="163.0" AnchorPane.leftAnchor="16.0" AnchorPane.topAnchor="24.0">
                         <children>
-                            <TextField fx:id="txtFieldCitizenTemplateSearch" prefHeight="26.0" prefWidth="141.0" promptText="Søg" styleClass="text-fieldBase" />
-                            <Button fx:id="btnCitizenTemplateSearch" mnemonicParsing="false" onAction="#onCitizenTemplateSearch" prefHeight="26.0" prefWidth="34.0" styleClass="searchBtn" />
+                            <TextField fx:id="txtFieldCitizenTemplateSearch" prefHeight="30.0" prefWidth="171.0" promptText="Søg" styleClass="text-fieldBase" />
                         </children>
                     </HBox>
                     <Button fx:id="btnActions" layoutX="21.0" layoutY="777.0" maxHeight="52.0" maxWidth="159.0" minHeight="52.0" minWidth="159.0" mnemonicParsing="false" onAction="#onActions" prefHeight="52.0" prefWidth="159.0" styleClass="outlineBtn" text="Handlinger" AnchorPane.bottomAnchor="29.200000000000045" />
@@ -66,6 +65,7 @@
             </HBox>
             <TextField fx:id="txtFieldName" layoutX="22.0" layoutY="33.0" prefHeight="30.0" prefWidth="125.0" styleClass="nameLbl" text="Navn" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="25.0" />
             <TextField fx:id="txtFieldSurname" layoutX="149.0" layoutY="33.0" prefHeight="30.0" prefWidth="153.0" styleClass="nameLbl" text="Efternavn" AnchorPane.leftAnchor="149.0" AnchorPane.topAnchor="25.0" />
+            <Button fx:id="btnGenerateBaseData" layoutX="453.0" layoutY="15.0" mnemonicParsing="false" onAction="#onGenerateBaseData" prefHeight="52.0" prefWidth="76.0" styleClass="outlineBtn" text="Generer Data" textAlignment="CENTER" wrapText="true" AnchorPane.leftAnchor="443.0" AnchorPane.topAnchor="15.0" />
                 </children>
             </AnchorPane>
               <AnchorPane layoutY="130.0" prefHeight="345.0" prefWidth="725.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="230.0" AnchorPane.rightAnchor="16.0" AnchorPane.topAnchor="130.0">
@@ -97,7 +97,7 @@
                                                       <Insets />
                                                    </HBox.margin>
                                                                     </GridPane>
-                                                                    <TextArea fx:id="txtAreaGenInfoMastering" minHeight="100.0" prefWidth="498.0">
+                                                                    <TextArea fx:id="txtAreaGenInfoCoping" minHeight="100.0" prefWidth="498.0">
                                                    <HBox.margin>
                                                       <Insets />
                                                    </HBox.margin>

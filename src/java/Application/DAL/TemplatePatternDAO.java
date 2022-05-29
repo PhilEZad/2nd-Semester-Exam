@@ -14,5 +14,4 @@ public abstract class TemplatePatternDAO<T>
 
     public abstract void delete(int id);
 
-
 }

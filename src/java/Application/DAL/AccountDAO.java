@@ -1,6 +1,7 @@
 package Application.DAL;
 
 import Application.BE.Account;
+import Application.BE.Location;
 import Application.BE.School;
 import Application.DAL.DBConnector.DBConnectionPool;
 
@@ -21,14 +22,14 @@ public class AccountDAO extends TemplatePatternDAO<Account> {
     @Override
     public Account create(Account input) {
         String sql = """
-                    INSERT INTO accounts (login, password, firstName, surname, email, school, auth) 
+                    INSERT INTO Account (username, hashed_pwd, firstName, lastname, email, FK_AccountSchool, privilegeLevel) 
                     VALUES (?, ?, ?, ?, ?, ?, ?)
                     """;
 
         Connection conn = DBConnectionPool.getInstance().checkOut();
         try {
             PreparedStatement pstmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
-            pstmt.setString(1, input.getLogin());
+            pstmt.setString(1, input.getUsername());
             pstmt.setString(2, input.getPassword());
             pstmt.setString(3, input.getFirstName());
             pstmt.setString(4, input.getLastName());
@@ -48,7 +49,7 @@ public class AccountDAO extends TemplatePatternDAO<Account> {
             pstmt.close();
             return new Account(
                     id,
-                    input.getLogin(),
+                    input.getUsername(),
                     input.getPassword(),
                     input.getFirstName(),
                     input.getLastName(),
@@ -74,8 +75,10 @@ public class AccountDAO extends TemplatePatternDAO<Account> {
     @Override
     public void delete(int accountid){
         String sql = """
+                    DELETE FROM AccountGroup
+                    WHERE FK_MemberID = ?
                     DELETE FROM account
-                    WHERE id = ?
+                    WHERE AID = ?
                     """;
 
         Connection conn = DBConnectionPool.getInstance().checkOut();
@@ -83,6 +86,7 @@ public class AccountDAO extends TemplatePatternDAO<Account> {
             PreparedStatement pstmt = conn.prepareStatement(sql);
 
             pstmt.setInt(1, accountid);
+            pstmt.setInt(2, accountid);
 
             pstmt.executeUpdate();
 
@@ -104,10 +108,10 @@ public class AccountDAO extends TemplatePatternDAO<Account> {
     @Override
     public Account read(int accountID){
         String sql = """
-                    SELECT * FROM accounts
-                    JOIN schools ON accounts.school = schools.schoolId
-                    JOIN zipCode ON schools.schoolZipCode = zipCode.zipCode
-                    WHERE accountId = ?
+                    SELECT * FROM Account
+                    JOIN School ON Account.FK_AccountSchool = School.SID
+                    JOIN zipCode ON School.FK_Zipcode = zipCode.Zip
+                    WHERE AID = ?
                     """;
 
         School school = null;
@@ -126,8 +130,7 @@ public class AccountDAO extends TemplatePatternDAO<Account> {
                 school = new School(
                         rs.getInt("schoolId"),
                         rs.getString("schoolName"),
-                        rs.getInt("schoolZipCode"),
-                        rs.getString("cityName")
+                        new Location(rs.getInt("zipCode"), rs.getString("cityName"))
                 );
 
                 account = new Account(
@@ -153,11 +156,6 @@ public class AccountDAO extends TemplatePatternDAO<Account> {
         return account;
     }
 
-    public Account read(String accountName)
-    {
-        Account account = null;
-        return null;
-    }
 
     /**
      * Returns a list of all accounts.
@@ -166,9 +164,9 @@ public class AccountDAO extends TemplatePatternDAO<Account> {
     @Override
     public List<Account> readAll() {
         String sql = """
-                    SELECT * FROM accounts
-                    JOIN schools ON accounts.school = schools.schoolId
-                    JOIN zipCodes ON schools.schoolZipCode = zipCodes.zipCode
+                    SELECT * FROM Account
+                    JOIN School ON Account.FK_AccountSchool = School.SID
+                    JOIN ZipCode ON School.FK_Zipcode = ZipCode.Zip
                     """;
         List<Account> studentsList = new ArrayList<>();
 
@@ -182,21 +180,20 @@ public class AccountDAO extends TemplatePatternDAO<Account> {
             while (rs.next()) {
 
                 School school = new School(
-                        rs.getInt("schoolID"),
+                        rs.getInt("SID"),
                         rs.getString("schoolName"),
-                        rs.getInt("zipCode"),
-                        rs.getString("cityName")
+                        new Location(rs.getInt("Zip"), rs.getString("city"))
                 );
 
                 Account student = new Account(
-                        rs.getInt("accountId"),
-                        rs.getString("login"),
-                        rs.getString("password"),
-                        rs.getString("studentFirstName"),
-                        rs.getString("studentSurname"),
+                        rs.getInt("AID"),
+                        rs.getString("username"),
+                        rs.getString("hashed_pwd"),
+                        rs.getString("firstname"),
+                        rs.getString("lastname"),
                         rs.getString("email"),
                         school,
-                        rs.getInt("auth"));
+                        rs.getInt("privilegeLevel"));
 
                 studentsList.add(student);
             }
@@ -220,9 +217,9 @@ public class AccountDAO extends TemplatePatternDAO<Account> {
     @Override
     public void update(Account input) {
         String sql = """
-                     UPDATE accounts 
-                     SET firstName = ?, surname = ?, email = ? 
-                     WHERE accountId = ?
+                     UPDATE Account
+                     SET firstName = ?, lastname = ?, email = ? 
+                     WHERE AID = ?
                      """;
 
         Account account = input;
@@ -245,5 +242,10 @@ public class AccountDAO extends TemplatePatternDAO<Account> {
         finally {
             DBConnectionPool.getInstance().checkIn(conn);
         }
+    }
+
+    public Account read(String username)
+    {
+        return null;
     }
 }

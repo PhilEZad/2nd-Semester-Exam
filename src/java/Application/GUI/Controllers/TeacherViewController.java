@@ -3,8 +3,9 @@ package Application.GUI.Controllers;
 
 import Application.GUI.Models.AccountModel;
 
-import Application.Utility.StateMachine.State;
+import Application.Utility.StateMachine.DashboardStateMachine;
 
+import Application.Utility.StateMachine.State;
 import javafx.application.Platform;
 import Application.Utility.StateMachine.StateMachine;
 import javafx.fxml.FXML;
@@ -12,33 +13,24 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class TeacherViewController implements Initializable {
-    @FXML public AnchorPane anchorPaneDashboard;
-    @FXML public AnchorPane anchorPaneStudents;
-    @FXML public AnchorPane anchorPaneCitizenTemplate;
-    @FXML public AnchorPane anchorPaneCitizens;
-    @FXML public AnchorPane anchorPaneCases;
-    @FXML public AnchorPane anchorPaneAssignments;
-    @FXML public AnchorPane anchorPaneJournals;
-
+public class TeacherViewController implements Initializable
+{
     @FXML public ToggleButton tglBtnDashboard;
     @FXML public ToggleButton tglBtnStudents;
     @FXML public ToggleButton tglBtnCitizenTemplates;
     @FXML public ToggleButton tglBtnCitizens;
-    @FXML public ToggleButton tglBtnCases;
-    @FXML public ToggleButton tglBtnAssignments;
-    @FXML public ToggleButton tglBtnJournals;
-
-
+    @FXML public BorderPane scene;
+    @FXML public Pane viewPane;
 
     private ToggleGroup toggleGroupViews;
     private StateMachine<ToggleButton> stateMachine = new StateMachine<>();
-
-    @FXML public BorderPane TeacherScene;
+    
 
     /**
      *  passed by reference through a resource bundle from the login controller
@@ -59,20 +51,15 @@ public class TeacherViewController implements Initializable {
         initViewStates();
 
         tglBtnDashboard.setSelected(true);
-        Platform.runLater(this::initVisible);
     }
 
 
     private void initViewStates()
     {
-        System.out.println(anchorPaneDashboard.getChildren());
-        stateMachine.addState(tglBtnDashboard, new State(anchorPaneDashboard, tglBtnDashboard)); // Dashboard
-        stateMachine.addState(tglBtnStudents, new State(anchorPaneStudents, tglBtnStudents)); // Students
-        stateMachine.addState(tglBtnCitizenTemplates, new State(anchorPaneCitizenTemplate, tglBtnCitizenTemplates)); // Citizen Templates
-        stateMachine.addState(tglBtnCitizens, new State(anchorPaneCitizens, tglBtnCitizens)); // Citizens
-        stateMachine.addState(tglBtnCases, new State(anchorPaneCases, tglBtnCases)); // Cases
-        stateMachine.addState(tglBtnAssignments, new State(anchorPaneAssignments, tglBtnAssignments)); // Assignments
-        stateMachine.addState(tglBtnJournals, new State(anchorPaneJournals, tglBtnJournals)); // Journals
+       stateMachine.addState(tglBtnDashboard, new State(scene, "/Views/dashboard/Default.fxml", tglBtnDashboard)); // Dashboard
+       stateMachine.addState(tglBtnStudents, new State(scene,"/Views/dashboard/Students.fxml", tglBtnStudents)); // Students
+       stateMachine.addState(tglBtnCitizenTemplates, new State(scene, "/Views/dashboard/CitizenTemplate.fxml", tglBtnCitizenTemplates)); // Citizen Templates
+       stateMachine.addState(tglBtnCitizens, new State(scene,"/Views/dashboard/Citizens.fxml", tglBtnCitizens)); // Citizens
     }
 
     private void initToggleGroup()
@@ -82,9 +69,6 @@ public class TeacherViewController implements Initializable {
         tglBtnStudents.setToggleGroup(toggleGroupViews);
         tglBtnCitizenTemplates.setToggleGroup(toggleGroupViews);
         tglBtnCitizens.setToggleGroup(toggleGroupViews);
-        tglBtnCases.setToggleGroup(toggleGroupViews);
-        tglBtnAssignments.setToggleGroup(toggleGroupViews);
-        tglBtnJournals.setToggleGroup(toggleGroupViews);
     }
 
     private void viewChangedListener()
@@ -96,19 +80,9 @@ public class TeacherViewController implements Initializable {
                 stateMachine.change((ToggleButton) newValue);
             }
         });
+
     }
 
-
-    private void initVisible()
-    {
-        anchorPaneDashboard.setVisible(false);
-        anchorPaneStudents.setVisible(false);
-        anchorPaneCitizenTemplate.setVisible(false);
-        anchorPaneCitizens.setVisible(false);
-        anchorPaneCases.setVisible(false);
-        anchorPaneAssignments.setVisible(false);
-        anchorPaneJournals.setVisible(false);
-    }
 
 
 }

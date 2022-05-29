@@ -6,7 +6,7 @@ import Application.DAL.AccountDAO;
 
 public class AccountManager
 {
-    AccountDAO accountData;
+    private AccountDAO accountData;
 
     public AccountManager()
     {

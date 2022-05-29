@@ -1,171 +1,168 @@
 package Application.GUI.Models;
 
-import Application.BE.CategoryEntry;
-import Application.BE.ContactInfo;
+import Application.BE.Category;
+import Application.BE.Citizen;
+import Application.BE.ContentEntry;
+import Application.BE.GeneralJournal;
 import javafx.beans.property.*;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
-import java.time.LocalDate;
+import java.util.HashMap;
 
-public class CitizenModel {
+public class CitizenModel implements Cloneable
+{
+    private final IntegerProperty id = new SimpleIntegerProperty();
 
-    private StringProperty name;
-    private StringProperty surname;
-    private IntegerProperty age;
-    private LocalDate birthDate;
-    private StringProperty helpStatus;
-    private StringProperty civilianStatus;
-    private StringProperty address;
-    private ListProperty<ContactInfo> contactInfo;
+    private final StringProperty firstName = new SimpleStringProperty();
+    private final StringProperty lastName = new SimpleStringProperty();
+    private final IntegerProperty age = new SimpleIntegerProperty();
+    private final StringProperty coping = new SimpleStringProperty();
+    private final StringProperty motivation = new SimpleStringProperty();
+    private final StringProperty resources = new SimpleStringProperty();
+    private final StringProperty roles = new SimpleStringProperty();
+    private final StringProperty habits = new SimpleStringProperty();
+    private final StringProperty eduAndJob = new SimpleStringProperty();
+    private final StringProperty lifeStory = new SimpleStringProperty();
+    private final StringProperty healthInfo = new SimpleStringProperty();
+    private final StringProperty assistiveDevices = new SimpleStringProperty();
+    private final StringProperty homeLayout = new SimpleStringProperty();
+    private final StringProperty network = new SimpleStringProperty();
 
-    private String mastering;
-    private String motivation;
-    private String resources;
-    private String roles;
-    private String habits;
-    private String eduAndJob;
-    private String lifeStory;
-    private String healthInfo;
-    private String assistiveDevices;
-    private String homeLayout;
-    private String network;
-
-    private ObservableList<CategoryEntryModel> relevantFunctionalAbilities;
-    private ObservableList<CategoryEntryModel> relevantHealthConditions;
-    private ObservableList<CategoryEntryModel> nonRelevantFunctionalAbilities;
-    private ObservableList<CategoryEntryModel> nonRelevantHealthConditions;
+    private HashMap<Category, CategoryEntryModel> relevantFunctionalAbilities = new HashMap<>();
+    private HashMap<Category, CategoryEntryModel> relevantHealthConditions = new HashMap<>();
+    private HashMap<Category, CategoryEntryModel> nonRelevantFunctionalAbilities = new HashMap<>();
+    private HashMap<Category, CategoryEntryModel> nonRelevantHealthConditions = new HashMap<>();
 
 
-    public CitizenModel(String name, String surname, int age, LocalDate birthDate, String helpStatus, String civilianStatus, String address, ObservableList<ContactInfo> contactInfo) {
-        initProperties();
-        this.name.set(name);
-        this.surname.set(surname);
-        this.age.set(age);
-        this.helpStatus.set(helpStatus);
-        this.civilianStatus.set(civilianStatus);
-        this.address.set(address);
-        this.contactInfo.set(contactInfo);
-        this.birthDate = birthDate;
-        this.mastering = "";
-        this.motivation = "";
-        this.resources = "";
-        this.roles = "";
-        this.habits = "";
-        this.eduAndJob = "";
-        this.lifeStory = "";
-        this.healthInfo = "";
-        this.assistiveDevices = "";
-        this.homeLayout = "";
-        this.network = "";
+    public static Citizen convert(CitizenModel model)
+    {
+        GeneralJournal general = new GeneralJournal();
 
-        this.relevantFunctionalAbilities = FXCollections.observableArrayList();
-        this.relevantHealthConditions = FXCollections.observableArrayList();
-        this.nonRelevantFunctionalAbilities = FXCollections.observableArrayList();
-        this.nonRelevantHealthConditions = FXCollections.observableArrayList();
+        general.setCoping(model.getCoping());
+        general.setMotivation(model.getMotivation());
+        general.setResources(model.getResources());
+        general.setRoles(model.getRoles());
+        general.setHabits(model.getHabits());
+        general.setEduAndJob(model.getEduAndJob());
+        general.setLifeStory(model.getLifeStory());
+        general.setHealthInfo(model.getHealthInfo());
+        general.setAssistiveDevices(model.getAssistiveDevices());
+        general.setHomeLayout(model.getHomeLayout());
+        general.setNetwork(model.getNetwork());
 
-        initFunctionalAbilities();
-        initHealthConditions();
+        Citizen citizen = new Citizen(model.getId(), general, SessionModel.getSchool(), model.getFirstName(), model.getLastName(), model.getAge());
+
+        citizen.getHealthConditions().clear();
+        citizen.getFunctionalAbilities().clear();
+
+        model.getAllFuncCategories().forEach((category, categoryEntryModel) -> {
+            citizen.getFunctionalAbilities().put(category, CategoryEntryModel.convert(categoryEntryModel));
+        });
+
+        model.getAllHealthConditions().forEach((category, categoryEntryModel) -> {
+            citizen.getHealthConditions().put(category, CategoryEntryModel.convert(categoryEntryModel));
+        });
+
+        return citizen;
     }
 
-    public CitizenModel() {
-        initProperties();
-        this.name = new SimpleStringProperty();
-        this.surname = new SimpleStringProperty();
-        this.age = new SimpleIntegerProperty();
-        this.helpStatus = new SimpleStringProperty();
-        this.civilianStatus = new SimpleStringProperty();
-        this.address = new SimpleStringProperty();
-        this.contactInfo = new SimpleListProperty<>();
-        this.birthDate = LocalDate.now();
-        this.mastering = "";
-        this.motivation = "";
-        this.resources = "";
-        this.roles = "";
-        this.habits = "";
-        this.eduAndJob = "";
-        this.lifeStory = "";
-        this.healthInfo = "";
-        this.assistiveDevices = "";
-        this.homeLayout = "";
-        this.network = "";
+    public static CitizenModel convert(Citizen citizen)
+    {
+        CitizenModel model = new CitizenModel();
 
+        model.setId(citizen.getId());
+        model.setFirstName(citizen.getFirstname());
+        model.setLastName(citizen.getLastname());
+        model.setAge(citizen.getAge());
 
-        this.relevantFunctionalAbilities = FXCollections.observableArrayList();
-        this.relevantHealthConditions = FXCollections.observableArrayList();
-        this.nonRelevantFunctionalAbilities = FXCollections.observableArrayList();
-        this.nonRelevantHealthConditions = FXCollections.observableArrayList();
+        if (citizen.getGeneralJournal() != null)
+        {
+            model.setCoping(citizen.getGeneralJournal().getCoping());
+            model.setMotivation(citizen.getGeneralJournal().getMotivation());
+            model.setResources(citizen.getGeneralJournal().getResources());
+            model.setRoles(citizen.getGeneralJournal().getRoles());
+            model.setHabits(citizen.getGeneralJournal().getHabits());
+            model.setEduAndJob(citizen.getGeneralJournal().getEduAndJob());
+            model.setLifeStory(citizen.getGeneralJournal().getLifeStory());
+            model.setHealthInfo(citizen.getGeneralJournal().getHealthInfo());
+            model.setAssistiveDevices(citizen.getGeneralJournal().getAssistiveDevices());
+            model.setHomeLayout(citizen.getGeneralJournal().getHomeLayout());
+            model.setNetwork(citizen.getGeneralJournal().getNetwork());
+        }
 
-        initFunctionalAbilities();
-        initHealthConditions();
+        for (ContentEntry entry : citizen.getFunctionalAbilities().values())
+        {
+            Category category = entry.getCategory();
+            CategoryEntryModel cat = new CategoryEntryModel(entry);
+            if (entry.getRelevant())
+            {
+                model.getRelevantFunctionalAbilities().put(category, cat);
+            }
+            else {
+                model.getNonRelevantFunctionalAbilities().put(category, cat);
+            }
+        }
+
+        for (ContentEntry entry : citizen.getHealthConditions().values())
+        {
+            Category category = entry.getCategory();
+            CategoryEntryModel cat = new CategoryEntryModel(entry);
+
+            if (entry.getRelevant()) {
+                model.getRelevantHealthConditions().put(category, cat);
+            }
+            else {
+                model.getNonRelevantHealthConditions().put(category, cat);
+            }
+        }
+
+        return model;
     }
 
-    private void initProperties() {
-        this.name = new SimpleStringProperty();
-        this.surname = new SimpleStringProperty();
-        this.age = new SimpleIntegerProperty();
-        this.helpStatus = new SimpleStringProperty();
-        this.civilianStatus = new SimpleStringProperty();
-        this.address = new SimpleStringProperty();
-        this.contactInfo = new SimpleListProperty<>();
-    }
 
     @Override
     public String toString() {
-        return name.get() + " " + surname.get();
-    }
-
-    private void initFunctionalAbilities() {
-        relevantFunctionalAbilities.add(new CategoryEntryModel(new CategoryEntry(0, "Walking", 1, true)));
-        relevantFunctionalAbilities.add(new CategoryEntryModel(new CategoryEntry(0, "Climbing", 1, true)));
-        relevantFunctionalAbilities.add(new CategoryEntryModel(new CategoryEntry(0, "Swimming", 1, true)));
-        relevantFunctionalAbilities.add(new CategoryEntryModel(new CategoryEntry(0, "Bathing", 4, true)));
-
-        nonRelevantFunctionalAbilities.add(new CategoryEntryModel(new CategoryEntry(0, "Sleeping", 0, true)));
-        nonRelevantFunctionalAbilities.add(new CategoryEntryModel(new CategoryEntry(0, "Eating", 0, true)));
-        nonRelevantFunctionalAbilities.add(new CategoryEntryModel(new CategoryEntry(0, "Toileting", 0, true)));
-    }
-
-    private void initHealthConditions() {
-        relevantHealthConditions.add(new CategoryEntryModel(new CategoryEntry(0, "Diabetes", 1, false)));
-        relevantHealthConditions.add(new CategoryEntryModel(new CategoryEntry(0, "High Blood Pressure", 1, false)));
-        relevantHealthConditions.add(new CategoryEntryModel(new CategoryEntry(0, "Heart Disease", 1, false)));
-        relevantHealthConditions.add(new CategoryEntryModel(new CategoryEntry(0, "Asthma", 1, false)));
-        relevantHealthConditions.add(new CategoryEntryModel(new CategoryEntry(0, "Epilepsy", 1, false)));
-        relevantHealthConditions.add(new CategoryEntryModel(new CategoryEntry(0, "Allergies", 1, false)));
-        relevantHealthConditions.add(new CategoryEntryModel(new CategoryEntry(0, "Other", 1, false)));
-
-        nonRelevantHealthConditions.add(new CategoryEntryModel(new CategoryEntry(0, "None", 0, false)));
-
+        return this.getFirstName() + " " + this.getLastName();
     }
 
 
-    public String getName() {
-        return name.get();
+    public int getId() {
+        return idProperty().get();
     }
 
-    public StringProperty nameProperty() {
-        return name;
+    public void setId(int id) {
+        idProperty().setValue(id);
     }
 
-    public void setName(String name) {
-        this.name.set(name);
+    public IntegerProperty idProperty() {
+        return id;
     }
 
-    public String getSurname() {
-        return surname.get();
+    public String getFirstName() {
+        return firstNameProperty().get();
     }
 
-    public StringProperty surnameProperty() {
-        return surname;
+    public StringProperty firstNameProperty() {
+        return firstName;
     }
 
-    public void setSurname(String surname) {
-        this.surname.set(surname);
+    public void setFirstName(String name) {
+        this.firstNameProperty().set(name);
+    }
+
+    public String getLastName() {
+        return lastNameProperty().get();
+    }
+
+    public StringProperty lastNameProperty() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastNameProperty().set(lastName);
     }
 
     public int getAge() {
-        return age.get();
+        return ageProperty().get();
     }
 
     public IntegerProperty ageProperty() {
@@ -173,195 +170,243 @@ public class CitizenModel {
     }
 
     public void setAge(int age) {
-        this.age.set(age);
+        this.ageProperty().set(age);
     }
 
-    public LocalDate getBirthDate() {
-        return birthDate;
+
+    public String getCoping() {
+        return copingProperty().get();
     }
 
-    public void setBirthDate(LocalDate birthDate) {
-        this.birthDate = birthDate;
-    }
-
-    public String getHelpStatus() {
-        return helpStatus.get();
-    }
-
-    public StringProperty helpStatusProperty() {
-        return helpStatus;
-    }
-
-    public void setHelpStatus(String helpStatus) {
-        this.helpStatus.set(helpStatus);
-    }
-
-    public String getCivilianStatus() {
-        return civilianStatus.get();
-    }
-
-    public StringProperty civilianStatusProperty() {
-        return civilianStatus;
-    }
-
-    public void setCivilianStatus(String civilStatus) {
-        this.civilianStatus.set(civilStatus);
-    }
-
-    public String getAddress() {
-        return address.get();
-    }
-
-    public StringProperty addressProperty() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address.set(address);
-    }
-
-    public ObservableList<ContactInfo> getContactInfo() {
-        return contactInfo.get();
-    }
-
-    public ListProperty<ContactInfo> contactInfoProperty() {
-        return contactInfo;
-    }
-
-    public void setContactInfo(ObservableList<ContactInfo> contactInfo) {
-        this.contactInfo.set(contactInfo);
-    }
-
-    public String getMastering() {
-        return mastering;
-    }
-
-    public void setMastering(String mastering) {
-        this.mastering = mastering;
+    public void setCoping(String coping) {
+        this.copingProperty().set(coping);
     }
 
     public String getMotivation() {
-        return motivation;
+        return motivationProperty().get();
     }
 
     public void setMotivation(String motivation) {
-        this.motivation = motivation;
+        this.motivationProperty().set(motivation);
+    }
+
+    public StringProperty copingProperty() {
+        return coping;
+    }
+
+    public StringProperty motivationProperty() {
+        return motivation;
     }
 
     public String getResources() {
+        return resourcesProperty().get();
+    }
+
+    public StringProperty resourcesProperty() {
         return resources;
     }
 
     public void setResources(String resources) {
-        this.resources = resources;
+        this.resourcesProperty().set(resources);
     }
 
     public String getRoles() {
+        return rolesProperty().get();
+    }
+
+    public StringProperty rolesProperty() {
         return roles;
     }
 
     public void setRoles(String roles) {
-        this.roles = roles;
+        this.rolesProperty().set(roles);
     }
 
     public String getHabits() {
+        return habitsProperty().get();
+    }
+
+    public StringProperty habitsProperty() {
         return habits;
     }
 
     public void setHabits(String habits) {
-        this.habits = habits;
+        this.habitsProperty().set(habits);
     }
 
     public String getEduAndJob() {
+        return eduAndJobProperty().get();
+    }
+
+    public StringProperty eduAndJobProperty() {
         return eduAndJob;
     }
 
     public void setEduAndJob(String eduAndJob) {
-        this.eduAndJob = eduAndJob;
+        this.eduAndJobProperty().set(eduAndJob);
     }
 
     public String getLifeStory() {
+        return lifeStoryProperty().get();
+    }
+
+    public StringProperty lifeStoryProperty() {
         return lifeStory;
     }
 
     public void setLifeStory(String lifeStory) {
-        this.lifeStory = lifeStory;
+        this.lifeStoryProperty().set(lifeStory);
     }
 
     public String getHealthInfo() {
+        return healthInfoProperty().get();
+    }
+
+    public StringProperty healthInfoProperty() {
         return healthInfo;
     }
 
     public void setHealthInfo(String healthInfo) {
-        this.healthInfo = healthInfo;
+        this.healthInfoProperty().set(healthInfo);
     }
 
     public String getAssistiveDevices() {
+        return assistiveDevicesProperty().get();
+    }
+
+    public StringProperty assistiveDevicesProperty() {
         return assistiveDevices;
     }
 
     public void setAssistiveDevices(String assistiveDevices) {
-        this.assistiveDevices = assistiveDevices;
+        this.assistiveDevicesProperty().set(assistiveDevices);
     }
 
     public String getHomeLayout() {
+        return homeLayoutProperty().get();
+    }
+
+    public StringProperty homeLayoutProperty() {
         return homeLayout;
     }
 
     public void setHomeLayout(String homeLayout) {
-        this.homeLayout = homeLayout;
+        this.homeLayoutProperty().set(homeLayout);
     }
 
     public String getNetwork() {
+        return networkProperty().get();
+    }
+
+    public StringProperty networkProperty() {
         return network;
     }
 
     public void setNetwork(String network) {
-        this.network = network;
+        this.networkProperty().set(network);
     }
 
-    public ObservableList<CategoryEntryModel> getNonRelevantFunctionalAbilities() {
-        return nonRelevantFunctionalAbilities;
-    }
 
-    public void setNonRelevantFunctionalAbilities(ObservableList<CategoryEntryModel> nonRelevantFunctionalAbilities) {
-        this.nonRelevantFunctionalAbilities = relevantFunctionalAbilities;
-    }
-
-    public ObservableList<CategoryEntryModel> getNonRelevantHealthConditions() {
-        return nonRelevantHealthConditions;
-    }
-
-    public void setNonRelevantHealthConditions(ObservableList<CategoryEntryModel> nonRelevantHealthConditions) {
-        this.nonRelevantHealthConditions = relevantHealthConditions;
-    }
-    public ObservableList<CategoryEntryModel> getRelevantFunctionalAbilities() {
+    public HashMap<Category, CategoryEntryModel> relevantFunctionalAbilitiesProperty() {
         return relevantFunctionalAbilities;
     }
 
-    public void setRelevantFunctionalAbilities(ObservableList<CategoryEntryModel> relevantFunctionalAbilities) {
-        this.relevantFunctionalAbilities = relevantFunctionalAbilities;
+    public HashMap<Category, CategoryEntryModel> getRelevantFunctionalAbilities() {
+        return relevantFunctionalAbilitiesProperty();
     }
 
-    public ObservableList<CategoryEntryModel> getRelevantHealthConditions() {
+    public void setRelevantFunctionalAbilities(HashMap<Category, CategoryEntryModel> map) {
+        this.relevantFunctionalAbilities = map;
+    }
+
+
+    public HashMap<Category, CategoryEntryModel> relevantHealthConditionsProperty()
+    {
         return relevantHealthConditions;
     }
 
-    public void setRelevantHealthConditions(ObservableList<CategoryEntryModel> relevantHealthConditions) {
-        this.relevantHealthConditions = relevantHealthConditions;
+    public HashMap<Category, CategoryEntryModel> getRelevantHealthConditions() {
+        return relevantHealthConditions;
     }
 
-    public ObservableList<CategoryEntryModel> getAllFuncCategories() {
-        ObservableList<CategoryEntryModel> allFuncConditions = FXCollections.observableArrayList();
-        allFuncConditions.addAll(nonRelevantFunctionalAbilities);
-        allFuncConditions.addAll(relevantFunctionalAbilities);
-        return allFuncConditions;
+    public void setRelevantHealthConditions(HashMap<Category, CategoryEntryModel> map) {
+        relevantHealthConditions = map;
     }
 
-    public ObservableList<CategoryEntryModel> getAllHealthConditions() {
-        ObservableList<CategoryEntryModel> allHealthConditions = FXCollections.observableArrayList();
-        allHealthConditions.addAll(nonRelevantHealthConditions);
-        allHealthConditions.addAll(relevantHealthConditions);
+    public HashMap<Category, CategoryEntryModel> nonRelevantFunctionalAbilitiesProperty() {
+        return nonRelevantFunctionalAbilities;
+    }
+
+    public HashMap<Category, CategoryEntryModel> getNonRelevantFunctionalAbilities() {
+        return nonRelevantFunctionalAbilities;
+    }
+
+    public void setNonRelevantFunctionalAbilities(HashMap<Category, CategoryEntryModel> map) {
+        nonRelevantFunctionalAbilities = map;
+    }
+
+    public HashMap<Category, CategoryEntryModel> nonRelevantHealthConditionsProperty()
+    {
+        return nonRelevantHealthConditions;
+    }
+
+    public HashMap<Category, CategoryEntryModel> getNonRelevantHealthConditions() {
+        return nonRelevantHealthConditions;
+    }
+
+    public void setNonRelevantHealthConditions(HashMap<Category, CategoryEntryModel> map) {
+        this.nonRelevantHealthConditions = map;
+    }
+
+
+    public HashMap<Category, CategoryEntryModel> getAllFuncCategories()
+    {
+        HashMap<Category, CategoryEntryModel> allFuncCategories = new HashMap<>();
+
+        allFuncCategories.putAll(nonRelevantFunctionalAbilities);
+        allFuncCategories.putAll(relevantFunctionalAbilities);
+
+        return allFuncCategories;
+    }
+
+    public HashMap<Category, CategoryEntryModel> getAllHealthConditions()
+    {
+        HashMap<Category, CategoryEntryModel> allHealthConditions = new HashMap<>();
+
+        allHealthConditions.putAll(nonRelevantHealthConditions);
+        allHealthConditions.putAll(relevantHealthConditions);
+
         return allHealthConditions;
     }
+
+    @Override
+    public CitizenModel clone() {
+        CitizenModel model = new CitizenModel();
+
+        model.setId(this.getId());
+        model.setFirstName(this.getFirstName());
+        model.setLastName(this.getLastName());
+        model.setAge(this.getAge());
+
+        model.setCoping(this.getCoping());
+        model.setMotivation(this.getMotivation());
+        model.setResources(this.getResources());
+        model.setRoles(this.getRoles());
+        model.setHabits(this.getHabits());
+        model.setEduAndJob(this.getEduAndJob());
+        model.setLifeStory(this.getLifeStory());
+        model.setHealthInfo(this.getHealthInfo());
+        model.setAssistiveDevices(this.getAssistiveDevices());
+        model.setHomeLayout(this.getHomeLayout());
+        model.setNetwork(this.getNetwork());
+
+        model.setRelevantFunctionalAbilities(this.getRelevantFunctionalAbilities());
+        model.setNonRelevantFunctionalAbilities(this.getNonRelevantFunctionalAbilities());
+        model.setRelevantHealthConditions(this.getRelevantHealthConditions());
+        model.setNonRelevantHealthConditions(this.getNonRelevantHealthConditions());
+
+        return model;
+    }
+
+
 }

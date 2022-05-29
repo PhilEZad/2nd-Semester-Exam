@@ -1,39 +1,34 @@
 package Application.GUI.Controllers;
 
-import Application.BE.ContactInfo;
+import Application.BLL.StudentDataManager;
 import Application.GUI.Models.CategoryEntryModel;
 import Application.GUI.Models.CitizenModel;
 import Application.GUI.Models.ControllerModels.StudentViewControllerModel;
-import Application.GUI.Models.FunctionalLevels;
 import Application.GUI.Models.HealthLevels;
+import Application.Utility.GUIUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.ListResourceBundle;
 import java.util.ResourceBundle;
 
 public class StudentViewController implements Initializable {
 
     @FXML public ListView<CitizenModel> listViewCitizens;
     @FXML public TextField txtFieldCitizenSearch;
-    @FXML public Button btnCitizenSearch;
     @FXML public Label lblCitizenName;
-    @FXML public ListView<ContactInfo> listViewCitizenContactInfo;
     @FXML public Label lblAge;
-    @FXML public Label lblBirthdate;
-    @FXML public Label lblAddress;
-    @FXML public Label lblHelpStatus;
-    @FXML public Label lblCivilianStatus;
     @FXML public TableView<CategoryEntryModel> tblViewStudentDashboardHealth;
     @FXML public TableColumn<CategoryEntryModel, String> tblColumnStudentDashboardHealthCategory;
     @FXML public TableColumn<CategoryEntryModel, String> tblColumnStudentDashboardHealthLevel;
@@ -43,7 +38,9 @@ public class StudentViewController implements Initializable {
     @FXML public TableColumn<CategoryEntryModel, ImageView> tblColumnStudentDashboardFuncLevel;
     @FXML public TableColumn<CategoryEntryModel, String> tblColumnStudentDashboardFuncNote;
 
+    public Button btnOpenDetails;
 
+    private StudentDataManager dataManager = new StudentDataManager();
 
     private StudentViewControllerModel model = new StudentViewControllerModel();
 
@@ -51,16 +48,22 @@ public class StudentViewController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         initTableViews();
         initListViewCitizens();
-        initTestData();
+        //initTestData();
+        initBundle(resources);
+        GUIUtils.searchListener(txtFieldCitizenSearch, listViewCitizens);
+    }
+
+    private void initBundle(ResourceBundle bundle) {
+        if (bundle != null && bundle.getObject("selectedCitizen") != null){
+            listViewCitizens.getSelectionModel().select((CitizenModel) bundle.getObject("selectedCitizen"));
+        }
     }
 
     private void initTestData() {
         ObservableList<CitizenModel> citizens = FXCollections.observableArrayList();
-        citizens.add(new CitizenModel("John", "Doe", 22, LocalDate.now(), "HelpStatus", "CivilianStatus","Address street", FXCollections.observableArrayList(new ContactInfo("Tlf: 12345678"))));
-        citizens.add(new CitizenModel("Jfeohn", "Dofee", 2245, LocalDate.now(), "Help1Status", "Civili1anStatus","Ad1dress street", FXCollections.observableArrayList(new ContactInfo("Tlf: 12345678"))));
         listViewCitizens.setItems(citizens);
-        //TODO: Fix Scaling
-        //TODO: Make age autofill from birthdate in citizenmodel and citizenTemplateModel
+
+
     }
 
     private void initTableViews() {
@@ -72,22 +75,14 @@ public class StudentViewController implements Initializable {
         tblColumnStudentDashboardFuncNote.setCellValueFactory(cellData -> cellData.getValue().noteProperty());
 
         tblViewStudentDashboardHealth.setFixedCellSize(50);
-
-        tblViewStudentDashboardHealth.getItems().add(new CategoryEntryModel("Health", HealthLevels.RELEVANT.ordinal(), "", false));
-
-        tblViewStudentDashboardFunc.getItems().add(new CategoryEntryModel("FUNCY", HealthLevels.RELEVANT.ordinal(), "", true));
     }
 
     private void updateCitizenInfo(CitizenModel citizen) {
-        lblCitizenName.setText(citizen.getName() + " " + citizen.getSurname());
+        lblCitizenName.setText(citizen.getFirstName() + " " + citizen.getLastName());
         lblAge.setText(citizen.getAge() + "");
-        lblBirthdate.setText(citizen.getBirthDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")));
-        lblAddress.setText(citizen.getAddress());
-        lblHelpStatus.setText(citizen.getHelpStatus());
-        lblCivilianStatus.setText(citizen.getCivilianStatus());
 
-        tblViewStudentDashboardHealth.setItems(model.getSelectedCitizen().getAllHealthConditions());
-        tblViewStudentDashboardFunc.setItems(model.getSelectedCitizen().getRelevantFunctionalAbilities());
+        tblViewStudentDashboardHealth.getItems().setAll(model.getSelectedCitizen().getAllHealthConditions().values());
+        tblViewStudentDashboardFunc.getItems().setAll(model.getSelectedCitizen().getAllFuncCategories().values());
     }
 
     private void initListViewCitizens(){
@@ -101,19 +96,34 @@ public class StudentViewController implements Initializable {
     }
 
 
-    public void onStudentCitizensSearch(ActionEvent event) {
-        model.onStudentCitizensSearch();
+
+    public void onOpenDetails(ActionEvent event) {
+        Stage stage = (Stage) btnOpenDetails.getScene().getWindow();
+        Parent root = null;
+
+        try {
+            ResourceBundle resources = new ListResourceBundle()
+            {
+                @Override
+                protected Object[][] getContents()
+                {
+                    return new Object[][]{  {"selectedCitizen", model.getSelectedCitizen()}, {"accountType", "student"}};
+                }
+            };
+
+            root = FXMLLoader.load(getClass().getResource("/Views/Popups/CitizenDetailsView.fxml"), resources);
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Fejl");
+            alert.setHeaderText("Ingen valgt borger");
+            alert.setContentText("Vælg venligst en borger");
+            alert.showAndWait();
+        }
     }
 
-    public void onOpenJournal(ActionEvent event) {
-        model.onOpenJournal();
-    }
 
-    public void onViewCases(ActionEvent event) {
-        model.onViewCases();
-    }
-
-    public void onAddObservation(ActionEvent event) {
-        model.onAddObservation();
-    }
 }

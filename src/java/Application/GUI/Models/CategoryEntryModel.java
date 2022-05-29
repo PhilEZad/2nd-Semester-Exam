@@ -1,6 +1,8 @@
 package Application.GUI.Models;
 
-import Application.BE.CategoryEntry;
+import Application.BE.Category;
+import Application.BE.ContentEntry;
+import Application.BE.CategoryType;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -10,12 +12,11 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class CategoryEntryModel {
+public class CategoryEntryModel implements Comparable<CategoryEntryModel> {
 
 
     private int id;
     private StringProperty categoryName;
-    private StringProperty superCategory;
     private IntegerProperty level;
     private ObjectProperty<ComboBox<FunctionalLevels>> levelFuncComboBox;
     private ObjectProperty<ComboBox<HealthLevels>> levelHealthComboBox;
@@ -25,35 +26,50 @@ public class CategoryEntryModel {
     private StringProperty cause;
     private StringProperty implications;
     private StringProperty citizenGoals;
-    private StringProperty expectedCondition;
+    private IntegerProperty expectedCondition;
+    private ObjectProperty<ComboBox<FunctionalLevels>> exConFuncComboBox;
+    private ObjectProperty<ComboBox<HealthLevels>> exConHealthComboBox;
+    private ObjectProperty<FunctionalLevels> exConFunc;
+    private ObjectProperty<HealthLevels> exConHealth;
     private StringProperty note;
-    private boolean isFunctionAbility;
-    private CategoryEntry categoryEntry;
+    private CategoryType type;
+    private ContentEntry contentEntry;
 
 
-    public CategoryEntryModel(CategoryEntry categoryEntry) {
+
+    public CategoryEntryModel(ContentEntry contentEntry) {
+        this.contentEntry = contentEntry;
+        this.id = contentEntry.getId();
+
         initProperties();
-        categoryName.set(categoryEntry.getCategoryName());
-        superCategory.set(categoryEntry.getSuperCategory());
-        level.set(categoryEntry.getLevel());
-        assessment.set(categoryEntry.getAssessment());
-        cause.set(categoryEntry.getCause());
-        implications.set(categoryEntry.getImplications());
-        citizenGoals.set(categoryEntry.getCitizenGoals());
-        expectedCondition.set(categoryEntry.getExpectedCondition());
-        note.set(categoryEntry.getNote());
-        isFunctionAbility = categoryEntry.isFunctionAbility();
-
-        this.categoryEntry = categoryEntry;
-        this.id = categoryEntry.getId();
+        categoryName.set(contentEntry.getCategoryName());
+        if (contentEntry.getCurrentStatus() != null)
+        level.set(contentEntry.getCurrentStatus());
+        else level.set(-1);
+        assessment.set(contentEntry.getAssessment());
+        cause.set(contentEntry.getCause());
+        implications.set(contentEntry.getImplications());
+        citizenGoals.set(contentEntry.getCitizenGoals());
+        if (contentEntry.getExpectedStatus() != null)
+        expectedCondition.set(contentEntry.getExpectedStatus());
+        else expectedCondition.set(-1);
+        note.set(contentEntry.getNote());
+        type = contentEntry.getCategory().getType();
+        initBinds();
 
         levelFuncComboBox = new SimpleObjectProperty<>(new ComboBox<>());
         levelHealthComboBox = new SimpleObjectProperty<>(new ComboBox<>());
         levelFunc = new SimpleObjectProperty<>();
         levelHealth = new SimpleObjectProperty<>();
 
+        exConFuncComboBox = new SimpleObjectProperty<>(new ComboBox<>());
+        exConHealthComboBox = new SimpleObjectProperty<>(new ComboBox<>());
+        exConFunc = new SimpleObjectProperty<>();
+        exConHealth = new SimpleObjectProperty<>();
+
         initLevelComboBox();
         initLevelFuncAndLevelHealth();
+        initExConFuncAndLevelHealth();
 
         if (level.get() == 9){
             levelFuncComboBox.get().setValue(FunctionalLevels.LEVEL_9);
@@ -66,33 +82,61 @@ public class CategoryEntryModel {
         this.categoryName.set(categoryName);
     }
 
-    public CategoryEntryModel(String categoryName, int level, String note, boolean isFunctionAbility) {
+    public CategoryEntryModel(String categoryName, int level, String note) {
         initProperties();
+        this.contentEntry = new ContentEntry(-1, new Category(categoryName), level);
         this.categoryName.set(categoryName);
         this.level.set(level);
+        assessment.set(" ");
+        cause.set(" ");
+        implications.set(" ");
+        citizenGoals.set(" ");
+        expectedCondition.set(0);
         this.note.set(note);
-        this.isFunctionAbility = isFunctionAbility;
+        this.type = contentEntry.getCategory().getType();
+        initBinds();
 
         initLevelFuncAndLevelHealth();
+        initExConFuncAndLevelHealth();
     }
+
+    public static ContentEntry convert(CategoryEntryModel categoryEntryModel) {
+        return null;
+    }
+
 
     /**
      * Initializes the property objects of this model.
      */
     private void initProperties() {
-        categoryName = new SimpleStringProperty();
-        superCategory = new SimpleStringProperty();
+        categoryName = new SimpleStringProperty("");
         level = new SimpleIntegerProperty();
         levelFuncComboBox = new SimpleObjectProperty<>();
         levelHealthComboBox = new SimpleObjectProperty<>();
         levelFunc = new SimpleObjectProperty<>();
         levelHealth = new SimpleObjectProperty<>();
-        assessment = new SimpleStringProperty();
-        cause = new SimpleStringProperty();
-        implications = new SimpleStringProperty();
-        citizenGoals = new SimpleStringProperty();
-        expectedCondition = new SimpleStringProperty();
-        note = new SimpleStringProperty();
+        assessment = new SimpleStringProperty("");
+        cause = new SimpleStringProperty("");
+        implications = new SimpleStringProperty("");
+        citizenGoals = new SimpleStringProperty("");
+        expectedCondition = new SimpleIntegerProperty();
+        exConFuncComboBox = new SimpleObjectProperty<>();
+        exConHealthComboBox = new SimpleObjectProperty<>();
+        exConFunc = new SimpleObjectProperty<>();
+        exConHealth = new SimpleObjectProperty<>();
+        note = new SimpleStringProperty("");
+    }
+
+    private void initBinds() {
+        categoryName.bindBidirectional(new SimpleStringProperty(contentEntry.getCategoryName()));
+        level.bindBidirectional(new SimpleIntegerProperty(contentEntry.getCurrentStatus()));
+
+        assessment.bindBidirectional(new SimpleStringProperty(contentEntry.getAssessment()));
+        cause.bindBidirectional(new SimpleStringProperty(contentEntry.getCause()));
+        implications.bindBidirectional(new SimpleStringProperty(contentEntry.getImplications()));
+        citizenGoals.bindBidirectional(new SimpleStringProperty(contentEntry.getCitizenGoals()));
+        expectedCondition.bindBidirectional(new SimpleIntegerProperty(contentEntry.getExpectedStatus()));
+        note.bindBidirectional(new SimpleStringProperty(contentEntry.getNote()));
     }
 
     /**
@@ -109,20 +153,42 @@ public class CategoryEntryModel {
         levelFuncComboBox.get().setButtonCell(comboBoxImageCell());
         levelFuncComboBox.get().setDisable(true);
 
+        exConFuncComboBox.get().setItems(funcData);
+        exConFuncComboBox.get().setCellFactory(e -> comboBoxImageCell());
+        exConFuncComboBox.get().setButtonCell(comboBoxImageCell());
+        exConFuncComboBox.get().setDisable(true);
+
         ObservableList<HealthLevels> healthData = FXCollections.observableArrayList(HealthLevels.values());
         levelHealthComboBox.get().setItems(healthData);
         levelHealthComboBox.get().setCellFactory(e -> comboBoxHealthDescCell());
         levelHealthComboBox.get().setButtonCell(comboBoxHealthDescCell());
         levelHealthComboBox.get().setDisable(true);
 
-        if (isFunctionAbility) {
-            if (level.get() == 9){
+        exConHealthComboBox.get().setItems(healthData);
+        exConHealthComboBox.get().setCellFactory(e -> comboBoxHealthDescCell());
+        exConHealthComboBox.get().setButtonCell(comboBoxHealthDescCell());
+        exConHealthComboBox.get().setDisable(true);
+
+        if (this.type == CategoryType.FUNCTIONAL_ABILITY) {
+            if (level.get() == 9 || level.get() == -1) {
                 levelFuncComboBox.get().setValue(FunctionalLevels.LEVEL_9);
             } else levelFuncComboBox.get().setValue(FunctionalLevels.values()[level.get()]);
-
+            if (expectedCondition.get() == 9 || expectedCondition.get() == -1){
+                exConFuncComboBox.get().setValue(FunctionalLevels.LEVEL_9);
+            } else exConFuncComboBox.get().setValue(FunctionalLevels.values()[expectedCondition.get()]);
         }
         else {
-            levelHealthComboBox.get().setValue(HealthLevels.values()[level.get()]);
+            if (level.get() == -1) {
+                levelHealthComboBox.get().setValue(HealthLevels.NOT_RELEVANT);
+                exConHealthComboBox.get().setValue(HealthLevels.NOT_RELEVANT);
+            }
+            else {
+                levelHealthComboBox.get().setValue(HealthLevels.values()[level.get()]);
+                if (expectedCondition.get() == 9 || expectedCondition.get() == -1){
+                    exConHealthComboBox.get().setValue(HealthLevels.NOT_RELEVANT);
+                }
+                else exConHealthComboBox.get().setValue(HealthLevels.values()[expectedCondition.get()]);
+            }
         }
     }
 
@@ -173,6 +239,10 @@ public class CategoryEntryModel {
         levelFuncComboBox.get().selectionModelProperty().get().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             setLevel(newValue.level);
         });
+
+        exConFuncComboBox.get().selectionModelProperty().get().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            setExpectedCondition(newValue.level);
+        });
     }
 
     /**
@@ -182,22 +252,42 @@ public class CategoryEntryModel {
         levelHealthComboBox.get().selectionModelProperty().get().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             setLevel(newValue.level);
         });
+        exConHealthComboBox.get().selectionModelProperty().get().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            setExpectedCondition(newValue.level);
+        });
     }
 
-    public ComboBox<FunctionalLevels> getFuncLevelComboBox(){
+    public ComboBox<FunctionalLevels> getLevelFuncLevelComboBox(){
         return levelFuncComboBox.get();
     }
 
-    public ObjectProperty<ComboBox<FunctionalLevels>> getFuncComboBoxProperty(){
+    public ObjectProperty<ComboBox<FunctionalLevels>> getLevelFuncComboBoxProperty(){
         return levelFuncComboBox;
     }
 
-    public ComboBox<HealthLevels> getHealthLevelComboBox(){
+    public ComboBox<HealthLevels> getLevelHealthLevelComboBox(){
         return levelHealthComboBox.get();
     }
 
-    public ObjectProperty<ComboBox<HealthLevels>> getHealthComboBoxProperty(){
+    public ObjectProperty<ComboBox<HealthLevels>> getLevelHealthComboBoxProperty(){
         return levelHealthComboBox;
+    }
+
+
+    public ComboBox<FunctionalLevels> getExConFuncComboBox(){
+        return exConFuncComboBox.get();
+    }
+
+    public ObjectProperty<ComboBox<FunctionalLevels>> getExConFuncComboBoxProperty(){
+        return exConFuncComboBox;
+    }
+
+    public ComboBox<HealthLevels> getExConHealthLevelComboBox(){
+        return exConHealthComboBox.get();
+    }
+
+    public ObjectProperty<ComboBox<HealthLevels>> getExConHealthComboBoxProperty(){
+        return exConHealthComboBox;
     }
 
 
@@ -206,11 +296,30 @@ public class CategoryEntryModel {
      * Sets the level of this category entry entity to the value of the selected item in the combo box
      **/
     private void initLevelFuncAndLevelHealth(){
-        if (isFunctionAbility){
-            this.levelFunc.set(FunctionalLevels.values()[level.get()]);
+        if (this.type == CategoryType.FUNCTIONAL_ABILITY){
+            if (level.get() == 9 || level.get() == -1)
+                this.levelFunc.set(FunctionalLevels.LEVEL_9);
+            else this.levelFunc.set(FunctionalLevels.values()[level.get()]);
         }
         else {
-            this.levelHealth.set(HealthLevels.values()[level.get()]);
+            if (level.get() == -1)
+           this.levelHealth.set(HealthLevels.values()[level.get()]);
+        }
+    }
+
+    /**
+     * Sets the expected condition of this category entry entity to the value of the selected item in the combo box
+     **/
+    private void initExConFuncAndLevelHealth(){
+        if (this.type == CategoryType.FUNCTIONAL_ABILITY){
+            if (expectedCondition.get() == 9 || expectedCondition.get() == -1)
+                this.exConFunc.set(FunctionalLevels.LEVEL_9);
+            else this.exConFunc.set(FunctionalLevels.values()[level.get()]);
+        }
+        else {
+            if (expectedCondition.get() == -1)
+                this.exConHealth.set(HealthLevels.NOT_RELEVANT);
+            this.exConHealth.set(HealthLevels.values()[level.get()]);
         }
     }
 
@@ -219,10 +328,10 @@ public class CategoryEntryModel {
     }
 
     public ObjectProperty<ImageView> levelFuncProperty() {
-        Image image = levelFunc.get().image;
-        ImageView imageView = new ImageView(levelFunc.get().image);
-        imageView.setFitWidth(60);
-        imageView.setFitHeight(50);
+       Image funcImage = levelFunc.get().image;
+       ImageView imageView = new ImageView(funcImage);
+       imageView.setFitWidth(60);
+       imageView.setFitHeight(50);
 
         return new SimpleObjectProperty<ImageView>(imageView);
     }
@@ -241,6 +350,35 @@ public class CategoryEntryModel {
 
     public void setLevelHealth(HealthLevels levelHealth) {
         this.levelHealth.set(levelHealth);
+    }
+
+    public FunctionalLevels getExConFunc() {
+        return exConFunc.get();
+    }
+
+    public ObjectProperty<ImageView> exConFuncProperty() {
+        Image exConimage = exConFunc.get().image;
+        ImageView imageView = new ImageView(exConimage);
+        imageView.setFitWidth(60);
+        imageView.setFitHeight(50);
+
+        return new SimpleObjectProperty<ImageView>(imageView);
+    }
+
+    public void setExConFunc(FunctionalLevels exConFunc) {
+        this.levelFunc.set(exConFunc);
+    }
+
+    public HealthLevels getExConHealth() {
+        return exConHealth.get();
+    }
+
+    public StringProperty exConHealthProperty() {
+        return new SimpleStringProperty(exConHealth.get().description);
+    }
+
+    public void setExConHealth(HealthLevels exConHealth) {
+        this.exConHealth.set(exConHealth);
     }
 
 
@@ -267,17 +405,6 @@ public class CategoryEntryModel {
         this.categoryName.set(categoryName);
     }
 
-    public String getSuperCategory() {
-        return superCategory.get();
-    }
-
-    public StringProperty superCategoryProperty() {
-        return superCategory;
-    }
-
-    public void setSuperCategory(String superCategory) {
-        this.superCategory.set(superCategory);
-    }
 
     public int getLevel() {
         return level.get();
@@ -288,11 +415,32 @@ public class CategoryEntryModel {
     }
 
     public void setLevel(int level) {
+        if (this.type == CategoryType.FUNCTIONAL_ABILITY && levelFunc != null) {
+            if (level == 9)
+                levelFunc.set(FunctionalLevels.LEVEL_9);
+            else levelFunc.set(FunctionalLevels.values()[level]);
+        }
+        if (this.type == CategoryType.HEALTH_CONDITION && levelHealth != null) {
+            levelHealth.set(HealthLevels.values()[level]);
+        }
+
         this.level.set(level);
     }
 
+    public boolean isRelevant() {
+        if (this.type == CategoryType.FUNCTIONAL_ABILITY && level.get() == FunctionalLevels.LEVEL_9.level ||
+                this.type == CategoryType.FUNCTIONAL_ABILITY && level.get() == FunctionalLevels.LEVEL_9.ordinal())
+            return false;
+        if (this.type == CategoryType.HEALTH_CONDITION && level.get() == 0)
+            return false;
+
+        return true;
+    }
+
     public String getAssessment() {
-        return assessment.get();
+        if (assessment.get() == null)
+            return "";
+        else return assessment.get();
     }
 
     public StringProperty assessmentProperty() {
@@ -308,7 +456,9 @@ public class CategoryEntryModel {
     }
 
     public String getCause() {
-        return cause.get();
+        if (cause.get() == null)
+            return "";
+        else return cause.get();
     }
 
     public StringProperty causeProperty() {
@@ -324,7 +474,9 @@ public class CategoryEntryModel {
     }
 
     public String getImplications() {
-        return implications.get();
+        if (implications.get() == null)
+            return "";
+        else return implications.get();
     }
 
     public StringProperty implicationsProperty() {
@@ -340,7 +492,9 @@ public class CategoryEntryModel {
     }
 
     public String getCitizenGoals() {
-        return citizenGoals.get();
+        if (citizenGoals.get() == null)
+            return "";
+        else return citizenGoals.get();
     }
 
     public StringProperty citizenGoalsProperty() {
@@ -355,24 +509,28 @@ public class CategoryEntryModel {
         this.citizenGoals = citizenGoals;
     }
 
-    public String getExpectedCondition() {
-        return expectedCondition.get();
+    public int getExpectedCondition() {
+        if (expectedCondition.get() == -1)
+            return 0;
+        else return expectedCondition.get();
     }
 
-    public StringProperty expectedConditionProperty() {
+    public IntegerProperty expectedConditionProperty() {
         return expectedCondition;
     }
 
-    public void setExpectedCondition(String expectedCondition) {
+    public void setExpectedCondition(int expectedCondition) {
         this.expectedCondition.set(expectedCondition);
     }
 
-    public void setExpectedConditionProperty(StringProperty expectedCondition) {
+    public void setExpectedConditionProperty(IntegerProperty expectedCondition) {
         this.expectedCondition = expectedCondition;
     }
 
     public String getNote() {
-        return note.get();
+        if (note.get() == null)
+            return "";
+        else return note.get();
     }
 
     public StringProperty noteProperty() {
@@ -386,20 +544,20 @@ public class CategoryEntryModel {
         this.note = note;
     }
 
-    public boolean isFunctionAbility() {
-        return isFunctionAbility;
+    public CategoryType getType() {
+        return type;
     }
 
-    public void setFunctionAbility(boolean functionAbility) {
-        isFunctionAbility = functionAbility;
+    public void setType(CategoryType type) {
+        this.type = type;
     }
 
-    public CategoryEntry getCategoryEntry() {
-        return categoryEntry;
+    public ContentEntry getContentEntry() {
+        return contentEntry;
     }
 
-    public void setCategoryEntry(CategoryEntry categoryEntry) {
-        this.categoryEntry = categoryEntry;
+    public void setContentEntry(ContentEntry contentEntry) {
+        this.contentEntry = contentEntry;
     }
 
     public TreeItem<CategoryEntryModel> getAsTreeItem(){
@@ -407,5 +565,20 @@ public class CategoryEntryModel {
     }
 
 
+    @Override
+    public int compareTo(CategoryEntryModel o) {
+        if(o.getId() != this.getId()){
+            return this.getId() - o.getId();
+        }
+        int name = this.getContentEntry().getCategoryName().compareTo(o.getContentEntry().getCategoryName());
+        int levelCompare = this.getLevel() - o.getLevel();
+        int assessmentCompare = this.getAssessment().compareTo(o.getAssessment());
+        int causeCompare = this.getCause().compareTo(o.getCause());
+        int implicationsCompare = this.getImplications().compareTo(o.getImplications());
+        int citizenGoalsCompare = this.getCitizenGoals().compareTo(o.getCitizenGoals());
+        int expectedConditionCompare = this.getExpectedCondition() - (o.getExpectedCondition());
+        int noteCompare = this.getNote().compareTo(o.getNote());
 
+        return name + levelCompare + assessmentCompare + causeCompare + implicationsCompare + citizenGoalsCompare + expectedConditionCompare + noteCompare;
+    }
 }
