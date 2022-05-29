@@ -411,8 +411,6 @@ public class CitizenTemplateController implements Initializable
      */
     public void onEditCancel(ActionEvent event)
     {
-        System.out.println("selected object: " + selected.hashCode() + " selectedbackup: " + selectedBackup.hashCode());
-
         int index = listViewCitizenTemplates.getItems().indexOf(selected);
         listViewCitizenTemplates.getItems().set(index, selectedBackup);
 

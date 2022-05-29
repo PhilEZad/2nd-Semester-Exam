@@ -2,6 +2,7 @@ package Application.GUI.Models.ControllerModels;
 
 import Application.BE.Category;
 import Application.BE.Citizen;
+import Application.BLL.SessionManager;
 import Application.BLL.StudentDataManager;
 import Application.GUI.Models.*;
 import Application.Utility.GUIUtils;
@@ -36,12 +37,12 @@ public class StudentViewControllerModel {
 
     public ObservableList<CitizenModel> getAllCitizens()
     {
-        if (SessionModel.getCurrent() == null)
+        if (SessionManager.getCurrent() == null)
             return FXCollections.observableArrayList();
 
         ObservableList<CitizenModel> citizens = FXCollections.observableArrayList();
 
-        for (Citizen c : studentDataManager.getAssignedCitizens(SessionModel.getCurrent().getID()))
+        for (Citizen c : studentDataManager.getAssignedCitizens(SessionManager.getCurrent().getID()))
         {
             citizens.add(new CitizenModel(c));
         }

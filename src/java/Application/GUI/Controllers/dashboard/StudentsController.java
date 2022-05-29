@@ -126,7 +126,13 @@ public class StudentsController implements Initializable {
         }
     }
 
-    public void onAddCitizenToStudent(ActionEvent event) {
+    public void onAddCitizenToStudent(ActionEvent event) throws IOException
+    {
+        Stage popupMenuStudent = new Stage();
+        Parent rootStudent = FXMLLoader.load(getClass().getResource("/Views/Popups/AddGroupTaskView.fxml"));
+        popupMenuStudent.setTitle("Rediger Elev");
+        popupMenuStudent.setScene(new Scene(rootStudent));
+        popupMenuStudent.show();
     }
 
     public void onRemoveCitizenToStudent(ActionEvent event) {

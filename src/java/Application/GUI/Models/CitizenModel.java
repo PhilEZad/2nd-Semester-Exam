@@ -42,7 +42,7 @@ public class CitizenModel implements Cloneable
 
     public CitizenModel(String firstName, String lastName, int age, boolean template)
     {
-        this(new Citizen(-1, SessionModel.getSchool(), firstName, lastName, age, template));
+        this(new Citizen(-1, SessionManager.getCurrent().getSchool(), firstName, lastName, age, template));
     }
 
     public CitizenModel(Citizen citizen)

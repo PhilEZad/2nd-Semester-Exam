@@ -104,7 +104,7 @@ public class AdminDashboardController implements Initializable {
             popupMenu.setOnHidden(event1 -> tblViewStudent.setItems(searchTable(txtFieldSearch, tblViewTeacher, getObservableList(ListType.STUDENT))));
         } catch (IOException ioException)
         {
-            GUIUtils.alertCall(Alert.AlertType.WARNING, "Stylesheet ikke fundet");
+            GUIUtils.alertCall(Alert.AlertType.WARNING, "Ingen elev valgt.");
             ioException.printStackTrace();
         }
     }
@@ -118,12 +118,11 @@ public class AdminDashboardController implements Initializable {
             popupMenuStudent.setTitle("Rediger Elev");
             popupMenuStudent.setScene(new Scene(rootStudent));
             popupMenuStudent.show();
-            popupMenuStudent.setOnHidden(event1 -> {
-                tblViewStudent.setItems(searchTable(txtFieldSearch, tblViewTeacher, getObservableList(ListType.STUDENT)));
+            popupMenuStudent.setOnHidden(event1 -> {tblViewStudent.setItems(searchTable(txtFieldSearch, tblViewTeacher, getObservableList(ListType.STUDENT)));
             });
         } catch (IOException ioException)
         {
-            GUIUtils.alertCall(Alert.AlertType.WARNING, "Stylesheet ikke fundet.");
+            GUIUtils.alertCall(Alert.AlertType.WARNING, "Ingen elev valgt.");
             ioException.printStackTrace();
         }
     }
@@ -180,7 +179,7 @@ public class AdminDashboardController implements Initializable {
             popupMenuTeacher.setOnHidden(event1 -> tblViewTeacher.setItems(searchTable(txtFieldSearch, tblViewTeacher, getObservableList(ListType.TEACHER))));
         } catch (IOException e)
         {
-            GUIUtils.alertCall(Alert.AlertType.WARNING, "Stylesheet ikke fundet.");
+            GUIUtils.alertCall(Alert.AlertType.WARNING, "Ingen lærer valgt.");
             e.printStackTrace();
         } catch (IllegalArgumentException illegalArgumentException) {
             GUIUtils.alertCall(Alert.AlertType.WARNING, "Ingen lærer valgt.");

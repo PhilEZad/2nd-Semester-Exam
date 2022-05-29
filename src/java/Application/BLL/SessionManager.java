@@ -53,10 +53,19 @@ public class SessionManager
 
     /**
      * @param input the original string that needs to be expanded
-     * @param length the desired length of the result
+     * @param length the desired length of the result, negative sign is ignored (absolute value)
      * @return the input repeated until the length of the string equals the length parameter
      * */
-    private static String extendToLength(String input, int length) {
+    protected static String extendToLength(String input, int length)
+    {
+        if (length <= -1)
+        {
+            length = Math.abs(length);
+        }
+
+        if (input == null)
+            return " ".repeat(length);
+
         int cycles = (length + 1) / Math.max(1, input.length()) + 1;
 
         String result = input.repeat(cycles);

@@ -19,14 +19,13 @@
     <children>
       <BorderPane prefHeight="661.0" prefWidth="771.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <center>
-              <HBox alignment="CENTER" prefHeight="523.0" prefWidth="710.0" BorderPane.alignment="CENTER">
+              <HBox alignment="CENTER" prefHeight="523.0" prefWidth="603.0" BorderPane.alignment="CENTER">
                   <children>
                       <BorderPane prefHeight="523.0" prefWidth="333.0" styleClass="panel">
                           <top>
-                              <TableView fx:id="tblAccountTable" prefHeight="521.0" prefWidth="345.0" BorderPane.alignment="CENTER">
+                              <TableView fx:id="tblAccountTable" prefHeight="521.0" prefWidth="371.0" styleClass="customTableView" BorderPane.alignment="CENTER">
                                   <columns>
-                                      <TableColumn fx:id="tblClmAccountName" editable="false" prefWidth="161.59997940063477" text="Navn" />
-                                      <TableColumn fx:id="tblClmAccountClass" editable="false" prefWidth="209.6000213623047" text="Klasse" />
+                                      <TableColumn fx:id="tblClmAccountName" editable="false" prefWidth="332.0" text="Navn" />
                                   </columns>
                               </TableView>
                           </top>
@@ -40,10 +39,9 @@
                       </VBox>
                       <BorderPane prefHeight="521.0" prefWidth="332.0" styleClass="panel">
                           <top>
-                              <TableView fx:id="tblAddedAccountsTable" prefHeight="521.0" prefWidth="253.0" styleClass="customTableView" BorderPane.alignment="CENTER">
+                              <TableView fx:id="tblAddedAccountsTable" prefHeight="521.0" prefWidth="185.0" styleClass="customTableView" BorderPane.alignment="CENTER">
                                   <columns>
-                                      <TableColumn fx:id="clmAddedAccountName" editable="false" prefWidth="160.79998475313187" text="Navn" />
-                                      <TableColumn fx:id="clmAddedAccountClass" prefWidth="163.20008850097656" text="Klasse" />
+                                      <TableColumn fx:id="clmAddedAccountName" editable="false" prefWidth="330.0" text="Navn" />
                                   </columns>
                            <BorderPane.margin>
                               <Insets bottom="10.0" />
