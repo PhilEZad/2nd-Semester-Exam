@@ -235,9 +235,16 @@ public class CitizenTemplateController implements Initializable
      */
     private void initializeAvailableTemplates()
     {
+        Thread thread = new Thread(() -> {
         listViewCitizenTemplates.getItems().clear();
         new CitizenManager().getAllTemplates().forEach(citizen -> listViewCitizenTemplates.getItems().add(new CitizenModel(citizen)));
-
+        });
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         listViewCitizenTemplates.getSelectionModel().selectedItemProperty().removeListener(citizenTemplateListener());
         listViewCitizenTemplates.getSelectionModel().selectedItemProperty().addListener(citizenTemplateListener());
 
