@@ -13,6 +13,9 @@ import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 
 import java.io.IOException;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * @author Rasmus Sandbæk
@@ -47,19 +50,19 @@ public class State implements IState{
 
     @Override
     public void enable() {
-        Task<Void> task = new Task<Void>() {
-            @Override
-            protected Void call() throws Exception {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
-                Parent root = loader.load();
-                viewPane.setCenter(root);
-                Timeline timeline = new Timeline();
-                timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(0.3),
-                        new KeyValue(viewPane.centerProperty().get().opacityProperty(), 1)));
-                timeline.play();
-                return null;
-            }
-        };
-        task.run();
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
+        Parent root = null;
+        try {
+            root = loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        viewPane.setCenter(root);
+        Timeline timeline = new Timeline();
+        timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(0.3),
+                new KeyValue(viewPane.centerProperty().get().opacityProperty(), 1)));
+        timeline.play();
     }
 }

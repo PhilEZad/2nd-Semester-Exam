@@ -34,7 +34,8 @@ public class CitizenManager
     public List<Citizen> getAllTemplates()
     {
         Callable<List<Citizen>> callable = () -> {
-                var citizens = citizenDAO.readAll(SessionManager.getCurrent().getSchool()).stream().filter(Citizen::getTemplate).collect(Collectors.toList());{
+                var citizens = citizenDAO.readAll(SessionManager.getCurrent().getSchool()).stream()
+                        .filter(Citizen::getTemplate).collect(Collectors.toList());{
 
             citizens.forEach(citizen -> {
                 for (var entry : healthEntriesManager.getEntriesFor(citizen.getID())) {
@@ -48,11 +49,12 @@ public class CitizenManager
             return citizens;
         }};
 
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
         try {
-            return callable.call();
-        } catch (Exception e) {
+            return executorService.submit(callable).get();
+        } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
-            GUIUtils.alertCall(Alert.AlertType.ERROR, "Fejl i databasen");
+            GUIUtils.alertCall(Alert.AlertType.ERROR, "Fejl ved hentning af skabeloner");
             return new ArrayList<>();
         }
     }

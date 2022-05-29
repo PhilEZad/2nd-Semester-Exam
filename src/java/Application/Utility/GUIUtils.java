@@ -139,7 +139,6 @@ public final class GUIUtils {
 
             TreeItem<CategoryEntryModel> treeRoot = new TreeItem<>(map.get(rootCategory)); //Create the root TreeItem node
 
-
             if (rootCategory != null) {
                 returnRoot.set(getChildrenToTreeItem(map, treeRoot, rootCategory.getChildren()));
                 returnRoot.set(sortTreeItem(returnRoot.get()));
@@ -182,6 +181,11 @@ public final class GUIUtils {
                 treeItem.getChildren().sort(Comparator.comparing(o -> o.getValue().getCategoryName()));
             });
             thread.start();
+            try {
+                thread.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             for(TreeItem<CategoryEntryModel> child : treeItem.getChildren())
             {
                 sortTreeItem(child);
