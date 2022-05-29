@@ -29,35 +29,47 @@ public class HealthEntriesManager extends AbstractEntryManager<HealthEntry>
 
         // create default health entries for each category that does not have an instance in the database.
         // does not update the database.
-        for (Category intermediate : root.getChildren())
-        {
-            for (Category leaf : intermediate.getChildren())
-            {
-                if (data.stream().noneMatch(healthEntry -> Objects.equals(healthEntry.getCategory().getID(), leaf.getID())))
-                {
-                    var healthEntry = new HealthEntry(citizenId);
-                    healthEntry.setCategory(leaf);
-                    data.add(healthEntry);
+        List<HealthEntry> finalData = data;
+        Thread thread = new Thread(() -> {
+            for (Category intermediate : root.getChildren()) {
+                for (Category leaf : intermediate.getChildren()) {
+                    if (finalData.stream().noneMatch(healthEntry -> Objects.equals(healthEntry.getCategory().getID(), leaf.getID()))) {
+                        var healthEntry = new HealthEntry(citizenId);
+                        healthEntry.setCategory(leaf);
+                        finalData.add(healthEntry);
+                    }
                 }
             }
+        });
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
 
-        // assign the category to each health entry that has been loaded from the database. and had its references updated.
-        for (HealthEntry healthCondition : data)
-        {
-            Category found = healthCondition.getCategory();
+        Thread thread2 = new Thread(() -> {
+            // assign the category to each health entry that has been loaded from the database. and had its references updated.
+            for (HealthEntry healthCondition : finalData) {
+                Category found = healthCondition.getCategory();
 
-            for (Category category : categoriesCache)
-            {
-                if (Objects.equals(category.getID(), healthCondition.getCategory().getID()))
-                {
-                    found = category;
-                    break;
+                for (Category category : categoriesCache) {
+                    if (Objects.equals(category.getID(), healthCondition.getCategory().getID())) {
+                        found = category;
+                        break;
+                    }
                 }
-            }
 
-            healthCondition.setCategory(found);
+                healthCondition.setCategory(found);
+            }
+        });
+        thread2.start();
+        try {
+            thread2.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
+
 
         return data;
     }

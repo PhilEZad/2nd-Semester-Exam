@@ -169,17 +169,25 @@ public class CitizenManager
 
         citizen.setGeneralJournal(generalJournal);
 
-        for (var entry : healthEntriesManager.getEntriesFor(citizen.getID()))
-        {
-            citizen.addHealthConditions(entry);
-        }
+        RunnableFuture<Citizen> future = new FutureTask<>(() -> {
 
-        for (var entry : functionalEntriesManager.getEntriesFor(citizen.getID()))
-        {
-            citizen.addFunctionalAbility(entry);
-        }
+            for (var entry : healthEntriesManager.getEntriesFor(citizen.getID())) {
+                citizen.addHealthConditions(entry);
+            }
 
-        return citizen;
+            for (var entry : functionalEntriesManager.getEntriesFor(citizen.getID())) {
+                citizen.addFunctionalAbility(entry);
+            }
+            return citizen;
+        });
+
+
+        try {
+            return future.get();
+        } catch (InterruptedException | ExecutionException e) {
+            GUIUtils.alertCall(Alert.AlertType.ERROR, "Fejl ved kopiering af skabelonen");
+            return citizen;
+        }
     }
 
     public void deleteCitizenTemplate(Citizen beCitizen)
