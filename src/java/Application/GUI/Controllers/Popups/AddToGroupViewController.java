@@ -41,8 +41,7 @@ public class AddToGroupViewController implements Initializable {
     @FXML public TableColumn<AccountModel, String> clmAddedAccountName;
 
     @FXML public TableView<AccountModel> tblAccountTable;
-    @FXML public TableColumn<AccountModel, String> tblClmAccountName;
-    @FXML public TableColumn<AccountModel, String> tblClmAccountClass;
+    @FXML public TableColumn<AccountModel, String> clmAccountName;
 
     @FXML public TextField txtAccountSearch;
     @FXML public ComboBox<CitizenModel> comboBoxCitizen;
@@ -57,6 +56,9 @@ public class AddToGroupViewController implements Initializable {
     {
         initEventListeners();
         comboBoxCitizen.setItems(listToObservable(dataManager.getAllCitizenTemplates()));
+
+        clmAccountName.setCellValueFactory(param -> param.getValue().getFullNameProperty());
+        clmAddedAccountName.setCellValueFactory(param -> param.getValue().getFullNameProperty());
     }
 
     public void onSave(ActionEvent actionEvent) throws AccessDeniedException, SQLException
@@ -96,7 +98,7 @@ public class AddToGroupViewController implements Initializable {
 
     public void initEventListeners()
     {
-        tblClmAccountName.setCellValueFactory(param -> param.getValue().getFullNameProperty());
+        clmAccountName.setCellValueFactory(param -> param.getValue().getFullNameProperty());
 
         FilteredList<AccountModel> filteredData = new FilteredList<>(studentList(), b -> true);
 

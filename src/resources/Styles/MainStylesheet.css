@@ -1229,13 +1229,6 @@
     -fx-control-inner-background: transparent;
 }
 
-.customCombo-box {
-    -fx-background-color: -fx-txtFillLight;
-    -fx-border-width: 0;
-    -fx-background-radius: 50;
-
-}
-
 .customText-fieldBase {
     -fx-background-color: transparent;
     -fx-border-color: -fx-txtFillLight;
@@ -1245,12 +1238,6 @@
     -fx-font-size: 17;
     -fx-font-family: "Roboto";
     -fx-prompt-text-fill: derive(-fx-txtFillLight, -10%);
-}
-
-
-.customTableView
-{
-
 }
 
 .container-funcTable {
@@ -1322,5 +1309,77 @@
     -fx-fill: -fx-txtFillLight;
     -fx-font-size: 12;
     -fx-font-family: "Roboto";
+}
 
+
+.customTableView .column-header {
+    -fx-background-color: -fx-functionBase;
+    -fx-background-radius: 20 20 0 0;
+    -fx-border-color: rgba(0,0,0, 0.15);
+    -fx-border-width: 0 1 0 0;
+    -fx-control-inner-background: -fx-functionBase;
+}
+
+.customTableView .column-header-background
+{
+    -fx-background-color: -fx-functionBase;
+    -fx-background-radius: 20 20 0 0;
+    -fx-border-color: rgba(0,0,0, 0.15);
+    -fx-border-width: 0 1 0 0;
+    -fx-control-inner-background: -fx-functionBase;
+}
+
+.customTableView:selected
+{
+
+}
+
+.customTableView:focused .table-row-cell:selected
+{
+    -fx-background-color: #1dbbdd11;
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-padding: 0.0em;
+    -fx-text-background-color: red;
+}
+
+.customTableView .table-row-cell:even
+{
+    -fx-background-color: #1dbbdd11;
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-padding: 0.0em;
+}
+
+.customTableView .table-row-cell:odd
+{
+    -fx-background-color: #93f9b911;
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-padding: 0.0em;
+}
+
+.customTableView .table-row-cell:hover
+{
+    -fx-background-color: -fx-txtFillLight;
+    -fx-text-background-color: red;
+}
+
+
+
+.customCombo-box {
+    -fx-background-color: -fx-txtFillLight;
+    -fx-border-width: 0;
+    -fx-background-radius: 50;
+}
+
+.customCombo-box:selected
+{
+    -fx-background-color: -fx-txtFillLight;
+    -fx-border-width: 0;
+    -fx-background-radius: 50;
+}
+
+.customCombo-box:focused
+{
+    -fx-background-color: -fx-txtFillLight;
+    -fx-border-width: 0;
+    -fx-background-radius: 50;
 }

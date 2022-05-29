@@ -22,7 +22,7 @@
                           <content>
                               <BorderPane>
                            <center>
-                                      <TableView fx:id="tblViewStudent" stylesheets="@../../Styles/AdminTableViewStylesheet.css" BorderPane.alignment="CENTER">
+                                      <TableView fx:id="tblViewStudent" styleClass="customTableView" BorderPane.alignment="CENTER">
                                           <columns>
                                               <TableColumn fx:id="tblClmStudentFirstName" prefWidth="151.0" text="Fornavn" />
                                               <TableColumn fx:id="tblClmStudentLastName" prefWidth="151.0" text="Efternavn" />
@@ -58,7 +58,7 @@
                           <content>
                               <BorderPane>
                                   <center>
-                                      <TableView fx:id="tblViewTeacher" prefHeight="200.0" prefWidth="200.0" stylesheets="@../../Styles/AdminTableViewStylesheet.css">
+                                      <TableView fx:id="tblViewTeacher" prefHeight="200.0" prefWidth="200.0" styleClass="customTableView">
                                           <columns>
                                               <TableColumn fx:id="tblClmTeacherFirstName" prefWidth="151.0" text="Fornavn" />
                                               <TableColumn fx:id="tblClmTeacherLastName" prefWidth="138.0" text="Efternavn" />
@@ -94,7 +94,7 @@
                           <content>
                               <BorderPane>
                                   <center>
-                                      <TableView fx:id="tblViewSchool" prefHeight="200.0" prefWidth="200.0" stylesheets="@../../Styles/AdminTableViewStylesheet.css">
+                                      <TableView fx:id="tblViewSchool" prefHeight="200.0" prefWidth="200.0" styleClass="customTableView">
                                           <columns>
                                               <TableColumn fx:id="tblClmSchoolName" prefWidth="188.0" text="Navn" />
                                               <TableColumn fx:id="tblClmSchoolZipCode" prefWidth="95.0" text="Post Nr." />
