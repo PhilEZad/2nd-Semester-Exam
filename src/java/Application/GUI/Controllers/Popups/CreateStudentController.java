@@ -18,7 +18,10 @@ import java.nio.file.AccessDeniedException;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-
+/**
+ * @author Philip Zadeh
+ * @author Rasmus Sandbæk
+ * */
 public class CreateStudentController implements Initializable {
 
     @FXML public TextField txtFieldFirstName;

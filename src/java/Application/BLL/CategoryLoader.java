@@ -1,27 +1,18 @@
 package Application.BLL;
 
 import Application.BE.Category;
-import Application.BE.CategoryType;
 import Application.DAL.CategoryDAO;
 
-import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * loads categories from the database, and creates the relation between them.
+ *
+ * @author Mads Mandahl-Barth
+ * */
 public class CategoryLoader
 {
     CategoryDAO categoryDAO = new CategoryDAO();
-
-    private void getImmediateChildren(Category root, List<Category> completeList)
-    {
-        for (var category : completeList)
-        {
-            if (category.getParentID() == root.getID())
-            {
-                root.getChildren().add(category);
-                category.setParent(root);
-            }
-        }
-    }
 
     // Loads all categories from the database
     // Returns a Category object
@@ -52,34 +43,6 @@ public class CategoryLoader
         }
 
         return allCategories;
-    }
-
-    public Category loadSingle()
-    {
-        /// flat set of all categories.
-        var allCategories =  categoryDAO.readAll();
-
-        var root = new Category("root");
-
-        for (var element : allCategories)
-        {
-            if (element.getParentID() == 0)
-            {
-                element.setParent(root);
-                element.getParent().setID(0);
-            }
-
-            for (var category : allCategories)
-            {
-                if (category.getParentID() == element.getID())
-                {
-                    element.getChildren().add(category);
-                    category.setParent(element);
-                }
-            }
-        }
-
-        return root;
     }
 
     public static void main(String[] args) {

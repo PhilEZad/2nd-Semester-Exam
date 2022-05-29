@@ -5,6 +5,13 @@ import org.jetbrains.annotations.Contract;
 import java.sql.SQLException;
 import java.util.List;
 
+/**
+ * Interface for the database actions.
+ *
+ * @author Mads Mandahl-Barth
+ * @author Philip Zadeh
+ *
+ * */
 public interface IDatabaseActions<T>
 {
     /**

@@ -13,6 +13,9 @@ import javafx.scene.control.TextField;
 
 import java.sql.SQLException;
 
+/**
+ * @author Philip Zadeh
+ * */
 public class CreateTeacherController
 {
     @FXML public TextField txtFieldUsername;

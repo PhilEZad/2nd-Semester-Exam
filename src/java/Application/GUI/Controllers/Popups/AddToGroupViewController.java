@@ -23,6 +23,9 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
 
+/**
+ * @author Philip Zadeh
+ * */
 public class AddToGroupViewController implements Initializable {
 
 

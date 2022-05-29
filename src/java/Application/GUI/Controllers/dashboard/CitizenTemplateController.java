@@ -1,16 +1,13 @@
 package Application.GUI.Controllers.dashboard;
 
-import Application.BE.CategoryType;
-import Application.BE.Citizen;
 import Application.BLL.CitizenManager;
-import Application.BLL.TeacherDataManager;
-import Application.GUI.Models.*;
+import Application.GUI.Models.CategoryEntryModel;
+import Application.GUI.Models.CitizenModel;
+import Application.GUI.Models.FunctionalLevels;
+import Application.GUI.Models.HealthLevels;
 import Application.Utility.GUIUtils;
-import com.github.javafaker.Faker;
-import javafx.beans.InvalidationListener;
 import javafx.beans.property.Property;
 import javafx.beans.value.ChangeListener;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.geometry.Side;
@@ -26,6 +23,11 @@ import java.net.URL;
 import java.util.*;
 
 
+/**
+ * @author Rasmus Sandbæk
+ * @author Mads Mandahl-Barth
+ * @author Philip Zadeh
+ * */
 public class CitizenTemplateController implements Initializable
 {
     public AnchorPane anchorPaneCitizenTemplateDashboard;

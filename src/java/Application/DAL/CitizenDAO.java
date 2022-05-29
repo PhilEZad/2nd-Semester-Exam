@@ -11,6 +11,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Mads Mandahl-Barth
+ * @author Philip Zadeh
+ * @author Rasmus Sandbæk
+ * */
 public class CitizenDAO implements IDatabaseActions<Citizen>
 {
     @Override

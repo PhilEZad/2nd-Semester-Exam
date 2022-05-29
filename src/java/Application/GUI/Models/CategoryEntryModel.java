@@ -15,6 +15,10 @@ import javafx.scene.image.ImageView;
 
 import java.util.Arrays;
 
+/**
+ * @author Mads Mandahl-Barth
+ * @author Rasmus Sandbæk
+ * */
 public class CategoryEntryModel implements Comparable<CategoryEntryModel>, Cloneable
 {
     private final StringProperty categoryName = new SimpleStringProperty();
@@ -370,20 +374,19 @@ public class CategoryEntryModel implements Comparable<CategoryEntryModel>, Clone
     /**
      * Sets the expected condition of this category entry entity to the value of the selected item in the combo box
      **/
-    private void initExConFuncAndLevelHealth(){
-        if (this.type == CategoryType.FUNCTIONAL_ABILITY){
+    private void initExConFuncAndLevelHealth() {
+        if (this.type == CategoryType.FUNCTIONAL_ABILITY) {
             if (expectedCondition.get() == 9 || expectedCondition.get() > 0 || expectedCondition.get() < 4) {
                 this.exConFunc.set(FunctionalLevels.LEVEL_9);
                 this.expectedCondition.set(9);
-            }
-            else this.exConFunc.set(FunctionalLevels.values()[level.get()]);
-        }
-        else {
+            } else this.exConFunc.set(FunctionalLevels.getByInt(level.get()));
+        } else {
             if (expectedCondition.get() > 0 || expectedCondition.get() < 2) {
                 this.exConHealth.set(HealthLevels.NOT_RELEVANT);
                 this.expectedCondition.set(0);
+
+                this.exConHealth.set(HealthLevels.getByInt(level.get()));
             }
-            else this.exConHealth.set(HealthLevels.values()[level.get()]);
         }
     }
 

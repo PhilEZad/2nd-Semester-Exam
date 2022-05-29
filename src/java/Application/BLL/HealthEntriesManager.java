@@ -8,7 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class HealthEntriesManager extends ContentEntryManager<HealthEntry>
+/**
+ *
+ *
+ * @author Mads Mandahl-Barth
+ * */
+public class HealthEntriesManager extends AbstractEntryManager<HealthEntry>
 {
     public List<HealthEntry> getEntriesFor(int citizenId)
     {

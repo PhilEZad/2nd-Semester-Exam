@@ -6,6 +6,10 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
+/**
+ * @author Philip Zadeh
+ * @author Kasper Rasmussen
+ * */
 public class SchoolModel {
 
     private IntegerProperty id;

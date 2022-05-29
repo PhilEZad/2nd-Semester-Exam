@@ -7,6 +7,10 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 
+/**
+ * @author Rasmus Sandbæk
+ * @author Mads Mandahl-Barth
+ * */
 public class State implements IState{
 
     private final Pane viewPane;

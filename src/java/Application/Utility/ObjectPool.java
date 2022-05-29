@@ -9,7 +9,6 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author SourceMaking.com
  * @param <T>
  */
-
 public abstract class ObjectPool<T> {
     private long expirationTime;
 

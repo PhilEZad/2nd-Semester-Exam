@@ -5,10 +5,13 @@ import Application.DAL.AccountDAO;
 import Application.Utility.AccountType;
 import at.favre.lib.crypto.bcrypt.BCrypt;
 
-import java.io.InvalidClassException;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
+
+/**
+ * @author Mads Mandahl-Barth
+ * */
 public class SessionManager
 {
     private static Account LoggedInUser;

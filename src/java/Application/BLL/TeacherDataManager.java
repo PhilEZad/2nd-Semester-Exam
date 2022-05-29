@@ -1,10 +1,12 @@
 package Application.BLL;
 
-import Application.BE.*;
+import Application.BE.Account;
+import Application.BE.Category;
+import Application.BE.Citizen;
+import Application.BE.FunctionalEntry;
 import Application.DAL.AccountDAO;
 import Application.DAL.AssignedAccountsDAO;
 import Application.DAL.AssignedCitizensDAO;
-import Application.DAL.CitizenDAO;
 import javafx.util.Pair;
 
 import java.nio.file.AccessDeniedException;
@@ -13,6 +15,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ *
+ * @author Philip Zadeh
+ * @author Rasmus Sandbæk
+ * @author Mads Mandahl-Barth
+ * */
 public class TeacherDataManager extends StudentDataManager
 {
     AccountDAO accountDAO;

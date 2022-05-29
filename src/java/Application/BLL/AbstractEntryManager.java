@@ -4,11 +4,16 @@ import Application.BE.Category;
 
 import java.util.List;
 
-public abstract class ContentEntryManager<T>
+/**
+ *  Abstract class for the EntryManagers
+ *
+ * @author Mads Mandahl-Barth
+ * */
+public abstract class AbstractEntryManager<T>
 {
     public static List<Category> categoriesCache;
 
-    ContentEntryManager()
+    AbstractEntryManager()
     {
         if (categoriesCache == null)
         {

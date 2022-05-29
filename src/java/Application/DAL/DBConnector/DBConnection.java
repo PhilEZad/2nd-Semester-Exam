@@ -8,6 +8,12 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.util.Properties;
 
+
+/**
+ * @author Rasmus Sandbæk
+ * @author Philip Zadeh
+ * @author Mads Mandahl-Barth
+ * */
 public class DBConnection {
     private final SQLServerDataSource dataSource;
 

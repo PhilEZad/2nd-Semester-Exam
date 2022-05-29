@@ -8,6 +8,9 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 
+/**
+ * @author Rasmus Sandbæk
+ * */
 public class DBConnectionPool extends ObjectPool<Connection> {
 
 

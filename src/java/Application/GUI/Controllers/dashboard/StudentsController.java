@@ -26,6 +26,11 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.*;
 
+/**
+ * @author Philip Zadeh
+ * @author Rasmus Sandbæk
+ * @author Mads Mandahl-Barth
+ * */
 public class StudentsController implements Initializable {
 
     TeacherDataManager dataManger = new TeacherDataManager();

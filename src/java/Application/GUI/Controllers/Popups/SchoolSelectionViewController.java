@@ -18,6 +18,9 @@ import java.net.URL;
 import java.util.ListResourceBundle;
 import java.util.ResourceBundle;
 
+/**
+ * @author Rasmus Sandbæk
+ * */
 public class SchoolSelectionViewController implements Initializable {
 
 

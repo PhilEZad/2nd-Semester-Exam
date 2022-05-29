@@ -17,6 +17,9 @@ import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
+/**
+ * @author Rasmus Sandbæk
+ * */
 public class ObservationViewController implements Initializable {
 
     @FXML public TabPane tabPaneContainer;

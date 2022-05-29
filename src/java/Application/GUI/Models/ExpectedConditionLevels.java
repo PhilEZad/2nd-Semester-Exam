@@ -1,5 +1,8 @@
 package Application.GUI.Models;
 
+/**
+ * @author Rasmus Sandbæk
+ * */
 public enum ExpectedConditionLevels {
 
     DISAPPEARS(0, "Forsvinder"),

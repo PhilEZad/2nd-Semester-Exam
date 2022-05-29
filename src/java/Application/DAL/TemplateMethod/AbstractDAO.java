@@ -1,6 +1,5 @@
 package Application.DAL.TemplateMethod;
 
-import Application.BE.IUniqueIdentifier;
 import Application.DAL.DBConnector.DBConnectionPool;
 import javafx.util.Pair;
 import org.intellij.lang.annotations.Language;
@@ -13,11 +12,19 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
+/**
+ * Abstract class for all DAO classes.
+ *
+ * @param <RETURN_TYPE> the return type of the DAO
+ * @implSpec This class is a template method.
+ * @implNote prepared for threading and concurrency. hence the use of AtomicReference and AtomicBoolean.
+ *
+ * @author Mads Mandahl-Barth
+ * @author Philip Zadeh
+ * */
 public abstract class AbstractDAO<RETURN_TYPE>
 {
     private final AtomicReference<RETURN_TYPE> return_value = new AtomicReference<>();
@@ -84,7 +91,7 @@ public abstract class AbstractDAO<RETURN_TYPE>
         if (!this.hasExecutedSuccessfully.get())
         {
             // post error
-            System.err.println("exception occurred when running db query" + this.getLastError().getMessage());
+            System.err.println("exception occurred when running db query " + this.getLastError().getMessage());
         }
 
         return new Pair<>(return_ids.stream().findFirst().orElse(-1), return_value.getAcquire());

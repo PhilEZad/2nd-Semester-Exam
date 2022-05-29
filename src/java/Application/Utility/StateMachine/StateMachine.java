@@ -2,6 +2,10 @@ package Application.Utility.StateMachine;
 
 import java.util.HashMap;
 
+/**
+ * @author Rasmus Sandbæk
+ * @author Mads Mandahl-Barth
+ * */
 public class StateMachine<T>
 {
     private final HashMap<T, IState> states = new HashMap<>();

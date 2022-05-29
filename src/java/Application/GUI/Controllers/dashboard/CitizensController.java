@@ -22,6 +22,11 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
 
+/**
+ * @author Rasmus Sandbæk
+ * @author Philip Zadeh
+ * @author Mads Mandahl-Barth
+ * */
 public class CitizensController implements Initializable
 {
     TeacherDataManager dataManager = new TeacherDataManager();

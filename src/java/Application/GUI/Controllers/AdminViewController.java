@@ -26,6 +26,10 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.*;
 
+/**
+ * @author Philip Zadeh
+ * @author Kasper Rasmussen
+ * */
 public class AdminViewController implements Initializable {
 
     AdminDataManager dataManager;

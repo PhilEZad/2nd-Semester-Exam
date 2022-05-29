@@ -15,6 +15,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Mads Mandahl-Barth
+ * @author Philip Zadeh
+ * */
 public class FunctionalAbilityDAO implements IDatabaseActions<FunctionalEntry>
 {
     @Override

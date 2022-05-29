@@ -19,6 +19,9 @@ import java.nio.file.AccessDeniedException;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+/**
+ * @author Philip Zadeh
+ * */
 public class EditAccountController implements Initializable {
 
     @FXML public Label lblHeaderTitle;

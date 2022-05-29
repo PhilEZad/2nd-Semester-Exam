@@ -19,6 +19,9 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 import java.util.function.UnaryOperator;
 
+/**
+ * @author Philip Zadeh
+ * */
 public class EditSchoolController implements Initializable {
 
     @FXML Button btnCancel;

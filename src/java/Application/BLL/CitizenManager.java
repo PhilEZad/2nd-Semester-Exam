@@ -2,15 +2,22 @@ package Application.BLL;
 
 import Application.BE.Account;
 import Application.BE.Citizen;
-import Application.BE.FunctionalEntry;
 import Application.BE.GeneralJournal;
 import Application.DAL.*;
 import Application.GUI.Models.CitizenModel;
 import com.github.javafaker.Faker;
 import javafx.util.Pair;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Random;
 
+
+/**
+ *
+ * @author Mads Mandahl-Barth
+ * */
 public class CitizenManager
 {
     private static final HealthEntriesManager healthEntriesManager = new HealthEntriesManager();

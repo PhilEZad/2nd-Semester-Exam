@@ -15,6 +15,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Mads Mandahl-Barth
+ * */
 public class AssignedCitizensDAO implements IDatabaseActions<Pair<Account, List<Citizen>>>
 {
         @Override

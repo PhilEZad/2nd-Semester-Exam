@@ -17,6 +17,12 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+
+/**
+ * @author Kasper Rasmussen
+ * @author Philip Zadeh
+ * @author Rasmus Sandbæk
+ * */
 public class CreateSchoolController implements Initializable {
 
     @FXML

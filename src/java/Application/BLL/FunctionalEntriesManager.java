@@ -2,16 +2,20 @@ package Application.BLL;
 
 import Application.BE.Category;
 import Application.BE.FunctionalEntry;
-import Application.BE.HealthEntry;
 import Application.DAL.FunctionalAbilityDAO;
-import Application.DAL.HealthConditionDAO;
 
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class FunctionalEntriesManager extends ContentEntryManager<FunctionalEntry>
+/**
+ *
+ *
+ *
+ * @author Mads Mandahl-Barth
+ * */
+public class FunctionalEntriesManager extends AbstractEntryManager<FunctionalEntry>
 {
     @Override
     public List<FunctionalEntry> getEntriesFor(int citizenId)

@@ -25,6 +25,11 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.*;
 
+/**
+ * @author Rasmus Sandbæk
+ * @author Philip Zadeh
+ * @author Mads Mandahl-Barth
+ * */
 public class AdminDashboardController implements Initializable {
 
     @FXML public TextField txtFieldSearch;

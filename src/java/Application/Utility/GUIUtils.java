@@ -12,6 +12,11 @@ import javafx.scene.control.*;
 import java.util.*;
 import java.util.function.UnaryOperator;
 
+/**
+ * @author Rasmus Sandbæk
+ * @author Philip Zadeh
+ * @author Mads Mandahl-Barth
+ * */
 public final class GUIUtils {
 
     private static AccountModel selectedStudent;

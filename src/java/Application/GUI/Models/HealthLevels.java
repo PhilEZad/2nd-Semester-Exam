@@ -2,6 +2,10 @@ package Application.GUI.Models;
 
 import java.util.Arrays;
 
+/**
+ * @author Rasmus Sandbæk
+ * @author Mads Mandahl-Barth
+ * */
 public enum HealthLevels {
     NOT_RELEVANT(0, "Ikke relevant"),
     POSSIBLE_RELEVANT(1, "Mulig relevans"),

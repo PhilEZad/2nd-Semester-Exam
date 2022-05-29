@@ -4,7 +4,6 @@ import Application.BLL.StudentDataManager;
 import Application.GUI.Models.CategoryEntryModel;
 import Application.GUI.Models.CitizenModel;
 import Application.GUI.Models.ControllerModels.StudentViewControllerModel;
-import Application.GUI.Models.HealthLevels;
 import Application.Utility.GUIUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -23,6 +22,9 @@ import java.net.URL;
 import java.util.ListResourceBundle;
 import java.util.ResourceBundle;
 
+/**
+ * @author Rasmus Sandbæk
+ * */
 public class StudentViewController implements Initializable {
 
     @FXML public ListView<CitizenModel> listViewCitizens;

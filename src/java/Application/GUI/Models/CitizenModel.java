@@ -7,6 +7,11 @@ import javafx.scene.control.TreeItem;
 
 import java.util.*;
 
+/**
+ * @author Mads Mandahl-Barth
+ * @author Philip Zadeh
+ * @author Rasmus Sandbæk
+ * */
 public class CitizenModel implements Cloneable
 {
     private int id;

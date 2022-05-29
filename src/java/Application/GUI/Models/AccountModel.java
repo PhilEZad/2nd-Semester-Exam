@@ -10,7 +10,9 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-
+/**
+ * @author Philip Zadeh
+ * */
 public class AccountModel
 {
     private IntegerProperty id;

@@ -17,7 +17,10 @@ import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
-
+/**
+ * @author Mads Mandahl-Barth
+ * @author Rasmus Sandbæk
+ * */
 public class LoginController implements Initializable
 {
 

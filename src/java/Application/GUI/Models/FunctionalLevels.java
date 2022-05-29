@@ -4,6 +4,10 @@ import javafx.scene.image.Image;
 
 import java.util.Arrays;
 
+/**
+ * @author Rasmus Sandbæk
+ * @author Mads Mandahl-Barth
+ * */
 public enum FunctionalLevels {
 
     LEVEL_0(0, new Image(FunctionalLevels.class.getResource("/img/func0.png").toExternalForm())),

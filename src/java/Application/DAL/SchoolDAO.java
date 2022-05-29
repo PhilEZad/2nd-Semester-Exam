@@ -13,6 +13,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Mads Mandahl-Barth
+ * @author Philip Zadeh
+ * @author Kasper Rasmussen
+ * */
 public class SchoolDAO implements IDatabaseActions<School>
 {
     @Override

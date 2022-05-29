@@ -21,6 +21,10 @@ import java.util.ListResourceBundle;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
+/**
+ * @author Rasmus Sandbæk
+ * @author Mads Mandahl-Barth
+ * */
 public class CitizenDetailsViewController implements Initializable {
 
     public Label lblCitizenFirstName;

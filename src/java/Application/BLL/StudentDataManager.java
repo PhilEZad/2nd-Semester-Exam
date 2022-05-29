@@ -9,6 +9,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/**
+ *
+ *
+ * @author Philip Zadeh
+ * @author Mads Mandahl-Barth
+ * @author Rasmus Sandbæk
+ * */
 public class StudentDataManager
 {
     CitizenDAO citizenDAO = new CitizenDAO();

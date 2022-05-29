@@ -18,6 +18,10 @@ import javafx.scene.layout.Pane;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * @author Rasmus Sandbæk
+ * @author Mads Mandahl-Barth
+ * */
 public class TeacherAdminViewController implements Initializable
 {
     @FXML public AnchorPane anchorPaneDashboard;

@@ -14,6 +14,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * @author Philip Zadeh
+ * @author Mads Mandahl-Barth
+ * @author Rasmus Sandbæk
+ * */
 public class AccountDAO implements IDatabaseActions<Account> {
 
     /**
