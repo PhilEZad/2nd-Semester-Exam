@@ -134,7 +134,6 @@ public class SchoolDAO implements IDatabaseActions<School>
                 return null;
             }
 
-            // TODO: 26-05-2022 delete relations
             @Override
             protected String getSQLStatement() {
                 return """

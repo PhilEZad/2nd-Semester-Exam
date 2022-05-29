@@ -189,7 +189,7 @@ public class HealthConditionDAO implements IDatabaseActions<HealthEntry>
             protected String getSQLStatement() {
                 return """
                         DELETE FROM HealthEntry
-                        WHERE JournalHID = ?
+                        WHERE FK_Citizen = ?
                         """;
             }
         };

@@ -4,16 +4,12 @@ import Application.BE.Account;
 import Application.BE.Citizen;
 import Application.BE.FunctionalEntry;
 import Application.BE.GeneralJournal;
-import Application.DAL.CitizenDAO;
-import Application.DAL.FunctionalAbilityDAO;
-import Application.DAL.GeneralInformationDAO;
-import Application.DAL.HealthConditionDAO;
+import Application.DAL.*;
 import Application.GUI.Models.CitizenModel;
 import com.github.javafaker.Faker;
+import javafx.util.Pair;
 
-import java.util.List;
-import java.util.Locale;
-import java.util.Random;
+import java.util.*;
 
 public class CitizenManager
 {
@@ -100,20 +96,48 @@ public class CitizenManager
 
     public void addStudentCitizenRelation(Account account, Citizen citizen)
     {
+        Citizen newCitizen = citizen;
+
         // if template
-            // create citizen in db
-            // get concrete citizen (i.e. clone of template with id from db)
-            // clone general/health/functional journals
+        if (citizen.getTemplate())
+        {
+            try
+            {
+                newCitizen = (Citizen) citizen.clone();
+                newCitizen.setTemplate(false);
+
+                // create citizen in db
+                // get concrete citizen (i.e. clone of template with id from db)
+                newCitizen = citizenDAO.create(newCitizen);
+
+                // clone general/health/functional journals
+                newCitizen.setGeneralJournal(generalInfoDAO.create(newCitizen.getGeneralInfo()));
 
 
-        // add citizen to account
+                for (var entry : healthEntriesManager.getEntriesFor(citizen.getID()))
+                {
+                    newCitizen.addHealthConditions(entry);
+                }
+
+                for (var entry : functionalEntriesManager.getEntriesFor(citizen.getID()))
+                {
+                    newCitizen.addFunctionalAbility(entry);
+                }
+
+                updateCitizen(newCitizen);
+            }
+            catch (CloneNotSupportedException e)
+            {
+                throw new RuntimeException(e);
+            }
+        }
+
+        // add account to citizen
+        new AssignedAccountsDAO().create(new Pair<>(newCitizen, new ArrayList<>(List.of(account))));
     }
 
     public Citizen createCitizenTemplateCopy(CitizenModel convert)
     {
-        // TODO: 28-05-2022 update database; data manager
-        // TODO: 29-05-2022 test
-
         Citizen citizen = citizenDAO.create(convert.getBeCitizen());
 
         // create general journal
@@ -139,13 +163,12 @@ public class CitizenManager
 
     public void deleteCitizenTemplate(Citizen beCitizen)
     {
-        // TODO: 28-05-2022  Delete the template from the database
-
         // delete journals in db
         generalInfoDAO.delete(beCitizen.getJournal().getID());
 
-        // delete citizen from all accounts
         // delete entries in db
+        new FunctionalAbilityDAO().delete(beCitizen.getID());
+        new HealthConditionDAO().delete(beCitizen.getID());
 
         // delete citizen in db
         citizenDAO.delete(beCitizen.getID());

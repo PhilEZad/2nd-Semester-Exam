@@ -398,10 +398,7 @@ public class CitizenTemplateController implements Initializable
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) 
         {
-
-            // TODO: 28-05-2022 save correctly
             new CitizenManager().updateCitizen(CitizenModel.convert(selected));
-
             setEditable(false);
         }
     }

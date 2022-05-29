@@ -195,7 +195,7 @@ public class FunctionalAbilityDAO implements IDatabaseActions<FunctionalEntry>
             protected String getSQLStatement() {
                 return """
                         DELETE FROM FunctionalEntry
-                        WHERE JournalFID = ?
+                        WHERE FK_Citizen = ?
                         """;
             }
         };

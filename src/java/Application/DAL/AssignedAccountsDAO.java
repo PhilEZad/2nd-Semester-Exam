@@ -47,7 +47,6 @@ public class AssignedAccountsDAO implements IDatabaseActions<Pair<Citizen, List<
 
         dao.start();
 
-        // TODO: 25-05-2022 ?? create test to see whether or not the sizes always match (maybe some edge case)
         var ids = dao.getAllReturnedIDs();
         for (int i = 0; i < Math.min(input.getValue().size(), ids.size()); i++)
         {
@@ -219,6 +218,5 @@ public class AssignedAccountsDAO implements IDatabaseActions<Pair<Citizen, List<
 
         dao.start();
     }
-
 }
 

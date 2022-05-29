@@ -2,29 +2,22 @@ package Application.BE;
 
 public class Account implements IUniqueIdentifier<Integer>
 {
-    private int id;
-    private String username;
-    private String password;
-    private String firstName;
-    private String lastName;
-    private String email;
+    private int id = -1;
+    private String username = "";
+    private String password = "";
+    private String firstName = "";
+    private String lastName = "";
+    private String email = "";
 
-    private School school;
+    private School school = new School(-1, "NONE", 0, "NONE");
 
-    private Boolean isTeacher;
-    private Boolean isAdmin;
+    private Boolean isTeacher = false;
+    private Boolean isAdmin = false;
+    private Boolean isStudent = true;
 
-    private Boolean isStudent;
-
-    public Account()
-    {
-        // TODO: 26-05-2022 default init
-    }
 
     public Account(int id)
     {
-        this();
-
         this.setID(id);
     }
 

@@ -46,7 +46,6 @@ public class AssignedCitizensDAO implements IDatabaseActions<Pair<Account, List<
 
             dao.start();
 
-            // TODO: 25-05-2022 ?? create test to see whether or not the sizes always match (maybe some edge case)
             var ids = dao.getAllReturnedIDs();
             for (int i = 0; i < Math.min(input.getValue().size(), ids.size()); i++)
             {
@@ -199,7 +198,7 @@ public class AssignedCitizensDAO implements IDatabaseActions<Pair<Account, List<
 
                         if (currentAccountInList.isPresent())
                         {
-                            // it is in the list so add citizen to that list // maybe a copy is made ??? todo: test
+                            // it is in the list so add citizen to that list // maybe a copy is made ???
                             result.get(result.indexOf(currentAccountInList.get())).getValue().add(citizen);
                         }
                         else

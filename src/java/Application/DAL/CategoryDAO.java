@@ -52,7 +52,7 @@ public class CategoryDAO implements IDatabaseActions<Category>
             @Override
             protected Category execute(PreparedStatement statement) throws SQLException
             {
-                // TODO: 25-05-2022 missing foreign keys
+                // TODO: 25-05-2022 missing foreign keys (tooltips)
                 AbstractDAO.setPlaceholders(statement, input.getName(), input.getParentID(), null, null, input.getID());
                 statement.execute();
                 return input;
@@ -143,7 +143,6 @@ public class CategoryDAO implements IDatabaseActions<Category>
 
     @Override
     public void delete(int id) {
-        // TODO: 25-05-2022 ???
         System.err.println("illegal");
     }
 
