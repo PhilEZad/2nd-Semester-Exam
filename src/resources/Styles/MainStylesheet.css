@@ -593,19 +593,25 @@
     -fx-background-color: transparent;
 }
 
+
 .list-cell:filled:hover {
     -fx-background-color: -fx-panelHighlight;
     -fx-text-fill: -fx-txtFillDark;
     -fx-font-weight: bold;
 }
 
-.bg-list-view{
+.bg-list-view .list-cell
+{
+    -fx-text-fill: black;
+}
+
+.bg-list-view:hover
+{
     -fx-background-color: transparent;
-    -fx-text-fill: -fx-txtFillLight;
 }
 
 .list-cell {
-    -fx-control-inner-background: transparent;
+    -fx-control-inner-background: transparent
 
 }
 
