@@ -124,11 +124,11 @@ public final class GUIUtils {
         {
             if(entry.getKey().getParent() == null)
             {
-                rootCategory = entry.getKey().getParent().getParent();
+                rootCategory = entry.getKey(); //Set the root category
             }
         }
 
-        TreeItem<CategoryEntryModel> treeRoot = new TreeItem<>(map.get(rootCategory));
+        TreeItem<CategoryEntryModel> treeRoot = new TreeItem<>(map.get(rootCategory)); //Create the root TreeItem node
 
         TreeItem<CategoryEntryModel> returnRoot = null;
 

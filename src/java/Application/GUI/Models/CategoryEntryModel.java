@@ -372,14 +372,18 @@ public class CategoryEntryModel implements Comparable<CategoryEntryModel>, Clone
      **/
     private void initExConFuncAndLevelHealth(){
         if (this.type == CategoryType.FUNCTIONAL_ABILITY){
-            if (expectedCondition.get() == 9 || expectedCondition.get() == -1)
+            if (expectedCondition.get() == 9 || expectedCondition.get() > 0 || expectedCondition.get() < 4) {
                 this.exConFunc.set(FunctionalLevels.LEVEL_9);
+                this.expectedCondition.set(9);
+            }
             else this.exConFunc.set(FunctionalLevels.values()[level.get()]);
         }
         else {
-            if (expectedCondition.get() == -1)
+            if (expectedCondition.get() > 0 || expectedCondition.get() < 2) {
                 this.exConHealth.set(HealthLevels.NOT_RELEVANT);
-            this.exConHealth.set(HealthLevels.values()[level.get()]);
+                this.expectedCondition.set(0);
+            }
+            else this.exConHealth.set(HealthLevels.values()[level.get()]);
         }
     }
 

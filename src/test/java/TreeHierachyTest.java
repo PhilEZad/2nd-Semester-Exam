@@ -2,9 +2,11 @@ import Application.BE.Category;
 import Application.BE.CategoryType;
 import Application.BE.FunctionalEntry;
 import Application.GUI.Models.CategoryEntryModel;
+import Application.GUI.Models.FunctionalLevels;
 import Application.Utility.GUIUtils;
 import javafx.scene.control.TreeItem;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -19,8 +21,8 @@ public class TreeHierachyTest {
   Cannot test classes which contain JavaFX components, such as the CategoryModel. The test needs to
   use a JavaFX thread, for which the below rule is required.
    */
-    //@Rule
-    // public JavaFXThreadingRule javafxRule = new JavaFXThreadingRule();
+    @Rule
+    public JavaFXThreadingRule javafxRule = new JavaFXThreadingRule();
 
 
 
@@ -29,7 +31,6 @@ public class TreeHierachyTest {
     @Before
     public void setUp(){
         categoryEntryModelHashMap = new HashMap<>();
-
 
         //Categories with parents and children
         Category superSuperCategory = new Category(-1, "All Conditions", -1,  CategoryType.UNKNOWN);
@@ -107,28 +108,28 @@ public class TreeHierachyTest {
         //Create ContentEntrys from Categories in a list
         List<FunctionalEntry> categoryEntries = new ArrayList<>();
         categoryEntries.add(new FunctionalEntry(-1, superA, -1));
-        categoryEntries.add(new FunctionalEntry(-1, subA1, -1));
-        categoryEntries.add(new FunctionalEntry(-1, subA2, -1));
-        categoryEntries.add(new FunctionalEntry(-1, subA3, -1));
-        categoryEntries.add(new FunctionalEntry(-1, subA4, -1));
+        categoryEntries.add(new FunctionalEntry(-1, subA1, FunctionalLevels.LEVEL_1.level));
+        categoryEntries.add(new FunctionalEntry(-1, subA2, FunctionalLevels.LEVEL_4.level));
+        categoryEntries.add(new FunctionalEntry(-1, subA3, FunctionalLevels.LEVEL_0.level));
+        categoryEntries.add(new FunctionalEntry(-1, subA4, FunctionalLevels.LEVEL_2.level));
 
         categoryEntries.add(new FunctionalEntry(-1, superB, -1));
-        categoryEntries.add(new FunctionalEntry(-1, subB1, -1));
-        categoryEntries.add(new FunctionalEntry(-1, subB2, -1));
-        categoryEntries.add(new FunctionalEntry(-1, subB3, -1));
-        categoryEntries.add(new FunctionalEntry(-1, subB4, -1));
+        categoryEntries.add(new FunctionalEntry(-1, subB1, FunctionalLevels.LEVEL_1.level));
+        categoryEntries.add(new FunctionalEntry(-1, subB2, FunctionalLevels.LEVEL_4.level));
+        categoryEntries.add(new FunctionalEntry(-1, subB3, FunctionalLevels.LEVEL_0.level));
+        categoryEntries.add(new FunctionalEntry(-1, subB4, FunctionalLevels.LEVEL_2.level));
 
         categoryEntries.add(new FunctionalEntry(-1, superC, -1));
-        categoryEntries.add(new FunctionalEntry(-1, subC1, -1));
-        categoryEntries.add(new FunctionalEntry(-1, subC2, -1));
-        categoryEntries.add(new FunctionalEntry(-1, subC3, -1));
-        categoryEntries.add(new FunctionalEntry(-1, subC4, -1));
+        categoryEntries.add(new FunctionalEntry(-1, subC1, FunctionalLevels.LEVEL_1.level));
+        categoryEntries.add(new FunctionalEntry(-1, subC2, FunctionalLevels.LEVEL_4.level));
+        categoryEntries.add(new FunctionalEntry(-1, subC3, FunctionalLevels.LEVEL_0.level));
+        categoryEntries.add(new FunctionalEntry(-1, subC4, FunctionalLevels.LEVEL_2.level));
 
         categoryEntries.add(new FunctionalEntry(-1, superD, -1));
-        categoryEntries.add(new FunctionalEntry(-1, subD1, -1));
-        categoryEntries.add(new FunctionalEntry(-1, subD2, -1));
-        categoryEntries.add(new FunctionalEntry(-1, subD3, -1));
-        categoryEntries.add(new FunctionalEntry(-1, subD4, -1));
+        categoryEntries.add(new FunctionalEntry(-1, subD1, FunctionalLevels.LEVEL_1.level));
+        categoryEntries.add(new FunctionalEntry(-1, subD2, FunctionalLevels.LEVEL_4.level));
+        categoryEntries.add(new FunctionalEntry(-1, subD3, FunctionalLevels.LEVEL_0.level));
+        categoryEntries.add(new FunctionalEntry(-1, subD4, FunctionalLevels.LEVEL_2.level));
 
         //Create CategoryEntryModels from the FunctionalEntry list and put the in a map with the category as key
         categoryEntryModelHashMap.put(superSuperCategory, new CategoryEntryModel(new FunctionalEntry(-1, superSuperCategory, -1)));
@@ -147,11 +148,6 @@ public class TreeHierachyTest {
         CategoryEntryModel rootValue = root.getValue();
         TreeItem<CategoryEntryModel> superCategory = root.getChildren().get(0);
         TreeItem<CategoryEntryModel> subCategory = superCategory.getChildren().get(0);
-
-        System.out.println(rootValue.getCategoryName() + " SIZE: " + root.getChildren().size());
-        System.out.println(superCategory.getValue().getCategoryName() + " SIZE: " + superCategory.getChildren().size());
-        System.out.println(subCategory.getValue().getCategoryName() + " SIZE: " + subCategory.getChildren().size());
-
 
         assertEquals("All Conditions", rootValue.getCategoryName());
         assertEquals("Conditions A", superCategory.getValue().getCategoryName());
