@@ -615,6 +615,34 @@
 
 }
 
+.titled-pane-top > .title {
+    -fx-background-color: -fx-panelBase;
+    -fx-text-fill: -fx-txtFillLight;
+    -fx-background-radius: 20 20 0 0;
+
+}
+
+.titled-pane-mid > .title {
+    -fx-background-color: -fx-panelBase;
+    -fx-text-fill: -fx-txtFillLight;
+    -fx-background-radius: 0;
+
+}
+
+.titled-pane-bot:collapsed > .title {
+    -fx-background-color: -fx-panelBase;
+    -fx-text-fill: -fx-txtFillLight;
+    -fx-background-radius: 0 0 20 20;
+}
+
+.titled-pane-bot:focused > .title {
+    -fx-background-color: -fx-panelBase;
+    -fx-text-fill: -fx-txtFillLight;
+    -fx-background-radius: 0 0 0 0;
+
+}
+
+
 
 .accordion > .titled-pane > .title {
     -fx-background-color: -fx-panelBase;

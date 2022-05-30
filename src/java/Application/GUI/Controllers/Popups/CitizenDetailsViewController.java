@@ -75,6 +75,8 @@ public class CitizenDetailsViewController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         initBundle(resources);
         setDataToCitizenTemplateView();
+        treeTblViewFunc.setPlaceholder(new Label("Ingen relevante funktionseventilstande fundet"));
+        treeTblViewHealth.setPlaceholder(new Label("Ingen relevante helbredstilstande fundet"));
     }
 
 

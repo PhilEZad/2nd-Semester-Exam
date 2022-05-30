@@ -117,6 +117,9 @@ public class ObservationViewController implements Initializable {
     }
 
     private void initTreeTableViews(){
+        treeTableViewFunc.setPlaceholder(new Label("Ingen funktionseventilstande fundet"));
+        treeTableViewHealth.setPlaceholder(new Label("Ingen helbredstilstande fundet"));
+
         /*
         treeTableViewHealth.setRoot(model.getAllHealthConditionsAsTreeItem());
         treeTableViewHealth.setShowRoot(false);

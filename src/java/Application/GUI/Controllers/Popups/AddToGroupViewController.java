@@ -56,6 +56,8 @@ public class AddToGroupViewController implements Initializable {
     {
         initEventListeners();
         comboBoxCitizen.setItems(listToObservable(dataManager.getAllCitizenTemplates()));
+        tblAccountTable.setPlaceholder(new Label("Ingen brugere fundet"));
+        tblAddedAccountsTable.setPlaceholder(new Label("Ingen brugere fundet"));
 
         clmAccountName.setCellValueFactory(param -> param.getValue().getFullNameProperty());
         clmAddedAccountName.setCellValueFactory(param -> param.getValue().getFullNameProperty());

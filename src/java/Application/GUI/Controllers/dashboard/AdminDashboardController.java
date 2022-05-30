@@ -76,6 +76,10 @@ public class AdminDashboardController implements Initializable {
 
     private void initTableViews()
     {
+        tblViewSchool.setPlaceholder(new Label("Ingen skoler fundet"));
+        tblViewStudent.setPlaceholder(new Label("Ingen elever fundet"));
+        tblViewTeacher.setPlaceholder(new Label("Ingen lærere fundet"));
+
         tblClmSchoolName.setCellValueFactory(param -> param.getValue().getName());
         tblClmSchoolZipCode.setCellValueFactory(param -> param.getValue().getZipCode());
         tblClmSchoolCity.setCellValueFactory(param -> param.getValue().getCity());

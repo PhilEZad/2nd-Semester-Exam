@@ -9,6 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
@@ -45,6 +46,7 @@ public class SchoolSelectionViewController implements Initializable {
         tblClmSchoolName.setCellValueFactory(param -> param.getValue().getName());
         tblClmSchoolZipCode.setCellValueFactory(param -> param.getValue().getZipCode());
         tblClmSchoolCity.setCellValueFactory(param -> param.getValue().getCity());
+        tblViewSchool.setPlaceholder(new Label("Ingen skoler eller institutioner fundet"));
 
     }
 

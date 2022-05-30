@@ -91,6 +91,8 @@ public class CitizenTemplateController implements Initializable
         editableTreeTableColumns.addAll(List.of(treeTblColumnFuncAssessment,treeTblColumnFuncCause,treeTblColumnFuncImplications,treeTblColumnFuncCitizenGoals,treeTblColumnFuncNote,treeTblColumnHealthAssessment,treeTblColumnHealthCause,treeTblColumnHealthNote));
         editableTextAreas.addAll(List.of(txtAreaGenInfoCoping, txtAreaGenInfoMotivation, txtAreaGenInfoResources,txtAreaGenInfoRoles,txtAreaGenInfoHabits,txtAreaGenInfoEduAndJob,txtAreaGenInfoLifeStory,txtAreaGenInfoHealthInfo,txtAreaGenInfoAssistiveDevices,txtAreaGenInfoHomeLayout,txtAreaGenInfoNetwork));
 
+        treeTblViewFunc.setPlaceholder(new Label("Ingen relevante funktionseventilstande fundet"));
+        treeTblViewHealth.setPlaceholder(new Label("Ingen relevante helbredstilstande fundet"));
         setCellValuesForTreeTable();
         setTreeTableEditCallbacks();
 
