@@ -17,7 +17,7 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
-
+@Deprecated
 public class EditingTest {
     /*
     Cannot test classes which contain JavaFX components, such as the CategoryEntryModel. The test needs to

@@ -1,10 +1,10 @@
 # 2nd-Semester-Exam
 
-this repository contains the programming part of the first year examination.
+This repository contains the programming part of the first year examination.
 
 ## Guide for running the application
 
-unfortunaly it was a requirement to use the database provided by the school, therefore it will not be possible to even login to the system without physical access or a VPN connection to the schools network.
+Unfortunately, it was a requirement to use the database provided by the school, therefore it will not be possible to even login to the system without physical access or a VPN connection to the schools network.
 
 1. Make sure that you are connected to the EASV network.
 
@@ -15,7 +15,7 @@ unfortunaly it was a requirement to use the database provided by the school, the
 
 4. Login with the username: 'admin' and the password: 'admin'
 
-5. play around and refer to the report about functionallity.
+5. Play around and refer to the report sections concerning functionality.
 
 
 ## Dependencies
