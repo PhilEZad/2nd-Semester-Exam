@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
  * @author Philip Zadeh
  * @author Mads Mandahl-Barth
  * @author Rasmus Sandbæk
+ * @author Kasper Rasmussen
  * */
 public class StudentDataManager
 {

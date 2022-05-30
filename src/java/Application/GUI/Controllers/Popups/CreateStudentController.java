@@ -21,6 +21,7 @@ import java.util.ResourceBundle;
 /**
  * @author Philip Zadeh
  * @author Rasmus Sandbæk
+ * @author Kasper Rasmussen
  * */
 public class CreateStudentController implements Initializable {
 

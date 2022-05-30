@@ -20,6 +20,7 @@ import java.util.List;
  * @author Philip Zadeh
  * @author Rasmus Sandbæk
  * @author Mads Mandahl-Barth
+ * @author Kasper Rasmussen
  * */
 public class TeacherDataManager extends StudentDataManager
 {

@@ -18,6 +18,7 @@ import java.util.Objects;
  * @author Philip Zadeh
  * @author Mads Mandahl-Barth
  * @author Rasmus Sandbæk
+ * @author Kasper Rasmussen
  * */
 public class AccountDAO implements IDatabaseActions<Account> {
 

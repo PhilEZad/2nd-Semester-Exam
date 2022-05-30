@@ -31,6 +31,7 @@ import java.util.*;
  * @author Philip Zadeh
  * @author Rasmus Sandbæk
  * @author Mads Mandahl-Barth
+ * @author Kasper Rasmussen
  * */
 public class StudentsController implements Initializable {
 

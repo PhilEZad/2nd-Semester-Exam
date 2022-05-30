@@ -15,6 +15,7 @@ import java.sql.SQLException;
 
 /**
  * @author Philip Zadeh
+ * @author Kasper Rasmussen
  * */
 public class CreateTeacherController
 {

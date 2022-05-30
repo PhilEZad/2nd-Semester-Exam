@@ -15,6 +15,7 @@ import java.util.List;
  * @author Mads Mandahl-Barth
  * @author Philip Zadeh
  * @author Rasmus Sandbæk
+ * @author Kasper Rasmussen
  * */
 public class CitizenDAO implements IDatabaseActions<Citizen>
 {
