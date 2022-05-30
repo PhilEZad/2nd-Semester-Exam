@@ -13,7 +13,7 @@ Unfortunately, it was a requirement to use the database provided by the school, 
 
 3. Open Intellij and make sure that all dependencies are downloaded through Maven (see list of dependencies below).
 
-4. Login with the username: 'admin' and the password: 'admin'
+4. Login with the username: 'admin' and the password: 'admin' make sure to select the Administrator radio button
 
 5. Play around and refer to the report sections concerning functionality.
 
